@@ -622,7 +622,7 @@ section {
 
 header {
   padding: 8px 8px 0px 8px;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   position: fixed;
   top: 0;
   left: 0;
