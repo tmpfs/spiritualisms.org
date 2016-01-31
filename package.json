@@ -1,0 +1,14 @@
+{
+  "name": "spiritualisms",
+  "version": "1.0.0",
+  "description": "Daily awakening",
+  "author": "muji",
+  "private": true,
+  "scripts": {
+  },
+  "keywords": [
+    "spiritual",
+    "quote"
+  ],
+  "license": "MIT"
+}
