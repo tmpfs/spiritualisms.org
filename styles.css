@@ -690,3 +690,6 @@ blockquote:before {
 blockquote:after {
   content:"\201D";
 }
+a[href^="http"] {
+  color: blue;
+}
