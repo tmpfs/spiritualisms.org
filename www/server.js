@@ -25,6 +25,10 @@ app.get('/create', function(req, res) {
   res.render('create');
 });
 
+app.get('/contributing', function(req, res) {
+  res.render('contributing');
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;

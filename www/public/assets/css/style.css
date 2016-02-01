@@ -625,7 +625,7 @@ header {
   background: white;
   z-index: 1;
   padding: 8px 8px 0px 8px;
-  border-bottom: 1px solid black;
+  /*border-bottom: 1px solid black;*/
   position: fixed;
   top: 0;
   left: 0;
@@ -737,10 +737,15 @@ div.primary {
   margin-bottom: 4rem;
 }
 
-.why p, .donate p, .create p, form {
+.why p, .donate p, .create p, form, section h2 {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
+}
+
+section h2:first-child {
+  margin-top: 4rem;
+  border-bottom: 1px solid black;
 }
 
 img.donorbox {
