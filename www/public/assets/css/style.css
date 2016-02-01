@@ -787,3 +787,7 @@ section ul {
   margin-top: -6rem;
   float: left;
 }
+
+cite span {
+  font-style: normal;
+}

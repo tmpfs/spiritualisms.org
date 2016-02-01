@@ -12,6 +12,7 @@ block content
         div.meta.clearfix
           cite.float-left &#151;
             a(href=rows[i].doc.link) #{rows[i].doc.author}
+            span  (#{rows[i].doc.domain})
           nav.float-right
             a(href='/inspire/' + rows[i].doc._id title='Permalink') Permalink
     - }
