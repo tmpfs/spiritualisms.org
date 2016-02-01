@@ -20,4 +20,17 @@ app.get('/quote/list', function(req, res, next) {
   })
 });
 
+app.get('/quote/:id', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {id: req.params.id};
+  quote.get(opts, function(err, response, body) {
+    if(err) {
+      return next(err);
+    }
+    res.set('content-type', 'application/json');
+    res.send(JSON.stringify(body));
+  })
+});
+
+
 module.exports = app;
