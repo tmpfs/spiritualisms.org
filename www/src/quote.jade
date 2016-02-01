@@ -5,5 +5,5 @@ block content
     div.ism
       blockquote.primary #{quotation.quote}
       cite.primary &#151; 
-        a(href='https://en.wikipedia.org/wiki/Rumi',
-          title='Rumi (en.wikipedia.org)') Rumi
+        a(href=quotation.link,
+          title=quotation.author) #{quotation.author}
