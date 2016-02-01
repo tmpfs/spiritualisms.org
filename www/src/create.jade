@@ -2,15 +2,12 @@ extends layout
 
 block content
   section.create
-    div.primary
-      blockquote.primary Love is the ultimate truth at the heart of creation.
-      cite &#151; 
-        a(href='https://en.wikipedia.org/wiki/Rabindranath_Tagore',
-          title='Rabindranath Tagore (en.wikipedia.org)') Rabindranath Tagore
+    h2 Create
     p Feel free to create a quote but please read the 
       a(href='/contributing' title='Contributing guidelines')
         | contributing guidelines
-      |  if you haven't already.
+      |  if you haven't already, quotes are not published until they have 
+      | been reviewed.
     form
       fieldset
         label(for="author") Author
@@ -19,6 +16,6 @@ block content
         textarea(placeholder="Enter the quote" id="quote")
         label(for="link") Link
         input(type="text",
-          placeholder="Link for more information on the author",
+          placeholder="Link about the author",
           id="link")
         input.button-primary(type="submit" value="Send")
