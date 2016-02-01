@@ -794,3 +794,13 @@ section ul {
 cite span {
   font-style: normal;
 }
+
+input[type="text"], textarea {
+  font-size: 2.4rem;
+  padding: 2rem 1rem;
+}
+
+textarea {
+  min-height: 12rem;
+  padding: 1rem;
+}
