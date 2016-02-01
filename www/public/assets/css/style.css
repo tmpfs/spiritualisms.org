@@ -630,6 +630,16 @@ header {
   right: 0;
 }
 
+footer {
+  background: white;
+  z-index: 1;
+  padding: 8px 8px 0px 8px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 a.logo {
   color: black;
 }
@@ -640,10 +650,15 @@ header h1 {
   margin-bottom: 0;
 }
 
-header img {
+header img, footer img {
   width: 40px;
   height: 40px;
   margin-bottom: 8px;
+}
+
+footer img {
+  width: 32px;
+  height: 32px;
 }
 
 header h1 span {

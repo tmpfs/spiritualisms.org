@@ -3,6 +3,11 @@ extends layout
 //- no header for home page
 block header
 
+block footer
+  footer.clearfix
+    a.logo(href="/", title="Spiritualisms website")
+      img(src="/assets/img/indian30.png", class="float-right")
+
 block content
   section.quote
     div.ism
@@ -12,4 +17,4 @@ block content
       cite &#151; 
         a(href='https://en.wikipedia.org/wiki/Rumi',
           title='Rumi (en.wikipedia.org)') Rumi
-      a.button(title='Load a new quote') Refresh
+      a.button(title='Load a new quote') More Inspiration
