@@ -6,6 +6,8 @@
  * Licensed under the MIT license
 */
 
+@import url(https://fonts.googleapis.com/css?family=Lato);
+@import url(https://fonts.googleapis.com/css?family=Noto+Serif);
 
 html {
   box-sizing: border-box;
@@ -14,7 +16,7 @@ html {
 
 body {
   color: black;
-  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Lato", "Helvetica", "Arial", sans-serif;
   font-size: 1.6em;
   letter-spacing: 0.01em;
   line-height: 1.6;
