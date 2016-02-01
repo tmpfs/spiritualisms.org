@@ -3,3 +3,12 @@ extends layout
 block content
   section.browse
     h2 Inspire
+    //-pre
+      //-| !{JSON.stringify(quotes)}
+    - var rows = quotes.rows;
+    - for(var i = 0;i < rows.length;i++) {
+      div.item
+        blockquote #{rows[i].doc.quote} 
+        cite &#151;
+          a(href='') #{rows[i].doc.author}
+    - }

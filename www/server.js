@@ -1,6 +1,7 @@
 var path = require('path')
   , express = require('express')
-  , app = express();
+  , app = express()
+  , Quote = require('../lib/model/quote');
 
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
@@ -17,8 +18,14 @@ app.get('/why', function(req, res) {
   res.render('why');
 });
 
-app.get('/inspire', function(req, res) {
-  res.render('inspire');
+app.get('/inspire', function(req, res, next) {
+  var quote = new Quote();
+  quote.list({}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    }
+    res.render('inspire', {quotes: body});
+  });
 });
 
 app.get('/donate', function(req, res) {
