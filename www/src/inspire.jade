@@ -3,16 +3,21 @@ extends layout
 block content
   section.browse
     h2 Inspire
-    //-pre
-      //-| !{JSON.stringify(quotes)}
-    - var rows = quotes.rows;
+    - var rows = quotes.rows, doc;
     - for(var i = 0;i < rows.length;i++) {
+      - doc = rows[i].doc;
       div.item
-        blockquote #{rows[i].doc.quote} 
+        blockquote #{doc.quote} 
         div.meta.clearfix
           cite.float-left &#151;
-            a(href=rows[i].doc.link) #{rows[i].doc.author}
-            span  (#{rows[i].doc.domain})
+            - if(doc.link) {
+              a(href=doc.link) #{doc.author}
+              - if(doc.domain) {
+                span  (#{doc.domain})
+              - }
+            - }else {
+              span #{doc.author}
+            - }
           nav.float-right
-            a(href='/inspire/' + rows[i].doc._id title='Permalink') Permalink
+            a(href='/inspire/' + doc._id, title='Permalink') Permalink
     - }
