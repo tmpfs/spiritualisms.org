@@ -715,3 +715,9 @@ a[href^="http"] {
 .why blockquote.primary {
   margin-bottom: 4rem;
 }
+
+.why p {
+  max-width: 92rem;
+  margin: auto;
+  padding-bottom: 2rem;
+}
