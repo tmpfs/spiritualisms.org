@@ -1,9 +1,16 @@
 {
-  "name": "spiritualisms.com",
+  "name": "spiritualisms",
   "version": "1.0.0",
   "description": "Spiritualisms web application, daily awakening",
   "author": "muji",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmpfs/spiritualisms"
+  },
+  "bugs": {
+    "url": "https://github.com/tmpfs/spiritualisms/issues"
+  },
   "keywords": [
     "spiritual",
     "quote",
@@ -33,5 +40,23 @@
     "test": "NODE_ENV=test mocha test/global ${SPEC:-test/spec}",
     "cover": "NODE_ENV=test istanbul cover _mocha -- test/global ${SPEC:-test/spec}",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "mdp": {
+    "title": "Spiritualisms",
+    "pedantic": true,
+    "include": "doc/readme",
+    "require": "lib",
+    "links": "links.md",
+    "toc": "Table of Contents",
+    "base": "https://github.com/tmpfs/spiritualisms",
+    "partial": [
+      {
+        "inc": [
+          "introduction.md",
+          "install.md",
+          "developer.md"
+        ]
+      }
+    ]
   }
 }

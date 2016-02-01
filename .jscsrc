@@ -12,7 +12,7 @@
     "disallowSpaceBeforeBlockStatements": false,
     "disallowSpacesInsideObjectBrackets": null,
     "excludeFiles": [
-      "db/docs",
+      "db/app",
       "node_modules",
       "coverage",
       "target"

@@ -1,6 +1,8 @@
 module.exports = {
   map: function(doc) {
-    emit(doc._id, null);
+    if(doc.type === 'quote') {
+      emit(doc._id, null);
+    }
   },
   reduce: '_count'
 }
