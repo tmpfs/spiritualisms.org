@@ -3,6 +3,7 @@ module.exports = {
   quote: 'You give but little when you give of your possessions. It is when you give of yourself that you truly give.',
   author: 'Kahil Gibran',
   link: 'https://en.wikipedia.org/wiki/Khalil_Gibran',
+  domain: 'en.wikipedia.org',
   created: new Date().getTime(),
   random: Math.random(),
   isbn: {
