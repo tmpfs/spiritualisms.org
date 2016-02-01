@@ -36,6 +36,17 @@ describe('www:', function() {
     })
   })
 
+  it('should GET inspire page', function(done) {
+    var opts = {
+      url: process.env.WWW + '/inspire'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
   it('should GET donate page', function(done) {
     var opts = {
       url: process.env.WWW + '/donate'
