@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  section.error
+    h2 #{status}
+    - if(doc) {
+      pre.error
+        | !{JSON.stringify(doc, undefined, 2)}
+    - }
+    - if(req && process.env.NODE_ENV !== 'production') {
+      pre.error
+        | !{JSON.stringify(req, undefined, 2)}
+    - }

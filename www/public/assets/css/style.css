@@ -748,7 +748,7 @@ div.primary {
   margin-bottom: 4rem;
 }
 
-.why p, .donate p, .create p, .contribute p, form, section h2, h3, ul, blockquote:not(.primary), div.item {
+.why p, .donate p, .create p, .contribute p, .error pre, form, section h2, h3, ul, blockquote:not(.primary), div.item {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
@@ -803,4 +803,8 @@ input[type="text"], textarea {
 textarea {
   min-height: 12rem;
   padding: 1rem;
+}
+
+.error pre {
+  padding: 0 0 0 2rem;
 }

@@ -34,7 +34,7 @@ app.get('/inspire/:id', function(req, res, next) {
     if(err) {
       return next(err); 
     }
-    res.render('quote', {quotation: body});
+    res.render('quotation', {quotation: body});
   });
 });
 
@@ -48,6 +48,12 @@ app.get('/create', function(req, res) {
 
 app.get('/contributing', function(req, res) {
   res.render('contributing');
+});
+
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500)
+    .render('error', {status: err.status, doc: err.doc, req: err.res});
+  next();
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
