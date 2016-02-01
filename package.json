@@ -4,7 +4,6 @@
   "description": "Daily awakening",
   "author": "muji",
   "private": true,
-  "scripts": {},
   "keywords": [
     "spiritual",
     "quote"
@@ -18,6 +17,15 @@
     "chai": "~3.5.0",
     "coveralls": "~2.11.6",
     "istanbul": "~0.4.2",
-    "mocha": "~2.4.5"
+    "mocha": "~2.4.5",
+    "request": "~2.69.0"
+  },
+  "scripts": {
+    "lint": "jshint . && jscs .",
+    "readme": "mdp --force -v",
+    "clean": "rm -rf coverage",
+    "test": "NODE_ENV=test mocha test/global ${SPEC:-test/spec}",
+    "cover": "NODE_ENV=test istanbul cover _mocha -- test/global ${SPEC:-test/spec}",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   }
 }
