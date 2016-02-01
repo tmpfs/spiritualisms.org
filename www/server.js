@@ -17,6 +17,10 @@ app.get('/why', function(req, res) {
   res.render('why');
 });
 
+app.get('/inspire', function(req, res) {
+  res.render('inspire');
+});
+
 app.get('/donate', function(req, res) {
   res.render('donate');
 });
