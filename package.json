@@ -1,12 +1,15 @@
 {
-  "name": "spiritualisms",
+  "name": "spiritualisms.com",
   "version": "1.0.0",
-  "description": "Daily awakening",
+  "description": "Spiritualisms web application, daily awakening",
   "author": "muji",
   "private": true,
   "keywords": [
     "spiritual",
-    "quote"
+    "quote",
+    "web app",
+    "rest",
+    "service"
   ],
   "license": "MIT",
   "dependencies": {
