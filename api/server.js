@@ -8,7 +8,7 @@ app.get('/', function(req, res) {
   res.send(info)
 });
 
-app.get('/list', function(req, res, next) {
+app.get('/quote/list', function(req, res, next) {
   var quote = new Quote()
     , opts = {};
   quote.list(opts, function(err, response, body) {
