@@ -729,12 +729,26 @@ a[href^="http"] {
   /*color: white !important;*/
 /*}*/
 
+div.primary {
+  text-align: center;
+}
+
 .why blockquote.primary {
   margin-bottom: 4rem;
 }
 
-.why p {
+.why p, .donate p, .create p, form {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
+}
+
+img.donorbox {
+  background: #6cc;
+  padding: 2rem;
+  border-radius: .5rem;
+}
+
+p.center {
+  text-align: center;
 }

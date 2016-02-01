@@ -18,11 +18,11 @@ app.get('/why', function(req, res) {
 });
 
 app.get('/donate', function(req, res) {
-  res.send('donate');
+  res.render('donate');
 });
 
 app.get('/create', function(req, res) {
-  res.send('create');
+  res.render('create');
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
