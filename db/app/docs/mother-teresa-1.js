@@ -5,6 +5,7 @@ module.exports = {
   link: 'https://en.wikipedia.org/wiki/Mother_Teresa',
   tags: [
     'giving',
-    'smile'
+    'smile',
+    'love'
   ]
 }
