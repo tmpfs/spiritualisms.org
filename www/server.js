@@ -28,6 +28,16 @@ app.get('/inspire', function(req, res, next) {
   });
 });
 
+app.get('/inspire/:id', function(req, res, next) {
+  var quote = new Quote();
+  quote.get({id: req.params.id}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    }
+    res.render('quote', {quotation: body});
+  });
+});
+
 app.get('/donate', function(req, res) {
   res.render('donate');
 });

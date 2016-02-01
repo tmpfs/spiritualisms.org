@@ -4,6 +4,8 @@ module.exports = {
   author: 'Rumi',
   link: 'https://en.wikipedia.org/wiki/Rumi',
   created: new Date().getTime(),
+  random: Math.random(),
+  home: true,
   tags: [
     'wisdom'
   ]

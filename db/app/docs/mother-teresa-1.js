@@ -4,6 +4,8 @@ module.exports = {
   author: 'Mother Teresa',
   link: 'https://en.wikipedia.org/wiki/Mother_Teresa',
   created: new Date().getTime(),
+  random: Math.random(),
+  donate: true,
   tags: [
     'giving',
     'smile',

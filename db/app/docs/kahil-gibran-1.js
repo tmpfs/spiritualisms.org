@@ -4,6 +4,7 @@ module.exports = {
   author: 'Kahil Gibran',
   link: 'https://en.wikipedia.org/wiki/Khalil_Gibran',
   created: new Date().getTime(),
+  random: Math.random(),
   isbn: {
     10: '0439451507',
     13: ['9780439451505', '9780681372054']

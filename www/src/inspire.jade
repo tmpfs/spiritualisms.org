@@ -9,6 +9,9 @@ block content
     - for(var i = 0;i < rows.length;i++) {
       div.item
         blockquote #{rows[i].doc.quote} 
-        cite &#151;
-          a(href='') #{rows[i].doc.author}
+        div.meta.clearfix
+          cite.float-left &#151;
+            a(href=rows[i].doc.link) #{rows[i].doc.author}
+          nav.float-right
+            a(href='/inspire/' + rows[i].doc._id title='Permalink') Permalink
     - }
