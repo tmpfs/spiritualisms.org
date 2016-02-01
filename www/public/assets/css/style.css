@@ -29,11 +29,13 @@ body {
 }
 
 blockquote {
-  /*border-left: 0.3rem solid #d1d1d1;*/
+  border-left: 0.3rem solid #d1d1d1;
+  font-size: 3rem;
   margin-left: 0;
   margin-right: 0;
-  padding: 1rem 1.5rem;
+  /*padding: 1rem 1.5rem;*/
 }
+
 blockquote *:last-child {
   margin: 0;
 }
@@ -695,10 +697,23 @@ header nav a {
 }
 
 blockquote.primary {
+  border-left: none;
   font-family: 'Noto Serif', serif;
   font-size: 4rem;
   text-align: center;
   margin-bottom: 0;
+}
+
+blockquote.primary:before {
+  content:"\201C";
+}
+
+blockquote.primary:after {
+  content:"\201D";
+}
+
+blockquote.normal {
+  margin-bottom: 2rem;
 }
 
 cite {
@@ -707,17 +722,9 @@ cite {
   font-size: 3rem;
 }
 
-blockquote:before {
-  content:"\201C";
-}
-
-blockquote:after {
-  content:"\201D";
-}
-
 p {
   font-size: 3rem;
-  padding: 0 6rem;
+  /*padding: 0 6rem;*/
 }
 
 a[href^="http"] {
@@ -737,13 +744,13 @@ div.primary {
   margin-bottom: 4rem;
 }
 
-.why p, .donate p, .create p, form, section h2 {
+.why p, .donate p, .create p, .contribute p, form, section h2, h3, ul, blockquote:not(.primary) {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
 }
 
-section h2:first-child {
+section h2 {
   margin-top: 4rem;
   border-bottom: 1px solid black;
 }
@@ -756,4 +763,8 @@ img.donorbox {
 
 p.center {
   text-align: center;
+}
+
+section ul {
+  font-size: 2.4rem;
 }
