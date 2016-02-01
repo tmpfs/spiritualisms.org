@@ -4,11 +4,13 @@
   "description": "Daily awakening",
   "author": "muji",
   "private": true,
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [
     "spiritual",
     "quote"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "~5.0.0-alpha.2"
+  }
 }
