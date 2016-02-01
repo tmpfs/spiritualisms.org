@@ -681,7 +681,8 @@ header nav a {
 
 cite {
   display: block;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+  font-size: 3rem;
 }
 
 blockquote:before {
