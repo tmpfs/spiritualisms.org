@@ -9,8 +9,12 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+app.get('/home-page', function(req, res) {
+  res.render('home-page');
+});
+
 app.get('/why', function(req, res) {
-  res.send('why');
+  res.render('why');
 });
 
 app.get('/donate', function(req, res) {

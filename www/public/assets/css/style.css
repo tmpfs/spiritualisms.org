@@ -630,6 +630,10 @@ header {
   right: 0;
 }
 
+a.logo {
+  color: black;
+}
+
 header h1 {
   font-size: 2.4rem;
   vertical-align: top;
@@ -673,9 +677,10 @@ header nav a {
   margin: auto;
 }
 
-.quote blockquote {
+blockquote.primary {
   font-family: 'Noto Serif', serif;
   font-size: 4rem;
+  text-align: center;
   margin-bottom: 0;
 }
 
@@ -692,6 +697,21 @@ blockquote:before {
 blockquote:after {
   content:"\201D";
 }
+
+p {
+  font-size: 3rem;
+  padding: 0 6rem;
+}
+
 a[href^="http"] {
   color: blue;
+}
+
+/*.why {*/
+  /*background: #9b4dca;*/
+  /*color: white !important;*/
+/*}*/
+
+.why blockquote.primary {
+  margin-bottom: 4rem;
 }
