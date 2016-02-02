@@ -28,6 +28,8 @@ npm run teardown; npm run bootstrap
 
 ### Test
 
+Beforehand ensure the database is created (see [bootstrap](#bootstrap)) and [couchdb][] is running.
+
 Run the test specifications:
 
 ```
