@@ -1,5 +1,6 @@
 module.exports = {
   type: 'quote',
+  publish: true,
   quote: 'Love is the ultimate truth at the heart of creation.',
   author: 'Rabindranath Tagore',
   link: 'https://en.wikipedia.org/wiki/Rabindranath_Tagore',

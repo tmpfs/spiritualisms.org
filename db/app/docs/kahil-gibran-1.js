@@ -1,5 +1,6 @@
 module.exports = {
   type: 'quote',
+  publish: true,
   quote: 'You give but little when you give of your possessions. It is when you give of yourself that you truly give.',
   author: 'Kahil Gibran',
   link: 'https://en.wikipedia.org/wiki/Khalil_Gibran',

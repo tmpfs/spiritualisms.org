@@ -1,5 +1,6 @@
 module.exports = {
   type: 'quote',
+  publish: true,
   quote: 'The plants, they don\'t scream as loud.',
   author: 'Anonymous Zen Master',
   link: 'https://en.wikipedia.org/wiki/Zen',
