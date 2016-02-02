@@ -30,7 +30,8 @@
     "coveralls": "~2.11.6",
     "istanbul": "~0.4.2",
     "mocha": "~2.4.5",
-    "request": "~2.69.0"
+    "request": "~2.69.0",
+    "uglifyjs": "~2.4.10"
   },
   "scripts": {
     "lint": "jshint . && jscs .",
@@ -38,6 +39,7 @@
     "clean": "rm -rf coverage",
     "api": "node api-server.js",
     "compile": "browserify -o www/public/assets/js/app.js www/lib/app.js",
+    "minify": "npm run compile && uglifyjs -o www/public/assets/js/app.js www/public/assets/js/app.js",
     "teardown": "rlx db rm quotes -s :lh --no-interactive",
     "bootstrap": "rlx db add quotes -s :lh; rlx app push --no-auto-id -d quotes -s :lh -i app ./db/app",
     "test": "NODE_ENV=test mocha test/global ${SPEC:-test/spec}",
