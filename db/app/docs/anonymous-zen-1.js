@@ -5,11 +5,13 @@ module.exports = {
   author: 'Anonymous Zen Master',
   link: 'https://en.wikipedia.org/wiki/Zen',
   title: 'Zen',
+  context: 'food',
   domain: 'en.wikipedia.org',
   created: new Date().getTime(),
   random: Math.random(),
   home: true,
   tags: [
-    'zen'
+    'zen',
+    'food'
   ]
 }

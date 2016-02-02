@@ -1,9 +1,8 @@
 extends layout
 
+include mixin/quotation
+
 block content
   section.quote
     div.ism
-      blockquote.primary #{quotation.quote}
-      cite.primary &#151; 
-        a(href=quotation.link,
-          title=quotation.author + ' (' + quotation.domain + ')') #{quotation.author}
+      +quotation(doc)

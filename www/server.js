@@ -47,7 +47,7 @@ app.get('/inspire/:id', function(req, res, next) {
     if(err) {
       return next(err); 
     }
-    res.render('quotation', {quotation: body});
+    res.render('quotation', {doc: body});
   });
 });
 
