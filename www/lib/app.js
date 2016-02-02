@@ -1,7 +1,9 @@
 "use strict"
 
-function Application() {
-
+function Application(opts) {
+  opts = opts || {};
+  this.opts = opts;
+  console.log(opts.api);
 }
 
 module.exports = Application;

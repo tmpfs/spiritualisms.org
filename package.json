@@ -38,7 +38,7 @@
     "readme": "mdp --force -v",
     "clean": "rm -rf coverage",
     "api": "node api-server.js",
-    "compile": "browserify -o www/public/assets/js/app.js www/lib/app.js",
+    "compile": "browserify -o www/public/assets/js/app.js www/lib/main.js",
     "minify": "npm run compile && uglifyjs -o www/public/assets/js/app.js www/public/assets/js/app.js",
     "teardown": "rlx db rm quotes -s :lh --no-interactive",
     "bootstrap": "rlx db add quotes -s :lh; rlx app push --no-auto-id -d quotes -s :lh -i app ./db/app",
