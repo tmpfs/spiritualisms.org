@@ -6,8 +6,14 @@ var path = require('path')
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
 
-app.get('/', function(req, res) {
-  res.render('index');
+app.get('/', function(req, res, next) {
+  var quote = new Quote();
+  quote.random({}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    } 
+    res.render('index', {doc: body});
+  })
 });
 
 app.get('/home-page', function(req, res) {
