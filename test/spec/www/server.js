@@ -48,7 +48,7 @@ describe('www:', function() {
     })
   })
 
-  it('should GET inspire quote page', function(done) {
+  it('should GET quotation page', function(done) {
     var quote = new Quote();
     quote.list({}, function(err, res, body) {
       expect(err).to.eql(null);
@@ -61,6 +61,17 @@ describe('www:', function() {
         expect(res.statusCode).to.eql(200);
         done(); 
       })
+    })
+  })
+
+  it('should GET 404 on missing quotation page', function(done) {
+    var opts = {
+      url: process.env.WWW + '/inspire/non-existent'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(404);
+      done(); 
     })
   })
 
