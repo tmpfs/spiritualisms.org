@@ -13,7 +13,7 @@ $.plugin(
     //require('air/clone'),
     //require('air/css'),
     //require('air/data'),
-    //require('air/event'),
+    require('air/event'),
     //require('air/filter'),
     //require('air/find'),
     //require('air/first'),
@@ -35,15 +35,13 @@ function Application(opts) {
   opts = opts || {};
   this.opts = opts;
   this.validator = new Schema(descriptor);
-
+  $('a.more-inspiration').on('click', more.bind(this));
   console.log(opts.api);
   console.log($('body').length);
 }
 
-function load() {
-
+function more() {
+  console.log('more called');
 }
-
-Application.prototype.load = load;
 
 module.exports = Application;
