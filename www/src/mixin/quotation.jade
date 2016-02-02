@@ -1,5 +1,5 @@
 mixin quotation(doc)
-  - var title = doc.title || (doc.author + '(' + doc.domain + ')');
+  - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
   blockquote.primary(id=doc._id) #{doc.quote}
   cite.primary &#151; 
     - if(doc.link) {
