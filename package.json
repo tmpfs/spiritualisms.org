@@ -21,6 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "air": "~0.4.4",
+    "async-validate": "~0.13.0",
     "cdb": "~0.3.0",
     "express": "~5.0.0-alpha.2",
     "jade": "~1.11.0"

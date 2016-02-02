@@ -7,7 +7,6 @@ module.exports = {
   domain: 'youtube.com',
   created: new Date().getTime(),
   random: Math.random(),
-  home: true,
   tags: [
     'life',
     'inspirational'

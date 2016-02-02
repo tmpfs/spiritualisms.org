@@ -9,7 +9,6 @@ module.exports = {
   domain: 'en.wikipedia.org',
   created: new Date().getTime(),
   random: Math.random(),
-  home: true,
   tags: [
     'meditation',
     'listen'
