@@ -808,3 +808,18 @@ textarea {
 .error pre {
   padding: 0 0 0 2rem;
 }
+
+.browser-update {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  font-size: 2rem;
+  margin-top: 0;
+  display: none;
+  padding: 1rem;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}

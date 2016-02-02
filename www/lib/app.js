@@ -11,7 +11,7 @@ $.plugin(
     //require('air/children'),
     //require('air/class'),
     //require('air/clone'),
-    //require('air/css'),
+    require('air/css'),
     //require('air/data'),
     require('air/event'),
     //require('air/filter'),
@@ -32,12 +32,17 @@ $.plugin(
 )
 
 function Application(opts) {
+  //window.XmlHttpRequest = null;
+  //console.log(typeof XMLHttpRequest);
+  if(typeof XMLHttpRequest === 'undefined') {
+    $('.browser-update').css({display: 'block'});
+  }
   opts = opts || {};
   this.opts = opts;
   this.validator = new Schema(descriptor);
   $('a.more-inspiration').on('click', more.bind(this));
-  console.log(opts.api);
-  console.log($('body').length);
+  //console.log(opts.api);
+  //console.log($('body').length);
 }
 
 function more() {
