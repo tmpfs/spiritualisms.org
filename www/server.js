@@ -42,7 +42,8 @@ app.get('/home-page', function(req, res, next) {
 });
 
 app.get('/why', function(req, res) {
-  res.render('why');
+  var info = getViewInfo(req);
+  res.render('why', info);
 });
 
 app.get('/inspire', function(req, res, next) {

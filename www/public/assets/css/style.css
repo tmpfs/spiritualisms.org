@@ -780,15 +780,17 @@ section ul {
 }
 
 .item blockquote {
-  border: 0;
+  /*border: 0;*/
+  border-color: #9b4dca;
+
 }
 
 .item:before {
-  content: "{";
-  font-size: 16rem;
-  margin-left: -2rem;
-  margin-top: -6rem;
-  float: left;
+  /*content: "{";*/
+  /*font-size: 16rem;*/
+  /*margin-left: -2rem;*/
+  /*margin-top: -6rem;*/
+  /*float: left;*/
 }
 
 cite span {

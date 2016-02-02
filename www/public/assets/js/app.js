@@ -1,26 +1,4 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = {
-  type: 'object',
-  fields: {
-    type: {type: 'string', required: true},
-    publish: {type: 'boolean'},
-    quote: {type: 'string', required: true},
-    author: {type: 'string', required: true},
-    link: [
-      {type: 'string'}
-      // TODO: implement protocol validation
-    ],
-    domain: [
-      {type: 'string'}
-      // TODO: implement tld validation
-    ],
-    created: {type: 'integer', required: true},
-    random: {type: 'float', required: true},
-    tags: {type: 'array'}
-  }
-}
-
-},{}],2:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -108,7 +86,7 @@ module.exports = {
   module.exports = air;
 })();
 
-},{"zephyr":5}],3:[function(require,module,exports){
+},{"zephyr":7}],2:[function(require,module,exports){
 /**
  *  Get the value of a computed style property for the first element
  *  in the set of matched elements or set one or more CSS properties
@@ -153,7 +131,7 @@ module.exports = function() {
   this.css = css;
 }
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 function on(nm, cb, capture) {
   this.each(function(el) {
     el.addEventListener(nm, cb, capture);
@@ -199,7 +177,131 @@ module.exports = function() {
   this.click = click;
 }
 
+},{}],4:[function(require,module,exports){
+/**
+ *  Get the descendants of each element in the current set
+ *  of matched elements, filtered by a selector.
+ */
+function find(selector) {
+  var arr = [], $ = this.air, slice = this.slice;
+  this.each(function(el) {
+    arr = arr.concat(slice.call($(selector, el).dom));
+  });
+  return $(arr);
+}
+
+module.exports = function() {
+  this.find = find;
+}
+
 },{}],5:[function(require,module,exports){
+/**
+ *  Get the parent of each element in the current set of matched elements,
+ *  optionally filtered by a selector.
+ *
+ *  TODO: implement selector filtering
+ */
+function parent(/*selector*/) {
+  var arr = [], $ = this.air, slice = this.slice;
+  this.each(function(el) {
+    arr = arr.concat(slice.call($(el.parentNode).dom));
+  });
+  return $(arr);
+}
+
+module.exports = function() {
+  this.parent = parent;
+}
+
+},{}],6:[function(require,module,exports){
+/**
+ *  Thin wrapper for XMLHttpRequest using a 
+ *  callback style.
+ */
+function request(opts, cb) {
+  opts = opts || {};
+  opts.method = opts.method || 'GET';
+  opts.headers = opts.headers || {};
+
+  var req
+    , z;
+
+  /* jshint ignore:start */
+  req = new XMLHttpRequest();
+  /* jshint ignore:end */
+
+  /**
+   *  Parse response headers into an object.
+   */
+  function parse(headers) {
+    var output = {}, i, p, k, v;
+    headers = headers || '';
+    headers = headers.replace('\r', '');
+    headers = headers.split('\n');
+    for(i = 0;i < headers.length;i++) {
+      p = headers[i].indexOf(':');
+      k = headers[i].substr(0, p);
+      v = headers[i].substr(p + 1);
+      if(k && v) {
+        k = k.replace(/^\s+/, '').replace(/\s+$/, '');
+        v = v.replace(/^\s+/, '').replace(/\s+$/, '');
+        output[k.toLowerCase()] = v;
+      }
+    }
+    return output;
+  }
+
+  function done() {
+    req.onload = null;
+    req.onerror = null;
+    req.ontimeout = null;
+    req.onprogress = null;
+    cb.apply(null, arguments); 
+  }
+
+  if(opts.fields) {
+    for(z in opts.fields) {
+      req[z] = opts.fields[z];
+    }
+  }
+
+  // apply custom request headers
+  for(z in opts.headers) {
+    req.setRequestHeader(z, opts.headers[z]);
+  }
+
+  if(opts.mime && (typeof(req.overrideMimeType) === 'function')) {
+    req.overrideMimeType(opts.mime);
+  }
+
+  req.open(opts.method, opts.url);
+
+  req.onreadystatechange = function() {
+    if(this.readyState === 4) {
+      done(
+        null,
+        this.responseText,
+        {headers: parse(this.getAllResponseHeaders()), status: this.status},
+        this);
+    }
+  }
+
+  req.onerror = opts.error || function onError(err) {
+    done(err);
+  }
+
+  req.onload = opts.load;
+  req.ontimeout = opts.timeout;
+  req.onprogress = opts.progress;
+
+  req.send(opts.data);
+}
+
+module.exports = function() {
+  this.air.request = request;
+}
+
+},{}],7:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -302,7 +404,29 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+module.exports = {
+  type: 'object',
+  fields: {
+    type: {type: 'string', required: true},
+    publish: {type: 'boolean'},
+    quote: {type: 'string', required: true},
+    author: {type: 'string', required: true},
+    link: [
+      {type: 'string'}
+      // TODO: implement protocol validation
+    ],
+    domain: [
+      {type: 'string'}
+      // TODO: implement tld validation
+    ],
+    created: {type: 'integer', required: true},
+    random: {type: 'float', required: true},
+    tags: {type: 'array'}
+  }
+}
+
+},{}],9:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -354,7 +478,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -384,7 +508,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -553,7 +677,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":10,"./reason":7,"format-util":11,"zephyr":12}],9:[function(require,module,exports){
+},{"../messages":13,"./reason":10,"format-util":14,"zephyr":15}],12:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -959,7 +1083,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":10,"./iterator":6,"./rule":8,"format-util":11}],10:[function(require,module,exports){
+},{"../messages":13,"./iterator":9,"./rule":11,"format-util":14}],13:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1018,7 +1142,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1057,9 +1181,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],12:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
+arguments[4][7][0].apply(exports,arguments)
+},{"dup":7}],16:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
@@ -1077,10 +1201,11 @@ $.plugin(
     //require('air/data'),
     require('air/event'),
     //require('air/filter'),
-    //require('air/find'),
+    require('air/find'),
     //require('air/first'),
     //require('air/hidden'),
-    //require('air/parent'),
+    require('air/parent'),
+    require('air/request'),
     //require('air/remove'),
     //require('air/template'),
     //require('air/text'),
@@ -1094,32 +1219,45 @@ $.plugin(
 )
 
 function Application(opts) {
-  //window.XmlHttpRequest = null;
-  //console.log(typeof XMLHttpRequest);
-  if(typeof XMLHttpRequest === 'undefined') {
-    $('.browser-update').css({display: 'block'});
-  }
+  var supported = typeof XMLHttpRequest !== 'undefined';
+
+  // NOTE: show browser warning for styling
+  //supported = false;
+
   opts = opts || {};
   this.opts = opts;
   this.validator = new Schema(descriptor);
-  $('a.more-inspiration').on('click', more.bind(this));
-  //console.log(opts.api);
-  //console.log($('body').length);
+
+  if(!supported) {
+    $('.browser-update').css({display: 'block'});
+  }
+
+  $('a.more-inspiration').on('click', random.bind(this));
 }
 
-function more() {
-  console.log('more called');
+/**
+ *  Load a new random quote.
+ */
+function random(e) {
+  var el = $(e.target);
+  function onResponse(err, res, info, xhr) {
+    if(err) {
+      return console.error(err); 
+    }
+    console.log(res);
+  }
+  $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
 }
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":1,"air":"air","air/css":3,"air/event":4,"async-validate":9}],14:[function(require,module,exports){
+},{"../../lib/schema/quote":8,"air":"air","air/css":2,"air/event":3,"air/find":4,"air/parent":5,"air/request":6,"async-validate":12}],17:[function(require,module,exports){
 /* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
 /* jshint ignore:end */
 
-},{"./app":13}],"air":[function(require,module,exports){
+},{"./app":16}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":2}]},{},[14]);
+},{"./lib/air":1}]},{},[17]);

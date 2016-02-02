@@ -4,6 +4,31 @@ var express = require('express')
   , info = JSON.stringify({name: pkg.name, version: pkg.version})
   , Quote = require('../lib/model/quote');
 
+/**
+ *  Adds CORS headers to http responses.
+ *
+ *  @param req The incoming http request.
+ *  @param res The outgoing http response.
+ */
+function cors(req, res) {
+  var requested = req.headers['access-control-request-headers'] || []
+    , methods = ['GET'];
+  if(typeof(requested) === 'string') {
+    requested = requested.split(/, ?/);
+  }
+  var expose = ['Date', 'Content-type', 'Content-Length', 'ETag'];
+  res.set('Access-Control-Allow-Origin', "*");
+  res.set('Access-Control-Allow-Headers', requested.join(', '));
+  res.set('Access-Control-Expose-Headers', expose.join(', '))
+  res.set('Access-Control-Allow-Methods', methods.join(', '));
+  res.set('Access-Control-Max-Age', 300);
+}
+
+app.all('*', function(req, res, next) {
+  cors(req, res);
+  next();
+});
+
 app.get('/', function(req, res) {
   res.send(info)
 });
@@ -43,6 +68,5 @@ app.get('/quote/:id', function(req, res, next) {
     res.send(JSON.stringify(body));
   })
 });
-
 
 module.exports = app;

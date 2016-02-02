@@ -1,14 +1,15 @@
 mixin quotation(doc)
   - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
-  blockquote.primary(id=doc._id) #{doc.quote}
-  cite.primary &#151; 
-    - if(doc.link) {
-      a(href=doc.link, title=title) #{doc.author}
-    - }else{
-      span #{doc.author} 
-    - }
-    - if(doc.context) {
-      br
-      span On #{doc.context}
-    - }
-  a.button.more-inspiration(title='Load a new quote') More Inspiration
+  div.quotation
+    blockquote.primary(id=doc._id) #{doc.quote}
+    cite.primary &#151; 
+      - if(doc.link) {
+        a(href=doc.link, title=title) #{doc.author}
+      - }else{
+        span #{doc.author} 
+      - }
+      - if(doc.context) {
+        br
+        span On #{doc.context}
+      - }
+    a.button.more-inspiration(title='Load a new quote') More Inspiration

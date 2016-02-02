@@ -15,10 +15,11 @@ $.plugin(
     //require('air/data'),
     require('air/event'),
     //require('air/filter'),
-    //require('air/find'),
+    require('air/find'),
     //require('air/first'),
     //require('air/hidden'),
-    //require('air/parent'),
+    require('air/parent'),
+    require('air/request'),
     //require('air/remove'),
     //require('air/template'),
     //require('air/text'),
@@ -32,21 +33,34 @@ $.plugin(
 )
 
 function Application(opts) {
-  //window.XmlHttpRequest = null;
-  //console.log(typeof XMLHttpRequest);
-  if(typeof XMLHttpRequest === 'undefined') {
-    $('.browser-update').css({display: 'block'});
-  }
+  var supported = typeof XMLHttpRequest !== 'undefined';
+
+  // NOTE: show browser warning for styling
+  //supported = false;
+
   opts = opts || {};
   this.opts = opts;
   this.validator = new Schema(descriptor);
-  $('a.more-inspiration').on('click', more.bind(this));
-  //console.log(opts.api);
-  //console.log($('body').length);
+
+  if(!supported) {
+    $('.browser-update').css({display: 'block'});
+  }
+
+  $('a.more-inspiration').on('click', random.bind(this));
 }
 
-function more() {
-  console.log('more called');
+/**
+ *  Load a new random quote.
+ */
+function random(e) {
+  var el = $(e.target);
+  function onResponse(err, res, info, xhr) {
+    if(err) {
+      return console.error(err); 
+    }
+    console.log(res);
+  }
+  $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
 }
 
 module.exports = Application;
