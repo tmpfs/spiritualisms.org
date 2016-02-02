@@ -27,6 +27,9 @@ function random(view, req, res, next) {
 function getViewInfo(req) {
   var o = {};
   o.url = req.url;
+  o.app = {
+    api: process.env.API || 'http://localhost:3001'
+  }
   return o;
 }
 
@@ -43,35 +46,42 @@ app.get('/why', function(req, res) {
 });
 
 app.get('/inspire', function(req, res, next) {
-  var quote = new Quote();
+  var quote = new Quote()
+    , info = getViewInfo(req);
   quote.list({}, function(err, response, body) {
     if(err) {
       return next(err); 
     }
-    res.render('inspire', {quotes: body});
+    info.quotes = body;
+    res.render('inspire', info);
   });
 });
 
 app.get('/inspire/:id', function(req, res, next) {
-  var quote = new Quote();
+  var quote = new Quote()
+    , info = getViewInfo(req);
   quote.get({id: req.params.id}, function(err, response, body) {
     if(err) {
       return next(err); 
     }
-    res.render('quotation', {doc: body});
+    info.doc = body;
+    res.render('quotation', info);
   });
 });
 
 app.get('/donate', function(req, res) {
-  res.render('donate');
+  var info = getViewInfo(req);
+  res.render('donate', info);
 });
 
 app.get('/create', function(req, res) {
-  res.render('create');
+  var info = getViewInfo(req);
+  res.render('create', info);
 });
 
 app.get('/contributing', function(req, res) {
-  res.render('contributing');
+  var info = getViewInfo(req);
+  res.render('contributing', info);
 });
 
 app.use(function(err, req, res, next) {
