@@ -51,8 +51,16 @@ app.get('/contributing', function(req, res) {
 });
 
 app.use(function(err, req, res, next) {
+  //console.dir(err);
   res.status(err.status || 500)
-    .render('error', {status: err.status, doc: err.doc, req: err.res});
+    .render('error',
+      {
+        status: err.status || 500,
+        doc: err.doc,
+        res: err.res,
+        stack: err.stack
+      }
+    );
   next();
 });
 

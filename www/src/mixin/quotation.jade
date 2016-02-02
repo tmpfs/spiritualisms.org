@@ -1,0 +1,10 @@
+mixin quotation(doc)
+  - var title = doc.title || (doc.author + '(' + doc.domain + ')');
+  blockquote.primary #{doc.quote}
+  cite.primary &#151; 
+    - if(doc.link) {
+      a(href=doc.link, title=title) #{doc.author}
+    - }else{
+      span #{doc.author} 
+    - }
+  a.button(title='Load a new quote') More Inspiration
