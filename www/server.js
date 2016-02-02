@@ -10,13 +10,24 @@ app.set('views', path.join(__dirname, 'src'));
  *  Helper function to pass a random quote to a view.
  */
 function random(view, req, res, next) {
-  var quote = new Quote();
+  var quote = new Quote()
+    , info = getViewInfo(req);
   quote.random({}, function(err, response, body) {
     if(err) {
       return next(err); 
     } 
-    res.render(view, {doc: body});
+    info.doc = body;
+    res.render(view, info);
   })
+}
+
+/**
+ *  Helper function to get default view information.
+ */
+function getViewInfo(req) {
+  var o = {};
+  o.url = req.url;
+  return o;
 }
 
 app.get('/', function(req, res, next) {
