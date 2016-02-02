@@ -1,5 +1,6 @@
 var expect = require('chai').expect
-  , request = require('request');
+  , request = require('request')
+  , Quote = require('../../../lib/model/quote');
 
 describe('www:', function() {
 
@@ -44,6 +45,22 @@ describe('www:', function() {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
       done(); 
+    })
+  })
+
+  it('should GET inspire quote page', function(done) {
+    var quote = new Quote();
+    quote.list({}, function(err, res, body) {
+      expect(err).to.eql(null);
+      expect(body).to.be.an('object');
+      var opts = {
+        url: process.env.WWW + '/inspire/' +  body.rows[0].id
+      }
+      request(opts, function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.statusCode).to.eql(200);
+        done(); 
+      })
     })
   })
 
