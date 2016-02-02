@@ -1,6 +1,6 @@
 mixin quotation(doc)
   - var title = doc.title || (doc.author + '(' + doc.domain + ')');
-  blockquote.primary #{doc.quote}
+  blockquote.primary(id=doc._id) #{doc.quote}
   cite.primary &#151; 
     - if(doc.link) {
       a(href=doc.link, title=title) #{doc.author}
