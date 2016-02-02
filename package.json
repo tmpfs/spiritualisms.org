@@ -25,6 +25,7 @@
     "jade": "~1.11.0"
   },
   "devDependencies": {
+    "browserify": "~13.0.0",
     "chai": "~3.5.0",
     "coveralls": "~2.11.6",
     "istanbul": "~0.4.2",
@@ -36,6 +37,7 @@
     "readme": "mdp --force -v",
     "clean": "rm -rf coverage",
     "api": "node api-server.js",
+    "compile": "browserify -o www/public/assets/js/app.js www/lib/app.js",
     "teardown": "rlx db rm quotes -s :lh --no-interactive",
     "bootstrap": "rlx db add quotes -s :lh; rlx app push --no-auto-id -d quotes -s :lh -i app ./db/app",
     "test": "NODE_ENV=test mocha test/global ${SPEC:-test/spec}",
