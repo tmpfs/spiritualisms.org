@@ -46,4 +46,17 @@ describe('api:', function() {
     })
   })
 
+  it('should GET random quote', function(done) {
+    var opts = {
+      url: process.env.API + '/quote/random'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      var body = JSON.parse(res.body);
+      expect(body.type).to.eql('quote');
+      done(); 
+    })
+  })
+
 })
