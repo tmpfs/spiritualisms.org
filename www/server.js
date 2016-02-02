@@ -6,18 +6,25 @@ var path = require('path')
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
 
-app.get('/', function(req, res, next) {
+/**
+ *  Helper function to pass a random quote to a view.
+ */
+function random(view, req, res, next) {
   var quote = new Quote();
   quote.random({}, function(err, response, body) {
     if(err) {
       return next(err); 
     } 
-    res.render('index', {doc: body});
+    res.render(view, {doc: body});
   })
+}
+
+app.get('/', function(req, res, next) {
+  random('index', req, res, next);
 });
 
-app.get('/home-page', function(req, res) {
-  res.render('home-page');
+app.get('/home-page', function(req, res, next) {
+  random('home-page', req, res, next);
 });
 
 app.get('/why', function(req, res) {

@@ -1,5 +1,7 @@
 extends layout
 
+include mixin/quotation
+
 //- no header for home page
 block header
 
@@ -11,10 +13,4 @@ block footer
 block content
   section.quote
     div.ism
-      blockquote.primary Yesterday I was clever, so I wanted to change the world.
-        br
-        | Today I am wise, so I am changing myself.
-      cite.primary &#151; 
-        a(href='https://en.wikipedia.org/wiki/Rumi',
-          title='Rumi (en.wikipedia.org)') Rumi
-      a.button(title='Load a new quote') More Inspiration
+      +quotation(doc)
