@@ -1416,8 +1416,11 @@ function Application(opts) {
  *  Load a new random quote.
  */
 function random(e) {
+
+  e.preventDefault();
+
   var el = $(e.target)
-    , container = el.parent();
+    , container = $('.quotation');
 
   function onResponse(err, res) {
     var doc;

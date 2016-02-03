@@ -54,11 +54,10 @@ function Application(opts) {
  *  Load a new random quote.
  */
 function random(e) {
-
   e.preventDefault();
 
   var el = $(e.target)
-    , container = el.parent();
+    , container = $('.quotation');
 
   function onResponse(err, res) {
     var doc;
@@ -76,8 +75,6 @@ function random(e) {
     console.log(res);
   }
   $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
-
-  return false;
 }
 
 module.exports = Application;

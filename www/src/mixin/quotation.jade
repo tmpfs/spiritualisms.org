@@ -1,4 +1,5 @@
-mixin quotation(doc)
+mixin quotation(doc, opts)
+  - opts = opts || {};
   - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
   div.quotation
     blockquote.primary(id=doc._id) #{doc.quote}
@@ -8,16 +9,23 @@ mixin quotation(doc)
       - }else{
         span #{doc.author} 
       - }
-    a(href='/inspire/' + doc._id)
+    a.detail(href='/inspire/' + doc._id)
       i.fa.fa-angle-double-down.fa-2x
     //-nav
       //-a.love(href='/love/' + doc._id)
         //-i.fa.fa-2x.fa-heart
       //-a.star(href='/star/' + doc._id)
         //-i.fa.fa-2x.fa-star
-  footer.quote
-    nav
-      a.more-inspiration(href='/',title='Load a new quote')
-        i.fa.fa-lightbulb-o
-        | &nbsp;More Inspiration
+  //-- if(opts.more) {
+    //-footer.quote
+      //-nav.clearfix
+        //-include ../partial/more-inspiration
+        //-- if(opts.browser) {
+          //-a.browser-home.float-right(
+            //-href='/home-page',
+            //-title='Home page for your browser')
+            //-i.fa.fa-home
+              //-| &nbsp;Browser Home
+        //-- }
+  //-- }
 
