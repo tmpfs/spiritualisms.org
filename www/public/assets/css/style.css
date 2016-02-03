@@ -647,7 +647,10 @@ html, body {
 section {
   width: 100%;
   height: 100%;
-  /*padding-top: 64px;*/
+}
+
+section.page {
+  padding-top: 64px;
 }
 
 header {
@@ -728,21 +731,16 @@ header nav a {
   margin-left: 16px;
 }
 
-.quote {
-  /*text-align: center;*/
-  position: relative;
+section.quote {
+  display: table;
 }
 
-.ism {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 90%;
-  height: 50%;
-  margin: auto;
-  padding: 0;
+div.ism {
+  width: 100%;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 10%;
 }
 
 blockquote.primary {

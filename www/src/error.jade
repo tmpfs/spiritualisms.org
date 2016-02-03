@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  section.error
+  section.error.page
     pre !{JSON.stringify(error)}
     h2 #{status}
     - if(doc) {
