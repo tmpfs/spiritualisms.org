@@ -75,9 +75,9 @@ describe('www:', function() {
     })
   })
 
-  it('should GET donate page', function(done) {
+  it('should GET contribute page', function(done) {
     var opts = {
-      url: process.env.WWW + '/donate'
+      url: process.env.WWW + '/contribute'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);

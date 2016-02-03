@@ -72,9 +72,9 @@ app.get('/inspire/:id', function(req, res, next) {
   });
 });
 
-app.get('/donate', function(req, res) {
+app.get('/contribute', function(req, res) {
   var info = getViewInfo(req);
-  res.render('donate', info);
+  res.render('contribute', info);
 });
 
 app.get('/create', function(req, res) {

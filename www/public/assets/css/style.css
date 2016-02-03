@@ -771,6 +771,11 @@ blockquote.primary {
   padding: 0;
 }
 
+.why blockquote.primary {
+  width: 110%;
+  margin-left: -5%;
+}
+
 blockquote.primary:before {
   content:"\201C";
 }
@@ -843,7 +848,7 @@ div.primary {
   margin-bottom: 4rem;
 }
 
-.why p, .donate p, .create p, .contribute p, .error pre, form, section h2, h3, ul, blockquote:not(.primary), div.item {
+section.page, .error pre, form, section h2, blockquote:not(.primary), div.item {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
