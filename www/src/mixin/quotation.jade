@@ -11,21 +11,25 @@ mixin quotation(doc, opts)
       - }
     a.detail(href='/inspire/' + doc._id)
       i.fa.fa-angle-double-down.fa-2x
-    //-nav
-      //-a.love(href='/love/' + doc._id)
-        //-i.fa.fa-2x.fa-heart
-      //-a.star(href='/star/' + doc._id)
-        //-i.fa.fa-2x.fa-star
-  //-- if(opts.more) {
-    //-footer.quote
-      //-nav.clearfix
-        //-include ../partial/more-inspiration
-        //-- if(opts.browser) {
-          //-a.browser-home.float-right(
-            //-href='/home-page',
-            //-title='Home page for your browser')
-            //-i.fa.fa-home
-              //-| &nbsp;Browser Home
-        //-- }
-  //-- }
+    nav.details.clearfix
+      a.love(href='/love/' + doc._id)
+        i.fa.fa-heart.love
+        span &nbsp;Love
+      a.star(href='/star/' + doc._id)
+        i.fa.fa-star.star
+        span &nbsp;Star
+      a.permalink(href='/inspire/' + doc._id)
+        i.fa.fa-link.permalink
+        span &nbsp;Permalink
+  - if(opts.more) {
+    footer.quote
+      nav
+        include ../partial/more-inspiration
+        - if(opts.browser) {
+          a.browser-home(
+            href='/home-page',
+            title='Home page for your browser')
+            i.fa.fa-home
+        - }
+  - }
 

@@ -670,7 +670,7 @@ footer.quote nav {
 }
 
 footer.quote nav a {
-  /*margin-right: 1rem;*/
+  margin-right: 1rem;
 }
 
 a.logo {
@@ -710,8 +710,8 @@ header nav a {
 }
 
 .quote {
-  text-align: center;
-  /*position: relative;*/
+  /*text-align: center;*/
+  position: relative;
 }
 
 .ism {
@@ -729,7 +729,7 @@ blockquote.primary {
   border-left: none;
   font-family: 'Noto Serif', serif;
   font-size: 4rem;
-  text-align: center;
+  /*text-align: center;*/
   margin-bottom: 0;
   padding: 0;
 }
@@ -770,20 +770,16 @@ div.primary {
   text-align: center;
 }
 
+.quotation {
+  text-align: center;
+}
+
 .quotation .detail {
   color: black;
 }
 
 .quotation nav :first-child {
   margin-right: .5rem;
-}
-
-a.love {
-  color: #dc322f;
-}
-
-a.star {
-  color: #b58900;
 }
 
 .why blockquote.primary {
@@ -866,4 +862,42 @@ textarea {
   left: 0;
   right: 0;
   z-index: 100;
+}
+
+nav.details {
+  display: inline-block;
+  /*margin: auto;*/
+  background: #efefef;
+  border-radius: .5rem;
+  padding: .5rem;
+  font-size: 2rem;
+}
+
+nav.details a:not(:last-child) {
+  margin-right: 2rem;
+}
+
+nav.details i.star, nav.details i.love {
+  /*position: relative;*/
+  /*top: .7rem;*/
+  /*float: right;*/
+}
+
+nav.details a span {
+  /*float: left;*/
+}
+
+a i.love {
+  color: #dc322f;
+}
+
+a i.star {
+  color: #b58900;
+}
+
+/*a.more-inspiration {*/
+  /*color: black;*/
+/*}*/
+a.detail {
+  display: block;
 }
