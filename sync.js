@@ -1,4 +1,4 @@
-process.env.NODE_ENV='devel';
+process.env.NODE_ENV = process.env.NODE_ENV || 'devel';
 
 // start the web server
 require('./server');
