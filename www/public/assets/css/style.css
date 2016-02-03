@@ -693,15 +693,10 @@ header h1 {
   margin-bottom: 0;
 }
 
-header img, footer img {
+header img {
   width: 40px;
   height: 40px;
   margin-bottom: 8px;
-}
-
-footer img {
-  width: 32px;
-  height: 32px;
 }
 
 header h1 span {
@@ -771,19 +766,6 @@ p {
 a[href^="http"] {
   color: #268bd2;
 }
-
-/*.why {*/
-  /*background: #9b4dca;*/
-  /*color: white !important;*/
-/*}*/
-
-div.primary {
-  text-align: center;
-}
-
-/*.quotation .detail {*/
-  /*color: black;*/
-/*}*/
 
 .quotation {
   text-align: center;
@@ -897,30 +879,7 @@ textarea {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
-}
-
-nav.details {
-  display: inline-block;
-  /*margin: auto;*/
-  background: #efefef;
-  border-radius: .5rem;
-  padding: .5rem;
-  font-size: 2rem;
-}
-
-nav.details a:not(:last-child) {
-  margin-right: 2rem;
-}
-
-nav.details i.star, nav.details i.love {
-  /*position: relative;*/
-  /*top: .7rem;*/
-  /*float: right;*/
-}
-
-nav.details a span {
-  /*float: left;*/
+  z-index: 2;
 }
 
 a i.love {
@@ -931,24 +890,24 @@ a i.star {
   color: #b58900;
 }
 
-a.detail {
-  display: block;
-}
-
 img.logo {
   width: 220px;
   height: 40px;
 }
 
 footer {
+  display: inline-block;
   text-align: left;
-  background: white;
   padding: 0px 8px;
-  z-index: 1;
+  z-index: 4;
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
+  right: 75%;
+}
+
+footer nav {
+  display: inline-block;
 }
 
 footer nav a {
@@ -956,3 +915,13 @@ footer nav a {
   vertical-align: middle;
 }
 
+nav.refresh {
+  display: block;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  text-transform: uppercase;
+  text-align: center;
+}

@@ -56,11 +56,11 @@ function Application(opts) {
 function random(e) {
   e.preventDefault();
 
-  var el = $(e.target)
+  var icon = $(e.target).find('i')
     , container = $('.quotation')
     , start = new Date().getTime();
 
-  el.addClass('fa-spin');
+  icon.addClass('fa-spin');
 
   function onResponse(err, res) {
     var doc;
@@ -81,10 +81,14 @@ function random(e) {
     nav.find('a.love, a.star, a.permalink').attr({href: href});
 
     function complete() {
-      el.removeClass('fa-spin');
+      icon.removeClass('fa-spin');
     }
 
-    (new Date().getTime() - start > 1000) ? complete() : setTimeout(complete, 1000);
+    if(new Date().getTime() - start > 1000) {
+      complete();
+    }else {
+      setTimeout(complete, 1000);
+    }
   }
 
   $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));

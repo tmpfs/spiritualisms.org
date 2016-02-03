@@ -1,6 +1,7 @@
 extends layout
 
 include mixin/quotation
+include mixin/refresh
 include mixin/footer
 
 block content
@@ -8,3 +9,5 @@ block content
     div.ism
       +quotation(doc)
   +footer(doc, {browser: true, sitemap: true})
+  +refresh()
+

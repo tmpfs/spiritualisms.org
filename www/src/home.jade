@@ -1,6 +1,7 @@
 extends layout
 
 include mixin/quotation
+include mixin/refresh
 include mixin/footer
 
 //- no header for home page
@@ -11,3 +12,4 @@ block content
     div.ism
       +quotation(doc)
   +footer(doc, {home: true})
+  +refresh()
