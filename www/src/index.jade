@@ -1,8 +1,10 @@
 extends layout
 
 include mixin/quotation
+include mixin/footer
 
 block content
   section.quote
     div.ism
-      +quotation(doc, {more: true, browser: true, sitemap: true})
+      +quotation(doc)
+  +footer(doc, {browser: true, sitemap: true})

@@ -1,3 +1,5 @@
+include ./quote-toolbar
+
 mixin quotation(doc, opts)
   - opts = opts || {};
   - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
@@ -9,42 +11,4 @@ mixin quotation(doc, opts)
       - }else{
         span #{doc.author} 
       - }
-    nav
-      a.love(href='/inspire/' + doc._id, title='Love it')
-        i.fa.fa-heart.love
-        | &nbsp; Love
-      a.star(href='/inspire/' + doc._id, title='Star it')
-        i.fa.fa-star.star
-        | &nbsp;Star
-      a.permalink(href='/inspire/' + doc._id, title='View it')
-        i.fa.fa-share-alt.permalink
-        | &nbsp;View
-  - if(opts.more) {
-    footer.quote
-      nav
-        a.refresh(href='/',title='Get more inspiration')
-          i.fa.fa-refresh
-        - if(opts.browser) {
-          a.home(
-            href='/home',
-            title='Browser home page')
-            i.fa.fa-home
-        - }
-        - if(opts.home) {
-          a.home(
-            href='/',
-            title='Website home page')
-            i.fa.fa-home
-        - }
-        //-a.love(href='/inspire/' + doc._id, title='Love it')
-          //-i.fa.fa-heart.love
-        //-a.star(href='/inspire/' + doc._id, title='Star it')
-          //-i.fa.fa-star.star
-        //-a.permalink(href='/inspire/' + doc._id, title='View it')
-          //-i.fa.fa-link.permalink
-        - if(opts.sitemap) {
-          a.sitemap(href='/sitemap', title='Site map')
-            i.fa.fa-sitemap.sitemap
-        - }
-  - }
-
+    +quote-toolbar(doc)

@@ -1,0 +1,11 @@
+mixin quote-toolbar(doc)
+  nav
+    a.love(href='/inspire/' + doc._id, title='Love it')
+      i.fa.fa-heart.love
+      | &nbsp; Love
+    a.star(href='/inspire/' + doc._id, title='Star it')
+      i.fa.fa-star.star
+      | &nbsp;Star
+    a.permalink(href='/inspire/' + doc._id, title='View it')
+      i.fa.fa-share-alt.permalink
+      | &nbsp;View

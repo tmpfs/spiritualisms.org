@@ -3,6 +3,8 @@ extends layout
 include mixin/quotation
 
 block content
-  section.quote
-    div.ism
-      +quotation(doc)
+  section.page
+    div.quotation
+      blockquote #{doc.quote}
+        //-+quotation(doc)
+      +quote-toolbar(doc)

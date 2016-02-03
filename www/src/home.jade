@@ -1,6 +1,7 @@
 extends layout
 
 include mixin/quotation
+include mixin/footer
 
 //- no header for home page
 block header
@@ -8,4 +9,5 @@ block header
 block content
   section.quote
     div.ism
-      +quotation(doc, {more: true, home: true})
+      +quotation(doc)
+  +footer(doc, {home: true})

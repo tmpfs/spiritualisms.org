@@ -683,36 +683,6 @@ header {
   right: 0;
 }
 
-footer.home {
-  background: white;
-  z-index: 1;
-  padding: 8px 8px 0px 8px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-footer.quote {
-  text-align: left;
-  background: white;
-  padding: 0px 8px;
-  z-index: 1;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-footer.quote nav {
-  /*height: 3rem;*/
-  vertical-align: middle;
-}
-
-footer.quote nav a {
-  margin-right: 1rem;
-}
-
 a.logo {
   color: black;
 }
@@ -969,3 +939,20 @@ img.logo {
   width: 220px;
   height: 40px;
 }
+
+footer {
+  text-align: left;
+  background: white;
+  padding: 0px 8px;
+  z-index: 1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+footer nav a {
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
