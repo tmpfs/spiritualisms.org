@@ -10,6 +10,14 @@ To start the node web server:
 npm start
 ```
 
+### API
+
+To start the node api server:
+
+```
+npm run api
+```
+
 ### Teardown
 
 Remove the database:
@@ -24,6 +32,22 @@ Create the database and bootstrap the application:
 
 ```
 npm run teardown; npm run bootstrap
+```
+
+### Compile
+
+To compile the client-side javascript run:
+
+```
+npm run compile
+```
+
+### Minify
+
+To compile and minify the client-side javascript run:
+
+```
+npm run minify
 ```
 
 ### Test

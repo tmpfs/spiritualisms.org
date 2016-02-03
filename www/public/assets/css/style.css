@@ -765,9 +765,8 @@ blockquote.normal {
   margin-bottom: 2rem;
 }
 
-cite.primary {
+.quotation cite {
   display: block;
-  /*margin-bottom: 2rem;*/
   font-size: 3rem;
 }
 
