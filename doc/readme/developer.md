@@ -1,10 +1,11 @@
 ## Developer
 
-Clone the repository and install dependencies, start [couchdb][] and a browser sync session:
+To get started clone the repository and install dependencies, start [couchdb][], [redis][] and a browser sync session:
 
 ```
 npm i
 couchdb
+redis-server
 npm run sync
 ```
 

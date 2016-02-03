@@ -1433,7 +1433,14 @@ function random(e) {
       .append(
         $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
       ).text(doc.author));
-    console.log(res);
+
+    var nav = $('footer nav');
+
+    nav.find('a.love').attr({href: '/love/' + doc._id});
+    nav.find('a.star').attr({href: '/star/' + doc._id});
+    nav.find('a.permalink').attr({href: '/inspire/' + doc._id});
+
+    //console.log(res);
   }
   $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
 }
