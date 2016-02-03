@@ -21,6 +21,11 @@ body {
   line-height: 1.6;
 }
 
+i {
+  font-style: normal;
+  font-weight: normal;
+}
+
 body, textarea {
   font-family: "Lato", "Helvetica", "Arial", sans-serif;
 }
@@ -629,7 +634,8 @@ section {
 header {
   background: white;
   z-index: 1;
-  padding: 8px 8px 0px 8px;
+  height: 6rem; /* 60px */
+  padding: 10px 10px 0px 0px;
   /*border-bottom: 1px solid black;*/
   position: fixed;
   top: 0;
@@ -637,7 +643,7 @@ header {
   right: 0;
 }
 
-footer {
+footer.home-page {
   background: white;
   z-index: 1;
   padding: 8px 8px 0px 8px;
@@ -645,6 +651,22 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+footer.quote {
+  text-align: left;
+  background: white;
+  padding: 0px 8px;
+  z-index: 1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+footer.quote nav {
+  height: 3rem;
+  vertical-align: middle;
 }
 
 a.logo {
@@ -742,6 +764,18 @@ a[href^="http"] {
 
 div.primary {
   text-align: center;
+}
+
+.quotation nav :first-child {
+  margin-right: .5rem;
+}
+
+a.love {
+  color: #dc322f;
+}
+
+a.star {
+  color: #b58900;
 }
 
 .why blockquote.primary {

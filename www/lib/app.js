@@ -6,23 +6,24 @@ var $ = require('air')
 
 $.plugin(
   [
-    //require('air/append'),
-    //require('air/attr'),
+    require('air/append'),
+    require('air/attr'),
     //require('air/children'),
     //require('air/class'),
     //require('air/clone'),
+    require('air/create'),
     require('air/css'),
     //require('air/data'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),
     //require('air/first'),
-    //require('air/hidden'),
+    require('air/html'),
     require('air/parent'),
     require('air/request'),
     //require('air/remove'),
     //require('air/template'),
-    //require('air/text'),
+    require('air/text'),
     //require('air/val')
     //require('vivify'),
     //require('vivify/burst'),
@@ -53,14 +54,30 @@ function Application(opts) {
  *  Load a new random quote.
  */
 function random(e) {
-  var el = $(e.target);
-  function onResponse(err, res, info, xhr) {
+
+  e.preventDefault();
+
+  var el = $(e.target)
+    , container = el.parent();
+
+  function onResponse(err, res) {
+    var doc;
     if(err) {
       return console.error(err); 
     }
+    if(res) {
+      doc = JSON.parse(res); 
+    }
+    container.find('blockquote').text(doc.quote);
+    container.find('cite').html('&#151; ')
+      .append(
+        $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
+      ).text(doc.author));
     console.log(res);
   }
   $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
+
+  return false;
 }
 
 module.exports = Application;

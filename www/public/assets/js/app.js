@@ -1,4 +1,26 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = {
+  type: 'object',
+  fields: {
+    type: {type: 'string', required: true},
+    publish: {type: 'boolean'},
+    quote: {type: 'string', required: true},
+    author: {type: 'string', required: true},
+    link: [
+      {type: 'string', required: true}
+      // TODO: implement protocol validation
+    ],
+    domain: [
+      {type: 'string'}
+      // TODO: implement tld validation
+    ],
+    created: {type: 'integer', required: true},
+    random: {type: 'float', required: true},
+    tags: {type: 'array'}
+  }
+}
+
+},{}],2:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -86,7 +108,123 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = air;
 })();
 
-},{"zephyr":7}],2:[function(require,module,exports){
+},{"zephyr":13}],3:[function(require,module,exports){
+/**
+ *  Insert content, specified by the parameter, to the end of each
+ *  element in the set of matched elements.
+ */
+function append() {
+  var i, l = this.length, el, args = this.slice.call(arguments);
+  function it(node, index) {
+    // content elements to insert
+    el.each(function(ins) {
+      ins = (index < (l - 1)) ? ins.cloneNode(true) : ins;
+      node.appendChild(ins);
+    });
+  }
+  for(i = 0;i < args.length;i++) {
+    // wrap content
+    el = this.air(args[i]);
+    // matched parent elements (targets)
+    this.each(it);
+  }
+  return this;
+}
+
+module.exports = function() {
+  this.append = append;
+}
+
+},{}],4:[function(require,module,exports){
+/**
+ *  Get the value of an attribute for the first element in the set of
+ *  matched elements or set one or more attributes for every matched element.
+ */
+function attr(key, val) {
+  var i, attrs, map = {};
+  if(!this.length || key !== undefined && !Boolean(key)) {
+    return this;
+  }
+
+  if(key === undefined && val === undefined) {
+    // no args, get all attributes for first element as object
+    attrs = this.dom[0].attributes;
+    // convert NamedNodeMap to plain object
+    for(i = 0;i < attrs.length;i++) {
+      // NOTE: nodeValue is deprecated, check support for `value` in IE9!
+      map[attrs[i].name] = attrs[i].value;
+    }
+    return map;
+  }else if(typeof key === 'string' && !val) {
+    // delete attribute on all matched elements
+    if(val === null) {
+      this.each(function(el) {
+        el.removeAttribute(key);
+      })
+      return this;
+    }
+    // get attribute for first matched elements
+    return this.dom[0].getAttribute(key);
+  // handle object map of attributes
+  }else {
+    this.each(function(el) {
+      if(typeof key === 'object') {
+        for(var z in key) {
+          if(key[z] === null) {
+            el.removeAttribute(z);
+            continue;
+          }
+          el.setAttribute(z, key[z]);
+        }
+      }else{
+        el.setAttribute(key, val);
+      }
+    });
+  }
+  return this;
+}
+
+module.exports = function() {
+  this.attr = attr;
+}
+
+},{}],5:[function(require,module,exports){
+/**
+ *  Create a DOM element.
+ *
+ *  @param tag The element tag name.
+ */
+function create(tag) {
+  return document.createElement(tag);
+}
+
+/**
+ *  Create a wrapped DOM element.
+ *
+ *  @param tag The element tag name.
+ *  @param attrs Object map of element attributes.
+ */
+function el(tag, attrs) {
+  var n = el.air(create(tag));
+  if(attrs && n.attr) {
+    return n.attr(attrs);
+  }
+  return n;
+}
+
+module.exports = function() {
+  // static method needs access to main function
+  // to wrap the created element
+  el.air = this.air;
+
+  this.air.create = create;
+  this.air.el = el;
+}
+
+// optional `attr` dependency
+//plugin.deps = {attr: false};
+
+},{}],6:[function(require,module,exports){
 /**
  *  Get the value of a computed style property for the first element
  *  in the set of matched elements or set one or more CSS properties
@@ -131,7 +269,7 @@ module.exports = function() {
   this.css = css;
 }
 
-},{}],3:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 function on(nm, cb, capture) {
   this.each(function(el) {
     el.addEventListener(nm, cb, capture);
@@ -177,7 +315,7 @@ module.exports = function() {
   this.click = click;
 }
 
-},{}],4:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  *  Get the descendants of each element in the current set
  *  of matched elements, filtered by a selector.
@@ -194,7 +332,42 @@ module.exports = function() {
   this.find = find;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
+/**
+ *  Get the HTML of the first matched element or set the HTML
+ *  content of all matched elements.
+ *
+ *  Note that when using `outer` to set `outerHTML` you will likely invalidate
+ *  the current encapsulated elements and need to re-run the selector to
+ *  update the matched elements.
+ */
+function html(markup, outer) {
+  if(!this.length) {
+    return this;
+  }
+  if(typeof markup === 'boolean') {
+    outer = markup;
+    markup = undefined;
+  }
+  var prop = outer ? 'outerHTML' : 'innerHTML';
+  if(markup === undefined) {
+    return this.dom[0][prop];
+  }
+  markup = markup || '';
+  this.each(function(el) {
+    el[prop] = markup;
+  });
+  // TODO: should we remove matched elements when setting outerHTML?
+  // TODO: the matched elements have been rewritten and do not exist
+  // TODO: in the DOM anymore: ie: this.dom = [];
+  return this;
+}
+
+module.exports = function() {
+  this.html = html;
+}
+
+},{}],10:[function(require,module,exports){
 /**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
@@ -213,7 +386,7 @@ module.exports = function() {
   this.parent = parent;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  *  Thin wrapper for XMLHttpRequest using a 
  *  callback style.
@@ -301,7 +474,32 @@ module.exports = function() {
   this.air.request = request;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+/**
+ *  IE9 supports textContent and innerText has various issues.
+ *
+ *  See: https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+ *  See: http://www.kellegous.com/j/2013/02/27/innertext-vs-textcontent/
+ */
+function text(txt) {
+  if(!this.length) {
+    return this;
+  }
+  if(txt === undefined) {
+    return this.dom[0].textContent;
+  }
+  txt = txt || '';
+  this.each(function(el) {
+    el.textContent = txt;
+  });
+  return this;
+}
+
+module.exports = function() {
+  this.text = text;
+}
+
+},{}],13:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -404,29 +602,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],8:[function(require,module,exports){
-module.exports = {
-  type: 'object',
-  fields: {
-    type: {type: 'string', required: true},
-    publish: {type: 'boolean'},
-    quote: {type: 'string', required: true},
-    author: {type: 'string', required: true},
-    link: [
-      {type: 'string'}
-      // TODO: implement protocol validation
-    ],
-    domain: [
-      {type: 'string'}
-      // TODO: implement tld validation
-    ],
-    created: {type: 'integer', required: true},
-    random: {type: 'float', required: true},
-    tags: {type: 'array'}
-  }
-}
-
-},{}],9:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -478,7 +654,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],10:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -508,7 +684,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],11:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -677,7 +853,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":13,"./reason":10,"format-util":14,"zephyr":15}],12:[function(require,module,exports){
+},{"../messages":18,"./reason":15,"format-util":19,"zephyr":20}],17:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1083,7 +1259,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":13,"./iterator":9,"./rule":11,"format-util":14}],13:[function(require,module,exports){
+},{"../messages":18,"./iterator":14,"./rule":16,"format-util":19}],18:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1142,7 +1318,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],14:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1181,9 +1357,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],15:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],16:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
+arguments[4][13][0].apply(exports,arguments)
+},{"dup":13}],21:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
@@ -1192,23 +1368,24 @@ var $ = require('air')
 
 $.plugin(
   [
-    //require('air/append'),
-    //require('air/attr'),
+    require('air/append'),
+    require('air/attr'),
     //require('air/children'),
     //require('air/class'),
     //require('air/clone'),
+    require('air/create'),
     require('air/css'),
     //require('air/data'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),
     //require('air/first'),
-    //require('air/hidden'),
+    require('air/html'),
     require('air/parent'),
     require('air/request'),
     //require('air/remove'),
     //require('air/template'),
-    //require('air/text'),
+    require('air/text'),
     //require('air/val')
     //require('vivify'),
     //require('vivify/burst'),
@@ -1239,11 +1416,22 @@ function Application(opts) {
  *  Load a new random quote.
  */
 function random(e) {
-  var el = $(e.target);
-  function onResponse(err, res, info, xhr) {
+  var el = $(e.target)
+    , container = el.parent();
+
+  function onResponse(err, res) {
+    var doc;
     if(err) {
       return console.error(err); 
     }
+    if(res) {
+      doc = JSON.parse(res); 
+    }
+    container.find('blockquote').text(doc.quote);
+    container.find('cite').html('&#151; ')
+      .append(
+        $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
+      ).text(doc.author));
     console.log(res);
   }
   $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
@@ -1251,13 +1439,13 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":8,"air":"air","air/css":2,"air/event":3,"air/find":4,"air/parent":5,"air/request":6,"async-validate":12}],17:[function(require,module,exports){
+},{"../../lib/schema/quote":1,"air":"air","air/append":3,"air/attr":4,"air/create":5,"air/css":6,"air/event":7,"air/find":8,"air/html":9,"air/parent":10,"air/request":11,"air/text":12,"async-validate":17}],22:[function(require,module,exports){
 /* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
 /* jshint ignore:end */
 
-},{"./app":16}],"air":[function(require,module,exports){
+},{"./app":21}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[17]);
+},{"./lib/air":2}]},{},[22]);

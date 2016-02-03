@@ -8,8 +8,16 @@ mixin quotation(doc)
       - }else{
         span #{doc.author} 
       - }
-      - if(doc.context) {
-        br
-        span On #{doc.context}
-      - }
-    a.button.more-inspiration(title='Load a new quote') More Inspiration
+    a(href='/inspire/' + doc._id)
+      i.fa.fa-angle-double-down.fa-2x
+    //-nav
+      //-a.love(href='/love/' + doc._id)
+        //-i.fa.fa-2x.fa-heart
+      //-a.star(href='/star/' + doc._id)
+        //-i.fa.fa-2x.fa-star
+  footer.quote
+    nav
+      a.more-inspiration(href='/',title='Load a new quote')
+        i.fa.fa-lightbulb-o
+        | &nbsp;More Inspiration
+
