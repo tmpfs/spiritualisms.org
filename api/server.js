@@ -78,21 +78,20 @@ app.get('/quote/:id/love', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    var body = response;
     res.set('content-type', 'application/json');
-    res.send(JSON.stringify(body));
+    res.send(JSON.stringify(response));
   })
 });
 
 app.post('/quote/:id/love', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
-  quote.get(opts, function(err, response, body) {
+  quote.showLove(opts, function(err, response) {
     if(err) {
       return next(err);
     }
     res.set('content-type', 'application/json');
-    res.send(JSON.stringify(body));
+    res.send(JSON.stringify(response));
   })
 });
 
