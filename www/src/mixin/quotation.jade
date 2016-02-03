@@ -32,7 +32,9 @@ mixin quotation(doc, opts)
           i.fa.fa-star.star
         a.permalink(href='/inspire/' + doc._id, title='View it')
           i.fa.fa-link.permalink
-        a.sitemap(href='/sitemap', title='Site map')
-          i.fa.fa-sitemap.sitemap
+        - if(opts.sitemap) {
+          a.sitemap(href='/sitemap', title='Site map')
+            i.fa.fa-sitemap.sitemap
+        - }
   - }
 
