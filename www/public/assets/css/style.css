@@ -831,7 +831,7 @@ div.primary {
   border-bottom: 2px solid black;
 }
 
-.quotation nav a {
+.quotation nav a:not(:last-child) {
   margin-right: 1rem;
 }
 
