@@ -2,13 +2,23 @@ mixin quotation(doc, opts)
   - opts = opts || {};
   - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
   div.quotation
-    blockquote.primary(id=doc._id) #{doc.quote}
+    blockquote.primary #{doc.quote}
     cite.primary &#151; 
       - if(doc.link) {
         a(href=doc.link, title=title) #{doc.author}
       - }else{
         span #{doc.author} 
       - }
+    nav
+      a.love(href='/inspire/' + doc._id, title='Love it')
+        i.fa.fa-heart.love
+        | &nbsp; Love
+      a.star(href='/inspire/' + doc._id, title='Star it')
+        i.fa.fa-star.star
+        | &nbsp;Star
+      a.permalink(href='/inspire/' + doc._id, title='View it')
+        i.fa.fa-link.permalink
+        | &nbsp;View
   - if(opts.more) {
     footer.quote
       nav
@@ -26,12 +36,12 @@ mixin quotation(doc, opts)
             title='Website home page')
             i.fa.fa-home
         - }
-        a.love(href='/inspire/' + doc._id, title='Love it')
-          i.fa.fa-heart.love
-        a.star(href='/inspire/' + doc._id, title='Star it')
-          i.fa.fa-star.star
-        a.permalink(href='/inspire/' + doc._id, title='View it')
-          i.fa.fa-link.permalink
+        //-a.love(href='/inspire/' + doc._id, title='Love it')
+          //-i.fa.fa-heart.love
+        //-a.star(href='/inspire/' + doc._id, title='Star it')
+          //-i.fa.fa-star.star
+        //-a.permalink(href='/inspire/' + doc._id, title='View it')
+          //-i.fa.fa-link.permalink
         - if(opts.sitemap) {
           a.sitemap(href='/sitemap', title='Site map')
             i.fa.fa-sitemap.sitemap

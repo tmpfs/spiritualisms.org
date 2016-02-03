@@ -806,16 +806,37 @@ div.primary {
   text-align: center;
 }
 
+/*.quotation .detail {*/
+  /*color: black;*/
+/*}*/
+
 .quotation {
   text-align: center;
 }
 
-.quotation .detail {
-  color: black;
+.quotation nav {
+  margin-top: 4rem;
+  display: inline-block;
+  padding: 1rem 0 0 0;
+  border-top: 1px solid black;
+  text-transform: uppercase;
 }
 
-.quotation nav :first-child {
-  margin-right: .5rem;
+.quotation nav a {
+  color: black;
+  padding-bottom: .2rem;
+}
+
+.quotation nav a:hover {
+  border-bottom: 2px solid black;
+}
+
+.quotation nav a {
+  margin-right: 1rem;
+}
+
+.quotation nav a.permalink i {
+  color: #2aa198;
 }
 
 .why blockquote.primary {

@@ -108,7 +108,7 @@ module.exports = {
   module.exports = air;
 })();
 
-},{"zephyr":13}],3:[function(require,module,exports){
+},{"zephyr":14}],3:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -190,6 +190,103 @@ module.exports = function() {
 
 },{}],5:[function(require,module,exports){
 /**
+ *  IE9 does not support `Element.classList`, when support for IE9 is
+ *  dropped this can be refactored.
+ */
+var attr = 'class';
+
+/**
+ *  Adds the specified class(es) to each of the set of matched elements.
+ */
+function addClass(className) {
+  if(!className) {
+    return this;
+  }
+  var classes = className.split(/\s+/);
+  this.each(function(el) {
+    var val = el.getAttribute(attr);
+    var names = val ? val.split(/\s+/) : [];
+    classes.forEach(function(nm) {
+      if(!~names.indexOf(nm)) {
+        names.push(nm);
+      }
+    });
+    el.setAttribute(attr, names.join(' '));
+  });
+  return this;
+}
+
+/**
+ *  Determine whether any of the matched elements are assigned the
+ *  given class.
+ */
+function hasClass(className) {
+  var i, val;
+  for(i = 0;i < this.length;i++) {
+    val = this.get(i).getAttribute(attr);
+    val = val ? val.split(/\s+/) : [];
+    if(~val.indexOf(className)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ *  Remove a single class, multiple classes, or all classes from
+ *  each element in the set of matched elements.
+ */
+function removeClass(className) {
+  if(!className) {
+    // remove all classes from all matched elements
+    this.each(function(el) {
+      el.removeAttribute(attr);
+    });
+    return this;
+  }
+  var classes = className.split(/\s+/);
+  this.each(function(el) {
+    var val = el.getAttribute(attr);
+    // no class attribute - nothing to remove
+    if(!val) {
+      return;
+    }
+    var names = val.split(/\s+/);
+    names = names.filter(function(nm) {
+      return ~classes.indexOf(nm) ? false : nm;
+    });
+    el.setAttribute(attr, names.join(' '));
+  });
+  return this;
+}
+
+/**
+ *  Add or remove one or more classes from each element in the set of 
+ *  matched elements depending on the class's presence.
+ */
+function toggleClass(className) {
+  var classes = className.split(/\s+/)
+    , name
+    , i;
+  for(i = 0;i < classes.length;i++) {
+    name = classes[i];
+    if(this.hasClass(name)) {
+      this.removeClass(name)
+    }else{
+      this.addClass(name)
+    }
+  }
+}
+
+module.exports = function() {
+  this.addClass = addClass;
+  this.hasClass = hasClass;
+  this.removeClass = removeClass;
+  this.toggleClass = toggleClass;
+}
+
+},{}],6:[function(require,module,exports){
+/**
  *  Create a DOM element.
  *
  *  @param tag The element tag name.
@@ -224,7 +321,7 @@ module.exports = function() {
 // optional `attr` dependency
 //plugin.deps = {attr: false};
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  *  Get the value of a computed style property for the first element
  *  in the set of matched elements or set one or more CSS properties
@@ -269,7 +366,7 @@ module.exports = function() {
   this.css = css;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 function on(nm, cb, capture) {
   this.each(function(el) {
     el.addEventListener(nm, cb, capture);
@@ -315,7 +412,7 @@ module.exports = function() {
   this.click = click;
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  *  Get the descendants of each element in the current set
  *  of matched elements, filtered by a selector.
@@ -332,7 +429,7 @@ module.exports = function() {
   this.find = find;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  *  Get the HTML of the first matched element or set the HTML
  *  content of all matched elements.
@@ -367,7 +464,7 @@ module.exports = function() {
   this.html = html;
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
@@ -386,7 +483,7 @@ module.exports = function() {
   this.parent = parent;
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  *  Thin wrapper for XMLHttpRequest using a 
  *  callback style.
@@ -474,7 +571,7 @@ module.exports = function() {
   this.air.request = request;
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  *  IE9 supports textContent and innerText has various issues.
  *
@@ -499,7 +596,7 @@ module.exports = function() {
   this.text = text;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -602,7 +699,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -654,7 +751,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -684,7 +781,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -853,7 +950,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":18,"./reason":15,"format-util":19,"zephyr":20}],17:[function(require,module,exports){
+},{"../messages":19,"./reason":16,"format-util":20,"zephyr":21}],18:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1259,7 +1356,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":18,"./iterator":14,"./rule":16,"format-util":19}],18:[function(require,module,exports){
+},{"../messages":19,"./iterator":15,"./rule":17,"format-util":20}],19:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1318,7 +1415,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1357,9 +1454,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],20:[function(require,module,exports){
-arguments[4][13][0].apply(exports,arguments)
-},{"dup":13}],21:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
+arguments[4][14][0].apply(exports,arguments)
+},{"dup":14}],22:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
@@ -1371,7 +1468,7 @@ $.plugin(
     require('air/append'),
     require('air/attr'),
     //require('air/children'),
-    //require('air/class'),
+    require('air/class'),
     //require('air/clone'),
     require('air/create'),
     require('air/css'),
@@ -1418,7 +1515,11 @@ function Application(opts) {
 function random(e) {
   e.preventDefault();
 
-  var container = $('.quotation');
+  var el = $(e.target)
+    , container = $('.quotation')
+    , start = new Date().getTime();
+
+  el.addClass('fa-spin');
 
   function onResponse(err, res) {
     var doc;
@@ -1436,23 +1537,27 @@ function random(e) {
 
     var nav = $('footer nav')
       , href = '/inspire/' + doc._id;
-
     nav.find('a.love, a.star, a.permalink').attr({href: href});
 
-    //console.log(res);
+    function complete() {
+      el.removeClass('fa-spin');
+    }
+
+    (new Date().getTime() - start > 1000) ? complete() : setTimeout(complete, 1000);
   }
+
   $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
 }
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":1,"air":"air","air/append":3,"air/attr":4,"air/create":5,"air/css":6,"air/event":7,"air/find":8,"air/html":9,"air/parent":10,"air/request":11,"air/text":12,"async-validate":17}],22:[function(require,module,exports){
+},{"../../lib/schema/quote":1,"air":"air","air/append":3,"air/attr":4,"air/class":5,"air/create":6,"air/css":7,"air/event":8,"air/find":9,"air/html":10,"air/parent":11,"air/request":12,"air/text":13,"async-validate":18}],23:[function(require,module,exports){
 /* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
 /* jshint ignore:end */
 
-},{"./app":21}],"air":[function(require,module,exports){
+},{"./app":22}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":2}]},{},[22]);
+},{"./lib/air":2}]},{},[23]);
