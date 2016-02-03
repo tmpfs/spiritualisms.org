@@ -70,14 +70,15 @@ app.get('/quote/:id', function(req, res, next) {
 });
 
 // LOVE
-//
+
 app.get('/quote/:id/love', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
-  quote.get(opts, function(err, response, body) {
+  quote.getLove(opts, function(err, response) {
     if(err) {
       return next(err);
     }
+    var body = response;
     res.set('content-type', 'application/json');
     res.send(JSON.stringify(body));
   })
