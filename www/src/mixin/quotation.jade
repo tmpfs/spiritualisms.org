@@ -12,7 +12,7 @@ mixin quotation(doc, opts)
   - if(opts.more) {
     footer.quote
       nav
-        a.more-inspiration(href='/',title='Get more inspiration')
+        a.refresh(href='/',title='Get more inspiration')
           i.fa.fa-refresh
         - if(opts.browser) {
           a.home(
@@ -32,5 +32,7 @@ mixin quotation(doc, opts)
           i.fa.fa-star.star
         a.permalink(href='/inspire/' + doc._id, title='View it')
           i.fa.fa-link.permalink
+        a.sitemap(href='/sitemap', title='Site map')
+          i.fa.fa-sitemap.sitemap
   - }
 

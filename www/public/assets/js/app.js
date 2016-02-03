@@ -1409,14 +1409,13 @@ function Application(opts) {
     $('.browser-update').css({display: 'block'});
   }
 
-  $('a.more-inspiration').on('click', random.bind(this));
+  $('a.refresh').on('click', random.bind(this));
 }
 
 /**
  *  Load a new random quote.
  */
 function random(e) {
-
   e.preventDefault();
 
   var el = $(e.target)
