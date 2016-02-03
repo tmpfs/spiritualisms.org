@@ -860,11 +860,15 @@ section h2 {
   margin-bottom: 2rem;
 }
 
+p.donate {
+  text-align: center;
+}
+
 img.donorbox {
   background: #6cc;
   padding: 2rem;
   border-radius: .5rem;
-  width: 92rem;
+  width: 24rem;
 }
 
 p.center {
