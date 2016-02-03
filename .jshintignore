@@ -3,3 +3,4 @@ coverage
 target
 test/fixtures
 db/app
+www/public/assets/js

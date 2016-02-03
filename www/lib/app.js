@@ -56,8 +56,7 @@ function Application(opts) {
 function random(e) {
   e.preventDefault();
 
-  var el = $(e.target)
-    , container = $('.quotation');
+  var container = $('.quotation');
 
   function onResponse(err, res) {
     var doc;
