@@ -1,4 +1,5 @@
 module.exports = {
+  _id: 'listen-to-the-wind',
   type: 'quote',
   publish: true,
   quote: 'Listen to the wind, it talks. Listen to the silence, it speaks. Listen to your heart, it knows.',

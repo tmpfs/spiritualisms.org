@@ -1,4 +1,5 @@
 module.exports = {
+  _id: 'truth-inside',
   type: 'quote',
   publish: true,
   quote: 'Truth is not something outside to be discovered, it is something inside to be realized.',

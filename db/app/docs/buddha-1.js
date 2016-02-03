@@ -1,4 +1,5 @@
 module.exports = {
+  _id: 'think-happiness',
   type: 'quote',
   publish: true,
   quote: 'Happiness does not depend on what you have or who you are, it solely relies on what you think.',

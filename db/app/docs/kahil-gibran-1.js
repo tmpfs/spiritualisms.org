@@ -1,4 +1,5 @@
 module.exports = {
+  _id: 'give-of-yourself',
   type: 'quote',
   publish: true,
   quote: 'You give but little when you give of your possessions. It is when you give of yourself that you truly give.',

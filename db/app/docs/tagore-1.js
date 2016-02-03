@@ -1,4 +1,5 @@
 module.exports = {
+  _id: 'ultimate-truth',
   type: 'quote',
   publish: true,
   quote: 'Love is the ultimate truth at the heart of creation.',

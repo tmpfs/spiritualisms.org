@@ -1,4 +1,5 @@
 module.exports = {
+  _id: 'empty-your-mind',
   type: 'quote',
   publish: true,
   quote: 'Empty your mind, be formless. Shapeless, like water. [...] Be water, my friend.',

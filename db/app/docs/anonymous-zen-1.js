@@ -1,4 +1,5 @@
 module.exports = {
+  _id: 'on-food',
   type: 'quote',
   publish: true,
   quote: 'The plants, they just don\'t scream as loud.',
