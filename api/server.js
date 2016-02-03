@@ -26,6 +26,7 @@ function cors(req, res) {
 
 app.all('*', function(req, res, next) {
   cors(req, res);
+  res.set('content-type', 'application/json');
   next();
 });
 
@@ -40,7 +41,6 @@ app.get('/quote/list', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.set('content-type', 'application/json');
     res.send(JSON.stringify(body));
   })
 });
@@ -52,7 +52,6 @@ app.get('/quote/random', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.set('content-type', 'application/json');
     res.send(JSON.stringify(body));
   })
 });
@@ -64,7 +63,6 @@ app.get('/quote/:id', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.set('content-type', 'application/json');
     res.send(JSON.stringify(body));
   })
 });
@@ -78,7 +76,6 @@ app.get('/quote/:id/love', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.set('content-type', 'application/json');
     res.send(JSON.stringify(response));
   })
 });
@@ -90,7 +87,6 @@ app.post('/quote/:id/love', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.set('content-type', 'application/json');
     res.send(JSON.stringify(response));
   })
 });
