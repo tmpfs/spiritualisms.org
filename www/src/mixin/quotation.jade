@@ -9,27 +9,28 @@ mixin quotation(doc, opts)
       - }else{
         span #{doc.author} 
       - }
-    a.detail(href='/inspire/' + doc._id)
-      i.fa.fa-angle-double-down.fa-2x
-    nav.details.clearfix
-      a.love(href='/love/' + doc._id)
-        i.fa.fa-heart.love
-        span &nbsp;Love
-      a.star(href='/star/' + doc._id)
-        i.fa.fa-star.star
-        span &nbsp;Star
-      a.permalink(href='/inspire/' + doc._id)
-        i.fa.fa-link.permalink
-        span &nbsp;Permalink
   - if(opts.more) {
     footer.quote
       nav
-        include ../partial/more-inspiration
+        a.more-inspiration(href='/',title='Get more inspiration')
+          i.fa.fa-refresh
         - if(opts.browser) {
-          a.browser-home(
+          a.home(
             href='/home-page',
-            title='Home page for your browser')
+            title='Browser home page')
             i.fa.fa-home
         - }
+        - if(opts.home) {
+          a.home(
+            href='/',
+            title='Website home page')
+            i.fa.fa-home
+        - }
+        a.love(href='/love/' + doc._id, title='Love it')
+          i.fa.fa-heart.love
+        a.star(href='/star/' + doc._id, title='Star it')
+          i.fa.fa-star.star
+        a.permalink(href='/inspire/' + doc._id, title='View it')
+          i.fa.fa-link.permalink
   - }
 
