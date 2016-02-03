@@ -2,8 +2,6 @@ mixin footer(doc, opts)
   - opts = opts || {};
   footer.quote
     nav
-      a.refresh(href='/',title='Get more inspiration')
-        i.fa.fa-refresh
       - if(opts.browser) {
         a.home(
           href='/home',
