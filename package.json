@@ -39,7 +39,7 @@
     "uglifyjs": "~2.4.10"
   },
   "scripts": {
-    "dev": "node developer.js",
+    "sync": "node sync.js",
     "lint": "jshint . && jscs .",
     "readme": "mdp --force -v",
     "clean": "rm -rf coverage",
@@ -64,7 +64,6 @@
       {
         "inc": [
           "introduction.md",
-          "install.md",
           "developer.md"
         ]
       }

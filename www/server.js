@@ -1,6 +1,7 @@
 var path = require('path')
   , express = require('express')
   , app = express()
+  , env = require('nenv')()
   , Quote = require('../lib/model/quote');
 
 app.set('view engine', 'jade');
@@ -30,6 +31,7 @@ function getViewInfo(req) {
   o.app = {
     api: process.env.API || 'http://localhost:3001'
   }
+  o.env = env;
   return o;
 }
 

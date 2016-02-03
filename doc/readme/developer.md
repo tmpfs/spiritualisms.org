@@ -1,6 +1,20 @@
 ## Developer
 
-Clone the repository and install dependencies with `npm i`, [couchdb][] should be running locally.
+Clone the repository and install dependencies, start [couchdb][] and a browser sync session:
+
+```
+npm i
+couchdb
+npm run sync
+```
+
+### Sync
+
+To start the services and sync with the browser:
+
+```
+npm run sync
+```
 
 ### Server
 
