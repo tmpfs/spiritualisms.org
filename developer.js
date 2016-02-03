@@ -1,15 +1,20 @@
-/**
- * Require Browsersync
- */
-var browserSync = require('browser-sync');
+process.env.NODE_ENV='devel';
 
-/**
- * Run Browsersync with server config
- */
-browserSync({
-  //port: 4000,
-  //ui: {
-    //port: 4001
-  //},
-  files: ["www/public/assets/js/*.js", "www/public/assets/css/*.css"]
+// start the web server
+require('./server');
+
+// start the api server
+require('./api-server');
+
+// browsersync
+var bs = require('browser-sync').create();
+
+bs.init({
+  port: 5000,
+  ui: {
+    port: 5001
+  },
+  ghostMode: false,
+  logLevel: 'silent',
+  files: ['./www/public/assets/js/*.js', './www/public/assets/css/*.css']
 });

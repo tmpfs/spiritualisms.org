@@ -24,7 +24,8 @@
     "async-validate": "~0.13.0",
     "cdb": "~0.3.0",
     "express": "~5.0.0-alpha.2",
-    "jade": "~1.11.0"
+    "jade": "~1.11.0",
+    "nenv": "~0.5.1"
   },
   "devDependencies": {
     "browser-sync": "~2.11.1",
@@ -38,6 +39,7 @@
     "uglifyjs": "~2.4.10"
   },
   "scripts": {
+    "dev": "node developer.js",
     "lint": "jshint . && jscs .",
     "readme": "mdp --force -v",
     "clean": "rm -rf coverage",
