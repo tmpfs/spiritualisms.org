@@ -37,8 +37,8 @@ app.get('/', function(req, res, next) {
   random('index', req, res, next);
 });
 
-app.get('/home-page', function(req, res, next) {
-  random('home-page', req, res, next);
+app.get('/home', function(req, res, next) {
+  random('home', req, res, next);
 });
 
 app.get('/why', function(req, res) {

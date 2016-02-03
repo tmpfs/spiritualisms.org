@@ -647,7 +647,7 @@ html, body {
 section {
   width: 100%;
   height: 100%;
-  padding-top: 64px;
+  /*padding-top: 64px;*/
 }
 
 header {
@@ -662,7 +662,7 @@ header {
   right: 0;
 }
 
-footer.home-page {
+footer.home {
   background: white;
   z-index: 1;
   padding: 8px 8px 0px 8px;
@@ -742,6 +742,7 @@ header nav a {
   width: 90%;
   height: 50%;
   margin: auto;
+  padding: 0;
 }
 
 blockquote.primary {
@@ -750,6 +751,7 @@ blockquote.primary {
   font-size: 4rem;
   /*text-align: center;*/
   margin-bottom: 0;
+  margin-top: 0;
   padding: 0;
 }
 
@@ -767,7 +769,7 @@ blockquote.normal {
 
 cite.primary {
   display: block;
-  margin-bottom: 2rem;
+  /*margin-bottom: 2rem;*/
   font-size: 3rem;
 }
 

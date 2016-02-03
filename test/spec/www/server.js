@@ -17,7 +17,7 @@ describe('www:', function() {
 
   it('should GET browser home page', function(done) {
     var opts = {
-      url: process.env.WWW + '/home-page'
+      url: process.env.WWW + '/home'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
