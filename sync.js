@@ -1,4 +1,7 @@
-process.env.NODE_ENV = process.env.NODE_ENV || 'devel';
+var env = require('nenv')();
+if(!env.defined) {
+  env.set(env.DEVEL);
+}
 
 // start the web server
 require('./server');
@@ -25,11 +28,19 @@ bs.init({
 // js files
 chokidar.watch('www/lib', {ignored: /[\/\\]\./})
   .on('change', function() {
-    exec('npm run compile'); 
+    if(env.production) {
+      exec('npm run minify'); 
+    }else{
+      exec('npm run compile'); 
+    }
   });
 
 // css files
 chokidar.watch('www/css', {ignored: /[\/\\]\./})
   .on('change', function() {
-    exec('npm run css'); 
+    if(env.production) {
+      exec('npm run minify-css');
+    }else{
+      exec('npm run css'); 
+    }
   });
