@@ -103,9 +103,7 @@ npm run minify
 
 ### Test
 
-Beforehand ensure the database is created (see [bootstrap](#bootstrap)) and [couchdb](http://couchdb.apache.org) is running.
-
-Run the test specifications:
+Beforehand ensure the database is created (see [bootstrap](#bootstrap)). Both [couchdb](http://couchdb.apache.org) and [redis](http://redis.io) must be running. Then run the test specifications:
 
 ```
 npm test
