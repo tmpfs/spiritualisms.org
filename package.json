@@ -46,6 +46,7 @@
     "lint": "jshint . && jscs .",
     "readme": "mdp --force -v",
     "clean": "rm -rf coverage",
+    "nginx": "sudo nginx -c $PWD/conf/nginx.conf",
     "css": "stylus -o www/public/assets/css www/css/style.styl",
     "minify-css": "npm run css && cssnano www/public/assets/css/style.css www/public/assets/css/style.css",
     "api": "node api-server.js",
