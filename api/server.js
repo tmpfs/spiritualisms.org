@@ -96,17 +96,7 @@ app.use(function(err, req, res, next) {
     status: err.status || 500,
     message: err.message || err.reason
   }
-  //console.dir(err);
-  //res.status(err.status || 500)
-    //.render('error',
-      //{
-        //status: err.status || 500,
-        //doc: err.doc,
-        //res: err.res,
-        //stack: err.stack
-      //}
-    //);
-  res.send(JSON.stringify(doc));
+  res.status(doc.status).send(JSON.stringify(doc));
   next();
 });
 

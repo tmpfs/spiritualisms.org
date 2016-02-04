@@ -59,4 +59,18 @@ describe('api:', function() {
     })
   })
 
+  it('should GET 404 on missing quote', function(done) {
+    var opts = {
+      url: process.env.API + '/quote/non-existent'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(404);
+      var body = JSON.parse(res.body);
+      expect(body.status).to.eql(404);
+      done(); 
+    })
+  })
+
+
 })
