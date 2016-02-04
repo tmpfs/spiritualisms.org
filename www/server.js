@@ -7,6 +7,7 @@ var path = require('path')
 
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 /**
  *  Helper function to pass a random quote to a view.
@@ -89,20 +90,20 @@ app.get('/contributing', function(req, res) {
   res.render('contributing', info);
 });
 
-app.use(function(err, req, res, next) {
-  //console.dir(err);
-  res.status(err.status || 500)
-    .render('error',
-      {
-        status: err.status || 500,
-        doc: err.doc,
-        res: err.res,
-        stack: err.stack
-      }
-    );
-  next();
+app.all('*', function(req, res, next) {
+  var err = new Error('not_found');
+  err.status = 404;
+  next(err);
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(err, req, res, next) {
+  var info = getViewInfo(req);
+  info.status = err.status || 500;
+  info.doc = err.doc;
+  info.res = err.res;
+  info.stack = err.stack;
+  res.status(info.status).render('error', info);
+  next();
+});
 
 module.exports = app;
