@@ -91,6 +91,13 @@ app.post('/quote/:id/love', function(req, res, next) {
   })
 });
 
+app.all('*', function(req, res, next) {
+  var err = new Error();
+  err.status = 404;
+  err.reason = 'not_found';
+  next(err);
+});
+
 app.use(function(err, req, res, next) {
   var doc = {
     status: err.status || 500,
