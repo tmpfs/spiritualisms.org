@@ -25,7 +25,7 @@ To start the node web server:
 npm start
 ```
 
-### API
+### API Server
 
 To start the node api server:
 
@@ -47,6 +47,14 @@ Create the database and bootstrap the application:
 
 ```
 npm run teardown; npm run bootstrap
+```
+
+### CSS
+
+To compile the CSS files run:
+
+```
+npm run css
 ```
 
 ### Compile

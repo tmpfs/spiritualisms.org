@@ -22,9 +22,14 @@ bs.init({
   files: ['./www/public/assets/js/*.js', './www/public/assets/css/*.css']
 });
 
-// 
+// js files
 chokidar.watch('www/lib', {ignored: /[\/\\]\./})
   .on('change', function() {
     exec('npm run compile'); 
   });
 
+// css files
+chokidar.watch('www/css', {ignored: /[\/\\]\./})
+  .on('change', function() {
+    exec('npm run css'); 
+  });

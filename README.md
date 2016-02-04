@@ -5,9 +5,10 @@ Table of Contents
   * [Developer](#developer)
     * [Sync](#sync)
     * [Server](#server)
-    * [API](#api)
+    * [API Server](#api-server)
     * [Teardown](#teardown)
     * [Bootstrap](#bootstrap)
+    * [CSS](#css)
     * [Compile](#compile)
     * [Minify](#minify)
     * [Test](#test)
@@ -52,7 +53,7 @@ To start the node web server:
 npm start
 ```
 
-### API
+### API Server
 
 To start the node api server:
 
@@ -74,6 +75,14 @@ Create the database and bootstrap the application:
 
 ```
 npm run teardown; npm run bootstrap
+```
+
+### CSS
+
+To compile the CSS files run:
+
+```
+npm run css
 ```
 
 ### Compile
