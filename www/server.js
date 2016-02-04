@@ -1,4 +1,5 @@
 var path = require('path')
+  , url = require('url')
   , express = require('express')
   , app = express()
   , env = require('nenv')()
@@ -28,6 +29,7 @@ function random(view, req, res, next) {
 function getViewInfo(req) {
   var o = {};
   o.url = req.url;
+  o.uri = url.parse(req.url);
   o.app = {
     api: process.env.API || 'http://localhost:3001'
   }

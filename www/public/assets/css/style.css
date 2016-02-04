@@ -944,3 +944,8 @@ nav.refresh a {
   margin-top: 1rem;
   border-top: .2rem solid black;
 }
+
+nav.main a.selected {
+  padding-bottom: .3rem;
+  border-bottom: .2rem solid #9b4dca;
+}

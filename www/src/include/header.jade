@@ -1,12 +1,19 @@
+mixin main-nav(uri)
+  - var map = {}, keys, i;
+  - map.why = {title: 'Why this page exists', text: 'Why?'};
+  - map.inspire = {title: 'Browse the quotes', text: 'Inspire'};
+  - map.contribute = {title: 'Find out how to contribute', text: 'Contribute'};
+  - map.create = {title: 'Create a quote', text: 'Create'};
+  - keys = Object.keys(map);
+  nav.main.float-right
+    - for(i = 0;i < keys.length;i++) {
+      a(href="/" + keys[i],
+        title=map[keys[i]].title,
+        class=uri.pathname.indexOf('/' + keys[i]) === 0 ? 'selected' : null)
+        | #{map[keys[i]].text}
+    - }
+
 header.clearfix
   a.logo(href="/")
     img.logo.float-left(src="/assets/img/logo.png", alt="logo")
-  nav.float-right
-    a(href="/why", title="Why this page exists")
-      | Why?
-    a(href="/inspire", title="Browse the quotes")
-      | Inspire
-    a(href="/contribute", title="Find out how to contribute")
-      | Contribute
-    a(href="/create", title="Create a quote")
-      | Create
+  +main-nav(uri)
