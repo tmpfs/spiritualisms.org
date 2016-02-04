@@ -20,7 +20,7 @@ describe('api:', function() {
 
   it('should GET quote list', function(done) {
     var opts = {
-      url: process.env.API + '/quote/list'
+      url: process.env.API + '/quote'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);

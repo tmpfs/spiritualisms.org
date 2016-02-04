@@ -34,14 +34,14 @@ app.get('/', function(req, res) {
   res.send(info)
 });
 
-app.get('/quote/list', function(req, res, next) {
+app.get('/quote', function(req, res, next) {
   var quote = new Quote()
     , opts = {};
   quote.list(opts, function(err, response, body) {
     if(err) {
       return next(err);
     }
-    res.send(JSON.stringify(body));
+    res.send(body);
   })
 });
 
@@ -52,7 +52,7 @@ app.get('/quote/random', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.send(JSON.stringify(body));
+    res.send(body);
   })
 });
 
@@ -63,7 +63,7 @@ app.get('/quote/:id', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.send(JSON.stringify(body));
+    res.send(body);
   })
 });
 
@@ -76,7 +76,7 @@ app.get('/quote/:id/love', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.send(JSON.stringify(response));
+    res.send(response);
   })
 });
 
@@ -87,7 +87,7 @@ app.post('/quote/:id/love', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.send(JSON.stringify(response));
+    res.send(response);
   })
 });
 
@@ -103,7 +103,7 @@ app.use(function(err, req, res, next) {
     status: err.status || 500,
     message: err.message || err.reason
   }
-  res.status(doc.status).send(JSON.stringify(doc));
+  res.status(doc.status).send(doc);
   next();
 });
 
