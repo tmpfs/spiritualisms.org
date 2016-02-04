@@ -91,4 +91,23 @@ app.post('/quote/:id/love', function(req, res, next) {
   })
 });
 
+app.use(function(err, req, res, next) {
+  var doc = {
+    status: err.status || 500,
+    message: err.message || err.reason
+  }
+  //console.dir(err);
+  //res.status(err.status || 500)
+    //.render('error',
+      //{
+        //status: err.status || 500,
+        //doc: err.doc,
+        //res: err.res,
+        //stack: err.stack
+      //}
+    //);
+  res.send(JSON.stringify(doc));
+  next();
+});
+
 module.exports = app;
