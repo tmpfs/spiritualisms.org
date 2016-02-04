@@ -771,24 +771,29 @@ a[href^="http"] {
   text-align: center;
 }
 
-.quotation nav {
-  margin-top: 4rem;
+nav.toolbar {
   display: inline-block;
-  padding: 1rem 0 0 0;
-  border-top: 1px solid black;
   text-transform: uppercase;
+  padding: 0;
+  margin: 0;
 }
 
-.quotation nav a {
+.quotation nav.toolbar {
+  margin-top: 4rem;
+  padding: 1rem 0 0 0;
+  border-top: 1px solid black;
+}
+
+nav.toolbar a {
   color: black;
   padding-bottom: .2rem;
 }
 
-.quotation nav a:hover {
-  border-bottom: 2px solid black;
+nav.toolbar a:hover {
+  border-bottom: 1px solid black;
 }
 
-.quotation nav a:not(:last-child) {
+nav.toolbar a:not(:last-child) {
   margin-right: 1rem;
 }
 
@@ -924,4 +929,18 @@ nav.refresh {
   z-index: 1;
   text-transform: uppercase;
   text-align: center;
+}
+
+nav.refresh a {
+  color: black; 
+  font-size: 1.4rem;
+}
+
+.page.permalink {
+  padding-top: 16rem;
+}
+
+.page.permalink blockquote.primary {
+  margin-top: 1rem;
+  border-top: .2rem solid black;
 }

@@ -1,0 +1,7 @@
+mixin cite-primary(doc)
+  cite.primary &#151; 
+    - if(doc.link) {
+      a(href=doc.link, title=title) #{doc.author}
+    - }else{
+      span #{doc.author} 
+    - }

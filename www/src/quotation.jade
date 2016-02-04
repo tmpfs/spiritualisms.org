@@ -1,10 +1,11 @@
 extends layout
 
-include mixin/quotation
+include mixin/cite-primary
+include mixin/quote-toolbar
 
 block content
-  section.page
+  section.page.permalink
+    +quote-toolbar(doc)
     div.quotation
-      blockquote #{doc.quote}
-        //-+quotation(doc)
-      +quote-toolbar(doc)
+      blockquote.primary #{doc.quote}
+      +cite-primary(doc)

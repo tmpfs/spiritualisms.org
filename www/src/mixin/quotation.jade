@@ -1,3 +1,4 @@
+include ./cite-primary
 include ./quote-toolbar
 
 mixin quotation(doc, opts)
@@ -5,10 +6,5 @@ mixin quotation(doc, opts)
   - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
   div.quotation
     blockquote.primary #{doc.quote}
-    cite.primary &#151; 
-      - if(doc.link) {
-        a(href=doc.link, title=title) #{doc.author}
-      - }else{
-        span #{doc.author} 
-      - }
-    +quote-toolbar(doc)
+    +cite-primary(doc)
+    +quote-toolbar(doc, {permalink: true})
