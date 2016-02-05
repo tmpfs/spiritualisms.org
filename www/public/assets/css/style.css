@@ -2893,16 +2893,29 @@ a[href^="http"] {
 .quotation {
   text-align: center;
 }
-nav.toolbar {
+nav.toolbar,
+nav.download {
   display: inline-block;
-  text-transform: uppercase;
   padding: 0;
   margin: 0;
 }
-.quotation nav.toolbar {
+nav.toolbar {
+  text-transform: uppercase;
+}
+.quotation nav.toolbar,
+nav.download {
   margin-top: 4rem;
   padding: 1rem 0 0 0;
   border-top: 1px solid #000;
+}
+nav.download {
+  border-bottom: 1px solid #000;
+  padding: 1rem 0;
+}
+nav.download a:not(:last-child) {
+  border-right: 1px solid #000;
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 nav.toolbar a {
   color: #000;

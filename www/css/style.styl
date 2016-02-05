@@ -744,18 +744,26 @@ a[href^="http"] {
   text-align: center;
 }
 
-nav.toolbar {
+nav.toolbar, nav.download
   display: inline-block;
-  text-transform: uppercase;
   padding: 0;
   margin: 0;
-}
 
-.quotation nav.toolbar {
+nav.toolbar
+  text-transform: uppercase;
+
+.quotation nav.toolbar, nav.download
   margin-top: 4rem;
   padding: 1rem 0 0 0;
   border-top: 1px solid black;
-}
+
+nav.download
+  border-bottom: 1px solid black;
+  padding: 1rem 0;
+  a:not(:last-child)
+    border-right: 1px solid black;
+    padding-right: .5rem;
+    margin-right: .5rem;
 
 nav.toolbar a {
   color: black;
