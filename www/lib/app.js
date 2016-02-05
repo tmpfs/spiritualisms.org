@@ -25,11 +25,11 @@ $.plugin(
     //require('air/template'),
     require('air/text'),
     //require('air/val')
-    //require('vivify'),
+    require('vivify'),
     //require('vivify/burst'),
     //require('vivify/flash'),
-    //require('vivify/fade-in'),
-    //require('vivify/fade-out')
+    require('vivify/fade-in'),
+    require('vivify/fade-out')
   ]
 )
 
@@ -58,40 +58,59 @@ function random(e) {
 
   var icon = $(e.target).find('i')
     , container = $('.quotation')
-    , start = new Date().getTime();
+    , start = new Date().getTime()
+    , doc = false;
 
-  icon.addClass('fa-spin');
+  function render() {
+    if(doc) {
+      container.find('blockquote').text(doc.quote);
+      container.find('cite').html('&#151; ')
+        .append(
+          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
+        ).text(doc.author));
+
+      var nav = $('footer nav')
+        , href = '/inspire/' + doc._id;
+      nav.find('a.love, a.star, a.permalink').attr({href: href});
+      container.fadeIn(function() {
+        container.css({opacity: 1}); 
+      });
+    }
+  }
 
   function onResponse(err, res) {
-    var doc;
+    var duration = new Date().getTime() - start;
     if(err) {
       return console.error(err); 
-    }
-    if(res) {
+    }else if(res) {
       doc = JSON.parse(res); 
     }
-    container.find('blockquote').text(doc.quote);
-    container.find('cite').html('&#151; ')
-      .append(
-        $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
-      ).text(doc.author));
 
-    var nav = $('footer nav')
-      , href = '/inspire/' + doc._id;
-    nav.find('a.love, a.star, a.permalink').attr({href: href});
+    //container.css({display: 'none'});
 
     function complete() {
       icon.removeClass('fa-spin');
+      render();
     }
 
-    if(new Date().getTime() - start > 1000) {
-      complete();
-    }else {
-      setTimeout(complete, 1000);
+    // animation completed before load: 1s animation
+    if(duration >= 1000) {
+      complete(); 
+    }else{
+      setTimeout(complete, 1000 - duration);
     }
   }
 
   $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
+
+  icon.addClass('fa-spin');
+  container.fadeOut(function() {
+    container.css(
+      {
+        opacity: 0,
+      }
+    ); 
+  });
 }
 
 module.exports = Application;

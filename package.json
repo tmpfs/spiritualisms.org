@@ -26,7 +26,8 @@
     "express": "~5.0.0-alpha.2",
     "jade": "~1.11.0",
     "nenv": "~0.5.1",
-    "redis": "~2.4.2"
+    "redis": "~2.4.2",
+    "vivify": "~0.2.4"
   },
   "devDependencies": {
     "browser-sync": "~2.11.1",
@@ -49,7 +50,7 @@
     "css": "stylus -o www/public/assets/css www/css/style.styl",
     "minify-css": "npm run css && cssnano www/public/assets/css/style.css www/public/assets/css/style.css",
     "api": "node api-server.js",
-    "compile": "NODE_PATH=.:./node_modules/air/lib browserify -o www/public/assets/js/app.js -r air www/lib/main.js",
+    "compile": "NODE_PATH=.:./node_modules/air/lib:./node_modules/vivify/lib browserify -o www/public/assets/js/app.js -r air www/lib/main.js",
     "minify": "npm run compile && uglifyjs -o www/public/assets/js/app.js www/public/assets/js/app.js",
     "teardown": "rlx db rm quotes -s :lh --no-interactive",
     "bootstrap": "rlx db add quotes -s :lh; rlx app push --no-auto-id -d quotes -s :lh -i app ./db/app",
