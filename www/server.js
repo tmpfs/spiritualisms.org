@@ -3,11 +3,20 @@ var path = require('path')
   , express = require('express')
   , app = express()
   , env = require('nenv')()
-  , Quote = require('../lib/model/quote');
+  , Quote = require('../lib/model/quote')
+  , formats = require('../lib/formats');
 
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+  if(req.url.substr(-1) === '/' && req.url.length > 1) {
+    res.redirect(301, req.url.slice(0, -1));
+  }else{
+    next();
+  }
+});
 
 /**
  *  Helper function to pass a random quote to a view.
@@ -74,6 +83,12 @@ app.get('/inspire/:id', function(req, res, next) {
     res.render('quotation', info);
   });
 });
+
+formats.list.forEach(function(fmt) {
+  app.get('/inspire/:id/download/' + fmt, function(req, res, next) {
+    res.send({fmt: fmt});
+  });
+})
 
 app.get('/contribute', function(req, res) {
   var info = getViewInfo(req);
