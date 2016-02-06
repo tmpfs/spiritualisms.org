@@ -2882,6 +2882,7 @@ blockquote.normal {
 .quotation cite {
   display: block;
   font-size: 3rem;
+  font-style: normal;
 }
 p {
   font-size: 3rem;

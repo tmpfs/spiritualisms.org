@@ -1,0 +1,80 @@
+doctype html
+html
+  head
+    title Spiritualisms
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='https://fonts.googleapis.com/css?family=Lato',
+      rel='stylesheet',
+      type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Noto+Serif',
+      rel='stylesheet',
+      type='text/css')
+    style.
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 62.5%;
+      }
+
+      body {
+        font-family: "Lato", "Helvetica", "Arial", sans-serif;
+        display: table;
+        background: white;
+        color: black;
+        font-size: 1.6em;
+        letter-spacing: 0.01em;
+        line-height: 1.6;
+      }
+
+      .quotation {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      blockquote {
+        font-family: 'Noto Serif', serif;
+        font-size: 4rem;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding: 0;
+      }
+
+      blockquote:before {
+        content:"\201C";
+      }
+
+      blockquote:after {
+        content:"\201D";
+      }
+
+      a {
+        color: #268bd2;
+        text-decoration: none;
+      }
+
+      cite {
+        font-style: normal;
+        font-size: 3rem;
+      }
+
+      @media (max-width: 320px) {
+        html {
+            font-size: 40%;
+         }
+      }
+      @media (min-width: 321px) and (max-width: 480px) {
+         html {
+            font-size: 40%;
+         }
+      }
+  body
+    .quotation
+      blockquote #{doc.quote}
+      cite &#151;&nbsp;
+        a(href=doc.link, title=doc.author + ' (' + doc.domain + ')')
+          | #{doc.author}
