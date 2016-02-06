@@ -1648,7 +1648,7 @@ function random(e) {
           $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
         ).text(doc.author));
 
-      var nav = $('footer nav')
+      var nav = container.find('nav')
         , href = '/inspire/' + doc._id;
       nav.find('a.love, a.star, a.permalink').attr({href: href});
       container.fadeIn(function() {
