@@ -57,6 +57,16 @@ To compile the CSS files run:
 npm run css
 ```
 
+### Standalone CSS
+
+To compile the standalone CSS file run:
+
+```
+npm run standalone
+```
+
+This is the CSS injected into standalone downloads of quotes when appending a `.html` file extension.
+
 ### Compile
 
 To compile the client-side javascript run:

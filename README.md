@@ -9,6 +9,7 @@ Table of Contents
     * [Teardown](#teardown)
     * [Bootstrap](#bootstrap)
     * [CSS](#css)
+    * [Standalone CSS](#standalone-css)
     * [Compile](#compile)
     * [Minify](#minify)
     * [Test](#test)
@@ -84,6 +85,16 @@ To compile the CSS files run:
 ```
 npm run css
 ```
+
+### Standalone CSS
+
+To compile the standalone CSS file run:
+
+```
+npm run standalone
+```
+
+This is the CSS injected into standalone downloads of quotes when appending a `.html` file extension.
 
 ### Compile
 

@@ -49,6 +49,7 @@
     "readme": "mdp --force -v",
     "clean": "rm -rf coverage",
     "css": "stylus -o www/public/assets/css www/css/style.styl",
+    "standalone": "stylus -c -o www/public/assets/css www/css/standalone.styl",
     "minify-css": "npm run css && cssnano www/public/assets/css/style.css www/public/assets/css/style.css",
     "api": "node api-server.js",
     "compile": "NODE_PATH=.:./node_modules/air/lib:./node_modules/vivify/lib browserify -o www/public/assets/js/app.js -r air www/lib/main.js",
