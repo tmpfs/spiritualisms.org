@@ -33,6 +33,19 @@ describe('api:', function() {
     })
   })
 
+  it('should GET quote count', function(done) {
+    var opts = {
+      url: process.env.API + '/quote/count'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      var body = JSON.parse(res.body);
+      expect(body.count).to.be.a('number');
+      done(); 
+    })
+  })
+
   it('should GET single quote', function(done) {
     var opts = {
       url: process.env.API + '/quote/' + quotes.rows[0].id
