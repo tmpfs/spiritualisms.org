@@ -45,6 +45,17 @@ app.get('/quote', function(req, res, next) {
   })
 });
 
+app.get('/quote/count', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {reduce: true, include_docs: false};
+  quote.list(opts, function(err, response, body) {
+    if(err) {
+      return next(err);
+    }
+    res.send({count: body.rows[0].value});
+  })
+});
+
 app.get('/quote/random', function(req, res, next) {
   var quote = new Quote()
     , opts = {};
