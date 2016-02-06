@@ -73,7 +73,6 @@ app.get('/inspire', function(req, res, next) {
 });
 
 app.get('/inspire/:id\.:ext?', function(req, res, next) {
-  if(!req.params.ext) {
     var quote = new Quote()
       , info = getViewInfo(req);
     quote.get({id: req.params.id}, function(err, response, body) {
@@ -81,16 +80,17 @@ app.get('/inspire/:id\.:ext?', function(req, res, next) {
         return next(err); 
       }
       info.doc = body;
-      res.render('quotation', info);
+      if(!req.params.ext) {
+        res.render('quotation', info);
+      }else{
+        if(!formats.map[req.params.ext]) {
+          err = new Error('not_found');
+          err.status = 404;
+          return next(err);
+        }
+        formats.map[req.params.ext](info, req, res, next);
+      }
     });
-  }else{
-    if(!formats.map[req.params.ext]) {
-      var err = new Error('not_found');
-      err.status = 404;
-      return next(err);
-    }
-    res.send({fmt: req.params.ext});
-  }
 });
 
 app.get('/contribute', function(req, res) {
