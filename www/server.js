@@ -72,23 +72,26 @@ app.get('/inspire', function(req, res, next) {
   });
 });
 
-app.get('/inspire/:id', function(req, res, next) {
-  var quote = new Quote()
-    , info = getViewInfo(req);
-  quote.get({id: req.params.id}, function(err, response, body) {
-    if(err) {
-      return next(err); 
+app.get('/inspire/:id\.:ext?', function(req, res, next) {
+  if(!req.params.ext) {
+    var quote = new Quote()
+      , info = getViewInfo(req);
+    quote.get({id: req.params.id}, function(err, response, body) {
+      if(err) {
+        return next(err); 
+      }
+      info.doc = body;
+      res.render('quotation', info);
+    });
+  }else{
+    if(!formats.map[req.params.ext]) {
+      var err = new Error('not_found');
+      err.status = 404;
+      return next(err);
     }
-    info.doc = body;
-    res.render('quotation', info);
-  });
+    res.send({fmt: req.params.ext});
+  }
 });
-
-formats.list.forEach(function(fmt) {
-  app.get('/inspire/:id/download/' + fmt, function(req, res, next) {
-    res.send({fmt: fmt});
-  });
-})
 
 app.get('/contribute', function(req, res) {
   var info = getViewInfo(req);
