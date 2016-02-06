@@ -1,4 +1,5 @@
 mixin cite-primary(doc)
+  - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
   cite.primary &#151; 
     - if(doc.link) {
       a(href=doc.link, title=title) #{doc.author}

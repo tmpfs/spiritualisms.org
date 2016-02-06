@@ -3,7 +3,6 @@ include ./quote-toolbar
 
 mixin quotation(doc, opts)
   - opts = opts || {};
-  - var title = doc.title || (doc.author + ' (' + doc.domain + ')');
   div.quotation
     blockquote.primary #{doc.quote}
     +cite-primary(doc)
