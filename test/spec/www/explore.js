@@ -100,6 +100,19 @@ describe('www:', function() {
     })
   })
 
+  it('should GET explore quote format page (.txt)', function(done) {
+    var opts = {
+      url: process.env.WWW + '/explore/' +  quotes[0].id + '.txt'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      expect(res.headers['content-type'])
+        .to.eql('text/plain; charset=utf-8');
+      done(); 
+    })
+  })
+
   it('should GET 404 on missing quote page', function(done) {
     var opts = {
       url: process.env.WWW + '/explore/non-existent'
