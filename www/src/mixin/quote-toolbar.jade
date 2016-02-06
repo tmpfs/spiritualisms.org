@@ -1,14 +1,14 @@
 mixin quote-toolbar(doc, opts)
   - opts = opts || {};
   nav.toolbar
-    a.love(href='/inspire/' + doc._id, title='Love it')
+    a.love(href='/explore/' + doc._id, title='Love it')
       i.fa.fa-heart.love
         | &nbsp; Love
-    a.star(href='/inspire/' + doc._id, title='Star it')
+    a.star(href='/explore/' + doc._id, title='Star it')
       i.fa.fa-star.star
         | &nbsp;Star
     - if(opts.permalink) {
-      a.permalink(href='/inspire/' + doc._id, title='View it')
+      a.permalink(href='/explore/' + doc._id, title='View it')
         i.fa.fa-share-alt.permalink
           | &nbsp;View
     - }

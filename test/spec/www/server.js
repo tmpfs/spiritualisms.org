@@ -37,9 +37,9 @@ describe('www:', function() {
     })
   })
 
-  it('should GET inspire page', function(done) {
+  it('should GET explore page', function(done) {
     var opts = {
-      url: process.env.WWW + '/inspire'
+      url: process.env.WWW + '/explore'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -54,7 +54,7 @@ describe('www:', function() {
       expect(err).to.eql(null);
       expect(body).to.be.an('object');
       var opts = {
-        url: process.env.WWW + '/inspire/' +  body.rows[0].id
+        url: process.env.WWW + '/explore/' +  body.rows[0].id
       }
       request(opts, function(err, res) {
         expect(err).to.eql(null);
@@ -66,7 +66,7 @@ describe('www:', function() {
 
   it('should GET 404 on missing quotation page', function(done) {
     var opts = {
-      url: process.env.WWW + '/inspire/non-existent'
+      url: process.env.WWW + '/explore/non-existent'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);

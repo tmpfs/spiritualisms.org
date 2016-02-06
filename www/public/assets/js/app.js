@@ -1649,7 +1649,7 @@ function random(e) {
         ).text(doc.author));
 
       var nav = container.find('nav')
-        , href = '/inspire/' + doc._id;
+        , href = '/explore/' + doc._id;
       nav.find('a.love, a.star, a.permalink').attr({href: href});
       container.fadeIn(function() {
         container.css({opacity: 1}); 

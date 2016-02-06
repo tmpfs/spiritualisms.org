@@ -30,10 +30,12 @@ describe('model:', function() {
       expect(err).to.eql(null);
       expect(res).to.be.an('object');
       expect(body).to.be.an('object');
-      expect(body.type).to.eql('quote');
+      expect(body.id).to.be.a('string');
+      expect(body.link).to.be.a('string');
+      expect(body.domain).to.be.a('string');
       expect(body.quote).to.be.a('string');
       expect(body.author).to.be.a('string');
-      expect(body.link).to.be.a('string');
+      expect(body.created).to.be.a('number');
       expect(body.tags).to.be.an('array');
       done();
     })

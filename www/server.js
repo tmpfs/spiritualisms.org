@@ -60,7 +60,7 @@ app.get('/why', function(req, res) {
   res.render('why', info);
 });
 
-app.get('/inspire', function(req, res, next) {
+app.get('/explore', function(req, res, next) {
   var quote = new Quote()
     , info = getViewInfo(req);
   quote.list({}, function(err, response, body) {
@@ -68,11 +68,11 @@ app.get('/inspire', function(req, res, next) {
       return next(err); 
     }
     info.quotes = body;
-    res.render('inspire', info);
+    res.render('explore', info);
   });
 });
 
-app.get('/inspire/:id\.:ext?', function(req, res, next) {
+app.get('/explore/:id\.:ext?', function(req, res, next) {
     var quote = new Quote()
       , info = getViewInfo(req);
     quote.get({id: req.params.id}, function(err, response, body) {
