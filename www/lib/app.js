@@ -61,7 +61,8 @@ function Application(opts) {
 function random(e) {
   e.preventDefault();
 
-  var icon = $(e.target).find('i')
+  var love = this.love
+    , icon = $(e.target).find('i')
     , container = $('.quotation')
     , start = new Date().getTime()
     , doc = false;
@@ -94,7 +95,10 @@ function random(e) {
     //container.css({display: 'none'});
 
     function complete() {
+      container.data('id', doc.id);
       icon.removeClass('fa-spin');
+      love.init();
+      love.fetch([doc.id]);
       render();
     }
 
@@ -110,6 +114,7 @@ function random(e) {
 
   icon.addClass('fa-spin');
   container.fadeOut(function() {
+    container.find('a.love span').text('');
     container.css(
       {
         opacity: 0,

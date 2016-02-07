@@ -4,17 +4,28 @@ var $ = require('air');
  *  Render the love counters.
  */
 function render(doc) {
+  console.log('render');
   console.log(doc);
+  var ids = Object.keys(doc);
+  ids.forEach(function(id) {
+    var el = $('.quotation[data-id="' + id + '"]');
+    console.log('render: ' + doc[id]);
+    if(doc[id]) {
+      el.find('span').text('' + doc[id]);
+    }
+  })
 }
 
 /**
  *  Loads the love counters for all quotes.
  */
-function fetch() {
-  var ids = [];
-  this.quotes.each(function(el) {
-    ids.push($(el).data('id'));
-  })
+function fetch(ids) {
+  if(!ids) {
+    ids = [];
+    this.quotes.each(function(el) {
+      ids.push($(el).data('id'));
+    })
+  }
 
   // no elements on page
   if(!ids.length) {
@@ -46,8 +57,6 @@ function fetch() {
  */
 function show(id, e) {
   e.preventDefault();
-  var el = $('.quotation[data-id="' + id + '"]');
-  console.log('show love: ' + id);
   function onResponse(err, res) {
     var doc;
     if(err) {
@@ -55,8 +64,7 @@ function show(id, e) {
     }else if(res) {
       doc = JSON.parse(res); 
     }
-    console.log(doc);
-    el.find('span').text(doc[id]);
+    render(doc);
   }
   var opts = {
     url: this.opts.api + '/quote/' + id + '/love',
@@ -66,19 +74,27 @@ function show(id, e) {
   $.request(opts, onResponse.bind(this));
 }
 
+function init() {
+  var scope = this;
+  this.quotes = $('.quotation[data-id]');
+  this.quotes.each(function(el) {
+    el = $(el);
+    var id = el.data('id');
+    el.find('a.love').off('click');
+    el.find('a.love').on('click', show.bind(scope, id));
+  })
+}
+
 /**
  *  Love handlers.
  */
 function Love(opts) {
-  var scope = this;
   this.opts = opts;
-  this.quotes = $('.quotation[data-id]');
-  fetch.bind(this)();
-  this.quotes.each(function(el) {
-    el = $(el);
-    var id = el.data('id');
-    el.find('a.love').on('click', show.bind(scope, id));
-  })
+  this.render = render.bind(this);
+  this.fetch = fetch.bind(this);
+  this.init = init.bind(this);
+  this.init();
+  this.fetch();
 }
 
 module.exports = Love;
