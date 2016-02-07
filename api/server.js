@@ -92,8 +92,6 @@ app.post('/quote/love', function(req, res, next) {
     , opts = {ids: req.body}
     , err;
 
-  //console.log(req.body);
-
   if(!Array.isArray(req.body)) {
      err = new Error('Array body expected');
      err.status = 400;
@@ -107,6 +105,29 @@ app.post('/quote/love', function(req, res, next) {
     res.send(response);
   })
 });
+
+/**
+ *  Get the star counters for an array of quote identifiers.
+ */
+app.post('/quote/star', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {ids: req.body}
+    , err;
+
+  if(!Array.isArray(req.body)) {
+     err = new Error('Array body expected');
+     err.status = 400;
+     return next(err);
+  }
+
+  quote.getStarMulti(opts, function(err, response) {
+    if(err) {
+      return next(err);
+    }
+    res.send(response);
+  })
+});
+
 
 app.get('/quote/:id', function(req, res, next) {
   var quote = new Quote()
