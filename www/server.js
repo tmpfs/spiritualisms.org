@@ -117,6 +117,7 @@ app.all('*', function(req, res, next) {
 app.use(function(err, req, res, next) {
   var info = getViewInfo(req);
   info.status = err.status || 500;
+  info.message = err.message || err.reason;
   info.doc = err.doc;
   info.res = err.res;
   info.stack = err.stack;

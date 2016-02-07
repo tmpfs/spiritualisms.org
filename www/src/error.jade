@@ -2,17 +2,21 @@ extends layout
 
 block content
   section.error.page
-    pre !{JSON.stringify(error)}
     h2 #{status}
-    - if(doc) {
+    - if(env.production) {
       pre.error
-        | !{JSON.stringify(doc, undefined, 2)}
-    - }
-    - if(res && process.env.NODE_ENV !== 'production') {
-      pre.error
-        | !{JSON.stringify(res, undefined, 2)}
-    - }
-    - if(stack) {
-      pre.error
-        | !{stack}
+        | !{message}
+    - }else{
+      - if(doc) {
+        pre.error
+          | !{JSON.stringify(doc, undefined, 2)}
+      - }
+      - if(res && process.env.NODE_ENV !== 'production') {
+        pre.error
+          | !{JSON.stringify(res, undefined, 2)}
+      - }
+      - if(stack) {
+        pre.error
+          | !{stack}
+      - }
     - }
