@@ -27,12 +27,15 @@ function Star(opts) {
       .html('&nbsp;Stars');
     el.prepend($.el('i').addClass('fa fa-star'));
     $('nav.main').prepend(el);
-  }
-  this.init();
-  this.fetch();
 
-  // TODO: only call list() on /stars page
-  this.list();
+    totals();
+
+    this.init();
+    this.fetch();
+
+    // TODO: only call list() on /stars page
+    this.list();
+  }
 }
 
 function init() {
@@ -50,8 +53,55 @@ function init() {
  *  Add a star to the list of stars.
  */
 function add(id, e) {
+  var scope = this;
   e.preventDefault();
   console.log(id);
+  console.log(this.has(id));
+
+  if(this.has(id)) {
+    return false; 
+  }
+
+  function onResponse(err, res) {
+    var doc;
+    if(err) {
+      return console.error(err); 
+    }else if(res) {
+      doc = JSON.parse(res); 
+    }
+    scope.write(id);
+    //console.log(doc);
+    render(doc);
+    totals();
+  }
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/star',
+    method: 'POST',
+    json: true
+  };
+
+  $.request(opts, onResponse.bind(this));
+}
+
+/**
+ *  Render count totals in main navigation.
+ */
+function totals() {
+  var len = count();
+  if(len > 0) {
+    var el = $('nav.main');
+    el.find('a.stars span').remove();
+    el.find('a.stars').append($.create('span'));
+    el.find('a.stars span').addClass('star').text('' + len);
+  }
+}
+
+/**
+ *  Count the number of stars for this user.
+ */
+function count() {
+  var ids = read();
+  return ids.length;
 }
 
 /**
@@ -62,10 +112,11 @@ function remove() {
 }
 
 /**
- *  Parse the array of ids from the local storage.
+ *  Read the array of ids from the local storage.
  */
 function read() {
-  var ids = localStorage[this.key] || [];
+  var ids = localStorage.getItem(this.key);
+  console.log('read: ' + ids);
   if(ids) {
     try {
       ids = JSON.parse(ids); 
@@ -73,14 +124,32 @@ function read() {
       ids = [];
     }
   }
+  return ids || [];
+}
+
+/**
+ *  Write an id to the local storage.
+ */
+function write(id) {
+  var ids = this.read();
+  console.log('write');
+  console.log(ids);
+  if(!~ids.indexOf(id)) {
+    ids.push(id); 
+  }
+  localStorage.removeItem(this.key);
+  localStorage.setItem(this.key, JSON.stringify(ids));
   return ids;
 }
+
 
 /**
  *  Determine if a star already exists.
  */
 function has(id) {
   var ids = this.read();
+  console.log('has: ' + id);
+  console.log('has: ' + ids);
   return Boolean(~ids.indexOf(id));
 }
 
@@ -91,11 +160,17 @@ function has(id) {
  *  server.
  */
 function list() {
-  var ids = this.read();
+  var ids = read()
+    //, listing = $('section.stars .listing');
+  //console.log(ids);
   if(!ids.length) {
     $('section.stars .help').css({display: 'block'});
   }else{
     // TODO: list stars
+    //ids.forEach(function(id) {
+      //var quote = $.el('div');
+      //el.data('id', id);
+    //})
   }
 }
 
@@ -151,7 +226,9 @@ function fetch(ids) {
   $.request(opts, onResponse.bind(this));
 }
 
-[add, init, remove, list, read, has, fetch, render].forEach(function(m) {
+[
+  count, add, init, remove, list,
+  read, write, has, fetch, render].forEach(function(m) {
   Star.prototype[m.name] = m;
 });
 
