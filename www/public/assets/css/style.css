@@ -3045,7 +3045,7 @@ em {
   font-style: normal;
   border-bottom: 1px dotted;
 }
-section.stars .help {
+section.stars .empty {
   display: none;
 }
 .listing .quotation {
@@ -3064,4 +3064,8 @@ section.stars .help {
 }
 .listing .quotation cite {
   font-size: 2.4rem;
+}
+.disabled {
+  opacity: 0.8;
+  pointer-events: none;
 }

@@ -20,6 +20,7 @@ function Star(opts) {
   this.opts = opts;
   this.storage = storageAvailable('localStorage');
   this.key = 'stars';
+
   if(this.storage) {
     var nav = $('nav.main');
     var el = $.el('a')
@@ -34,6 +35,7 @@ function Star(opts) {
     if(opts.uri.pathname === '/stars') {
       nav.find('a.stars').addClass('selected');
       this.list();
+      $('.actions .clear').on('click', clear.bind(this));
     }else{
       // only call fetch here on non /stars page
       // for /stars fetch will be called after rendering
@@ -42,6 +44,19 @@ function Star(opts) {
       this.fetch();
     }
   }
+}
+
+function clear(e) {
+  e.preventDefault();
+
+  // remove storage
+  localStorage.removeItem(this.key);
+
+  // show initial message, remove listings etc.
+  this.list();
+
+  // update totals display
+  this.totals();
 }
 
 function init() {
@@ -90,12 +105,14 @@ function add(id, e) {
  *  Render count totals in main navigation.
  */
 function totals() {
-  var len = this.count();
+  var len = this.count()
+    , el = $('nav.main');
   if(len > 0) {
-    var el = $('nav.main');
     el.find('a.stars span').remove();
     el.find('a.stars').append($.create('span'));
     el.find('a.stars span').addClass('star').text('' + len);
+  }else{
+    el.find('a.stars span').remove();
   }
 }
 
@@ -142,7 +159,6 @@ function write(id) {
   return ids;
 }
 
-
 /**
  *  Determine if a star already exists.
  */
@@ -169,13 +185,19 @@ function list() {
       doc = JSON.parse(res); 
     }
     scope.listing(doc);
-    //render(doc);
-    //console.log(doc);
   }
 
   if(!ids.length) {
-    $('section.stars .help').css({display: 'block'});
+    $('.empty').css({display: 'block'});
+    $('.actions .export').addClass('disabled');
+    $('.actions .clear').addClass('disabled');
+
+    // remove any listings
+    $('.listing > *').remove();
+
   }else{
+    $('.actions .clear').removeClass('disabled');
+
     var opts = {
       url: this.opts.api + '/quote',
       method: 'POST',

@@ -3,7 +3,13 @@ extends layout
 block content
   section.stars.page
     h2 Stars
-    div.help
+    .actions.clearfix
+      nav.float-left
+        a.button.import Import
+        a.button.export Export
+      nav.float-right
+        a.button.clear.disabled Clear All
+    .empty
       p You don't have any stars yet! Use the star link next to a quote to add 
         | a favourite to this page.
     .listing
