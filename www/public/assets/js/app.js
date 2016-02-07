@@ -1,26 +1,4 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = {
-  type: 'object',
-  fields: {
-    type: {type: 'string', required: true},
-    publish: {type: 'boolean'},
-    quote: {type: 'string', required: true},
-    author: {type: 'string', required: true},
-    link: [
-      {type: 'string', required: true}
-      // TODO: implement protocol validation
-    ],
-    domain: [
-      {type: 'string'}
-      // TODO: implement tld validation
-    ],
-    created: {type: 'integer', required: true},
-    random: {type: 'float', required: true},
-    tags: {type: 'array'}
-  }
-}
-
-},{}],2:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -108,7 +86,7 @@ module.exports = {
   module.exports = air;
 })();
 
-},{"zephyr":17}],3:[function(require,module,exports){
+},{"zephyr":17}],2:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -135,7 +113,7 @@ module.exports = function() {
   this.append = append;
 }
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  *  Get the value of an attribute for the first element in the set of
  *  matched elements or set one or more attributes for every matched element.
@@ -188,7 +166,7 @@ module.exports = function() {
   this.attr = attr;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  *  IE9 does not support `Element.classList`, when support for IE9 is
  *  dropped this can be refactored.
@@ -285,7 +263,7 @@ module.exports = function() {
   this.toggleClass = toggleClass;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  *  Create a deep copy of the set of matched elements.
  */
@@ -301,7 +279,7 @@ module.exports = function() {
   this.clone = clone;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  *  Create a DOM element.
  *
@@ -337,7 +315,7 @@ module.exports = function() {
 // optional `attr` dependency
 //plugin.deps = {attr: false};
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  *  Get the value of a computed style property for the first element
  *  in the set of matched elements or set one or more CSS properties
@@ -382,7 +360,7 @@ module.exports = function() {
   this.css = css;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var prefix = 'data-';
 
 /**
@@ -420,7 +398,7 @@ module.exports = function() {
 // required `attr` dependency
 //plugin.deps = {attr: true};
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 function on(nm, cb, capture) {
   this.each(function(el) {
     el.addEventListener(nm, cb, capture);
@@ -466,7 +444,7 @@ module.exports = function() {
   this.click = click;
 }
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  *  Get the descendants of each element in the current set
  *  of matched elements, filtered by a selector.
@@ -483,7 +461,7 @@ module.exports = function() {
   this.find = find;
 }
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  *  Get the HTML of the first matched element or set the HTML
  *  content of all matched elements.
@@ -518,7 +496,7 @@ module.exports = function() {
   this.html = html;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
@@ -535,6 +513,39 @@ function parent(/*selector*/) {
 
 module.exports = function() {
   this.parent = parent;
+}
+
+},{}],13:[function(require,module,exports){
+/**
+ *  Insert content, specified by the parameter, to the beginning of each
+ *  element in the set of matched elements.
+ */
+function prepend() {
+  var i, l = this.length, el, args = this.slice.call(arguments);
+  function it(node, index) {
+    // content elements to insert
+    el.each(function(ins) {
+      ins = (index < (l - 1)) ? ins.cloneNode(true) : ins;
+      // no children yet - append
+      if(!node.firstChild) {
+        node.appendChild(ins);
+      // insert before first child
+      }else{
+        node.insertBefore(ins, node.firstChild);
+      }
+    });
+  }
+  for(i = 0;i < args.length;i++) {
+    // wrap content
+    el = this.air(args[i]);
+    // matched parent elements (targets)
+    this.each(it);
+  }
+  return this;
+}
+
+module.exports = function() {
+  this.prepend = prepend;
 }
 
 },{}],14:[function(require,module,exports){
@@ -787,6 +798,28 @@ module.exports = function() {
 })();
 
 },{}],18:[function(require,module,exports){
+module.exports = {
+  type: 'object',
+  fields: {
+    type: {type: 'string', required: true},
+    publish: {type: 'boolean'},
+    quote: {type: 'string', required: true},
+    author: {type: 'string', required: true},
+    link: [
+      {type: 'string', required: true}
+      // TODO: implement protocol validation
+    ],
+    domain: [
+      {type: 'string'}
+      // TODO: implement tld validation
+    ],
+    created: {type: 'integer', required: true},
+    random: {type: 'float', required: true},
+    tags: {type: 'array'}
+  }
+}
+
+},{}],19:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -838,7 +871,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -868,7 +901,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -1037,7 +1070,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":22,"./reason":19,"format-util":23,"zephyr":24}],21:[function(require,module,exports){
+},{"../messages":23,"./reason":20,"format-util":24,"zephyr":25}],22:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1443,7 +1476,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":22,"./iterator":18,"./rule":20,"format-util":23}],22:[function(require,module,exports){
+},{"../messages":23,"./iterator":19,"./rule":21,"format-util":24}],23:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1502,7 +1535,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1541,9 +1574,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"dup":17}],25:[function(require,module,exports){
+},{"dup":17}],26:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1623,7 +1656,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1643,7 +1676,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1663,13 +1696,14 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
   , Schema = require('async-validate')
   , descriptor = require('../../lib/schema/quote')
-  , Love = require('./love');
+  , Love = require('./love')
+  , Star = require('./star');
 
 $.plugin(
   [
@@ -1687,6 +1721,7 @@ $.plugin(
     //require('air/first'),
     require('air/html'),
     require('air/parent'),
+    require('air/prepend'),
     require('air/request'),
     require('air/remove'),
     //require('air/template'),
@@ -1713,6 +1748,7 @@ function Application(opts) {
   this.opts = opts;
   this.validator = new Schema(descriptor);
   this.love = new Love(opts);
+  this.star = new Star(opts);
 
   if(!supported) {
     $('.browser-update').css({display: 'block'});
@@ -1801,7 +1837,7 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":1,"./love":29,"air":"air","air/append":3,"air/attr":4,"air/class":5,"air/clone":6,"air/create":7,"air/css":8,"air/data":9,"air/event":10,"air/find":11,"air/html":12,"air/parent":13,"air/remove":14,"air/request":15,"air/text":16,"async-validate":21,"vivify":25,"vivify/fade-in":26,"vivify/fade-out":27}],29:[function(require,module,exports){
+},{"../../lib/schema/quote":18,"./love":30,"./star":32,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/text":16,"async-validate":22,"vivify":26,"vivify/fade-in":27,"vivify/fade-out":28}],30:[function(require,module,exports){
 var $ = require('air');
 
 /**
@@ -1908,13 +1944,46 @@ function Love(opts) {
 
 module.exports = Love;
 
-},{"air":"air"}],30:[function(require,module,exports){
+},{"air":"air"}],31:[function(require,module,exports){
 /* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
 /* jshint ignore:end */
 
-},{"./app":28}],"air":[function(require,module,exports){
+},{"./app":29}],32:[function(require,module,exports){
+var $ = require('air');
+
+/**
+ *  Utility to determine if localStorage or sessionStorage 
+ *  is supported.
+ */
+function storageAvailable(type) {
+	try {
+		var storage = window[type],
+			x = '__storage_test__';
+		storage.setItem(x, x);
+		storage.removeItem(x);
+		return true;
+	}catch(e) {
+		return false;
+	}
+}
+
+function Star(opts) {
+  this.opts = opts;
+  if(storageAvailable('localStorage')) {
+    var el = $.el('a')
+      .attr({href: '/stars', title: 'Stars'})
+      .addClass('stars')
+      .html('&nbsp;Stars');
+    el.prepend($.el('i').addClass('fa fa-star'));
+    $('nav.main').prepend(el);
+  }
+}
+
+module.exports = Star;
+
+},{"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":2}]},{},[30]);
+},{"./lib/air":1}]},{},[31]);

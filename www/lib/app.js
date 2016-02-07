@@ -3,7 +3,8 @@
 var $ = require('air')
   , Schema = require('async-validate')
   , descriptor = require('../../lib/schema/quote')
-  , Love = require('./love');
+  , Love = require('./love')
+  , Star = require('./star');
 
 $.plugin(
   [
@@ -21,6 +22,7 @@ $.plugin(
     //require('air/first'),
     require('air/html'),
     require('air/parent'),
+    require('air/prepend'),
     require('air/request'),
     require('air/remove'),
     //require('air/template'),
@@ -47,6 +49,7 @@ function Application(opts) {
   this.opts = opts;
   this.validator = new Schema(descriptor);
   this.love = new Love(opts);
+  this.star = new Star(opts);
 
   if(!supported) {
     $('.browser-update').css({display: 'block'});
