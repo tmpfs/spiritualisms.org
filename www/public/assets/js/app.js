@@ -1846,6 +1846,7 @@ function random(e) {
       tools.remove();
 
       star.init();
+      star.fetch([doc.id]);
       love.init();
       love.fetch([doc.id]);
       container.find('blockquote').text(doc.quote);
