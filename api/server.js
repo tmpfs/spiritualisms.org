@@ -36,15 +36,21 @@ app.options('*', function(req, res) {
   res.send('');
 });
 
+/**
+ *  Get service name and version.
+ *
+ *  @rest
+ *  @method GET
+ *  @paths /
+ */
 app.get('/', function(req, res) {
   res.send(info)
 });
 
 /**
- *  @rest
- *
  *  Get a list of quotes.
  *
+ *  @rest
  *  @method GET
  *  @paths /quote
  */
@@ -61,10 +67,21 @@ app.get('/quote', function(req, res, next) {
 
 /**
  *  Get a list of specific quotes.
+ *
+ *  @rest
+ *  @method POST
+ *  @paths /quote
  */
 app.post('/quote', function(req, res, next) {
   var quote = new Quote()
     , opts = {};
+
+  if(!Array.isArray(req.body)) {
+     var err = new Error('Array body expected');
+     err.status = 400;
+     return next(err);
+  }
+
   quote.list(opts, function(err, response, body) {
     if(err) {
       return next(err);
@@ -73,9 +90,12 @@ app.post('/quote', function(req, res, next) {
   })
 });
 
-
 /**
  *  Get a count of all quotes.
+ *
+ *  @rest
+ *  @method GET
+ *  @paths /quote/count
  */
 app.get('/quote/count', function(req, res, next) {
   var quote = new Quote()
@@ -90,6 +110,10 @@ app.get('/quote/count', function(req, res, next) {
 
 /**
  *  Get a random quote.
+ *
+ *  @rest
+ *  @method GET
+ *  @paths /quote/count
  */
 app.get('/quote/random', function(req, res, next) {
   var quote = new Quote()
@@ -104,6 +128,10 @@ app.get('/quote/random', function(req, res, next) {
 
 /**
  *  Get the love counters for an array of quote identifiers.
+ *
+ *  @rest
+ *  @method POST
+ *  @paths /quote/count
  */
 app.post('/quote/love', function(req, res, next) {
   var quote = new Quote()
@@ -126,6 +154,10 @@ app.post('/quote/love', function(req, res, next) {
 
 /**
  *  Get the star counters for an array of quote identifiers.
+ *
+ *  @rest
+ *  @method POST
+ *  @paths /quote/count
  */
 app.post('/quote/star', function(req, res, next) {
   var quote = new Quote()
@@ -146,7 +178,13 @@ app.post('/quote/star', function(req, res, next) {
   })
 });
 
-
+/**
+ *  Get a quote by identifier.
+ *
+ *  @rest
+ *  @method GET
+ *  @paths /quote/{id}
+ */
 app.get('/quote/:id', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
@@ -160,6 +198,13 @@ app.get('/quote/:id', function(req, res, next) {
 
 // LOVE
 
+/**
+ *  Get the love counter for a quote.
+ *
+ *  @rest
+ *  @method GET
+ *  @paths /quote/{id}/love
+ */
 app.get('/quote/:id/love', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
@@ -171,6 +216,13 @@ app.get('/quote/:id/love', function(req, res, next) {
   })
 });
 
+/**
+ *  Increment the love counter for a quote.
+ *
+ *  @rest
+ *  @method POST
+ *  @paths /quote/{id}/love
+ */
 app.post('/quote/:id/love', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
@@ -184,6 +236,13 @@ app.post('/quote/:id/love', function(req, res, next) {
 
 // STAR
 
+/**
+ *  Get the star counter for a quote.
+ *
+ *  @rest
+ *  @method GET
+ *  @paths /quote/{id}/star
+ */
 app.get('/quote/:id/star', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
@@ -195,6 +254,13 @@ app.get('/quote/:id/star', function(req, res, next) {
   })
 });
 
+/**
+ *  Increment the star counter for a quote.
+ *
+ *  @rest
+ *  @method POST
+ *  @paths /quote/{id}/star
+ */
 app.post('/quote/:id/star', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
@@ -206,6 +272,13 @@ app.post('/quote/:id/star', function(req, res, next) {
   })
 });
 
+/**
+ *  Decrement the star counter for a quote.
+ *
+ *  @rest
+ *  @method DELETE
+ *  @paths /quote/{id}/star
+ */
 app.delete('/quote/:id/star', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
