@@ -65,6 +65,7 @@ function random(e) {
   e.preventDefault();
 
   var love = this.love
+    , star = this.star
     , icon = $(e.target).find('i')
     , container = $('.quotation')
     , start = new Date().getTime()
@@ -78,11 +79,13 @@ function random(e) {
       var tools = container.find('nav.toolbar')
       var toolbar = tools.clone(true);
       toolbar.find('span').remove();
+
       // append clone
       tools.parent().append(toolbar);
       // remove original
       tools.remove();
 
+      star.init();
       love.init();
       love.fetch([doc.id]);
       container.find('blockquote').text(doc.quote);

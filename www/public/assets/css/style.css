@@ -3009,10 +3009,12 @@ a.star {
 a.permalink {
   color: #2aa198;
 }
-span.love:before {
+span.love:before,
+span.star:before {
   content: " (";
 }
-span.love:after {
+span.love:after,
+span.star:after {
   content: ")";
 }
 img.logo {

@@ -29,6 +29,9 @@ function Star(opts) {
     $('nav.main').prepend(el);
   }
   this.init();
+  this.fetch();
+
+  // TODO: only call list() on /stars page
   this.list();
 }
 
@@ -96,7 +99,59 @@ function list() {
   }
 }
 
-[add, init, remove, list, read, has].forEach(function(m) {
+/**
+ *  Render the star counters.
+ */
+function render(doc) {
+  var ids = Object.keys(doc);
+  ids.forEach(function(id) {
+    var el = $('.quotation[data-id="' + id + '"]')
+      , txt = el.find('a.star span');
+    if(!txt.length) {
+      el.find('a.star').append($.create('span'));
+    }
+    if(doc[id]) {
+      el.find('a.star span').addClass('star').text('' + doc[id]);
+    }
+  })
+}
+
+/**
+ *  Loads the star counters for all quotes.
+ */
+function fetch(ids) {
+  if(!ids) {
+    ids = [];
+    this.quotes.each(function(el) {
+      ids.push($(el).data('id'));
+    })
+  }
+
+  // no elements on page
+  if(!ids.length) {
+    return; 
+  }
+
+  function onResponse(err, res) {
+    var doc;
+    if(err) {
+      return console.error(err); 
+    }else if(res) {
+      doc = JSON.parse(res); 
+    }
+    render(doc);
+  }
+  var opts = {
+    url: this.opts.api + '/quote/star',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+
+  $.request(opts, onResponse.bind(this));
+}
+
+[add, init, remove, list, read, has, fetch, render].forEach(function(m) {
   Star.prototype[m.name] = m;
 });
 
