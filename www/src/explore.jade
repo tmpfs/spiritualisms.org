@@ -1,23 +1,25 @@
 extends layout
 
+include mixin/quote-toolbar
+
 block content
   section.browse.page
     h2 Explore
-    - var rows = quotes.rows, doc;
-    - for(var i = 0;i < rows.length;i++) {
-      - doc = rows[i].doc;
-      div.item
-        blockquote #{doc.quote} 
-        div.meta.clearfix
-          cite.float-left &#151;
-            - if(doc.link) {
-              a(href=doc.link) #{doc.author}
-              - if(doc.domain) {
-                span  (#{doc.domain})
+    .listing
+      - var rows = quotes.rows, doc;
+      - for(var i = 0;i < rows.length;i++) {
+        - doc = rows[i].doc;
+        div.quotation(data-id=doc.id)
+          blockquote.primary #{doc.quote} 
+          div.meta.clearfix
+            cite.float-left &#151;
+              - if(doc.link) {
+                a(href=doc.link) #{doc.author}
+                - if(doc.domain) {
+                  span  (#{doc.domain})
+                - }
+              - }else {
+                span #{doc.author}
               - }
-            - }else {
-              span #{doc.author}
-            - }
-          nav.float-right
-            a(href='/explore/' + doc.id, title='Permalink') Permalink
-    - }
+            +quote-toolbar(doc, {permalink: true})
+      - }

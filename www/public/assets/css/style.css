@@ -2822,31 +2822,6 @@ header {
   left: 0;
   right: 0;
 }
-a.logo {
-  color: #000;
-}
-header h1 {
-  font-size: 2.4rem;
-  vertical-align: top;
-  margin-bottom: 0;
-}
-header img {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 8px;
-}
-header h1 span {
-  margin: 0;
-  padding: 0;
-  display: block;
-}
-header h1 span:last-child {
-  font-size: 1.4rem;
-  margin-top: -6px;
-}
-header nav a {
-  margin-left: 16px;
-}
 section.quote {
   display: table;
 }
@@ -2939,7 +2914,7 @@ section.page,
 form,
 section h2,
 blockquote:not(.primary),
-div.item {
+.listing {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
@@ -3063,10 +3038,30 @@ nav.main a.selected {
   padding-bottom: 0.3rem;
   border-bottom: 0.2rem solid #9b4dca;
 }
+nav.main a {
+  margin-left: 16px;
+}
 em {
   font-style: normal;
   border-bottom: 1px dotted;
 }
 section.stars .help {
   display: none;
+}
+.listing .quotation {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #b3b3b3;
+}
+.listing .quotation blockquote {
+  font-size: 2.8rem;
+  text-align: left;
+}
+.listing .quotation nav.toolbar {
+  float: right;
+  margin-top: 0;
+  border: 0;
+}
+.listing .quotation cite {
+  font-size: 2.4rem;
 }

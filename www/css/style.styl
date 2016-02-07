@@ -2,6 +2,8 @@
 @import 'font-awesome';
 @import 'animate';
 
+$muted = #b3b3b3;
+
 /*
 $base03:    #002b36;
 $base02:    #073642;
@@ -656,37 +658,6 @@ header {
   right: 0;
 }
 
-a.logo {
-  color: black;
-}
-
-header h1 {
-  font-size: 2.4rem;
-  vertical-align: top;
-  margin-bottom: 0;
-}
-
-header img {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 8px;
-}
-
-header h1 span {
-  margin: 0;
-  padding: 0;
-  display: block;
-}
-
-header h1 span:last-child {
-  font-size: 1.4rem;
-  margin-top: -6px;
-}
-
-header nav a {
-  margin-left: 16px;
-}
-
 section.quote {
   display: table;
 }
@@ -786,7 +757,7 @@ nav.toolbar a:not(:last-child) {
   margin-bottom: 4rem;
 }
 
-section.page, .error pre, form, section h2, blockquote:not(.primary), div.item {
+section.page, .error pre, form, section h2, blockquote:not(.primary), .listing {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
@@ -932,10 +903,12 @@ nav.refresh a {
   border-top: .2rem solid black;
 }
 
-nav.main a.selected {
-  padding-bottom: .3rem;
-  border-bottom: .2rem solid #9b4dca;
-  }
+nav.main
+  a.selected
+    padding-bottom: .3rem;
+    border-bottom: .2rem solid #9b4dca;
+  a
+    margin-left: 16px;
 
 em
   font-style: normal;
@@ -944,3 +917,17 @@ em
 
 section.stars .help
   display: none;
+
+.listing .quotation
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid $muted;
+  blockquote
+    font-size: 2.8rem;
+    text-align: left;
+  nav.toolbar
+    float: right;
+    margin-top: 0;
+    border: 0;
+  cite
+    font-size: 2.4rem;
