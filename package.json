@@ -4,6 +4,7 @@
   "description": "Spiritualisms web application, daily awakening",
   "author": "muji",
   "private": true,
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/tmpfs/spiritualisms"
@@ -18,7 +19,6 @@
     "rest",
     "service"
   ],
-  "license": "MIT",
   "dependencies": {
     "air": "~0.4.8",
     "async-validate": "~0.13.0",
@@ -36,6 +36,7 @@
     "browserify": "~13.0.0",
     "chai": "~3.5.0",
     "chokidar": "~1.4.2",
+    "comment-parser": "~0.3.1",
     "coveralls": "~2.11.6",
     "cssnano-cli": "~1.0.3",
     "istanbul": "~0.4.2",
