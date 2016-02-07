@@ -5,8 +5,8 @@ include mixin/quote-toolbar
 
 block content
   section.page.permalink
-    +quote-toolbar(doc)
     div.quotation(data-id=doc.id)
+      +quote-toolbar(doc)
       blockquote.primary #{doc.quote}
       +cite-primary(doc)
       nav.download

@@ -741,9 +741,12 @@ a[href^="http"] {
   color: #268bd2;
 }
 
-.quotation {
+.quotation
   text-align: center;
-}
+
+.quotation nav.toolbar:first-child
+  display: block;
+  text-align: left;
 
 nav.toolbar, nav.download
   display: inline-block;
@@ -753,7 +756,7 @@ nav.toolbar, nav.download
 nav.toolbar
   text-transform: uppercase;
 
-.quotation nav.toolbar, nav.download
+.quotation nav.toolbar:not(:first-child), nav.download
   margin-top: 4rem;
   padding: 1rem 0 0 0;
   border-top: 1px solid black;
