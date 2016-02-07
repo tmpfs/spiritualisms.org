@@ -93,6 +93,11 @@ app.get('/explore/:id\.:ext?', function(req, res, next) {
     });
 });
 
+app.get('/stars', function(req, res) {
+  var info = getViewInfo(req);
+  res.render('stars', info);
+});
+
 app.get('/contribute', function(req, res) {
   var info = getViewInfo(req);
   res.render('contribute', info);

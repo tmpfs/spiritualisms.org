@@ -26,6 +26,28 @@ function Star(opts) {
     el.prepend($.el('i').addClass('fa fa-star'));
     $('nav.main').prepend(el);
   }
+
+  this.init();
 }
+
+function init() {
+
+}
+
+function add() {
+
+}
+
+function remove() {
+
+}
+
+function list() {
+
+}
+
+[add, init, remove, list].forEach(function(m) {
+  Star.prototype[m.name] = m;
+});
 
 module.exports = Star;
