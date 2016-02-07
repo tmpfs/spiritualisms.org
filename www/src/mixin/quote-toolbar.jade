@@ -7,9 +7,9 @@ mixin quote-toolbar(doc, opts)
       | &nbsp; Love
     a.star(href='/explore/' + doc.id, title='Star it')
       i.fa.fa-star.star
-        | &nbsp;Star
+      | &nbsp;Star
     - if(opts.permalink) {
       a.permalink(href='/explore/' + doc.id, title='View it')
         i.fa.fa-share-alt.permalink
-          | &nbsp;View
+        | &nbsp;View
     - }
