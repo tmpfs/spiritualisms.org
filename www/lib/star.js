@@ -1,4 +1,6 @@
-var $ = require('air');
+var $ = require('air')
+  // TOOD: only load this code for /stars
+  , FileSaver = require('./vendor/file-saver');
 
 /**
  *  Utility to determine if localStorage or sessionStorage 
@@ -32,10 +34,12 @@ function Star(opts) {
 
     this.totals();
 
+    $('.actions .export').on('click', exporter.bind(this));
+    $('.actions .clear').on('click', clear.bind(this));
+
     if(opts.uri.pathname === '/stars') {
       nav.find('a.stars').addClass('selected');
       this.list();
-      $('.actions .clear').on('click', clear.bind(this));
     }else{
       // only call fetch here on non /stars page
       // for /stars fetch will be called after rendering
@@ -44,6 +48,25 @@ function Star(opts) {
       this.fetch();
     }
   }
+}
+
+function exporter(e) {
+  e.preventDefault();
+  var blob = new Blob(
+    [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'})
+    , file = 'stars.json';
+
+  FileSaver.saveAs(blob, file, true);
+
+  //var link = $.el('a').attr(
+    //{
+      //'href': window.URL.createObjectURL(blob),
+      //'download': file
+    //}
+  //).text('Download: ' + file);
+  //console.log(link);
+  //$('.actions nav:first-child').append(link);
+  //link.click();
 }
 
 function clear(e) {
