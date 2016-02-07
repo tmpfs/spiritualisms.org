@@ -1,6 +1,7 @@
 var express = require('express')
   , app = express()
   , pkg = require('../package.json')
+  , bodyParser = require('body-parser')
   , info = JSON.stringify({name: pkg.name, version: pkg.version})
   , Quote = require('../lib/model/quote');
 
@@ -24,6 +25,8 @@ function cors(req, res) {
   res.set('Access-Control-Max-Age', 300);
 }
 
+app.use(bodyParser.json());
+
 app.all('*', function(req, res, next) {
   cors(req, res);
   res.set('content-type', 'application/json');
@@ -34,6 +37,9 @@ app.get('/', function(req, res) {
   res.send(info)
 });
 
+/**
+ *  Get a list of quotes.
+ */
 app.get('/quote', function(req, res, next) {
   var quote = new Quote()
     , opts = {};
@@ -45,6 +51,9 @@ app.get('/quote', function(req, res, next) {
   })
 });
 
+/**
+ *  Get a count of all quotes.
+ */
 app.get('/quote/count', function(req, res, next) {
   var quote = new Quote()
     , opts = {reduce: true, include_docs: false};
@@ -56,6 +65,9 @@ app.get('/quote/count', function(req, res, next) {
   })
 });
 
+/**
+ *  Get a random quote.
+ */
 app.get('/quote/random', function(req, res, next) {
   var quote = new Quote()
     , opts = {};
@@ -64,6 +76,30 @@ app.get('/quote/random', function(req, res, next) {
       return next(err);
     }
     res.send(body);
+  })
+});
+
+/**
+ *  Get the love counters for an array of quote identifiers.
+ */
+app.post('/quote/love', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {ids: req.body}
+    , err;
+
+  //console.log(req.body);
+
+  if(!Array.isArray(req.body)) {
+     err = new Error('Array body expected');
+     err.status = 400;
+     return next(err);
+  }
+
+  quote.getLoveMulti(opts, function(err, response) {
+    if(err) {
+      return next(err);
+    }
+    res.send(response);
   })
 });
 

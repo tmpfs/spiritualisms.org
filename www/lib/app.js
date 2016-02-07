@@ -2,7 +2,8 @@
 
 var $ = require('air')
   , Schema = require('async-validate')
-  , descriptor = require('../../lib/schema/quote');
+  , descriptor = require('../../lib/schema/quote')
+  , Love = require('./love');
 
 $.plugin(
   [
@@ -13,7 +14,7 @@ $.plugin(
     //require('air/clone'),
     require('air/create'),
     require('air/css'),
-    //require('air/data'),
+    require('air/data'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),
@@ -33,6 +34,9 @@ $.plugin(
   ]
 )
 
+/**
+ *  Spiritualisms client-side application.
+ */
 function Application(opts) {
   var supported = typeof XMLHttpRequest !== 'undefined';
 
@@ -42,6 +46,7 @@ function Application(opts) {
   opts = opts || {};
   this.opts = opts;
   this.validator = new Schema(descriptor);
+  this.love = new Love(opts);
 
   if(!supported) {
     $('.browser-update').css({display: 'block'});

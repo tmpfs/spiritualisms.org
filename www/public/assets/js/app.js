@@ -108,7 +108,7 @@ module.exports = {
   module.exports = air;
 })();
 
-},{"zephyr":14}],3:[function(require,module,exports){
+},{"zephyr":15}],3:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -367,6 +367,44 @@ module.exports = function() {
 }
 
 },{}],8:[function(require,module,exports){
+var prefix = 'data-';
+
+/**
+ *  Get a data attribute of the first matched element or
+ *  set `data` attribute(s) on all matched elements.
+ *
+ *  Requires that the `attr` plugin has been loaded.
+ */
+function data(key, val) {
+  var o = {}, z;
+
+  function inject(name) {
+    if(typeof name === 'string' && name.indexOf(prefix) !== 0) {
+      name = prefix + name;
+    }
+    return name;
+  }
+
+  if(typeof key === 'string') {
+    key = inject(key);
+  }else if(typeof key === 'object') {
+    for(z in key) {
+      o[inject(z)] = key[z];
+    }
+    key = o;
+  }
+
+  return this.attr(key, val);
+}
+
+module.exports = function() {
+  this.data = data;
+}
+
+// required `attr` dependency
+//plugin.deps = {attr: true};
+
+},{}],9:[function(require,module,exports){
 function on(nm, cb, capture) {
   this.each(function(el) {
     el.addEventListener(nm, cb, capture);
@@ -412,7 +450,7 @@ module.exports = function() {
   this.click = click;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  *  Get the descendants of each element in the current set
  *  of matched elements, filtered by a selector.
@@ -429,7 +467,7 @@ module.exports = function() {
   this.find = find;
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  *  Get the HTML of the first matched element or set the HTML
  *  content of all matched elements.
@@ -464,7 +502,7 @@ module.exports = function() {
   this.html = html;
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
@@ -483,7 +521,7 @@ module.exports = function() {
   this.parent = parent;
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  *  Thin wrapper for XMLHttpRequest using a 
  *  callback style.
@@ -571,7 +609,7 @@ module.exports = function() {
   this.air.request = request;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  *  IE9 supports textContent and innerText has various issues.
  *
@@ -596,7 +634,7 @@ module.exports = function() {
   this.text = text;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -699,7 +737,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -751,7 +789,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -781,7 +819,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -950,7 +988,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":19,"./reason":16,"format-util":20,"zephyr":21}],18:[function(require,module,exports){
+},{"../messages":20,"./reason":17,"format-util":21,"zephyr":22}],19:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1356,7 +1394,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":19,"./iterator":15,"./rule":17,"format-util":20}],19:[function(require,module,exports){
+},{"../messages":20,"./iterator":16,"./rule":18,"format-util":21}],20:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1415,7 +1453,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1454,9 +1492,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],21:[function(require,module,exports){
-arguments[4][14][0].apply(exports,arguments)
-},{"dup":14}],22:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
+arguments[4][15][0].apply(exports,arguments)
+},{"dup":15}],23:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1536,7 +1574,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1556,7 +1594,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1576,12 +1614,13 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
   , Schema = require('async-validate')
-  , descriptor = require('../../lib/schema/quote');
+  , descriptor = require('../../lib/schema/quote')
+  , Love = require('./love');
 
 $.plugin(
   [
@@ -1592,7 +1631,7 @@ $.plugin(
     //require('air/clone'),
     require('air/create'),
     require('air/css'),
-    //require('air/data'),
+    require('air/data'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),
@@ -1612,6 +1651,9 @@ $.plugin(
   ]
 )
 
+/**
+ *  Spiritualisms client-side application.
+ */
 function Application(opts) {
   var supported = typeof XMLHttpRequest !== 'undefined';
 
@@ -1621,6 +1663,7 @@ function Application(opts) {
   opts = opts || {};
   this.opts = opts;
   this.validator = new Schema(descriptor);
+  this.love = new Love(opts);
 
   if(!supported) {
     $('.browser-update').css({display: 'block'});
@@ -1694,13 +1737,55 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":1,"air":"air","air/append":3,"air/attr":4,"air/class":5,"air/create":6,"air/css":7,"air/event":8,"air/find":9,"air/html":10,"air/parent":11,"air/request":12,"air/text":13,"async-validate":18,"vivify":22,"vivify/fade-in":23,"vivify/fade-out":24}],26:[function(require,module,exports){
+},{"../../lib/schema/quote":1,"./love":27,"air":"air","air/append":3,"air/attr":4,"air/class":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/request":13,"air/text":14,"async-validate":19,"vivify":23,"vivify/fade-in":24,"vivify/fade-out":25}],27:[function(require,module,exports){
+var $ = require('air');
+
+function fetch() {
+  var ids = [];
+  this.quotes.each(function(el) {
+    ids.push($(el).data('id'));
+  })
+
+  console.log(ids);
+
+  function onResponse(err, res) {
+    var doc;
+    if(err) {
+      return console.error(err); 
+    }else if(res) {
+      doc = JSON.parse(res); 
+    }
+
+    console.log(doc);
+  }
+  var opts = {
+    url: this.opts.api + '/quote/love',
+    data: ids
+  };
+
+  $.request(opts, onResponse.bind(this));
+}
+
+
+/**
+ *  Love handlers.
+ */
+function Love(opts) {
+  this.opts = opts;
+  this.quotes = $('.quotation[data-id]');
+  var load = fetch.bind(this);
+  load();
+}
+
+module.exports = Love;
+
+},{"air":"air"}],28:[function(require,module,exports){
 /* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
 /* jshint ignore:end */
 
-},{"./app":25}],"air":[function(require,module,exports){
+},{"./app":26}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":2}]},{},[26]);
+},{"./lib/air":2}]},{},[28]);
