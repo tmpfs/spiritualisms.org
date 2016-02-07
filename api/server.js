@@ -33,6 +33,11 @@ app.all('*', function(req, res, next) {
   next();
 });
 
+app.options('*', function(req, res) {
+  cors(req, res);
+  res.send('');
+});
+
 app.get('/', function(req, res) {
   res.send(info)
 });

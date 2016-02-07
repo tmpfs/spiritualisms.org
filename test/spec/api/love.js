@@ -25,9 +25,10 @@ describe('api:', function() {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
       var body = JSON.parse(res.body);
-      expect(body.id).to.be.a('string')
-        .to.eql(quotes.rows[0].id);
-      expect(body.love).to.be.a('number');
+      expect(body).to.be.an('object')
+      expect(Object.keys(body)).to.be.an('array')
+        .to.have.length.gt(0);
+      expect(body[Object.keys(body)[0]]).to.be.a('number');
       done(); 
     })
   })
@@ -40,9 +41,10 @@ describe('api:', function() {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
       var body = JSON.parse(res.body);
-      expect(body.id).to.be.a('string')
-        .to.eql(quotes.rows[0].id);
-      expect(body.love).to.be.a('number');
+      expect(body).to.be.an('object')
+      expect(Object.keys(body)).to.be.an('array')
+        .to.have.length.gt(0);
+      expect(body[Object.keys(body)[0]]).to.be.a('number');
       done(); 
     })
   })

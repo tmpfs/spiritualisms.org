@@ -573,16 +573,25 @@ function request(opts, cb) {
     }
   }
 
+  opts.headers['X-Requested-With'] = 'XMLHttpRequest';
+
+  if(opts.json) {
+    opts.headers['Content-Type'] = 'application/json';
+    if(opts.body !== undefined) {
+      opts.body = JSON.stringify(opts.body); 
+    }
+  }
+
+  req.open(opts.method, opts.url);
+
   // apply custom request headers
   for(z in opts.headers) {
     req.setRequestHeader(z, opts.headers[z]);
   }
 
-  if(opts.mime && (typeof(req.overrideMimeType) === 'function')) {
+  if(opts.mime && typeof(req.overrideMimeType) === 'function') {
     req.overrideMimeType(opts.mime);
   }
-
-  req.open(opts.method, opts.url);
 
   req.onreadystatechange = function() {
     if(this.readyState === 4) {
@@ -602,7 +611,7 @@ function request(opts, cb) {
   req.ontimeout = opts.timeout;
   req.onprogress = opts.progress;
 
-  req.send(opts.data);
+  req.send(opts.body);
 }
 
 module.exports = function() {
@@ -1740,13 +1749,26 @@ module.exports = Application;
 },{"../../lib/schema/quote":1,"./love":27,"air":"air","air/append":3,"air/attr":4,"air/class":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/request":13,"air/text":14,"async-validate":19,"vivify":23,"vivify/fade-in":24,"vivify/fade-out":25}],27:[function(require,module,exports){
 var $ = require('air');
 
+/**
+ *  Render the love counters.
+ */
+function render(doc) {
+  console.log(doc);
+}
+
+/**
+ *  Loads the love counters for all quotes.
+ */
 function fetch() {
   var ids = [];
   this.quotes.each(function(el) {
     ids.push($(el).data('id'));
   })
 
-  console.log(ids);
+  // no elements on page
+  if(!ids.length) {
+    return; 
+  }
 
   function onResponse(err, res) {
     var doc;
@@ -1755,26 +1777,57 @@ function fetch() {
     }else if(res) {
       doc = JSON.parse(res); 
     }
-
-    console.log(doc);
+    //console.log(doc);
+    render(doc);
   }
   var opts = {
     url: this.opts.api + '/quote/love',
-    data: ids
+    method: 'POST',
+    json: true,
+    body: ids
   };
 
   $.request(opts, onResponse.bind(this));
 }
 
+/**
+ *  Show your love, increments the love counter.
+ */
+function show(id, e) {
+  e.preventDefault();
+  var el = $('.quotation[data-id="' + id + '"]');
+  console.log('show love: ' + id);
+  function onResponse(err, res) {
+    var doc;
+    if(err) {
+      return console.error(err); 
+    }else if(res) {
+      doc = JSON.parse(res); 
+    }
+    console.log(doc);
+    el.find('span').text(doc[id]);
+  }
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/love',
+    method: 'POST'
+  };
+
+  $.request(opts, onResponse.bind(this));
+}
 
 /**
  *  Love handlers.
  */
 function Love(opts) {
+  var scope = this;
   this.opts = opts;
   this.quotes = $('.quotation[data-id]');
-  var load = fetch.bind(this);
-  load();
+  fetch.bind(this)();
+  this.quotes.each(function(el) {
+    el = $(el);
+    var id = el.data('id');
+    el.find('a.love').on('click', show.bind(scope, id));
+  })
 }
 
 module.exports = Love;
