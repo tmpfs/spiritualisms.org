@@ -13,7 +13,7 @@ var express = require('express')
  */
 function cors(req, res) {
   var requested = req.headers['access-control-request-headers'] || []
-    , methods = ['GET'];
+    , methods = ['GET', 'POST', 'DELETE'];
   if(typeof(requested) === 'string') {
     requested = requested.split(/, ?/);
   }
