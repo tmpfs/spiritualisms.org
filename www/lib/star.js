@@ -55,8 +55,6 @@ function init() {
 function add(id, e) {
   var scope = this;
   e.preventDefault();
-  console.log(id);
-  console.log(this.has(id));
 
   if(this.has(id)) {
     return false; 
@@ -70,7 +68,6 @@ function add(id, e) {
       doc = JSON.parse(res); 
     }
     scope.write(id);
-    //console.log(doc);
     render(doc);
     totals();
   }
@@ -116,7 +113,6 @@ function remove() {
  */
 function read() {
   var ids = localStorage.getItem(this.key);
-  console.log('read: ' + ids);
   if(ids) {
     try {
       ids = JSON.parse(ids); 
@@ -132,8 +128,6 @@ function read() {
  */
 function write(id) {
   var ids = this.read();
-  console.log('write');
-  console.log(ids);
   if(!~ids.indexOf(id)) {
     ids.push(id); 
   }
@@ -148,8 +142,6 @@ function write(id) {
  */
 function has(id) {
   var ids = this.read();
-  console.log('has: ' + id);
-  console.log('has: ' + ids);
   return Boolean(~ids.indexOf(id));
 }
 
@@ -162,7 +154,6 @@ function has(id) {
 function list() {
   var ids = read()
     //, listing = $('section.stars .listing');
-  //console.log(ids);
   if(!ids.length) {
     $('section.stars .help').css({display: 'block'});
   }else{
