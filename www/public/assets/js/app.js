@@ -2047,7 +2047,6 @@ function Star(opts) {
     nav.append(el);
 
     this.totals();
-    this.init();
 
     if(opts.uri.pathname === '/stars') {
       nav.find('a.stars').addClass('selected');
@@ -2056,6 +2055,7 @@ function Star(opts) {
       // only call fetch here on non /stars page
       // for /stars fetch will be called after rendering
       // the listing
+      this.init();
       this.fetch();
     }
   }
@@ -2211,11 +2211,22 @@ function listing(result) {
   var container = $('section.stars .listing');
   result.rows.forEach(function(item) {
     var doc = item.doc
-      , el = $.partial('.quotation.item').clone(true);
+      , el = $.partial('.quotation.item').clone(true).data('id', doc.id);
     el.find('blockquote').text(doc.quote);
-    el.find('cite').html('&#151; ' + doc.author);
+    var cite = el.find('cite');
+    cite.html('&#151; ');
+    cite.append(
+        $.el('a',
+          {href: doc.link, title: doc.author + ' (' + doc.domain + ')'})
+            .text(doc.author)
+    );
+    el.find('nav.toolbar a').attr('href', '/explore/' + doc.id);
     container.append(el);
   })
+
+  // update counters after render
+  this.init();
+  this.fetch();
 }
 
 /**

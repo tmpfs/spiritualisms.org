@@ -9,7 +9,7 @@ block content
       - var rows = quotes.rows, doc;
       - for(var i = 0;i < rows.length;i++) {
         - doc = rows[i].doc;
-        div.quotation(data-id=doc.id)
+        .quotation.item(data-id=doc.id)
           blockquote.primary #{doc.quote} 
           div.meta.clearfix
             cite.float-left &#151;
