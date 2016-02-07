@@ -3065,3 +3065,6 @@ em {
   font-style: normal;
   border-bottom: 1px dotted;
 }
+section.stars .help {
+  display: none;
+}

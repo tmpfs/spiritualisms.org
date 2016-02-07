@@ -11,5 +11,5 @@
   "mocha"                   : true,
   "unused"                  : true,
   "asi"                     : true,
-  "predef"                  : ["window"]
+  "predef"                  : ["window","localStorage"]
 }
