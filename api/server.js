@@ -143,6 +143,41 @@ app.post('/quote/:id/love', function(req, res, next) {
   })
 });
 
+// STAR
+
+app.get('/quote/:id/star', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {id: req.params.id};
+  quote.getStar(opts, function(err, response) {
+    if(err) {
+      return next(err);
+    }
+    res.send(response);
+  })
+});
+
+app.post('/quote/:id/star', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {id: req.params.id};
+  quote.addStar(opts, function(err, response) {
+    if(err) {
+      return next(err);
+    }
+    res.send(response);
+  })
+});
+
+app.delete('/quote/:id/star', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {id: req.params.id};
+  quote.removeStar(opts, function(err, response) {
+    if(err) {
+      return next(err);
+    }
+    res.send(response);
+  })
+});
+
 app.all('*', function(req, res, next) {
   var err = new Error('not_found');
   err.status = 404;
