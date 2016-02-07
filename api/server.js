@@ -82,6 +82,8 @@ app.post('/quote', function(req, res, next) {
      return next(err);
   }
 
+  opts.keys = req.body;
+
   quote.list(opts, function(err, response, body) {
     if(err) {
       return next(err);
