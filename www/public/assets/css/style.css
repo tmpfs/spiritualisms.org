@@ -2926,13 +2926,10 @@ nav.toolbar a {
   padding-bottom: 0.2rem;
 }
 nav.toolbar a:hover {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid;
 }
 nav.toolbar a:not(:last-child) {
   margin-right: 1rem;
-}
-.quotation nav a.permalink i {
-  color: #2aa198;
 }
 .why blockquote.primary {
   margin-bottom: 4rem;
@@ -3008,6 +3005,9 @@ a.love {
 }
 a.star {
   color: #b58900;
+}
+a.permalink {
+  color: #2aa198;
 }
 span.love:before {
   content: " (";

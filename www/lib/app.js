@@ -70,10 +70,16 @@ function random(e) {
   function render() {
     if(doc) {
       container.data('id', doc.id);
+
+      // clone to remove events
       var tools = container.find('nav.toolbar')
       var toolbar = tools.clone(true);
+      toolbar.find('span').remove();
+      // append clone
       tools.parent().append(toolbar);
+      // remove original
       tools.remove();
+
       love.init();
       love.fetch([doc.id]);
       container.find('blockquote').text(doc.quote);
