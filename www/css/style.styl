@@ -770,7 +770,7 @@ nav.download
     margin-right: .5rem;
 
 nav.toolbar a {
-  color: black;
+  //color: black;
   padding-bottom: .2rem;
 }
 
@@ -872,18 +872,21 @@ textarea {
   z-index: 2;
 }
 
-a i.love {
+a.love
   color: #dc322f;
-}
 
-a i.star {
+a.star
   color: #b58900;
-}
 
-img.logo {
+span.love:before
+  content: " (";
+
+span.love:after
+  content: ")";
+
+img.logo
   width: 220px;
   height: 40px;
-}
 
 footer {
   display: inline-block;

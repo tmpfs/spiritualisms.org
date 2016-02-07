@@ -11,7 +11,7 @@ $.plugin(
     require('air/attr'),
     //require('air/children'),
     require('air/class'),
-    //require('air/clone'),
+    require('air/clone'),
     require('air/create'),
     require('air/css'),
     require('air/data'),
@@ -22,7 +22,7 @@ $.plugin(
     require('air/html'),
     require('air/parent'),
     require('air/request'),
-    //require('air/remove'),
+    require('air/remove'),
     //require('air/template'),
     require('air/text'),
     //require('air/val')
@@ -69,6 +69,13 @@ function random(e) {
 
   function render() {
     if(doc) {
+      container.data('id', doc.id);
+      var tools = container.find('nav.toolbar')
+      var toolbar = tools.clone(true);
+      tools.parent().append(toolbar);
+      tools.remove();
+      love.init();
+      love.fetch([doc.id]);
       container.find('blockquote').text(doc.quote);
       container.find('cite').html('&#151; ')
         .append(
@@ -95,10 +102,7 @@ function random(e) {
     //container.css({display: 'none'});
 
     function complete() {
-      container.data('id', doc.id);
       icon.removeClass('fa-spin');
-      love.init();
-      love.fetch([doc.id]);
       render();
     }
 

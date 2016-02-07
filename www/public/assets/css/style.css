@@ -2923,7 +2923,6 @@ nav.download a:not(:last-child) {
   margin-right: 0.5rem;
 }
 nav.toolbar a {
-  color: #000;
   padding-bottom: 0.2rem;
 }
 nav.toolbar a:hover {
@@ -3004,11 +3003,17 @@ textarea {
   right: 0;
   z-index: 2;
 }
-a i.love {
+a.love {
   color: #dc322f;
 }
-a i.star {
+a.star {
   color: #b58900;
+}
+span.love:before {
+  content: " (";
+}
+span.love:after {
+  content: ")";
 }
 img.logo {
   width: 220px;

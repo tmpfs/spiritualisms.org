@@ -4,14 +4,15 @@ var $ = require('air');
  *  Render the love counters.
  */
 function render(doc) {
-  console.log('render');
-  console.log(doc);
   var ids = Object.keys(doc);
   ids.forEach(function(id) {
-    var el = $('.quotation[data-id="' + id + '"]');
-    console.log('render: ' + doc[id]);
+    var el = $('.quotation[data-id="' + id + '"]')
+      , txt = el.find('a.love span');
+    if(!txt.length) {
+      el.find('a.love').append($.create('span'));
+    }
     if(doc[id]) {
-      el.find('span').text('' + doc[id]);
+      el.find('a.love span').addClass('love').text('' + doc[id]);
     }
   })
 }
@@ -80,8 +81,8 @@ function init() {
   this.quotes.each(function(el) {
     el = $(el);
     var id = el.data('id');
-    el.find('a.love').off('click');
-    el.find('a.love').on('click', show.bind(scope, id));
+    var show = scope.show.bind(scope, id);
+    el.find('a.love').on('click', show);
   })
 }
 
@@ -90,11 +91,15 @@ function init() {
  */
 function Love(opts) {
   this.opts = opts;
-  this.render = render.bind(this);
-  this.fetch = fetch.bind(this);
-  this.init = init.bind(this);
+  //this.render = render.bind(this);
+  //this.fetch = fetch.bind(this);
+  //this.init = init.bind(this);
   this.init();
   this.fetch();
 }
+
+[render, fetch, init, show].forEach(function(m) {
+  Love.prototype[m.name] = m;
+});
 
 module.exports = Love;
