@@ -26,7 +26,7 @@ function Star(opts) {
       .addClass('stars')
       .html('&nbsp;Stars');
     el.prepend($.el('i').addClass('fa fa-star'));
-    $('nav.main').prepend(el);
+    $('nav.main').append(el);
 
     this.totals();
     this.init();
