@@ -2038,17 +2038,19 @@ function Star(opts) {
   this.storage = storageAvailable('localStorage');
   this.key = 'stars';
   if(this.storage) {
+    var nav = $('nav.main');
     var el = $.el('a')
       .attr({href: '/stars', title: 'Stars'})
       .addClass('stars')
       .html('&nbsp;Stars');
     el.prepend($.el('i').addClass('fa fa-star'));
-    $('nav.main').append(el);
+    nav.append(el);
 
     this.totals();
     this.init();
 
     if(opts.uri.pathname === '/stars') {
+      nav.find('a.stars').addClass('selected');
       this.list();
     }else{
       // only call fetch here on non /stars page
