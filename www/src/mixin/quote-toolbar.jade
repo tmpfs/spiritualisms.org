@@ -1,4 +1,5 @@
 mixin quote-toolbar(doc, opts)
+  - doc = doc || {};
   - opts = opts || {};
   nav.toolbar
     a.love(href='/explore/' + doc.id, title='Love it')

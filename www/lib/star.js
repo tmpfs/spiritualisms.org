@@ -28,13 +28,17 @@ function Star(opts) {
     el.prepend($.el('i').addClass('fa fa-star'));
     $('nav.main').prepend(el);
 
-    totals();
-
+    this.totals();
     this.init();
-    this.fetch();
 
-    // TODO: only call list() on /stars page
-    this.list();
+    if(opts.uri.pathname === '/stars') {
+      this.list();
+    }else{
+      // only call fetch here on non /stars page
+      // for /stars fetch will be called after rendering
+      // the listing
+      this.fetch();
+    }
   }
 }
 
@@ -68,8 +72,8 @@ function add(id, e) {
       doc = JSON.parse(res); 
     }
     scope.write(id);
-    render(doc);
-    totals();
+    scope.render(doc);
+    scope.totals();
   }
   var opts = {
     url: this.opts.api + '/quote/' + id + '/star',
@@ -84,7 +88,7 @@ function add(id, e) {
  *  Render count totals in main navigation.
  */
 function totals() {
-  var len = count();
+  var len = this.count();
   if(len > 0) {
     var el = $('nav.main');
     el.find('a.stars span').remove();
@@ -97,7 +101,7 @@ function totals() {
  *  Count the number of stars for this user.
  */
 function count() {
-  var ids = read();
+  var ids = this.read();
   return ids.length;
 }
 
@@ -152,17 +156,47 @@ function has(id) {
  *  server.
  */
 function list() {
-  var ids = read()
-    //, listing = $('section.stars .listing');
+  var scope = this;
+  var ids = this.read();
+
+  function onResponse(err, res) {
+    var doc;
+    if(err) {
+      return console.error(err); 
+    }else if(res) {
+      doc = JSON.parse(res); 
+    }
+    scope.listing(doc);
+    //render(doc);
+    //console.log(doc);
+  }
+
   if(!ids.length) {
     $('section.stars .help').css({display: 'block'});
   }else{
-    // TODO: list stars
-    //ids.forEach(function(id) {
-      //var quote = $.el('div');
-      //el.data('id', id);
-    //})
+    var opts = {
+      url: this.opts.api + '/quote',
+      method: 'POST',
+      json: true,
+      body: ids
+    };
+
+    $.request(opts, onResponse.bind(this));
   }
+}
+
+/**
+ *  Render the stars page listing.
+ */
+function listing(result) {
+  var container = $('section.stars .listing');
+  result.rows.forEach(function(item) {
+    var doc = item.doc
+      , el = $.partial('.quotation.item').clone(true);
+    el.find('blockquote').text(doc.quote);
+    el.find('cite').html('&#151; ' + doc.author);
+    container.append(el);
+  })
 }
 
 /**
@@ -186,6 +220,7 @@ function render(doc) {
  *  Loads the star counters for all quotes.
  */
 function fetch(ids) {
+  var scope = this;
   if(!ids) {
     ids = [];
     this.quotes.each(function(el) {
@@ -205,7 +240,7 @@ function fetch(ids) {
     }else if(res) {
       doc = JSON.parse(res); 
     }
-    render(doc);
+    scope.render(doc);
   }
   var opts = {
     url: this.opts.api + '/quote/star',
@@ -218,7 +253,7 @@ function fetch(ids) {
 }
 
 [
-  count, add, init, remove, list,
+  count, add, init, remove, list, totals, listing,
   read, write, has, fetch, render].forEach(function(m) {
   Star.prototype[m.name] = m;
 });

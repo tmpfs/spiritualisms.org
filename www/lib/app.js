@@ -25,7 +25,7 @@ $.plugin(
     require('air/prepend'),
     require('air/request'),
     require('air/remove'),
-    //require('air/template'),
+    require('air/template'),
     require('air/text'),
     //require('air/val')
     require('vivify'),

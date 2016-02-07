@@ -86,7 +86,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = air;
 })();
 
-},{"zephyr":17}],2:[function(require,module,exports){
+},{"zephyr":18}],2:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -670,6 +670,67 @@ module.exports = function() {
 }
 
 },{}],16:[function(require,module,exports){
+var $
+  , slice = Array.prototype.slice;
+
+/**
+ *  Get a map of template elements.
+ *
+ *  Source object is id => selector,
+ *  target object is id => elements(s).
+ */
+function template(source, target) {
+  source = source || {};
+  target = target || {};
+  for(var z in source) {
+    target[z] = $.partial(source[z]);
+  }
+  return target;
+}
+
+/**
+ *  Find all template element(s) by selector.
+ */
+function partial(selector) {
+  var templates = $('template')
+    , context
+    , arr = [];
+  templates.each(function(el) {
+    context = el && el.content ? el.content : el;
+    arr = arr.concat(slice.call($(selector, context).dom));
+  })
+  return $(arr);
+}
+
+/**
+ *  Swap a source list of element's with a target list of element's.
+ *
+ *  The target elements are cloned as they should be template partials, the
+ *  source element(s) should exist in the DOM.
+ */
+function swap(source, target) {
+  // wrap to allow string selectors, arrays etc.
+  source = $(source);
+  target = $(target);
+  source.each(function(el, index) {
+    var content = target.get(index);
+    if(el.parentNode && content) {
+      // deep clone template partial
+      content = content.cloneNode(true);
+      // replace sourc element with cloned target element
+      el.parentNode.replaceChild(content, el);
+    }
+  })
+}
+
+module.exports = function() {
+  $ = this.air;
+  this.air.template = template;
+  this.air.partial = partial;
+  this.air.swap = swap;
+}
+
+},{}],17:[function(require,module,exports){
 /**
  *  IE9 supports textContent and innerText has various issues.
  *
@@ -694,7 +755,7 @@ module.exports = function() {
   this.text = text;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -797,7 +858,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = {
   type: 'object',
   fields: {
@@ -819,7 +880,7 @@ module.exports = {
   }
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -871,7 +932,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -901,7 +962,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -1070,7 +1131,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":23,"./reason":20,"format-util":24,"zephyr":25}],22:[function(require,module,exports){
+},{"../messages":24,"./reason":21,"format-util":25,"zephyr":26}],23:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1476,7 +1537,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":23,"./iterator":19,"./rule":21,"format-util":24}],23:[function(require,module,exports){
+},{"../messages":24,"./iterator":20,"./rule":22,"format-util":25}],24:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1535,7 +1596,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1574,9 +1635,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],25:[function(require,module,exports){
-arguments[4][17][0].apply(exports,arguments)
-},{"dup":17}],26:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
+arguments[4][18][0].apply(exports,arguments)
+},{"dup":18}],27:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1656,7 +1717,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1676,7 +1737,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1696,7 +1757,7 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
@@ -1724,7 +1785,7 @@ $.plugin(
     require('air/prepend'),
     require('air/request'),
     require('air/remove'),
-    //require('air/template'),
+    require('air/template'),
     require('air/text'),
     //require('air/val')
     require('vivify'),
@@ -1840,7 +1901,7 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":18,"./love":30,"./star":32,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/text":16,"async-validate":22,"vivify":26,"vivify/fade-in":27,"vivify/fade-out":28}],30:[function(require,module,exports){
+},{"../../lib/schema/quote":19,"./love":31,"./star":33,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
 var $ = require('air');
 
 /**
@@ -1947,13 +2008,13 @@ function Love(opts) {
 
 module.exports = Love;
 
-},{"air":"air"}],31:[function(require,module,exports){
+},{"air":"air"}],32:[function(require,module,exports){
 /* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
 /* jshint ignore:end */
 
-},{"./app":29}],32:[function(require,module,exports){
+},{"./app":30}],33:[function(require,module,exports){
 var $ = require('air');
 
 /**
@@ -1984,13 +2045,17 @@ function Star(opts) {
     el.prepend($.el('i').addClass('fa fa-star'));
     $('nav.main').prepend(el);
 
-    totals();
-
+    this.totals();
     this.init();
-    this.fetch();
 
-    // TODO: only call list() on /stars page
-    this.list();
+    if(opts.uri.pathname === '/stars') {
+      this.list();
+    }else{
+      // only call fetch here on non /stars page
+      // for /stars fetch will be called after rendering
+      // the listing
+      this.fetch();
+    }
   }
 }
 
@@ -2024,8 +2089,8 @@ function add(id, e) {
       doc = JSON.parse(res); 
     }
     scope.write(id);
-    render(doc);
-    totals();
+    scope.render(doc);
+    scope.totals();
   }
   var opts = {
     url: this.opts.api + '/quote/' + id + '/star',
@@ -2040,7 +2105,7 @@ function add(id, e) {
  *  Render count totals in main navigation.
  */
 function totals() {
-  var len = count();
+  var len = this.count();
   if(len > 0) {
     var el = $('nav.main');
     el.find('a.stars span').remove();
@@ -2053,7 +2118,7 @@ function totals() {
  *  Count the number of stars for this user.
  */
 function count() {
-  var ids = read();
+  var ids = this.read();
   return ids.length;
 }
 
@@ -2108,17 +2173,47 @@ function has(id) {
  *  server.
  */
 function list() {
-  var ids = read()
-    //, listing = $('section.stars .listing');
+  var scope = this;
+  var ids = this.read();
+
+  function onResponse(err, res) {
+    var doc;
+    if(err) {
+      return console.error(err); 
+    }else if(res) {
+      doc = JSON.parse(res); 
+    }
+    scope.listing(doc);
+    //render(doc);
+    //console.log(doc);
+  }
+
   if(!ids.length) {
     $('section.stars .help').css({display: 'block'});
   }else{
-    // TODO: list stars
-    //ids.forEach(function(id) {
-      //var quote = $.el('div');
-      //el.data('id', id);
-    //})
+    var opts = {
+      url: this.opts.api + '/quote',
+      method: 'POST',
+      json: true,
+      body: ids
+    };
+
+    $.request(opts, onResponse.bind(this));
   }
+}
+
+/**
+ *  Render the stars page listing.
+ */
+function listing(result) {
+  var container = $('section.stars .listing');
+  result.rows.forEach(function(item) {
+    var doc = item.doc
+      , el = $.partial('.quotation.item').clone(true);
+    el.find('blockquote').text(doc.quote);
+    el.find('cite').html('&#151; ' + doc.author);
+    container.append(el);
+  })
 }
 
 /**
@@ -2142,6 +2237,7 @@ function render(doc) {
  *  Loads the star counters for all quotes.
  */
 function fetch(ids) {
+  var scope = this;
   if(!ids) {
     ids = [];
     this.quotes.each(function(el) {
@@ -2161,7 +2257,7 @@ function fetch(ids) {
     }else if(res) {
       doc = JSON.parse(res); 
     }
-    render(doc);
+    scope.render(doc);
   }
   var opts = {
     url: this.opts.api + '/quote/star',
@@ -2174,7 +2270,7 @@ function fetch(ids) {
 }
 
 [
-  count, add, init, remove, list,
+  count, add, init, remove, list, totals, listing,
   read, write, has, fetch, render].forEach(function(m) {
   Star.prototype[m.name] = m;
 });
@@ -2184,4 +2280,4 @@ module.exports = Star;
 },{"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[31]);
+},{"./lib/air":1}]},{},[32]);

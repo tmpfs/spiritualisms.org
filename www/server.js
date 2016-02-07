@@ -37,11 +37,14 @@ function random(view, req, res, next) {
  *  Helper function to get default view information.
  */
 function getViewInfo(req) {
-  var o = {};
+  var o = {}
+    , uri = url.parse(req.url);
+
   o.url = req.url;
-  o.uri = url.parse(req.url);
+  o.uri = uri;
   o.app = {
-    api: process.env.API || 'http://localhost:3001'
+    api: process.env.API || 'http://localhost:3001',
+    uri: uri
   }
   o.env = env;
   return o;
