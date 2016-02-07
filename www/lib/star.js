@@ -1,6 +1,4 @@
-var $ = require('air')
-  // TOOD: only load this code for /stars
-  , FileSaver = require('./vendor/file-saver');
+var $ = require('air');
 
 /**
  *  Utility to determine if localStorage or sessionStorage 
@@ -56,7 +54,7 @@ function exporter(e) {
     [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'})
     , file = 'stars.json';
 
-  FileSaver.saveAs(blob, file, true);
+  window.saveAs(blob, file, true);
 
   //var link = $.el('a').attr(
     //{
