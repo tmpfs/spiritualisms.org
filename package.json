@@ -20,7 +20,7 @@
     "service"
   ],
   "dependencies": {
-    "air": "~0.4.8",
+    "air": "~0.4.9",
     "async-validate": "~0.13.0",
     "body-parser": "~1.14.2",
     "cdb": "~0.3.1",
