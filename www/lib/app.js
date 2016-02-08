@@ -51,7 +51,7 @@ function Application(opts) {
   this.opts = opts;
   this.validator = new Schema(descriptor);
   this.love = new Love(opts);
-  this.star = new Star(opts);
+  this.star = new Star(opts, this.love);
 
   if(!supported) {
     $('.browser-update').css({display: 'block'});

@@ -1931,7 +1931,7 @@ function Application(opts) {
   this.opts = opts;
   this.validator = new Schema(descriptor);
   this.love = new Love(opts);
-  this.star = new Star(opts);
+  this.star = new Star(opts, this.love);
 
   if(!supported) {
     $('.browser-update').css({display: 'block'});
@@ -2400,9 +2400,10 @@ var $ = require('air')
 /**
  *  Encapsulates the star functionality.
  */
-function Star(opts) {
+function Star(opts, love) {
 
   this.opts = opts;
+  this.love = love;
   this.model = new StarModel(opts);
   this.isStarPage = document.location.pathname === '/stars';
 
@@ -2693,6 +2694,10 @@ function listing(result) {
   // update counters after render
   this.init();
   this.fetch();
+
+  // update love counters
+  this.love.init();
+  this.love.fetch();
 }
 
 /**
