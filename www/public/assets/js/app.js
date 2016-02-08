@@ -1934,7 +1934,11 @@ function Application(opts) {
   this.star = new Star(opts, this.love);
 
   if(!supported) {
-    $('.browser-update').css({display: 'block'});
+    var notice = $('.browser-update');
+    notice.css({display: 'block'}).fadeIn();
+    if(document.location.pathname === '/home') {
+      notice.css({top: '0'});
+    }
   }
 
   $('a.refresh').on('click', random.bind(this));
