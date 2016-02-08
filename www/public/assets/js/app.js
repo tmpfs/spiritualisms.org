@@ -2320,7 +2320,6 @@ function remove(id, e) {
  *  server.
  */
 function list() {
-  var scope = this;
   var ids = this.model.read();
 
   function onResponse(err, res) {
@@ -2330,7 +2329,7 @@ function list() {
     }else if(res) {
       doc = JSON.parse(res); 
     }
-    scope.listing(doc);
+    this.listing(doc);
   }
 
   if(!ids.length) {
