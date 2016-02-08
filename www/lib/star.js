@@ -107,14 +107,11 @@ function add(id, e) {
   }
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
     this.model.add(id);
-    this.render(doc);
+    this.render(res.body);
     // switch link to unstar view
     this.toggle(id, true);
     this.totals();
@@ -177,13 +174,10 @@ function list() {
   var ids = this.model.read();
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    this.listing(doc);
+    this.listing(res.body);
   }
 
   if(!ids.length) {
@@ -272,13 +266,10 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    this.render(doc);
+    this.render(res.body);
   }
   var opts = {
     url: this.opts.api + '/quote/star',

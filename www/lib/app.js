@@ -108,9 +108,9 @@ function random(e) {
     var duration = new Date().getTime() - start;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
+
+    doc = res.body;
 
     //container.css({display: 'none'});
 
@@ -127,7 +127,10 @@ function random(e) {
     }
   }
 
-  $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
+  $.request({
+    url: this.opts.api + '/quote/random',
+    json: true
+  }, onResponse.bind(this));
 
   icon.addClass('fa-spin');
   container.fadeOut(function() {

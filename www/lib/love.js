@@ -38,15 +38,12 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    //console.log(doc);
-    render(doc);
+    render(res.body);
   }
+
   var opts = {
     url: this.opts.api + '/quote/love',
     method: 'POST',
@@ -63,13 +60,11 @@ function fetch(ids) {
 function show(id, e) {
   e.preventDefault();
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    render(doc);
+
+    render(res.body);
   }
   var opts = {
     url: this.opts.api + '/quote/' + id + '/love',

@@ -656,10 +656,23 @@ function request(opts, cb) {
 
   req.onreadystatechange = function() {
     if(this.readyState === 4) {
+      var res = this.responseText
+        , info = {
+            headers: parse(this.getAllResponseHeaders()), status: this.status};
+      info.body = res;
+      if(res && opts.json && (this.status === 200 || this.status === 201)) {
+        try {
+          info.body = JSON.parse(res);
+        }catch(e) {
+          return done(
+            e,
+            info,
+            this);
+        }
+      }
       done(
         null,
-        this.responseText,
-        {headers: parse(this.getAllResponseHeaders()), status: this.status},
+        info,
         this);
     }
   }
@@ -1878,9 +1891,9 @@ function random(e) {
     var duration = new Date().getTime() - start;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
+
+    doc = res.body;
 
     //container.css({display: 'none'});
 
@@ -1897,7 +1910,10 @@ function random(e) {
     }
   }
 
-  $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
+  $.request({
+    url: this.opts.api + '/quote/random',
+    json: true
+  }, onResponse.bind(this));
 
   icon.addClass('fa-spin');
   container.fadeOut(function() {
@@ -1953,15 +1969,12 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    //console.log(doc);
-    render(doc);
+    render(res.body);
   }
+
   var opts = {
     url: this.opts.api + '/quote/love',
     method: 'POST',
@@ -1978,13 +1991,11 @@ function fetch(ids) {
 function show(id, e) {
   e.preventDefault();
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    render(doc);
+
+    render(res.body);
   }
   var opts = {
     url: this.opts.api + '/quote/' + id + '/love',
@@ -2253,14 +2264,11 @@ function add(id, e) {
   }
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
     this.model.add(id);
-    this.render(doc);
+    this.render(res.body);
     // switch link to unstar view
     this.toggle(id, true);
     this.totals();
@@ -2323,13 +2331,10 @@ function list() {
   var ids = this.model.read();
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    this.listing(doc);
+    this.listing(res.body);
   }
 
   if(!ids.length) {
@@ -2418,13 +2423,10 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    var doc;
     if(err) {
       return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
     }
-    this.render(doc);
+    this.render(res.body);
   }
   var opts = {
     url: this.opts.api + '/quote/star',
