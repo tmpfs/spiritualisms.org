@@ -2151,7 +2151,7 @@ function add(id) {
 /**
  *  Remove an identifier from the array.
  */
-function del(id) {
+function remove(id) {
   var ids = this.read()
     , ind = ids.indexOf(id);
   if(~ind) {
@@ -2244,7 +2244,7 @@ function decr(id, cb) {
 }
 
 [
-  save, read, write, add, del, has, clear, length,
+  save, read, write, add, remove, has, clear, length,
   list, incr, decr, count
 ].forEach(function(m) {
   StarModel.prototype[m.name] = m;
@@ -2388,7 +2388,7 @@ function remove(id, e) {
   function onResponse(err, res) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
-    this.model.del(id);
+    this.model.remove(id);
     // switch to the star view
     this.toggle(id, false);
     this.totals();

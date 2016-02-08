@@ -133,7 +133,7 @@ function remove(id, e) {
   function onResponse(err, res) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
-    this.model.del(id);
+    this.model.remove(id);
     // switch to the star view
     this.toggle(id, false);
     this.totals();

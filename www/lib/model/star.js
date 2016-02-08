@@ -68,7 +68,7 @@ function add(id) {
 /**
  *  Remove an identifier from the array.
  */
-function del(id) {
+function remove(id) {
   var ids = this.read()
     , ind = ids.indexOf(id);
   if(~ind) {
@@ -161,7 +161,7 @@ function decr(id, cb) {
 }
 
 [
-  save, read, write, add, del, has, clear, length,
+  save, read, write, add, remove, has, clear, length,
   list, incr, decr, count
 ].forEach(function(m) {
   StarModel.prototype[m.name] = m;
