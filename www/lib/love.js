@@ -1,4 +1,16 @@
-var $ = require('air');
+var $ = require('air')
+  , LoveModel = require('./love-model');
+
+/**
+ *  Love handlers.
+ */
+function Love(opts) {
+  this.opts = opts;
+  this.model = new LoveModel(opts);
+  this.init();
+  this.fetch();
+}
+
 
 /**
  *  Render the love counters.
@@ -38,20 +50,12 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
-    render(res.body);
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.render(res.body);
   }
 
-  var opts = {
-    url: this.opts.api + '/quote/love',
-    method: 'POST',
-    json: true,
-    body: ids
-  };
-
-  $.request(opts, onResponse.bind(this));
+  this.model.load(ids, onResponse.bind(this));
 }
 
 /**
@@ -60,18 +64,11 @@ function fetch(ids) {
 function show(id, e) {
   e.preventDefault();
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
-
-    render(res.body);
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.render(res.body);
   }
-  var opts = {
-    url: this.opts.api + '/quote/' + id + '/love',
-    method: 'POST'
-  };
-
-  $.request(opts, onResponse.bind(this));
+  this.model.show(id, onResponse.bind(this));
 }
 
 function init() {
@@ -83,18 +80,6 @@ function init() {
     var show = scope.show.bind(scope, id);
     el.find('a.love').on('click', show);
   })
-}
-
-/**
- *  Love handlers.
- */
-function Love(opts) {
-  this.opts = opts;
-  //this.render = render.bind(this);
-  //this.fetch = fetch.bind(this);
-  //this.init = init.bind(this);
-  this.init();
-  this.fetch();
 }
 
 [render, fetch, init, show].forEach(function(m) {
