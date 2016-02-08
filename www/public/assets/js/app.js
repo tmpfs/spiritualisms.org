@@ -1908,7 +1908,10 @@ function random(e) {
     , icon = $(e.target).find('i')
     , container = $('.quotation')
     , start = new Date().getTime()
-    , doc = false;
+    , doc = false
+    , refresh = $('a.refresh');
+
+  refresh.disable();
 
   function render() {
     if(doc) {
@@ -1939,6 +1942,7 @@ function random(e) {
       nav.find('a.love, a.star, a.permalink').attr({href: href});
       container.fadeIn(function() {
         container.css({opacity: 1}); 
+        refresh.enable();
       });
     }
   }
