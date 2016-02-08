@@ -7,12 +7,16 @@ function render(doc) {
   var ids = Object.keys(doc);
   ids.forEach(function(id) {
     var el = $('.quotation[data-id="' + id + '"]')
-      , txt = el.find('a.love span');
+      , txt = el.find('a.love span')
+      , count = doc[id];
+
+    el.data('love', count);
+
     if(!txt.length) {
       el.find('a.love').append($.create('span'));
     }
     if(doc[id]) {
-      el.find('a.love span').addClass('love').text('' + doc[id]);
+      el.find('a.love span').addClass('love').text('' + count);
     }
   })
 }

@@ -1,12 +1,16 @@
 include ../mixin/quote-toolbar
+include ../mixin/star
 include ../mixin/unstar
 
 template
+  //- quote listing item
   .quotation.item
     blockquote.primary
     .meta.clearfix
       cite.float-left 
       +quote-toolbar(null, {permalink: true})
 
+  //- star/unstar templates
+  +star()
   +unstar()
 

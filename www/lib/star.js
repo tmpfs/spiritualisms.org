@@ -20,8 +20,11 @@ function Star(opts) {
   this.opts = opts;
   this.storage = storageAvailable('localStorage');
   this.key = 'stars';
+  this.file = 'stars.json';
 
   if(this.storage) {
+
+    // inject stars link to main navigation
     var nav = $('nav.main');
     var el = $.el('a')
       .attr({href: '/stars', title: 'Stars'})
@@ -48,15 +51,20 @@ function Star(opts) {
   }
 }
 
+/**
+ *  Exports the array of identifiers as a JSON array.
+ */
 function exporter(e) {
   e.preventDefault();
   var blob = new Blob(
-    [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'})
-    , file = 'stars.json';
+    [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'});
   // requires file-saver.js to be loaded
-  window.saveAs(blob, file, true);
+  window.saveAs(blob, this.file, true);
 }
 
+/**
+ *  Removes all stars from the local storage.
+ */
 function clear(e) {
   e.preventDefault();
 
@@ -70,6 +78,9 @@ function clear(e) {
   this.totals();
 }
 
+/**
+ *  Initializes the star links on a page.
+ */
 function init() {
   var scope = this;
   this.quotes = $('.quotation[data-id]');
@@ -90,12 +101,15 @@ function toggle(id, unstar) {
 
   if(unstar) {
     $.swap(link, $.partial('a.unstar'));
-    el.find('a.star').on('click', remove);
   }else{
     $.swap(link, $.partial('a.star'));
-    el.find('a.star').on('click', add);
   }
 
+  // rewrote the DOM get the new reference
+  link = el.find('a.star');
+  // update listener
+  link.on('click', unstar ? remove : add);
+  // keep href in sync
   link.attr({href: '/explore/' + id});
 }
 
@@ -172,13 +186,17 @@ function remove(id, e) {
   }
 
   if(~ind) {
-    console.log(ids);
     ids.splice(ind, 1);
-    console.log(ids);
+    // flush the data to local storage
     this.flush(ids);
   }
 
+  //var o = {};
+  //o[id] = 
+  //this.render(o);
   this.totals();
+
+  // switch to the star view
   this.toggle(id, false);
 }
 
@@ -205,7 +223,6 @@ function write(id) {
   if(!~ids.indexOf(id)) {
     ids.push(id); 
   }
-  localStorage.removeItem(this.key);
   this.flush(ids);
   return ids;
 }
@@ -214,6 +231,7 @@ function write(id) {
  *  Flush array of ids to local storage.
  */
 function flush(ids) {
+  localStorage.removeItem(this.key);
   localStorage.setItem(this.key, JSON.stringify(ids));
 }
 
@@ -299,12 +317,16 @@ function render(doc) {
   var ids = Object.keys(doc);
   ids.forEach(function(id) {
     var el = $('.quotation[data-id="' + id + '"]')
-      , txt = el.find('a.star span');
+      , txt = el.find('a.star span')
+      , count = doc[id];
+
+    el.data('stars', count);
+
     if(!txt.length) {
       el.find('a.star').append($.create('span'));
     }
     if(doc[id]) {
-      el.find('a.star span').addClass('star').text('' + doc[id]);
+      el.find('a.star span').addClass('star').text('' + count);
     }
 
     el.attr({href: '/explore/' + id})
