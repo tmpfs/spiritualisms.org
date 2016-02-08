@@ -42,7 +42,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
       if(this.dom instanceof NodeList) {
         this.dom = Array.prototype.slice.call(this.dom);
       }else{
-        this.dom = (el instanceof Element || el === window) ? [el] : [];
+        this.dom = ((el instanceof Element) || el === window) ? [el] : [];
       }
     }
 
@@ -2122,7 +2122,8 @@ module.exports = onResponse;
 
 },{}],36:[function(require,module,exports){
 var $ = require('air')
-  , onResponse = require('./response');
+  , onResponse = require('./response')
+  , testKey = '__storage_test__';
 
 /**
  *  Utility to determine if localStorage or sessionStorage 
@@ -2130,10 +2131,9 @@ var $ = require('air')
  */
 function storageAvailable(type) {
 	try {
-		var storage = window[type],
-			x = '__storage_test__';
-		storage.setItem(x, x);
-		storage.removeItem(x);
+		var storage = window[type];
+		storage.setItem(testKey, testKey);
+		storage.removeItem(testKey);
 		return storage;
 	}catch(e) {
 		return false;
@@ -2146,6 +2146,7 @@ function storageAvailable(type) {
 function StarModel(opts) {
   opts = opts || {};
   this.storage = storageAvailable('localStorage');
+  this.testKey = testKey;
   this.key = opts.key || 'stars';
   this.file = opts.file || 'stars.json';
   this.opts = opts;
@@ -2300,15 +2301,15 @@ var $ = require('air')
  *  Encapsulates the star functionality.
  */
 function Star(opts) {
+
   this.opts = opts;
   this.model = new StarModel(opts);
   this.isStarPage = document.location.pathname === '/stars';
 
-  window.onstorage = function(e) {
-    console.log(e); 
-  }
-
   if(this.model.storage) {
+
+    // keep in sync when storage changes
+    $(window).on('storage', onStorage.bind(this));
 
     // inject stars link to main navigation
     var nav = $('nav.main');
@@ -2334,6 +2335,26 @@ function Star(opts) {
       this.init();
       this.fetch();
     }
+  }
+}
+
+/**
+ *  Listen for the storage event.
+ *
+ *  Fires in the other tabs/windows.
+ */
+function onStorage(e) {
+  if(e.key === this.model.testKey) {
+    return false; 
+  }
+
+  //console.log(e);
+  this.totals();
+  if(this.isStarPage) {
+    this.list(); 
+  }else{
+    this.init();
+    this.fetch();
   }
 }
 
@@ -2483,9 +2504,15 @@ function list() {
     this.listing(res.body);
   }
 
+  // remove any listings
+  $('.listing > *').remove();
+
+  //console.log('list: ' + ids);
+
   if(!ids.length) {
     this.empty();
   }else{
+    $('.empty').css({display: 'none'});
     $('.actions .clear').enable();
     this.model.list(ids, onResponse.bind(this));
   }
@@ -2498,8 +2525,6 @@ function empty() {
   $('.empty').css({display: 'block'});
   $('.actions .export').disable();
   $('.actions .clear').disable();
-  // remove any listings
-  $('.listing > *').remove();
 }
 
 /**

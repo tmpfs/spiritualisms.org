@@ -1,5 +1,6 @@
 var $ = require('air')
-  , onResponse = require('./response');
+  , onResponse = require('./response')
+  , testKey = '__storage_test__';
 
 /**
  *  Utility to determine if localStorage or sessionStorage 
@@ -7,10 +8,9 @@ var $ = require('air')
  */
 function storageAvailable(type) {
 	try {
-		var storage = window[type],
-			x = '__storage_test__';
-		storage.setItem(x, x);
-		storage.removeItem(x);
+		var storage = window[type];
+		storage.setItem(testKey, testKey);
+		storage.removeItem(testKey);
 		return storage;
 	}catch(e) {
 		return false;
@@ -23,6 +23,7 @@ function storageAvailable(type) {
 function StarModel(opts) {
   opts = opts || {};
   this.storage = storageAvailable('localStorage');
+  this.testKey = testKey;
   this.key = opts.key || 'stars';
   this.file = opts.file || 'stars.json';
   this.opts = opts;

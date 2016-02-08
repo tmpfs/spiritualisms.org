@@ -5,15 +5,15 @@ var $ = require('air')
  *  Encapsulates the star functionality.
  */
 function Star(opts) {
+
   this.opts = opts;
   this.model = new StarModel(opts);
   this.isStarPage = document.location.pathname === '/stars';
 
-  window.onstorage = function(e) {
-    console.log(e); 
-  }
-
   if(this.model.storage) {
+
+    // keep in sync when storage changes
+    $(window).on('storage', onStorage.bind(this));
 
     // inject stars link to main navigation
     var nav = $('nav.main');
@@ -39,6 +39,26 @@ function Star(opts) {
       this.init();
       this.fetch();
     }
+  }
+}
+
+/**
+ *  Listen for the storage event.
+ *
+ *  Fires in the other tabs/windows.
+ */
+function onStorage(e) {
+  if(e.key === this.model.testKey) {
+    return false; 
+  }
+
+  //console.log(e);
+  this.totals();
+  if(this.isStarPage) {
+    this.list(); 
+  }else{
+    this.init();
+    this.fetch();
   }
 }
 
@@ -188,9 +208,15 @@ function list() {
     this.listing(res.body);
   }
 
+  // remove any listings
+  $('.listing > *').remove();
+
+  //console.log('list: ' + ids);
+
   if(!ids.length) {
     this.empty();
   }else{
+    $('.empty').css({display: 'none'});
     $('.actions .clear').enable();
     this.model.list(ids, onResponse.bind(this));
   }
@@ -203,8 +229,6 @@ function empty() {
   $('.empty').css({display: 'block'});
   $('.actions .export').disable();
   $('.actions .clear').disable();
-  // remove any listings
-  $('.listing > *').remove();
 }
 
 /**
