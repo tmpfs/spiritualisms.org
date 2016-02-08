@@ -1,3 +1,6 @@
+var $ = require('air')
+  , onResponse = require('./response');
+
 /**
  *  Utility to determine if localStorage or sessionStorage 
  *  is supported.
@@ -22,6 +25,7 @@ function StarModel(opts) {
   this.storage = storageAvailable('localStorage');
   this.key = opts.key || 'stars';
   this.file = opts.file || 'stars.json';
+  this.opts = opts;
 }
 
 /**
@@ -105,7 +109,61 @@ function length() {
   return ids.length;
 }
 
-[save, read, write, add, del, has, clear, length].forEach(function(m) {
+/**
+ *  Get list of documents by array of identifiers.
+ */
+// TODO: move to quote model
+function list(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Get star counters for an array of document identifiers.
+ */
+function count(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/star',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Increment the server-side star counter.
+ */
+function incr(id, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/star',
+    method: 'POST',
+    json: true
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Decrement the server-side star counter.
+ */
+function decr(id, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/star',
+    method: 'DELETE',
+    json: true
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+[
+  save, read, write, add, del, has, clear, length,
+  list, incr, decr, count
+].forEach(function(m) {
   StarModel.prototype[m.name] = m;
 });
 

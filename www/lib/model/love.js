@@ -1,4 +1,5 @@
-var $ = require('air');
+var $ = require('air')
+  , onResponse = require('./response');
 
 /**
  *  Represents the love counter operations.
@@ -13,6 +14,7 @@ function LoveModel(opts) {
 function show(id, cb) {
   var opts = {
     url: this.opts.api + '/quote/' + id + '/love',
+    json: true,
     method: 'POST'
   };
   $.request(opts, onResponse.bind(this, cb));
@@ -31,13 +33,6 @@ function load(ids, cb) {
   };
 
   $.request(opts, onResponse.bind(this, cb));
-}
-
-function onResponse(cb, err, res) {
-  if(err) {
-    return console.error(err); 
-  }
-  cb(null, res);
 }
 
 [show, load].forEach(function(m) {

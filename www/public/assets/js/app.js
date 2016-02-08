@@ -1928,7 +1928,7 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":19,"./love":31,"./star":35,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
+},{"../../lib/schema/quote":19,"./love":31,"./star":36,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
 var $ = require('air')
   , LoveModel = require('./model/love');
 
@@ -2024,7 +2024,8 @@ var Application = require('./app');
 module.exports = new Application(window.app);
 
 },{"./app":30}],33:[function(require,module,exports){
-var $ = require('air');
+var $ = require('air')
+  , onResponse = require('./response');
 
 /**
  *  Represents the love counter operations.
@@ -2039,6 +2040,7 @@ function LoveModel(opts) {
 function show(id, cb) {
   var opts = {
     url: this.opts.api + '/quote/' + id + '/love',
+    json: true,
     method: 'POST'
   };
   $.request(opts, onResponse.bind(this, cb));
@@ -2059,6 +2061,16 @@ function load(ids, cb) {
   $.request(opts, onResponse.bind(this, cb));
 }
 
+[show, load].forEach(function(m) {
+  LoveModel.prototype[m.name] = m;
+});
+
+module.exports = LoveModel;
+
+},{"./response":34,"air":"air"}],34:[function(require,module,exports){
+/**
+ *  Generic model api response handler.
+ */
 function onResponse(cb, err, res) {
   if(err) {
     return console.error(err); 
@@ -2066,13 +2078,12 @@ function onResponse(cb, err, res) {
   cb(null, res);
 }
 
-[show, load].forEach(function(m) {
-  LoveModel.prototype[m.name] = m;
-});
+module.exports = onResponse;
 
-module.exports = LoveModel;
+},{}],35:[function(require,module,exports){
+var $ = require('air')
+  , onResponse = require('./response');
 
-},{"air":"air"}],34:[function(require,module,exports){
 /**
  *  Utility to determine if localStorage or sessionStorage 
  *  is supported.
@@ -2097,6 +2108,7 @@ function StarModel(opts) {
   this.storage = storageAvailable('localStorage');
   this.key = opts.key || 'stars';
   this.file = opts.file || 'stars.json';
+  this.opts = opts;
 }
 
 /**
@@ -2180,13 +2192,67 @@ function length() {
   return ids.length;
 }
 
-[save, read, write, add, del, has, clear, length].forEach(function(m) {
+/**
+ *  Get list of documents by array of identifiers.
+ */
+// TODO: move to quote model
+function list(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Get star counters for an array of document identifiers.
+ */
+function count(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/star',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Increment the server-side star counter.
+ */
+function incr(id, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/star',
+    method: 'POST',
+    json: true
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Decrement the server-side star counter.
+ */
+function decr(id, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/star',
+    method: 'DELETE',
+    json: true
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+[
+  save, read, write, add, del, has, clear, length,
+  list, incr, decr, count
+].forEach(function(m) {
   StarModel.prototype[m.name] = m;
 });
 
 module.exports = StarModel;
 
-},{}],35:[function(require,module,exports){
+},{"./response":34,"air":"air"}],36:[function(require,module,exports){
 var $ = require('air')
   , StarModel = require('./model/star');
 
@@ -2195,7 +2261,7 @@ var $ = require('air')
  */
 function Star(opts) {
   this.opts = opts;
-  this.model = new StarModel();
+  this.model = new StarModel(opts);
 
   if(this.model.storage) {
 
@@ -2295,23 +2361,44 @@ function add(id, e) {
   }
 
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
     this.model.add(id);
-    this.render(res.body);
     // switch link to unstar view
     this.toggle(id, true);
     this.totals();
-  }
-  var opts = {
-    url: this.opts.api + '/quote/' + id + '/star',
-    method: 'POST',
-    json: true
-  };
 
-  $.request(opts, onResponse.bind(this));
+    // must render counter after toggle
+    this.render(res.body);
+  }
+
+  this.model.incr(id, onResponse.bind(this));
 }
+
+/**
+ *  Remove a star from the list of stars.
+ */
+function remove(id, e) {
+  e.preventDefault();
+
+  if(!this.model.has(id)) {
+    return false; 
+  }
+
+  function onResponse(err, res) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.model.del(id);
+    // switch to the star view
+    this.toggle(id, false);
+    this.totals();
+    // must render counter after toggle
+    this.render(res.body);
+  }
+
+  this.model.decr(id, onResponse.bind(this));
+}
+
 
 /**
  *  Render count totals in main navigation.
@@ -2329,30 +2416,6 @@ function totals() {
 }
 
 /**
- *  Remove a star from the list of stars.
- */
-function remove(id, e) {
-  e.preventDefault();
-
-  // TODO: remove a star from the storage
-  console.log('remove: ' + id);
-
-  if(!this.model.has(id)) {
-    return false; 
-  }
-
-  this.model.del(id);
-
-  //var o = {};
-  //o[id] = 
-  //this.render(o);
-  this.totals();
-
-  // switch to the star view
-  this.toggle(id, false);
-}
-
-/**
  *  List stars.
  *
  *  Reads the list of identifiers and loads the documents from the 
@@ -2362,9 +2425,8 @@ function list() {
   var ids = this.model.read();
 
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
     this.listing(res.body);
   }
 
@@ -2377,15 +2439,7 @@ function list() {
 
   }else{
     $('.actions .clear').removeClass('disabled');
-
-    var opts = {
-      url: this.opts.api + '/quote',
-      method: 'POST',
-      json: true,
-      body: ids
-    };
-
-    $.request(opts, onResponse.bind(this));
+    this.model.list(ids, onResponse.bind(this));
   }
 }
 
@@ -2454,19 +2508,12 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
     this.render(res.body);
   }
-  var opts = {
-    url: this.opts.api + '/quote/star',
-    method: 'POST',
-    json: true,
-    body: ids
-  };
 
-  $.request(opts, onResponse.bind(this));
+  this.model.count(ids, onResponse.bind(this));
 }
 
 [
@@ -2479,7 +2526,7 @@ function fetch(ids) {
 
 module.exports = Star;
 
-},{"./model/star":34,"air":"air"}],"air":[function(require,module,exports){
+},{"./model/star":35,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
 },{"./lib/air":1}]},{},[32]);

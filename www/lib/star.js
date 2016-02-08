@@ -6,7 +6,7 @@ var $ = require('air')
  */
 function Star(opts) {
   this.opts = opts;
-  this.model = new StarModel();
+  this.model = new StarModel(opts);
 
   if(this.model.storage) {
 
@@ -106,23 +106,44 @@ function add(id, e) {
   }
 
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
     this.model.add(id);
-    this.render(res.body);
     // switch link to unstar view
     this.toggle(id, true);
     this.totals();
-  }
-  var opts = {
-    url: this.opts.api + '/quote/' + id + '/star',
-    method: 'POST',
-    json: true
-  };
 
-  $.request(opts, onResponse.bind(this));
+    // must render counter after toggle
+    this.render(res.body);
+  }
+
+  this.model.incr(id, onResponse.bind(this));
 }
+
+/**
+ *  Remove a star from the list of stars.
+ */
+function remove(id, e) {
+  e.preventDefault();
+
+  if(!this.model.has(id)) {
+    return false; 
+  }
+
+  function onResponse(err, res) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.model.del(id);
+    // switch to the star view
+    this.toggle(id, false);
+    this.totals();
+    // must render counter after toggle
+    this.render(res.body);
+  }
+
+  this.model.decr(id, onResponse.bind(this));
+}
+
 
 /**
  *  Render count totals in main navigation.
@@ -140,30 +161,6 @@ function totals() {
 }
 
 /**
- *  Remove a star from the list of stars.
- */
-function remove(id, e) {
-  e.preventDefault();
-
-  // TODO: remove a star from the storage
-  console.log('remove: ' + id);
-
-  if(!this.model.has(id)) {
-    return false; 
-  }
-
-  this.model.del(id);
-
-  //var o = {};
-  //o[id] = 
-  //this.render(o);
-  this.totals();
-
-  // switch to the star view
-  this.toggle(id, false);
-}
-
-/**
  *  List stars.
  *
  *  Reads the list of identifiers and loads the documents from the 
@@ -173,9 +170,8 @@ function list() {
   var ids = this.model.read();
 
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
     this.listing(res.body);
   }
 
@@ -188,15 +184,7 @@ function list() {
 
   }else{
     $('.actions .clear').removeClass('disabled');
-
-    var opts = {
-      url: this.opts.api + '/quote',
-      method: 'POST',
-      json: true,
-      body: ids
-    };
-
-    $.request(opts, onResponse.bind(this));
+    this.model.list(ids, onResponse.bind(this));
   }
 }
 
@@ -265,19 +253,12 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    if(err) {
-      return console.error(err); 
-    }
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
     this.render(res.body);
   }
-  var opts = {
-    url: this.opts.api + '/quote/star',
-    method: 'POST',
-    json: true,
-    body: ids
-  };
 
-  $.request(opts, onResponse.bind(this));
+  this.model.count(ids, onResponse.bind(this));
 }
 
 [
