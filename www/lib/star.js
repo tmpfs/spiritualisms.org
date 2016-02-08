@@ -52,7 +52,6 @@ function onStorage(e) {
     return false; 
   }
 
-  //console.log(e);
   this.totals();
   if(this.isStarPage) {
     this.list(); 

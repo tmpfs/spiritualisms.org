@@ -67,6 +67,7 @@ function random(e) {
 
   var love = this.love
     , star = this.star
+    , last = $('.quotation').data('id')
     , icon = $(e.target).find('i')
     , container = $('.quotation')
     , start = new Date().getTime()
@@ -128,10 +129,15 @@ function random(e) {
     }
   }
 
-  $.request({
+  var opts = {
     url: this.opts.api + '/quote/random',
+    qs: {
+      last: last 
+    },
     json: true
-  }, onResponse.bind(this));
+  };
+
+  $.request(opts, onResponse.bind(this));
 
   icon.addClass('fa-spin');
   container.fadeOut(function() {

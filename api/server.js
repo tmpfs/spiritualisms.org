@@ -119,7 +119,7 @@ app.get('/quote/count', function(req, res, next) {
  */
 app.get('/quote/random', function(req, res, next) {
   var quote = new Quote()
-    , opts = {};
+    , opts = {last: req.query.last};
   quote.random(opts, function(err, response, body) {
     if(err) {
       return next(err);
