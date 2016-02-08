@@ -1912,7 +1912,7 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":19,"./love":31,"./star":33,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
+},{"../../lib/schema/quote":19,"./love":31,"./star":34,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
 var $ = require('air');
 
 /**
@@ -2030,8 +2030,6 @@ module.exports = new Application(window.app);
 /* jshint ignore:end */
 
 },{"./app":30}],33:[function(require,module,exports){
-var $ = require('air');
-
 /**
  *  Utility to determine if localStorage or sessionStorage 
  *  is supported.
@@ -2048,13 +2046,116 @@ function storageAvailable(type) {
 	}
 }
 
+/**
+ *  Represents the local storage model for user's stars.
+ */
+function StarModel(opts) {
+  opts = opts || {};
+  this.storage = storageAvailable('localStorage');
+  this.key = opts.key || 'stars';
+  this.file = opts.file || 'stars.json';
+}
+
+/**
+ *  Save the array of identifiers as a file to disc.
+ */
+function save() {
+  var blob = new Blob(
+    [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'});
+  // requires file-saver.js to be loaded
+  window.saveAs(blob, this.file, true);
+}
+
+/**
+ *  Read the identifier array from local storage.
+ */
+function read() {
+  var ids = localStorage.getItem(this.key);
+  if(ids) {
+    try {
+      ids = JSON.parse(ids); 
+    }catch(e) {
+      ids = [];
+    }
+  }
+  return ids || [];
+}
+
+/**
+ *  Add an identifier to the array.
+ */
+function add(id) {
+  var ids = this.read();
+  if(!~ids.indexOf(id)) {
+    ids.push(id); 
+    this.write(ids);
+  }
+  return ids;
+}
+
+/**
+ *  Remove an identifier from the array.
+ */
+function del(id) {
+  var ids = this.read()
+    , ind = ids.indexOf(id);
+  if(~ind) {
+    ids.splice(ind, 1);
+    this.write(ids);
+  }
+  return ids;
+}
+
+/**
+ *  Delete all identifiers from the array.
+ */
+function clear() {
+  localStorage.removeItem(this.key);
+}
+
+/**
+ *  Write an array of identifiers to local storage.
+ */
+function write(ids) {
+  ids = ids || [];
+  localStorage.setItem(this.key, JSON.stringify(ids));
+}
+
+/**
+ *  Determine if an identifier already exists.
+ */
+function has(id) {
+  var ids = this.read();
+  return Boolean(~ids.indexOf(id));
+}
+
+/**
+ *  Count the number of stars for this user.
+ */
+function length() {
+  var ids = this.read();
+  return ids.length;
+}
+
+[save, read, write, add, del, has, clear, length].forEach(function(m) {
+  StarModel.prototype[m.name] = m;
+});
+
+module.exports = StarModel;
+
+},{}],34:[function(require,module,exports){
+var $ = require('air')
+  , StarModel = require('./star-model');
+
 function Star(opts) {
   this.opts = opts;
-  this.storage = storageAvailable('localStorage');
-  this.key = 'stars';
-  this.file = 'stars.json';
+  this.model = new StarModel();
 
-  if(this.storage) {
+  //this.storage = storageAvailable('localStorage');
+  //this.key = 'stars';
+  //this.file = 'stars.json';
+
+  if(this.model.storage) {
 
     // inject stars link to main navigation
     var nav = $('nav.main');
@@ -2067,7 +2168,7 @@ function Star(opts) {
 
     this.totals();
 
-    $('.actions .export').on('click', exporter.bind(this));
+    $('.actions .export').on('click', save.bind(this));
     $('.actions .clear').on('click', clear.bind(this));
 
     if(opts.uri.pathname === '/stars') {
@@ -2084,14 +2185,11 @@ function Star(opts) {
 }
 
 /**
- *  Exports the array of identifiers as a JSON array.
+ *  Saves the array of identifiers as a JSON document.
  */
-function exporter(e) {
+function save(e) {
   e.preventDefault();
-  var blob = new Blob(
-    [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'});
-  // requires file-saver.js to be loaded
-  window.saveAs(blob, this.file, true);
+  this.model.save();
 }
 
 /**
@@ -2100,8 +2198,7 @@ function exporter(e) {
 function clear(e) {
   e.preventDefault();
 
-  // remove storage
-  localStorage.removeItem(this.key);
+  this.model.clear();
 
   // show initial message, remove listings etc.
   this.list();
@@ -2114,12 +2211,12 @@ function clear(e) {
  *  Initializes the star links on a page.
  */
 function init() {
-  var scope = this;
   this.quotes = $('.quotation[data-id]');
-  this.quotes.each(function(el) {
+  function it(el) {
     var id = $(el).data('id')
-    scope.toggle(id, scope.has(id));
-  })
+    this.toggle(id, this.model.has(id));
+  }
+  this.quotes.each(it.bind(this));
 }
 
 /**
@@ -2149,10 +2246,9 @@ function toggle(id, unstar) {
  *  Add a star to the list of stars.
  */
 function add(id, e) {
-  var scope = this;
   e.preventDefault();
 
-  if(this.has(id)) {
+  if(this.model.has(id)) {
     return false;
   }
 
@@ -2163,11 +2259,11 @@ function add(id, e) {
     }else if(res) {
       doc = JSON.parse(res); 
     }
-    scope.write(id);
-    scope.render(doc);
+    this.model.add(id);
+    this.render(doc);
     // switch link to unstar view
-    scope.toggle(id, true);
-    scope.totals();
+    this.toggle(id, true);
+    this.totals();
   }
   var opts = {
     url: this.opts.api + '/quote/' + id + '/star',
@@ -2182,7 +2278,7 @@ function add(id, e) {
  *  Render count totals in main navigation.
  */
 function totals() {
-  var len = this.count()
+  var len = this.model.length()
     , el = $('nav.main');
   if(len > 0) {
     el.find('a.stars span').remove();
@@ -2194,14 +2290,6 @@ function totals() {
 }
 
 /**
- *  Count the number of stars for this user.
- */
-function count() {
-  var ids = this.read();
-  return ids.length;
-}
-
-/**
  *  Remove a star from the list of stars.
  */
 function remove(id, e) {
@@ -2210,18 +2298,11 @@ function remove(id, e) {
   // TODO: remove a star from the storage
   console.log('remove: ' + id);
 
-  var ids = this.read()
-    , ind = ids.indexOf(id);
-
-  if(!this.has(id)) {
+  if(!this.model.has(id)) {
     return false; 
   }
 
-  if(~ind) {
-    ids.splice(ind, 1);
-    // flush the data to local storage
-    this.flush(ids);
-  }
+  this.model.del(id);
 
   //var o = {};
   //o[id] = 
@@ -2233,49 +2314,6 @@ function remove(id, e) {
 }
 
 /**
- *  Read the array of ids from the local storage.
- */
-function read() {
-  var ids = localStorage.getItem(this.key);
-  if(ids) {
-    try {
-      ids = JSON.parse(ids); 
-    }catch(e) {
-      ids = [];
-    }
-  }
-  return ids || [];
-}
-
-/**
- *  Write an id to the local storage.
- */
-function write(id) {
-  var ids = this.read();
-  if(!~ids.indexOf(id)) {
-    ids.push(id); 
-  }
-  this.flush(ids);
-  return ids;
-}
-
-/**
- *  Flush array of ids to local storage.
- */
-function flush(ids) {
-  localStorage.removeItem(this.key);
-  localStorage.setItem(this.key, JSON.stringify(ids));
-}
-
-/**
- *  Determine if a star already exists.
- */
-function has(id) {
-  var ids = this.read();
-  return Boolean(~ids.indexOf(id));
-}
-
-/**
  *  List stars.
  *
  *  Reads the list of identifiers and loads the documents from the 
@@ -2283,7 +2321,7 @@ function has(id) {
  */
 function list() {
   var scope = this;
-  var ids = this.read();
+  var ids = this.model.read();
 
   function onResponse(err, res) {
     var doc;
@@ -2299,7 +2337,6 @@ function list() {
     $('.empty').css({display: 'block'});
     $('.actions .export').addClass('disabled');
     $('.actions .clear').addClass('disabled');
-
     // remove any listings
     $('.listing > *').remove();
 
@@ -2369,7 +2406,6 @@ function render(doc) {
  *  Loads the star counters for all quotes.
  */
 function fetch(ids) {
-  var scope = this;
   if(!ids) {
     ids = [];
     this.quotes.each(function(el) {
@@ -2389,7 +2425,7 @@ function fetch(ids) {
     }else if(res) {
       doc = JSON.parse(res); 
     }
-    scope.render(doc);
+    this.render(doc);
   }
   var opts = {
     url: this.opts.api + '/quote/star',
@@ -2402,14 +2438,16 @@ function fetch(ids) {
 }
 
 [
-  count, add, init, remove, list, totals, listing, toggle, flush,
-  read, write, has, fetch, render].forEach(function(m) {
-  Star.prototype[m.name] = m;
-});
+  add, init, remove, list, totals, listing, toggle, fetch, render
+].forEach(
+  function(m) {
+    Star.prototype[m.name] = m;
+  }
+);
 
 module.exports = Star;
 
-},{"air":"air"}],"air":[function(require,module,exports){
+},{"./star-model":33,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
 },{"./lib/air":1}]},{},[32]);
