@@ -10,7 +10,12 @@ block content
       nav.float-left
         a.button.export Export
         a.button.import Import
-        input(type='file', id='import', name='files', accept='application/json')
+        input(
+          type='file',
+          id='import',
+          name='files',
+          accept='application/json',
+          hidden)
       nav.float-right
         a.button.clear.disabled Clear All
     .empty

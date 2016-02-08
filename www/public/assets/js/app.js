@@ -86,7 +86,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = air;
 })();
 
-},{"zephyr":19}],2:[function(require,module,exports){
+},{"zephyr":20}],2:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -511,6 +511,49 @@ module.exports = function() {
 }
 
 },{}],12:[function(require,module,exports){
+var attr = 'hidden';
+
+/**
+ *  Modify the hidden attribute.
+ */
+function hidden(val) {
+  // return whether the first element in the set
+  // is hidden
+  if(val === undefined) {
+    return this.attr(attr);
+  // hide on truthy
+  }else if(val) {
+    this.attr(attr, '1');
+  // show on falsey
+  }else{
+    this.attr(attr, null);
+  }
+  return this;
+}
+
+function show(fn) {
+  this.hidden(false);
+  if(typeof fn === 'function') {
+    fn.call(this);
+  }
+  return this;
+}
+
+function hide(fn) {
+  this.hidden(true);
+  if(typeof fn === 'function') {
+    fn.call(this);
+  }
+  return this.hidden(true);
+}
+
+module.exports = function() {
+  this.hidden = hidden;
+  this.show = show;
+  this.hide = hide;
+}
+
+},{}],13:[function(require,module,exports){
 /**
  *  Get the HTML of the first matched element or set the HTML
  *  content of all matched elements.
@@ -545,7 +588,7 @@ module.exports = function() {
   this.html = html;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
@@ -564,7 +607,7 @@ module.exports = function() {
   this.parent = parent;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the beginning of each
  *  element in the set of matched elements.
@@ -597,7 +640,7 @@ module.exports = function() {
   this.prepend = prepend;
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  *  Remove all matched elements.
  */
@@ -621,7 +664,7 @@ module.exports = function() {
   this.remove = remove;
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  *  Thin wrapper for XMLHttpRequest using a 
  *  callback style.
@@ -746,7 +789,7 @@ module.exports = function() {
   this.air.request = request;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var $
   , slice = Array.prototype.slice;
 
@@ -807,7 +850,7 @@ module.exports = function() {
   this.air.swap = swap;
 }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  *  IE9 supports textContent and innerText has various issues.
  *
@@ -832,7 +875,7 @@ module.exports = function() {
   this.text = text;
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -935,7 +978,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = {
   type: 'object',
   fields: {
@@ -957,7 +1000,7 @@ module.exports = {
   }
 }
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -1009,7 +1052,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -1039,7 +1082,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -1208,7 +1251,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":25,"./reason":22,"format-util":26,"zephyr":27}],24:[function(require,module,exports){
+},{"../messages":26,"./reason":23,"format-util":27,"zephyr":28}],25:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1614,7 +1657,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":25,"./iterator":21,"./rule":23,"format-util":26}],25:[function(require,module,exports){
+},{"../messages":26,"./iterator":22,"./rule":24,"format-util":27}],26:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1673,7 +1716,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1712,9 +1755,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],27:[function(require,module,exports){
-arguments[4][19][0].apply(exports,arguments)
-},{"dup":19}],28:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],29:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1794,7 +1837,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1814,7 +1857,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1834,7 +1877,7 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
@@ -1859,6 +1902,7 @@ $.plugin(
     require('air/find'),
     //require('air/first'),
     require('air/html'),
+    require('air/hidden'),
     require('air/parent'),
     require('air/prepend'),
     require('air/request'),
@@ -1905,7 +1949,7 @@ function random(e) {
   var love = this.love
     , star = this.star
     , last = $('.quotation').data('id')
-    , icon = $(e.target).find('i')
+    , icon = $(e.currentTarget).find('i')
     , container = $('.quotation')
     , start = new Date().getTime()
     , doc = false
@@ -1991,7 +2035,39 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":20,"./love":32,"./star":37,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/html":12,"air/parent":13,"air/prepend":14,"air/remove":15,"air/request":16,"air/template":17,"air/text":18,"async-validate":24,"vivify":28,"vivify/fade-in":29,"vivify/fade-out":30}],32:[function(require,module,exports){
+},{"../../lib/schema/quote":21,"./love":35,"./star":40,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/parent":14,"air/prepend":15,"air/remove":16,"air/request":17,"air/template":18,"air/text":19,"async-validate":25,"vivify":29,"vivify/fade-in":30,"vivify/fade-out":31}],33:[function(require,module,exports){
+var $ = require('air');
+
+function dismiss() {
+  $('[href="#dismiss"]').on('click', function(e) {
+    e.preventDefault();
+    var p = $(e.currentTarget).parent(); 
+    p.fadeOut(function() {
+      p.remove(); 
+    })
+  })
+}
+
+module.exports = dismiss;
+
+},{"air":"air"}],34:[function(require,module,exports){
+var $ = require('air')
+  , dismiss = require('./dismiss');
+
+/**
+ *  Show an error message to the user.
+ */
+function error(msg, target) {
+  target = target || $('section');
+  var err = $.partial('.msg.error').clone(true);
+  err.find('p').text(msg);
+  target.prepend(err);
+  dismiss();
+}
+
+module.exports = error;
+
+},{"./dismiss":33,"air":"air"}],35:[function(require,module,exports){
 var $ = require('air')
   , LoveModel = require('./model/love');
 
@@ -2082,11 +2158,11 @@ function init() {
 
 module.exports = Love;
 
-},{"./model/love":34,"air":"air"}],33:[function(require,module,exports){
+},{"./model/love":37,"air":"air"}],36:[function(require,module,exports){
 var Application = require('./app');
 module.exports = new Application(window.app);
 
-},{"./app":31}],34:[function(require,module,exports){
+},{"./app":32}],37:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2130,7 +2206,7 @@ function load(ids, cb) {
 
 module.exports = LoveModel;
 
-},{"./response":35,"air":"air"}],35:[function(require,module,exports){
+},{"./response":38,"air":"air"}],38:[function(require,module,exports){
 /**
  *  Generic model api response handler.
  */
@@ -2143,7 +2219,7 @@ function onResponse(cb, err, res) {
 
 module.exports = onResponse;
 
-},{}],36:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response')
   , testKey = '__storage_test__';
@@ -2316,8 +2392,9 @@ function decr(id, cb) {
 
 module.exports = StarModel;
 
-},{"./response":35,"air":"air"}],37:[function(require,module,exports){
+},{"./response":38,"air":"air"}],40:[function(require,module,exports){
 var $ = require('air')
+  , error = require('./error')
   , StarModel = require('./model/star');
 
 /**
@@ -2349,6 +2426,9 @@ function Star(opts) {
       $('a.import').remove();
       chooser.remove(); 
     }else{
+      $('a.import').on('click', function() {
+        chooser.show();
+      })
       chooser.on('change', load.bind(this));
     }
 
@@ -2410,8 +2490,7 @@ function load(e) {
     try {
       doc = JSON.parse(this.result); 
     }catch(e) {
-      // TODO: show message to the user
-      return console.error(e); 
+      return error('Cannot import document, invalid JSON.');
     }
     console.log(doc);
   }
@@ -2662,7 +2741,7 @@ function fetch(ids) {
 
 module.exports = Star;
 
-},{"./model/star":36,"air":"air"}],"air":[function(require,module,exports){
+},{"./error":34,"./model/star":39,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[33]);
+},{"./lib/air":1}]},{},[36]);

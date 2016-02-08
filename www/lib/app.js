@@ -22,6 +22,7 @@ $.plugin(
     require('air/find'),
     //require('air/first'),
     require('air/html'),
+    require('air/hidden'),
     require('air/parent'),
     require('air/prepend'),
     require('air/request'),
@@ -68,7 +69,7 @@ function random(e) {
   var love = this.love
     , star = this.star
     , last = $('.quotation').data('id')
-    , icon = $(e.target).find('i')
+    , icon = $(e.currentTarget).find('i')
     , container = $('.quotation')
     , start = new Date().getTime()
     , doc = false

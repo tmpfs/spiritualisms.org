@@ -1,4 +1,5 @@
 var $ = require('air')
+  , error = require('./error')
   , StarModel = require('./model/star');
 
 /**
@@ -30,6 +31,9 @@ function Star(opts) {
       $('a.import').remove();
       chooser.remove(); 
     }else{
+      $('a.import').on('click', function() {
+        chooser.show();
+      })
       chooser.on('change', load.bind(this));
     }
 
@@ -91,8 +95,7 @@ function load(e) {
     try {
       doc = JSON.parse(this.result); 
     }catch(e) {
-      // TODO: show message to the user
-      return console.error(e); 
+      return error('Cannot import document, invalid JSON.');
     }
     console.log(doc);
   }

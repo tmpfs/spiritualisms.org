@@ -3,6 +3,8 @@
 @import 'animate';
 
 $muted = #b3b3b3;
+$red = #dc322f;
+$white = white;
 
 /*
 $base03:    #002b36;
@@ -938,3 +940,31 @@ section.stars .actions nav:first-child a:not(:last-child)
 [disabled]
   opacity: 0.8;
   pointer-events: none;
+
+[hidden]
+  display: none;
+
+input[type="file"]
+  background: $muted;
+  padding: .5rem;
+  border-radius: .2rem;
+
+.msg
+  position: relative;
+  padding: 1rem;
+  border-radius: .5rem;
+  p
+    font-size: 2rem;
+  p:first-child
+    margin-bottom: 0;
+
+.msg.error
+  background: $red;
+  color: $white;
+  a.close
+    color: $white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: .5rem;
+    margin-right: 1rem;
