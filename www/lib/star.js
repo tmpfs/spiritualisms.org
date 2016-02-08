@@ -1,5 +1,5 @@
 var $ = require('air')
-  , StarModel = require('./star-model');
+  , StarModel = require('./model/star');
 
 function Star(opts) {
   this.opts = opts;

@@ -1,5 +1,5 @@
 var $ = require('air')
-  , LoveModel = require('./love-model');
+  , LoveModel = require('./model/love');
 
 /**
  *  Love handlers.

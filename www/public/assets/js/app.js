@@ -1928,58 +1928,9 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":19,"./love":32,"./star":35,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
-var $ = require('air');
-
-/**
- *  Represents the love counter operations.
- */
-function LoveModel(opts) {
-  this.opts = opts;
-}
-
-/**
- *  Increment the love counter for an identifier.
- */
-function show(id, cb) {
-  var opts = {
-    url: this.opts.api + '/quote/' + id + '/love',
-    method: 'POST'
-  };
-  $.request(opts, onResponse.bind(this, cb));
-}
-
-/**
- *  Load the love counters for an array of identifiers.
- */
-function load(ids, cb) {
-
-  var opts = {
-    url: this.opts.api + '/quote/love',
-    method: 'POST',
-    json: true,
-    body: ids
-  };
-
-  $.request(opts, onResponse.bind(this, cb));
-}
-
-function onResponse(cb, err, res) {
-  if(err) {
-    return console.error(err); 
-  }
-  cb(null, res);
-}
-
-[show, load].forEach(function(m) {
-  LoveModel.prototype[m.name] = m;
-});
-
-module.exports = LoveModel;
-
-},{"air":"air"}],32:[function(require,module,exports){
+},{"../../lib/schema/quote":19,"./love":31,"./star":35,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
 var $ = require('air')
-  , LoveModel = require('./love-model');
+  , LoveModel = require('./model/love');
 
 /**
  *  Love handlers.
@@ -2068,13 +2019,62 @@ function init() {
 
 module.exports = Love;
 
-},{"./love-model":31,"air":"air"}],33:[function(require,module,exports){
+},{"./model/love":33,"air":"air"}],32:[function(require,module,exports){
 /* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
 /* jshint ignore:end */
 
-},{"./app":30}],34:[function(require,module,exports){
+},{"./app":30}],33:[function(require,module,exports){
+var $ = require('air');
+
+/**
+ *  Represents the love counter operations.
+ */
+function LoveModel(opts) {
+  this.opts = opts;
+}
+
+/**
+ *  Increment the love counter for an identifier.
+ */
+function show(id, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/love',
+    method: 'POST'
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Load the love counters for an array of identifiers.
+ */
+function load(ids, cb) {
+
+  var opts = {
+    url: this.opts.api + '/quote/love',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+function onResponse(cb, err, res) {
+  if(err) {
+    return console.error(err); 
+  }
+  cb(null, res);
+}
+
+[show, load].forEach(function(m) {
+  LoveModel.prototype[m.name] = m;
+});
+
+module.exports = LoveModel;
+
+},{"air":"air"}],34:[function(require,module,exports){
 /**
  *  Utility to determine if localStorage or sessionStorage 
  *  is supported.
@@ -2190,7 +2190,7 @@ module.exports = StarModel;
 
 },{}],35:[function(require,module,exports){
 var $ = require('air')
-  , StarModel = require('./star-model');
+  , StarModel = require('./model/star');
 
 function Star(opts) {
   this.opts = opts;
@@ -2482,7 +2482,7 @@ function fetch(ids) {
 
 module.exports = Star;
 
-},{"./star-model":34,"air":"air"}],"air":[function(require,module,exports){
+},{"./model/star":34,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[33]);
+},{"./lib/air":1}]},{},[32]);
