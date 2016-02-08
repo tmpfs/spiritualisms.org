@@ -11,5 +11,5 @@
   "mocha"                   : true,
   "unused"                  : true,
   "asi"                     : true,
-  "predef"                  : ["window","localStorage","Blob"]
+  "predef"                  : ["window","document","localStorage","Blob"]
 }

@@ -24,7 +24,7 @@ function Star(opts) {
     $('.actions .export').on('click', save.bind(this));
     $('.actions .clear').on('click', clear.bind(this));
 
-    if(opts.uri.pathname === '/stars') {
+    if(document.location.pathname === '/stars') {
       nav.find('a.stars').addClass('selected');
       this.list();
     }else{
