@@ -86,7 +86,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = air;
 })();
 
-},{"zephyr":18}],2:[function(require,module,exports){
+},{"zephyr":19}],2:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -409,6 +409,45 @@ module.exports = function() {
 //plugin.deps = {attr: true};
 
 },{}],9:[function(require,module,exports){
+var attr = 'disabled';
+
+/**
+ *  Toggles the diabled attribute on an element.
+ *
+ *  A typical css rule might be:
+ *
+ *  [disabled]{pointer-events: none; opacity: 0.8;}
+ */
+function disabled(val) {
+  // return whether the first element in the set
+  // is hidden
+  if(val === undefined) {
+    return this.attr(attr);
+  // hide on truthy
+  }else if(val) {
+    this.attr(attr, '1');
+  // show on falsey
+  }else{
+    this.attr(attr, null);
+  }
+  return this;
+}
+
+function enable() {
+  return this.disabled(false);
+}
+
+function disable() {
+  return this.disabled(true);
+}
+
+module.exports = function() {
+  this.disabled = disabled;
+  this.enable = enable;
+  this.disable = disable;
+}
+
+},{}],10:[function(require,module,exports){
 function on(nm, cb, capture) {
   this.each(function(el) {
     el.addEventListener(nm, cb, capture);
@@ -454,7 +493,7 @@ module.exports = function() {
   this.click = click;
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  *  Get the descendants of each element in the current set
  *  of matched elements, filtered by a selector.
@@ -471,7 +510,7 @@ module.exports = function() {
   this.find = find;
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  *  Get the HTML of the first matched element or set the HTML
  *  content of all matched elements.
@@ -506,7 +545,7 @@ module.exports = function() {
   this.html = html;
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
@@ -525,7 +564,7 @@ module.exports = function() {
   this.parent = parent;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the beginning of each
  *  element in the set of matched elements.
@@ -558,7 +597,7 @@ module.exports = function() {
   this.prepend = prepend;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  *  Remove all matched elements.
  */
@@ -582,7 +621,7 @@ module.exports = function() {
   this.remove = remove;
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  *  Thin wrapper for XMLHttpRequest using a 
  *  callback style.
@@ -692,7 +731,7 @@ module.exports = function() {
   this.air.request = request;
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var $
   , slice = Array.prototype.slice;
 
@@ -753,7 +792,7 @@ module.exports = function() {
   this.air.swap = swap;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  *  IE9 supports textContent and innerText has various issues.
  *
@@ -778,7 +817,7 @@ module.exports = function() {
   this.text = text;
 }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -881,7 +920,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = {
   type: 'object',
   fields: {
@@ -903,7 +942,7 @@ module.exports = {
   }
 }
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -955,7 +994,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -985,7 +1024,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -1154,7 +1193,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":24,"./reason":21,"format-util":25,"zephyr":26}],23:[function(require,module,exports){
+},{"../messages":25,"./reason":22,"format-util":26,"zephyr":27}],24:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1560,7 +1599,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":24,"./iterator":20,"./rule":22,"format-util":25}],24:[function(require,module,exports){
+},{"../messages":25,"./iterator":21,"./rule":23,"format-util":26}],25:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1619,7 +1658,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1658,9 +1697,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],26:[function(require,module,exports){
-arguments[4][18][0].apply(exports,arguments)
-},{"dup":18}],27:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
+arguments[4][19][0].apply(exports,arguments)
+},{"dup":19}],28:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1740,7 +1779,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1760,7 +1799,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1780,7 +1819,7 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
@@ -1799,6 +1838,7 @@ $.plugin(
     require('air/create'),
     require('air/css'),
     require('air/data'),
+    require('air/disabled'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),
@@ -1928,7 +1968,7 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":19,"./love":31,"./star":36,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/event":9,"air/find":10,"air/html":11,"air/parent":12,"air/prepend":13,"air/remove":14,"air/request":15,"air/template":16,"air/text":17,"async-validate":23,"vivify":27,"vivify/fade-in":28,"vivify/fade-out":29}],31:[function(require,module,exports){
+},{"../../lib/schema/quote":20,"./love":32,"./star":37,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/html":12,"air/parent":13,"air/prepend":14,"air/remove":15,"air/request":16,"air/template":17,"air/text":18,"async-validate":24,"vivify":28,"vivify/fade-in":29,"vivify/fade-out":30}],32:[function(require,module,exports){
 var $ = require('air')
   , LoveModel = require('./model/love');
 
@@ -2019,11 +2059,11 @@ function init() {
 
 module.exports = Love;
 
-},{"./model/love":33,"air":"air"}],32:[function(require,module,exports){
+},{"./model/love":34,"air":"air"}],33:[function(require,module,exports){
 var Application = require('./app');
 module.exports = new Application(window.app);
 
-},{"./app":30}],33:[function(require,module,exports){
+},{"./app":31}],34:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2067,7 +2107,7 @@ function load(ids, cb) {
 
 module.exports = LoveModel;
 
-},{"./response":34,"air":"air"}],34:[function(require,module,exports){
+},{"./response":35,"air":"air"}],35:[function(require,module,exports){
 /**
  *  Generic model api response handler.
  */
@@ -2080,7 +2120,7 @@ function onResponse(cb, err, res) {
 
 module.exports = onResponse;
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2252,7 +2292,7 @@ function decr(id, cb) {
 
 module.exports = StarModel;
 
-},{"./response":34,"air":"air"}],36:[function(require,module,exports){
+},{"./response":35,"air":"air"}],37:[function(require,module,exports){
 var $ = require('air')
   , StarModel = require('./model/star');
 
@@ -2262,6 +2302,11 @@ var $ = require('air')
 function Star(opts) {
   this.opts = opts;
   this.model = new StarModel(opts);
+  this.isStarPage = document.location.pathname === '/stars';
+
+  window.onstorage = function(e) {
+    console.log(e); 
+  }
 
   if(this.model.storage) {
 
@@ -2279,7 +2324,7 @@ function Star(opts) {
     $('.actions .export').on('click', save.bind(this));
     $('.actions .clear').on('click', clear.bind(this));
 
-    if(document.location.pathname === '/stars') {
+    if(this.isStarPage) {
       nav.find('a.stars').addClass('selected');
       this.list();
     }else{
@@ -2394,6 +2439,14 @@ function remove(id, e) {
     this.totals();
     // must render counter after toggle
     this.render(res.body);
+
+    if(this.isStarPage) {
+      var el = $('.quotation[data-id="' + id + '"]');
+      el.remove();
+      if(!this.model.length()) {
+        this.empty(); 
+      }
+    }
   }
 
   this.model.decr(id, onResponse.bind(this));
@@ -2431,16 +2484,22 @@ function list() {
   }
 
   if(!ids.length) {
-    $('.empty').css({display: 'block'});
-    $('.actions .export').addClass('disabled');
-    $('.actions .clear').addClass('disabled');
-    // remove any listings
-    $('.listing > *').remove();
-
+    this.empty();
   }else{
-    $('.actions .clear').removeClass('disabled');
+    $('.actions .clear').enable();
     this.model.list(ids, onResponse.bind(this));
   }
+}
+
+/**
+ *  Show the empty listing view.
+ */
+function empty() {
+  $('.empty').css({display: 'block'});
+  $('.actions .export').disable();
+  $('.actions .clear').disable();
+  // remove any listings
+  $('.listing > *').remove();
 }
 
 /**
@@ -2517,7 +2576,7 @@ function fetch(ids) {
 }
 
 [
-  add, init, remove, list, totals, listing, toggle, fetch, render
+  add, init, remove, list, totals, listing, toggle, fetch, render, empty
 ].forEach(
   function(m) {
     Star.prototype[m.name] = m;
@@ -2526,7 +2585,7 @@ function fetch(ids) {
 
 module.exports = Star;
 
-},{"./model/star":35,"air":"air"}],"air":[function(require,module,exports){
+},{"./model/star":36,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[32]);
+},{"./lib/air":1}]},{},[33]);

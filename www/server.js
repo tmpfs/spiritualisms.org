@@ -43,8 +43,7 @@ function getViewInfo(req) {
   o.url = req.url;
   o.uri = uri;
   o.app = {
-    api: process.env.API || 'http://localhost:3001',
-    uri: uri
+    api: process.env.API || 'http://localhost:3001'
   }
   o.env = env;
   return o;

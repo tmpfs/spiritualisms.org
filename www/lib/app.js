@@ -16,6 +16,7 @@ $.plugin(
     require('air/create'),
     require('air/css'),
     require('air/data'),
+    require('air/disabled'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),

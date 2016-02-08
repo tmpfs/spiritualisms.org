@@ -7,6 +7,11 @@ var $ = require('air')
 function Star(opts) {
   this.opts = opts;
   this.model = new StarModel(opts);
+  this.isStarPage = document.location.pathname === '/stars';
+
+  window.onstorage = function(e) {
+    console.log(e); 
+  }
 
   if(this.model.storage) {
 
@@ -24,7 +29,7 @@ function Star(opts) {
     $('.actions .export').on('click', save.bind(this));
     $('.actions .clear').on('click', clear.bind(this));
 
-    if(document.location.pathname === '/stars') {
+    if(this.isStarPage) {
       nav.find('a.stars').addClass('selected');
       this.list();
     }else{
@@ -139,6 +144,14 @@ function remove(id, e) {
     this.totals();
     // must render counter after toggle
     this.render(res.body);
+
+    if(this.isStarPage) {
+      var el = $('.quotation[data-id="' + id + '"]');
+      el.remove();
+      if(!this.model.length()) {
+        this.empty(); 
+      }
+    }
   }
 
   this.model.decr(id, onResponse.bind(this));
@@ -176,16 +189,22 @@ function list() {
   }
 
   if(!ids.length) {
-    $('.empty').css({display: 'block'});
-    $('.actions .export').addClass('disabled');
-    $('.actions .clear').addClass('disabled');
-    // remove any listings
-    $('.listing > *').remove();
-
+    this.empty();
   }else{
-    $('.actions .clear').removeClass('disabled');
+    $('.actions .clear').enable();
     this.model.list(ids, onResponse.bind(this));
   }
+}
+
+/**
+ *  Show the empty listing view.
+ */
+function empty() {
+  $('.empty').css({display: 'block'});
+  $('.actions .export').disable();
+  $('.actions .clear').disable();
+  // remove any listings
+  $('.listing > *').remove();
 }
 
 /**
@@ -262,7 +281,7 @@ function fetch(ids) {
 }
 
 [
-  add, init, remove, list, totals, listing, toggle, fetch, render
+  add, init, remove, list, totals, listing, toggle, fetch, render, empty
 ].forEach(
   function(m) {
     Star.prototype[m.name] = m;

@@ -3068,7 +3068,7 @@ section.stars .empty {
 section.stars .actions nav:first-child a:not(:last-child) {
   margin-right: 1rem;
 }
-.disabled {
+[disabled] {
   opacity: 0.8;
   pointer-events: none;
 }
