@@ -118,8 +118,6 @@ function random(e) {
 
     doc = res.body;
 
-    //container.css({display: 'none'});
-
     function complete() {
       icon.removeClass('fa-spin');
       render();

@@ -1955,8 +1955,6 @@ function random(e) {
 
     doc = res.body;
 
-    //container.css({display: 'none'});
-
     function complete() {
       icon.removeClass('fa-spin');
       render();
@@ -2345,6 +2343,15 @@ function Star(opts) {
     el.prepend($.el('i').addClass('fa fa-star'));
     nav.append(el);
 
+    var chooser = $('#import');
+
+    if(!window.FileList || !window.FileReader) {
+      $('a.import').remove();
+      chooser.remove(); 
+    }else{
+      chooser.on('change', load.bind(this));
+    }
+
     this.totals();
 
     $('.actions .export').on('click', save.bind(this));
@@ -2388,6 +2395,27 @@ function onStorage(e) {
 function save(e) {
   e.preventDefault();
   this.model.save();
+}
+
+/**
+ *  Load a JSON document and import into the local storage.
+ */
+function load(e) {
+  e.preventDefault();
+  var files = e.target.files
+    , file = files[0];
+  var reader = new FileReader();
+  reader.onload = function() {
+    var doc;
+    try {
+      doc = JSON.parse(this.result); 
+    }catch(e) {
+      // TODO: show message to the user
+      return console.error(e); 
+    }
+    console.log(doc);
+  }
+  reader.readAsText(file);
 }
 
 /**
