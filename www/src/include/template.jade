@@ -1,4 +1,5 @@
 include ../mixin/quote-toolbar
+include ../mixin/unstar
 
 template
   .quotation.item
@@ -6,3 +7,6 @@ template
     .meta.clearfix
       cite.float-left 
       +quote-toolbar(null, {permalink: true})
+
+  +unstar()
+

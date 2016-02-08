@@ -290,6 +290,15 @@ function create(tag) {
 }
 
 /**
+ *  Create a text node.
+ *
+ *  @param txt The text for the node.
+ */
+function text(txt) {
+  return document.createTextNode(txt);
+}
+
+/**
  *  Create a wrapped DOM element.
  *
  *  @param tag The element tag name.
@@ -310,6 +319,7 @@ module.exports = function() {
 
   this.air.create = create;
   this.air.el = el;
+  this.air.text = text;
 }
 
 // optional `attr` dependency
@@ -2071,18 +2081,8 @@ function exporter(e) {
   var blob = new Blob(
     [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'})
     , file = 'stars.json';
-
+  // requires file-saver.js to be loaded
   window.saveAs(blob, file, true);
-
-  //var link = $.el('a').attr(
-    //{
-      //'href': window.URL.createObjectURL(blob),
-      //'download': file
-    //}
-  //).text('Download: ' + file);
-  //console.log(link);
-  //$('.actions nav:first-child').append(link);
-  //link.click();
 }
 
 function clear(e) {
@@ -2103,9 +2103,16 @@ function init() {
   this.quotes = $('.quotation[data-id]');
   this.quotes.each(function(el) {
     el = $(el);
-    var id = el.data('id');
-    var add = scope.add.bind(scope, id);
-    el.find('a.star').on('click', add);
+    var id = el.data('id')
+      , add = scope.add.bind(scope, id)
+      , remove = scope.remove.bind(scope, id)
+      , link = el.find('a.star');
+    if(scope.has(id)) {
+      $.swap('.quotation[data-id="' + id + '"] a.star', $.partial('a.unstar'));
+      el.find('a.unstar').on('click', remove);
+    }else{
+      link.on('click', add);
+    }
   })
 }
 
@@ -2166,8 +2173,10 @@ function count() {
 /**
  *  Remove a star from the list of stars.
  */
-function remove() {
+function remove(id, e) {
+  e.preventDefault();
   // TODO: remove a star from the storage
+  console.log('remove: ' + id);
 }
 
 /**

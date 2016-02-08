@@ -1,0 +1,6 @@
+mixin star(doc, opts)
+  - doc = doc || {};
+  - opts = opts || {};
+  a.star(href='/explore/' + doc.id, title=opts.title || 'Star it')
+    i.fa.fa-star.star
+    | &nbsp;Star
