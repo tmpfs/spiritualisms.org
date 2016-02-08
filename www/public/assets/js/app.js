@@ -2020,10 +2020,8 @@ function init() {
 module.exports = Love;
 
 },{"./model/love":33,"air":"air"}],32:[function(require,module,exports){
-/* jshint ignore:start */
 var Application = require('./app');
 module.exports = new Application(window.app);
-/* jshint ignore:end */
 
 },{"./app":30}],33:[function(require,module,exports){
 var $ = require('air');
@@ -2192,13 +2190,12 @@ module.exports = StarModel;
 var $ = require('air')
   , StarModel = require('./model/star');
 
+/**
+ *  Encapsulates the star functionality.
+ */
 function Star(opts) {
   this.opts = opts;
   this.model = new StarModel();
-
-  //this.storage = storageAvailable('localStorage');
-  //this.key = 'stars';
-  //this.file = 'stars.json';
 
   if(this.model.storage) {
 

@@ -1,13 +1,12 @@
 var $ = require('air')
   , StarModel = require('./model/star');
 
+/**
+ *  Encapsulates the star functionality.
+ */
 function Star(opts) {
   this.opts = opts;
   this.model = new StarModel();
-
-  //this.storage = storageAvailable('localStorage');
-  //this.key = 'stars';
-  //this.file = 'stars.json';
 
   if(this.model.storage) {
 
