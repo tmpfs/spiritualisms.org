@@ -3065,6 +3065,9 @@ section.stars .empty {
 .listing .quotation cite {
   font-size: 2.4rem;
 }
+section.stars .actions nav:first-child a:not(:last-child) {
+  margin-right: 1rem;
+}
 .disabled {
   opacity: 0.8;
   pointer-events: none;
