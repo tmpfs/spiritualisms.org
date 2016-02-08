@@ -3015,6 +3015,7 @@ footer nav a {
 }
 nav.refresh {
   display: block;
+  background: #fff;
   width: 100%;
   position: fixed;
   left: 0;
