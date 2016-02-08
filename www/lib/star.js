@@ -97,6 +97,18 @@ function load(e) {
     }catch(e) {
       return error('Cannot import document, invalid JSON.');
     }
+
+    if(!Array.isArray(doc)) {
+      return error('Cannot import document, expected JSON array.');
+    }
+
+    for(var i = 0;i < doc.length;i++) {
+      if(typeof doc[i] !== 'string') {
+        return error('Cannot import document, expected array of strings.');
+      } 
+    }
+
+    // TODO: implement import
     console.log(doc);
   }
   reader.readAsText(file);
