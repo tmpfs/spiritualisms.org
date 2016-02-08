@@ -2203,24 +2203,6 @@
     opacity: 0;
   }
 }
-/*
-$base03:    #002b36;
-$base02:    #073642;
-$base01:    #586e75;
-$base00:    #657b83;
-$base0:     #839496;
-$base1:     #93a1a1;
-$base2:     #eee8d5;
-$base3:     #fdf6e3;
-$yellow:    #b58900;
-$orange:    #cb4b16;
-$red:       #dc322f;
-$magenta:   #d33682;
-$violet:    #6c71c4;
-$blue:      #268bd2;
-$cyan:      #2aa198;
-$green:     #859900;
-*/
 html {
   box-sizing: border-box;
   font-size: 62.5%;
@@ -2998,38 +2980,6 @@ img.logo {
   width: 220px;
   height: 40px;
 }
-footer {
-  display: inline-block;
-  text-align: left;
-  padding: 0px 8px;
-  z-index: 4;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 75%;
-}
-footer nav {
-  display: inline-block;
-}
-footer nav a {
-  margin-right: 1rem;
-  vertical-align: middle;
-}
-nav.refresh {
-  display: block;
-  background: #fff;
-  width: 100%;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
-  text-transform: uppercase;
-  text-align: center;
-}
-nav.refresh a {
-  color: #000;
-  font-size: 1.4rem;
-}
 .page.permalink {
   padding-top: 16rem;
 }
@@ -3105,4 +3055,19 @@ input[type="file"] {
   right: 0;
   margin-top: 0.5rem;
   margin-right: 1rem;
+}
+footer nav.refresh {
+  display: block;
+  background: #fff;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  text-transform: uppercase;
+  text-align: center;
+}
+footer nav.refresh a {
+  color: #000;
+  font-size: 1.4rem;
 }

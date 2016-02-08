@@ -2,11 +2,9 @@ extends layout
 
 include mixin/quotation
 include mixin/refresh
-include mixin/footer
 
 block content
   section.quote
     div.ism
       +quotation(doc)
-  +footer(doc, {browser: true, sitemap: true})
-  +refresh()
+  include include/footer-home
