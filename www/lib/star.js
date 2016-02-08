@@ -18,13 +18,13 @@ function Star(opts, love) {
     $(window).on('storage', onStorage.bind(this));
 
     // inject stars link to main navigation
-    var nav = $('nav.main');
-    var el = $.el('a')
-      .attr({href: '/stars', title: 'Stars'})
-      .addClass('stars')
-      .html('&nbsp;Stars');
-    el.prepend($.el('i').addClass('fa fa-star'));
-    nav.append(el);
+    //var nav = $('nav.main');
+    //var el = $.el('a')
+      //.attr({href: '/stars', title: 'Stars'})
+      //.addClass('stars')
+      //.html('&nbsp;Stars');
+    //el.prepend($.el('i').addClass('fa fa-star'));
+    //nav.append(el);
 
     var chooser = $('#import');
 
@@ -44,7 +44,7 @@ function Star(opts, love) {
     $('.actions .clear').on('click', clear.bind(this));
 
     if(this.isStarPage) {
-      nav.find('a.stars').addClass('selected');
+      $('header').find('a.stars').addClass('selected');
       this.list();
     }else{
       // only call fetch here on non /stars page
@@ -228,7 +228,7 @@ function remove(id, e) {
  */
 function totals() {
   var len = this.model.length()
-    , el = $('nav.main');
+    , el = $('header');
   if(len > 0) {
     el.find('a.stars span').remove();
     el.find('a.stars').append($.create('span'));
