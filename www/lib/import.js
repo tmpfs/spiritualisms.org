@@ -170,8 +170,11 @@ function change(e) {
     return; 
   }
 
-  console.log(files);
+  this.load(files);
+}
 
+function load(files) {
+  console.log(files);
   this.each(files);
 }
 
@@ -182,7 +185,6 @@ function each(files, index) {
   index = index || 0;
   var file = files[index];
 
-
   //$('.filename').show().text(file.name);
 
   function onRead(err, doc) {
@@ -192,14 +194,10 @@ function each(files, index) {
     } 
 
     removeErrors();
-
     this.documents.push(doc);
-
-    console.log('adding document: ' + index);
 
     // keep iterating
     if(index < (files.length - 1)) {
-      console.log('iterate again');
       return this.each(files, ++index);
     }
 
@@ -245,7 +243,7 @@ function read(file, cb) {
 
 Import.prototype.process = process;
 
-[process, summary, reset, each].forEach(function(m) {
+[process, summary, reset, load, each].forEach(function(m) {
   Import.prototype[m.name] = m;
 });
 
