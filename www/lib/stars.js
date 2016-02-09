@@ -186,7 +186,7 @@ function remove(id, e) {
     }
   }
 
-  this.model.decr(id, onResponse.bind(this));
+  this.model.decr([id], onResponse.bind(this));
 }
 
 

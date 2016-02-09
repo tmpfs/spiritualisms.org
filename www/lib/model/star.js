@@ -150,13 +150,14 @@ function incr(id, cb) {
 }
 
 /**
- *  Decrement the server-side star counter.
+ *  Decrement the server-side star counters.
  */
-function decr(id, cb) {
+function decr(ids, cb) {
   var opts = {
-    url: this.opts.api + '/quote/' + id + '/star',
+    url: this.opts.api + '/quote/star',
     method: 'DELETE',
-    json: true
+    json: true,
+    body: ids
   };
   $.request(opts, onResponse.bind(this, cb));
 }
