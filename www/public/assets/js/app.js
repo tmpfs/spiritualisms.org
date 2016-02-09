@@ -2375,6 +2375,11 @@ function summary(info) {
   var list = $.el('ul')
     , link = $('[href="#ok"]');
 
+  list.addClass('summary');
+
+  // clean any previous summary
+  $('.choose').find('ul.summary').remove();
+
   if(info.missing.length) {
     list.append($.el('li').text(
       info.missing.length + ' stars missing').addClass('missing'));
