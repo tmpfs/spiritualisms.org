@@ -1,13 +1,13 @@
 var $ = require('air')
   , error = require('./error')
   , dialog = require('./dialog')
+  , unique = require('./unique')
   , Abstract = require('./abstract');
 
 function Import() {
   Abstract.apply(this, arguments);
 
-  // store the documents to import
-  this.documents = [];
+  this.reset();
 
   this.model = this.opts.model.star;
 
@@ -38,6 +38,7 @@ function showDialog() {
  *  Response to the dialog event.
  */
 function onDismiss(res) {
+
   // user dismissed the dialog
   if(!res.accepted) {
     return res.remove(); 
@@ -45,6 +46,18 @@ function onDismiss(res) {
 
   console.log('perform import');
   console.log(this.documents);
+
+  // update the list of model identifers
+  var ids = this.model.read().concat(this.documents);
+  this.model.write(ids);
+
+  // redraw the list of starred quotes
+  this.notifier.emit('stars/list');
+
+  this.reset();
+
+  // dismiss the dialog
+  res.remove();
 }
 
 /**
@@ -56,15 +69,24 @@ function removeErrors() {
 }
 
 /**
+ *  Reset list of documents for another import.
+ */
+function reset() {
+  this.info = {
+    duplicates: [],
+    missing: [],
+    diff: []
+  }
+
+  this.documents = [];
+}
+
+/**
  *  Perform the import from the documents array.
  */
 function process() {
   var doc = []
-    , info = {
-        duplicates: [],
-        missing: [],
-        diff: []
-      }
+    , info = this.info
     , stars = this.model.read();
 
   // take all loaded documents and put them
@@ -73,22 +95,29 @@ function process() {
     doc = doc.concat(d);
   })
 
+  // with unique entries
+  //
+  // can have multiple entries if the user
+  // chooses the same document multiple times
+  // one after the other, ie: select `stars.json`
+  // select `other-stars.json` and then select
+  // `stars.json` again
+  doc = unique(doc);
+
   // check for duplicate identifiers
-  this.documents.forEach(function(id) {
+  doc.forEach(function(id) {
     if(~stars.indexOf(id)) {
       return info.duplicates.push(id); 
     } 
     info.diff.push(id);
   })
 
+  // rewrite documents to flattened array
+  this.documents = info.diff;
+
   // TODO: check for missing quotes (bad quote identifiers)
 
-  console.log(info.diff);
-
-  this.summary(info);
-
-  // reset list of documents for another import
-  this.documents = [];
+  this.summary(this.info);
 }
 
 /**
@@ -113,10 +142,13 @@ function summary(info) {
       info.duplicates.length + ' duplicate stars').addClass('duplicate'));
   }
 
+  console.log(info);
+
+  this.dialog.find('.choose').append(list);
+
   if(info.diff.length) {
     list.append($.el('li').text(
       info.diff.length + ' new stars').addClass('new'));
-    this.dialog.find('.choose').append(list);
     link.text('Import ' + info.diff.length + ' stars');
   }else{
     link.text('Nothing to import!'); 
@@ -138,7 +170,20 @@ function change(e) {
     return; 
   }
 
-  $('.filename').show().text(file.name);
+  console.log(files);
+
+  this.each(files);
+}
+
+/**
+ *  Iterate and read all files.
+ */
+function each(files, index) {
+  index = index || 0;
+  var file = files[index];
+
+
+  //$('.filename').show().text(file.name);
 
   function onRead(err, doc) {
     if(err) {
@@ -146,10 +191,18 @@ function change(e) {
       return error(err.message, this.dialog.find('.choose'));
     } 
 
-    // ok, enable 
     removeErrors();
 
     this.documents.push(doc);
+
+    console.log('adding document: ' + index);
+
+    // keep iterating
+    if(index < (files.length - 1)) {
+      console.log('iterate again');
+      return this.each(files, ++index);
+    }
+
     this.process();
   }
 
@@ -192,7 +245,7 @@ function read(file, cb) {
 
 Import.prototype.process = process;
 
-[process, summary].forEach(function(m) {
+[process, summary, reset, each].forEach(function(m) {
   Import.prototype[m.name] = m;
 });
 

@@ -28,6 +28,8 @@ function StarsPage(opts) {
     this.notifier.on('star/add', this.add.bind(this));
     this.notifier.on('star/remove', this.remove.bind(this));
 
+    this.notifier.on('stars/list', this.list.bind(this));
+
     if(this.isStarPage) {
       $('header').find('a.stars').addClass('selected');
       this.list();
