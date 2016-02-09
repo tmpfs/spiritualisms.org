@@ -11,9 +11,9 @@ function Counter() {
 
 $.inherit(Counter, Abstract);
 
-function update() {
+function update(ids) {
   this.init();
-  this.fetch();
+  this.fetch(ids);
 }
 
 /**

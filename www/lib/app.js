@@ -40,6 +40,7 @@ var EventEmitter = require('emanate')
   , descriptor = require('../../lib/schema/quote')
   , LoveCount = require('./love-count')
   , StarCount = require('./star-count')
+  , refresh = require('./refresh')
   , Stars = require('./stars');
 
 /**
@@ -66,107 +67,12 @@ function Application(opts) {
     if(document.location.pathname === '/home') {
       notice.css({top: '0'});
     }
+  }else{
+    this.notifier.emit('love/update');
+    this.notifier.emit('star/update');
+    $('a.refresh').on('click', refresh.bind(this));
   }
 
-  $('a.refresh').on('click', random.bind(this));
-
-  this.notifier.emit('love/update');
-  this.notifier.emit('star/update');
-}
-
-/**
- *  Load a new random quote.
- */
-function random(e) {
-  e.preventDefault();
-
-  var love = this.love
-    , star = this.star
-    , last = $('.quotation').data('id')
-    , icon = $(e.currentTarget).find('i')
-    , container = $('.quotation')
-    , start = new Date().getTime()
-    , doc = false
-    , refresh = $('a.refresh');
-
-  refresh.disable();
-
-  function render() {
-    if(doc) {
-      container.data('id', doc.id);
-
-      // clone to remove events
-      var tools = container.find('nav.toolbar')
-      var toolbar = tools.clone(true);
-      toolbar.find('span').remove();
-
-      // append clone
-      tools.parent().append(toolbar);
-      // remove original
-      tools.remove();
-
-      star.init();
-      star.fetch([doc.id]);
-
-      love.init();
-      love.fetch([doc.id]);
-
-      container.find('blockquote').text(doc.quote);
-      container.find('cite').html('&#151; ')
-        .append(
-          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
-        ).text(doc.author));
-
-      var nav = container.find('nav')
-        , href = '/explore/' + doc.id;
-      nav.find('a.love, a.star, a.permalink').attr({href: href});
-      container.fadeIn(function() {
-        container.css({opacity: 1}); 
-        refresh.enable();
-      });
-    }
-  }
-
-  function onResponse(err, res) {
-    var duration = new Date().getTime() - start;
-    if(err) {
-      return console.error(err); 
-    }
-
-    doc = res.body;
-
-    function complete() {
-      icon.removeClass('fa-spin');
-      render();
-    }
-
-    // animation completed before load: 1s animation
-    if(duration >= 1000) {
-      complete(); 
-    }else{
-      setTimeout(complete, 1000 - duration);
-    }
-  }
-
-  var opts = {
-    url: this.opts.api + '/quote/random',
-    qs: {
-      last: last 
-    },
-    json: true
-  };
-
-  $.request(opts, onResponse.bind(this));
-
-  icon.addClass('fa-spin');
-  container.fadeOut(function() {
-    container.find('a.love span').text('');
-    container.css(
-      {
-        opacity: 0,
-      }
-    ); 
-  });
 }
 
 module.exports = Application;

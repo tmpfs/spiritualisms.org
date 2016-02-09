@@ -2056,6 +2056,7 @@ var EventEmitter = require('emanate')
   , descriptor = require('../../lib/schema/quote')
   , LoveCount = require('./love-count')
   , StarCount = require('./star-count')
+  , refresh = require('./refresh')
   , Stars = require('./stars');
 
 /**
@@ -2082,112 +2083,17 @@ function Application(opts) {
     if(document.location.pathname === '/home') {
       notice.css({top: '0'});
     }
+  }else{
+    this.notifier.emit('love/update');
+    this.notifier.emit('star/update');
+    $('a.refresh').on('click', refresh.bind(this));
   }
 
-  $('a.refresh').on('click', random.bind(this));
-
-  this.notifier.emit('love/update');
-  this.notifier.emit('star/update');
-}
-
-/**
- *  Load a new random quote.
- */
-function random(e) {
-  e.preventDefault();
-
-  var love = this.love
-    , star = this.star
-    , last = $('.quotation').data('id')
-    , icon = $(e.currentTarget).find('i')
-    , container = $('.quotation')
-    , start = new Date().getTime()
-    , doc = false
-    , refresh = $('a.refresh');
-
-  refresh.disable();
-
-  function render() {
-    if(doc) {
-      container.data('id', doc.id);
-
-      // clone to remove events
-      var tools = container.find('nav.toolbar')
-      var toolbar = tools.clone(true);
-      toolbar.find('span').remove();
-
-      // append clone
-      tools.parent().append(toolbar);
-      // remove original
-      tools.remove();
-
-      star.init();
-      star.fetch([doc.id]);
-
-      love.init();
-      love.fetch([doc.id]);
-
-      container.find('blockquote').text(doc.quote);
-      container.find('cite').html('&#151; ')
-        .append(
-          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
-        ).text(doc.author));
-
-      var nav = container.find('nav')
-        , href = '/explore/' + doc.id;
-      nav.find('a.love, a.star, a.permalink').attr({href: href});
-      container.fadeIn(function() {
-        container.css({opacity: 1}); 
-        refresh.enable();
-      });
-    }
-  }
-
-  function onResponse(err, res) {
-    var duration = new Date().getTime() - start;
-    if(err) {
-      return console.error(err); 
-    }
-
-    doc = res.body;
-
-    function complete() {
-      icon.removeClass('fa-spin');
-      render();
-    }
-
-    // animation completed before load: 1s animation
-    if(duration >= 1000) {
-      complete(); 
-    }else{
-      setTimeout(complete, 1000 - duration);
-    }
-  }
-
-  var opts = {
-    url: this.opts.api + '/quote/random',
-    qs: {
-      last: last 
-    },
-    json: true
-  };
-
-  $.request(opts, onResponse.bind(this));
-
-  icon.addClass('fa-spin');
-  container.fadeOut(function() {
-    container.find('a.love span').text('');
-    container.css(
-      {
-        opacity: 0,
-      }
-    ); 
-  });
 }
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":22,"./love-count":39,"./star-count":44,"./stars":45,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
+},{"../../lib/schema/quote":22,"./love-count":39,"./refresh":44,"./star-count":45,"./stars":46,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
 var $ = require('air')
   , Abstract = require('./abstract');
 
@@ -2201,9 +2107,9 @@ function Counter() {
 
 $.inherit(Counter, Abstract);
 
-function update() {
+function update(ids) {
   this.init();
-  this.fetch();
+  this.fetch(ids);
 }
 
 /**
@@ -2579,6 +2485,106 @@ function decr(ids, cb) {
 module.exports = StarModel;
 
 },{"./response":42,"air":"air"}],44:[function(require,module,exports){
+var $ = require('air');
+
+/**
+ *  Load a new random quote.
+ */
+function refresh(e) {
+  e.preventDefault();
+
+  var last = $('.quotation').data('id')
+    , icon = $(e.currentTarget).find('i')
+    , container = $('.quotation')
+    , start = new Date().getTime()
+    , doc = false
+    , link = $('a.refresh')
+    , render;
+
+  link.disable();
+
+  function update() {
+    if(doc) {
+      container.data('id', doc.id);
+
+      var tools = container.find('nav.toolbar')
+
+      // clone to remove events
+      var toolbar = tools.clone(true);
+      toolbar.find('span').remove();
+
+      // append clone
+      tools.parent().append(toolbar);
+      // remove original
+      tools.remove();
+
+      // update star/love counters
+      this.notifier.emit('star/update', [doc.id]);
+      this.notifier.emit('love/update', [doc.id]);
+
+      container.find('blockquote').text(doc.quote);
+      container.find('cite').html('&#151; ')
+        .append(
+          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
+        ).text(doc.author));
+
+      var nav = container.find('nav')
+        , href = '/explore/' + doc.id;
+      nav.find('a.love, a.star, a.permalink').attr({href: href});
+      container.fadeIn(function() {
+        container.css({opacity: 1}); 
+        link.enable();
+      });
+    }
+  }
+
+  render = update.bind(this);
+
+  function onResponse(err, res) {
+    var duration = new Date().getTime() - start;
+    if(err) {
+      return console.error(err); 
+    }
+
+    doc = res.body;
+
+    function complete() {
+      icon.removeClass('fa-spin');
+      render();
+    }
+
+    // animation completed before load: 1s animation
+    if(duration >= 1000) {
+      complete(); 
+    }else{
+      setTimeout(complete, 1000 - duration);
+    }
+  }
+
+  var opts = {
+    url: this.opts.api + '/quote/random',
+    qs: {
+      last: last 
+    },
+    json: true
+  };
+
+  $.request(opts, onResponse.bind(this));
+
+  icon.addClass('fa-spin');
+  container.fadeOut(function() {
+    container.find('a.love span').text('');
+    container.css(
+      {
+        opacity: 0,
+      }
+    ); 
+  });
+}
+
+module.exports = refresh;
+
+},{"air":"air"}],45:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter')
   , StarModel = require('./model/star');
@@ -2658,7 +2664,7 @@ function remove(id, e) {
 
 module.exports = StarCount;
 
-},{"./counter":36,"./model/star":43,"air":"air"}],45:[function(require,module,exports){
+},{"./counter":36,"./model/star":43,"air":"air"}],46:[function(require,module,exports){
 var $ = require('air')
   , error = require('./error')
   , Abstract = require('./abstract')
