@@ -20,7 +20,7 @@ function StarsPage(opts) {
     // keep in sync when storage changes
     $(window).on('storage', onStorage.bind(this));
 
-    this.totals();
+    this.total();
 
     $('.actions .export').on('click', save.bind(this));
     $('.actions .clear').on('click', clear.bind(this));
@@ -29,7 +29,7 @@ function StarsPage(opts) {
     this.notifier.on('star/remove', this.remove.bind(this));
 
     this.notifier.on('stars/list', this.list.bind(this));
-    this.notifier.on('stars/totals', this.totals.bind(this));
+    this.notifier.on('stars/total', this.total.bind(this));
 
     if(this.isStarPage) {
       $('header').find('a.stars').addClass('selected');
@@ -47,7 +47,7 @@ $.inherit(StarsPage, Abstract);
  */
 function onStorage(e) {
   if(e.key === this.model.key) {
-    this.totals();
+    this.total();
     if(this.isStarPage) {
       this.list(); 
     }else{
@@ -82,8 +82,8 @@ function clear(e) {
     // show initial message, remove listings etc.
     this.list();
 
-    // update totals display
-    this.totals();
+    // update total display
+    this.total();
   }
 
   function onDismiss(res) {
@@ -115,7 +115,7 @@ function add(id, e) {
     // NOTE: however follow idiomatic signature
     this.model.add(id);
 
-    this.totals();
+    this.total();
 
     // switch link to unstar view
     this.notifier.emit('star/toggle', id, true);
@@ -142,7 +142,7 @@ function remove(id, e) {
     // NOTE: however follow idiomatic signature
     this.model.remove(id);
 
-    this.totals();
+    this.total();
 
     // switch link to unstar view
     this.notifier.emit('star/toggle', id, false);
@@ -164,9 +164,9 @@ function remove(id, e) {
 
 
 /**
- *  Render count totals in main navigation.
+ *  Render count total in main navigation.
  */
-function totals() {
+function total() {
   var len = this.model.length()
     , el = $('header');
   if(len > 0) {
@@ -240,7 +240,7 @@ function listing(result) {
 }
 
 [
-  add, remove, list, totals, listing, empty
+  add, remove, list, total, listing, empty
 ].forEach(
   function(m) {
     StarsPage.prototype[m.name] = m;

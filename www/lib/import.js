@@ -53,7 +53,7 @@ function onDismiss(res) {
 
   // redraw the list of starred quotes
   this.notifier.emit('stars/list');
-  this.notifier.emit('stars/totals');
+  this.notifier.emit('stars/total');
 
   this.reset();
 
