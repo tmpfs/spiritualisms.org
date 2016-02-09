@@ -181,6 +181,32 @@ app.post('/quote/star', function(req, res, next) {
 });
 
 /**
+ *  Decrement the star counter for multiple quotes.
+ *
+ *  @rest
+ *  @method DELETE
+ *  @paths /quote/star
+ */
+app.delete('/quote/star', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {ids: req.body};
+
+  if(!Array.isArray(req.body)) {
+     var err = new Error('Array body expected');
+     err.status = 400;
+     return next(err);
+  }
+
+  quote.removeStars(opts, function(err, response) {
+    if(err) {
+      return next(err);
+    }
+    res.send(response);
+  })
+});
+
+
+/**
  *  Get a quote by identifier.
  *
  *  @rest
@@ -267,31 +293,6 @@ app.post('/quote/:id/star', function(req, res, next) {
   var quote = new Quote()
     , opts = {id: req.params.id};
   quote.addStar(opts, function(err, response) {
-    if(err) {
-      return next(err);
-    }
-    res.send(response);
-  })
-});
-
-/**
- *  Decrement the star counter for multiple quotes.
- *
- *  @rest
- *  @method DELETE
- *  @paths /quote/star
- */
-app.delete('/quote/star', function(req, res, next) {
-  var quote = new Quote()
-    , opts = {ids: req.body};
-
-  if(!Array.isArray(req.body)) {
-     var err = new Error('Array body expected');
-     err.status = 400;
-     return next(err);
-  }
-
-  quote.removeStars(opts, function(err, response) {
     if(err) {
       return next(err);
     }

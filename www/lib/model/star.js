@@ -127,7 +127,7 @@ function list(ids, cb) {
 /**
  *  Get star counters for an array of document identifiers.
  */
-function count(ids, cb) {
+function load(ids, cb) {
   var opts = {
     url: this.opts.api + '/quote/star',
     method: 'POST',
@@ -163,7 +163,7 @@ function decr(id, cb) {
 
 [
   save, read, write, add, remove, has, clear, length,
-  list, incr, decr, count
+  list, incr, decr, load 
 ].forEach(function(m) {
   StarModel.prototype[m.name] = m;
 });

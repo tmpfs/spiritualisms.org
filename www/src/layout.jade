@@ -19,7 +19,9 @@ html
     block footer
     block misc
       include include/browser-update
-    block template
+    template
+      block template
+          include include/template/stars
     block js
       script(src='/assets/js/app.js')
 

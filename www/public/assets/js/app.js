@@ -86,7 +86,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = air;
 })();
 
-},{"zephyr":20}],2:[function(require,module,exports){
+},{"zephyr":21}],2:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -590,6 +590,18 @@ module.exports = function() {
 
 },{}],14:[function(require,module,exports){
 /**
+ *  Lightweight ECMAScript 5 inheritance.
+ *
+ *  @see http://stackoverflow.com/a/12816953
+ */
+module.exports = function() {
+  this.air.inherit = function(sub, sup) {
+    sub.prototype = Object.create(sup.prototype);
+  }
+}
+
+},{}],15:[function(require,module,exports){
+/**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
  *
@@ -607,7 +619,7 @@ module.exports = function() {
   this.parent = parent;
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the beginning of each
  *  element in the set of matched elements.
@@ -640,7 +652,7 @@ module.exports = function() {
   this.prepend = prepend;
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  *  Remove all matched elements.
  */
@@ -664,7 +676,7 @@ module.exports = function() {
   this.remove = remove;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  *  Thin wrapper for XMLHttpRequest using a 
  *  callback style.
@@ -789,7 +801,7 @@ module.exports = function() {
   this.air.request = request;
 }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var $
   , slice = Array.prototype.slice;
 
@@ -850,7 +862,7 @@ module.exports = function() {
   this.air.swap = swap;
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  *  IE9 supports textContent and innerText has various issues.
  *
@@ -875,7 +887,7 @@ module.exports = function() {
   this.text = text;
 }
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -978,7 +990,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = {
   type: 'object',
   fields: {
@@ -1000,7 +1012,7 @@ module.exports = {
   }
 }
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -1052,7 +1064,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -1082,7 +1094,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -1251,7 +1263,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":26,"./reason":23,"format-util":27,"zephyr":28}],25:[function(require,module,exports){
+},{"../messages":27,"./reason":24,"format-util":28,"zephyr":29}],26:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1657,7 +1669,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":26,"./iterator":22,"./rule":24,"format-util":27}],26:[function(require,module,exports){
+},{"../messages":27,"./iterator":23,"./rule":25,"format-util":28}],27:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1716,7 +1728,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1755,9 +1767,112 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],28:[function(require,module,exports){
-arguments[4][20][0].apply(exports,arguments)
-},{"dup":20}],29:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
+arguments[4][21][0].apply(exports,arguments)
+},{"dup":21}],30:[function(require,module,exports){
+'use strict';
+
+var EventEmitter = function EventEmitter(){}
+  , proto = EventEmitter.prototype;
+
+/**
+ *  Add a listener for an event.
+ *
+ *  @param event The event name.
+ *  @param listener The event listener function.
+ */
+function addListener(event, listener) {
+  this._events = this._events || {};
+  this._events[event] = this._events[event] || [];
+  this._events[event].push(listener);
+  return this;
+}
+
+/**
+ *  Registers a listener to be invoked once.
+ *
+ *  @param event The event name.
+ *  @param listener The listener function.
+ */
+function once(event, listener) {
+  function g() {
+    this.removeListener(event, g);
+    listener.apply(this, arguments);
+  };
+  this.on(event, g);
+  return this;
+}
+
+/**
+ *  Remove all listeners for an event.
+ *
+ *  @param event The event name.
+ */
+function removeAllListeners(event) {
+  if(event) {
+    this._events[event] = [];
+  }else{
+    this._events = {};
+  }
+  return this;
+}
+
+/**
+ *  Remove a listener for an event.
+ *
+ *  @param event The event name.
+ *  @param listener The event listener function.
+ */
+function removeListener(event, listener) {
+  this._events = this._events || {};
+  if(event in this._events) {
+    this._events[event].splice(this._events[event].indexOf(listener), 1);
+  }
+  return this;
+}
+
+/**
+ *  Returns an array of listeners for the specified event.
+ */
+function listeners(event) {
+  this._events = this._events || {};
+  return this._events[event] || [];
+}
+
+/**
+ *  Execute each of the listeners in order with the supplied arguments.
+ *
+ *  Returns true if event had listeners, false otherwise.
+ *
+ *  @param event The event name.
+ *  @param args... The arguments to pass to event listeners.
+ */
+function emit(event /* , args... */) {
+  this._events = this._events || {};
+  // NOTE: copy array so that removing listeners in listeners (once etc)
+  // NOTE: does not affect the iteration
+  var list = (this._events[event] || []).slice(0);
+  for(var i = 0; i < list.length; i++) {
+    list[i].apply(this, Array.prototype.slice.call(arguments, 1))
+  }
+  return list.length > 0;
+}
+
+proto.addListener = addListener;
+proto.removeAllListeners = removeAllListeners;
+proto.removeListener = removeListener;
+proto.listeners = listeners;
+proto.emit = emit;
+// jquery style alias: one()
+proto.once = proto.one = once;
+
+// aliases
+proto.on = proto.addListener;
+proto.off = proto.removeListener;
+
+module.exports = EventEmitter;
+
+},{}],31:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1837,7 +1952,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1857,7 +1972,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1877,14 +1992,31 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
+var $ = require('air')
+  , EventEmitter = require('emanate');
+
+/**
+ *  Generic abstract class.
+ */
+function Abstract(opts) {
+  this.opts = opts;
+  this.notifier = opts.notifier;
+}
+
+$.inherit(Abstract, EventEmitter);
+
+//[init, fetch, render].forEach(function(m) {
+  //Abstract.prototype[m.name] = m;
+//});
+
+module.exports = Abstract;
+
+
+},{"air":"air","emanate":30}],35:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
-  , Schema = require('async-validate')
-  , descriptor = require('../../lib/schema/quote')
-  , Love = require('./love')
-  , Star = require('./star');
 
 $.plugin(
   [
@@ -1903,6 +2035,7 @@ $.plugin(
     //require('air/first'),
     require('air/html'),
     require('air/hidden'),
+    require('air/inherit'),
     require('air/parent'),
     require('air/prepend'),
     require('air/request'),
@@ -1918,6 +2051,13 @@ $.plugin(
   ]
 )
 
+var EventEmitter = require('emanate')
+  , Schema = require('async-validate')
+  , descriptor = require('../../lib/schema/quote')
+  , LoveCount = require('./love-count')
+  , StarCount = require('./star-count')
+  , Stars = require('./stars');
+
 /**
  *  Spiritualisms client-side application.
  */
@@ -1929,9 +2069,11 @@ function Application(opts) {
 
   opts = opts || {};
   this.opts = opts;
+  this.opts.notifier = this.notifier = new EventEmitter();
   this.validator = new Schema(descriptor);
-  this.love = new Love(opts);
-  this.star = new Star(opts, this.love);
+  this.love = new LoveCount(opts);
+  this.star = new StarCount(opts);
+  this.stars = new Stars(opts);
 
   if(!supported) {
     var notice = $('.browser-update');
@@ -1942,6 +2084,9 @@ function Application(opts) {
   }
 
   $('a.refresh').on('click', random.bind(this));
+
+  this.notifier.emit('love/update');
+  this.notifier.emit('star/update');
 }
 
 /**
@@ -1977,8 +2122,10 @@ function random(e) {
 
       star.init();
       star.fetch([doc.id]);
+
       love.init();
       love.fetch([doc.id]);
+
       container.find('blockquote').text(doc.quote);
       container.find('cite').html('&#151; ')
         .append(
@@ -2039,76 +2186,39 @@ function random(e) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":21,"./love":35,"./star":40,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/parent":14,"air/prepend":15,"air/remove":16,"air/request":17,"air/template":18,"air/text":19,"async-validate":25,"vivify":29,"vivify/fade-in":30,"vivify/fade-out":31}],33:[function(require,module,exports){
-var $ = require('air');
-
-function dismiss() {
-  $('[href="#dismiss"]').on('click', function(e) {
-    e.preventDefault();
-    var p = $(e.currentTarget).parent(); 
-    p.fadeOut(function() {
-      p.remove(); 
-    })
-  })
-}
-
-module.exports = dismiss;
-
-},{"air":"air"}],34:[function(require,module,exports){
+},{"../../lib/schema/quote":22,"./love-count":39,"./star-count":44,"./stars":45,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
 var $ = require('air')
-  , dismiss = require('./dismiss');
+  , Abstract = require('./abstract');
 
 /**
- *  Show an error message to the user.
+ *  Abstract class for the love and star counters.
  */
-function error(msg, target) {
-  target = target || $('section');
-  var err = $.partial('.msg.error').clone(true);
-  err.find('p').text(msg);
-  target.prepend(err);
-  dismiss();
+function Counter() {
+  Abstract.apply(this, arguments);
+  this.notifier.on(this.id + '/update', this.update.bind(this));
 }
 
-module.exports = error;
+$.inherit(Counter, Abstract);
 
-},{"./dismiss":33,"air":"air"}],35:[function(require,module,exports){
-var $ = require('air')
-  , LoveModel = require('./model/love');
-
-/**
- *  Love handlers.
- */
-function Love(opts) {
-  this.opts = opts;
-  this.model = new LoveModel(opts);
+function update() {
   this.init();
   this.fetch();
 }
 
-
 /**
- *  Render the love counters.
+ *  Initialize the love event handlers.
  */
-function render(doc) {
-  var ids = Object.keys(doc);
-  ids.forEach(function(id) {
-    var el = $('.quotation[data-id="' + id + '"]')
-      , txt = el.find('a.love span')
-      , count = doc[id];
-
-    el.data('love', count);
-
-    if(!txt.length) {
-      el.find('a.love').append($.create('span'));
-    }
-    if(doc[id]) {
-      el.find('a.love span').addClass('love').text('' + count);
-    }
-  })
+function init() {
+  this.quotes = $('.quotation[data-id]');
+  function it(el) {
+    el = $(el);
+    this.onInit(el, el.data('id'));
+  }
+  this.quotes.each(it.bind(this));
 }
 
 /**
- *  Loads the love counters for all quotes.
+ *  Loads the counters for all quotes.
  */
 function fetch(ids) {
   if(!ids) {
@@ -2133,6 +2243,104 @@ function fetch(ids) {
 }
 
 /**
+ *  Render the love counters.
+ */
+function render(doc) {
+  var ids = Object.keys(doc);
+  function it(id) {
+    var el = $('.quotation[data-id="' + id + '"]')
+      , txt = el.find(this.counter)
+      , count = doc[id];
+
+    el.data(this.id, count);
+
+    if(!txt.length) {
+      el.find(this.link).append($.create('span'));
+    }
+    if(doc[id]) {
+      el.find(this.counter).addClass(this.id).text('' + count);
+    }
+
+    el.attr({href: '/explore/' + id})
+  }
+  ids.forEach(it.bind(this));
+}
+
+[update, init, fetch, render].forEach(function(m) {
+  Counter.prototype[m.name] = m;
+});
+
+module.exports = Counter;
+
+},{"./abstract":34,"air":"air"}],37:[function(require,module,exports){
+var $ = require('air');
+
+function dismiss() {
+  $('[href="#dismiss"]').on('click', function(e) {
+    e.preventDefault();
+    var p = $(e.currentTarget).parent(); 
+    p.fadeOut(function() {
+      p.remove(); 
+    })
+  })
+}
+
+module.exports = dismiss;
+
+},{"air":"air"}],38:[function(require,module,exports){
+var $ = require('air')
+  , dismiss = require('./dismiss');
+
+/**
+ *  Show an error message to the user.
+ */
+function error(msg, target) {
+  target = target || $('section');
+  var err = $.partial('.msg.error').clone(true);
+  err.find('p').text(msg);
+  target.prepend(err);
+  dismiss();
+}
+
+module.exports = error;
+
+},{"./dismiss":37,"air":"air"}],39:[function(require,module,exports){
+var $ = require('air')
+  , Counter = require('./counter')
+  , LoveModel = require('./model/love');
+
+/**
+ *  Logic for rendering the love counters.
+ */
+function LoveCount(opts) {
+
+  // id for event prefixes, data attr and class name
+  this.id = 'love';
+
+  // link selector
+  this.link = 'a.love';
+
+  // counter display selector
+  this.counter = 'a.love span';
+
+  // must configure model before calling super
+  this.model = new LoveModel(opts);
+
+  Counter.apply(this, arguments);
+
+}
+
+$.inherit(LoveCount, Counter);
+
+/**
+ *  Add the link event handlers on initialization.
+ */
+function onInit(container, id) {
+  var show = this.show.bind(this, id);
+  container.find(this.link).on('click', show);
+}
+
+/**
  *  Show your love, increments the love counter.
  */
 function show(id, e) {
@@ -2145,28 +2353,17 @@ function show(id, e) {
   this.model.show(id, onResponse.bind(this));
 }
 
-function init() {
-  var scope = this;
-  this.quotes = $('.quotation[data-id]');
-  this.quotes.each(function(el) {
-    el = $(el);
-    var id = el.data('id');
-    var show = scope.show.bind(scope, id);
-    el.find('a.love').on('click', show);
-  })
-}
-
-[render, fetch, init, show].forEach(function(m) {
-  Love.prototype[m.name] = m;
+[onInit, show].forEach(function(m) {
+  LoveCount.prototype[m.name] = m;
 });
 
-module.exports = Love;
+module.exports = LoveCount;
 
-},{"./model/love":37,"air":"air"}],36:[function(require,module,exports){
+},{"./counter":36,"./model/love":41,"air":"air"}],40:[function(require,module,exports){
 var Application = require('./app');
 module.exports = new Application(window.app);
 
-},{"./app":32}],37:[function(require,module,exports){
+},{"./app":35}],41:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2210,7 +2407,7 @@ function load(ids, cb) {
 
 module.exports = LoveModel;
 
-},{"./response":38,"air":"air"}],38:[function(require,module,exports){
+},{"./response":42,"air":"air"}],42:[function(require,module,exports){
 /**
  *  Generic model api response handler.
  */
@@ -2223,7 +2420,7 @@ function onResponse(cb, err, res) {
 
 module.exports = onResponse;
 
-},{}],39:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response')
   , testKey = '__storage_test__';
@@ -2353,7 +2550,7 @@ function list(ids, cb) {
 /**
  *  Get star counters for an array of document identifiers.
  */
-function count(ids, cb) {
+function load(ids, cb) {
   var opts = {
     url: this.opts.api + '/quote/star',
     method: 'POST',
@@ -2389,25 +2586,106 @@ function decr(id, cb) {
 
 [
   save, read, write, add, remove, has, clear, length,
-  list, incr, decr, count
+  list, incr, decr, load 
 ].forEach(function(m) {
   StarModel.prototype[m.name] = m;
 });
 
 module.exports = StarModel;
 
-},{"./response":38,"air":"air"}],40:[function(require,module,exports){
+},{"./response":42,"air":"air"}],44:[function(require,module,exports){
 var $ = require('air')
-  , error = require('./error')
+  , Counter = require('./counter')
   , StarModel = require('./model/star');
 
 /**
- *  Encapsulates the star functionality.
+ *  Logic for rendering the star counters.
  */
-function Star(opts, love) {
+function StarCount(opts) {
 
-  this.opts = opts;
-  this.love = love;
+  // id for event prefixes
+  this.id = 'star';
+
+  // link selector
+  this.link = 'a.star';
+
+  // counter display selector
+  this.counter = 'a.star span';
+
+  // must configure model before calling super
+  this.model = new StarModel(opts);
+
+  Counter.apply(this, arguments);
+
+  this.notifier.on('star/toggle', this.toggle.bind(this));
+  this.notifier.on('star/render', this.render.bind(this));
+}
+
+$.inherit(StarCount, Counter);
+
+/**
+ *  Add the link event handlers on initialization.
+ */
+function onInit(container, id) {
+  this.toggle(id, this.model.has(id));
+}
+
+/**
+ *  Toggle a star link view.
+ */
+function toggle(id) {
+
+  var unstar = this.model.has(id);
+
+  var add = this.add.bind(this, id)
+    , remove = this.remove.bind(this, id)
+    , el = $('.quotation[data-id="' + id + '"]')
+    , link = el.find('a.star');
+
+  if(unstar) {
+    $.swap(link, $.partial('a.unstar'));
+  }else{
+    $.swap(link, $.partial('a.star'));
+  }
+
+  // rewrote the DOM get the new reference
+  link = el.find('a.star');
+
+  // update listener
+  link.on('click', unstar ? remove : add);
+  // keep href in sync
+  link.attr({href: '/explore/' + id});
+}
+
+function add(id, e) {
+  e.preventDefault();
+  this.notifier.emit('star/add', id, e);
+}
+
+function remove(id, e) {
+  e.preventDefault();
+  this.notifier.emit('star/remove', id, e);
+}
+
+[onInit, toggle, add, remove].forEach(function(m) {
+  StarCount.prototype[m.name] = m;
+});
+
+module.exports = StarCount;
+
+},{"./counter":36,"./model/star":43,"air":"air"}],45:[function(require,module,exports){
+var $ = require('air')
+  , error = require('./error')
+  , Abstract = require('./abstract')
+  , StarModel = require('./model/star');
+
+/**
+ *  Encapsulates the stars page functionality.
+ */
+function StarsPage(opts) {
+
+  Abstract.apply(this, arguments);
+
   this.model = new StarModel(opts);
   this.isStarPage = document.location.pathname === '/stars';
 
@@ -2415,15 +2693,6 @@ function Star(opts, love) {
 
     // keep in sync when storage changes
     $(window).on('storage', onStorage.bind(this));
-
-    // inject stars link to main navigation
-    //var nav = $('nav.main');
-    //var el = $.el('a')
-      //.attr({href: '/stars', title: 'Stars'})
-      //.addClass('stars')
-      //.html('&nbsp;Stars');
-    //el.prepend($.el('i').addClass('fa fa-star'));
-    //nav.append(el);
 
     var chooser = $('#import');
 
@@ -2442,6 +2711,9 @@ function Star(opts, love) {
     $('.actions .export').on('click', save.bind(this));
     $('.actions .clear').on('click', clear.bind(this));
 
+    this.notifier.on('star/add', this.add.bind(this));
+    this.notifier.on('star/remove', this.remove.bind(this));
+
     if(this.isStarPage) {
       $('header').find('a.stars').addClass('selected');
       this.list();
@@ -2449,11 +2721,13 @@ function Star(opts, love) {
       // only call fetch here on non /stars page
       // for /stars fetch will be called after rendering
       // the listing
-      this.init();
-      this.fetch();
+      //this.init();
+      //this.fetch();
     }
   }
 }
+
+$.inherit(StarsPage, Abstract);
 
 /**
  *  Listen for the storage event.
@@ -2530,41 +2804,6 @@ function clear(e) {
 }
 
 /**
- *  Initializes the star links on a page.
- */
-function init() {
-  this.quotes = $('.quotation[data-id]');
-  function it(el) {
-    var id = $(el).data('id')
-    this.toggle(id, this.model.has(id));
-  }
-  this.quotes.each(it.bind(this));
-}
-
-/**
- *  Toggle a star link view.
- */
-function toggle(id, unstar) {
-  var add = this.add.bind(this, id)
-    , remove = this.remove.bind(this, id)
-    , el = $('.quotation[data-id="' + id + '"]')
-    , link = el.find('a.star');
-
-  if(unstar) {
-    $.swap(link, $.partial('a.unstar'));
-  }else{
-    $.swap(link, $.partial('a.star'));
-  }
-
-  // rewrote the DOM get the new reference
-  link = el.find('a.star');
-  // update listener
-  link.on('click', unstar ? remove : add);
-  // keep href in sync
-  link.attr({href: '/explore/' + id});
-}
-
-/**
  *  Add a star to the list of stars.
  */
 function add(id, e) {
@@ -2578,12 +2817,14 @@ function add(id, e) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
     this.model.add(id);
-    // switch link to unstar view
-    this.toggle(id, true);
+
     this.totals();
 
+    // switch link to unstar view
+    this.notifier.emit('star/toggle', id, true);
+
     // must render counter after toggle
-    this.render(res.body);
+    this.notifier.emit('star/render', res.body);
   }
 
   this.model.incr(id, onResponse.bind(this));
@@ -2603,11 +2844,14 @@ function remove(id, e) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
     this.model.remove(id);
-    // switch to the star view
-    this.toggle(id, false);
+
     this.totals();
+
+    // switch link to unstar view
+    this.notifier.emit('star/toggle', id, false);
+
     // must render counter after toggle
-    this.render(res.body);
+    this.notifier.emit('star/render', res.body);
 
     if(this.isStarPage) {
       var el = $('.quotation[data-id="' + id + '"]');
@@ -2655,8 +2899,6 @@ function list() {
   // remove any listings
   $('.listing > *').remove();
 
-  //console.log('list: ' + ids);
-
   if(!ids.length) {
     this.empty();
   }else{
@@ -2696,73 +2938,21 @@ function listing(result) {
   })
 
   // update counters after render
-  this.init();
-  this.fetch();
-
-  // update love counters
-  this.love.init();
-  this.love.fetch();
-}
-
-/**
- *  Render the star counters.
- */
-function render(doc) {
-  var ids = Object.keys(doc);
-  ids.forEach(function(id) {
-    var el = $('.quotation[data-id="' + id + '"]')
-      , txt = el.find('a.star span')
-      , count = doc[id];
-
-    el.data('stars', count);
-
-    if(!txt.length) {
-      el.find('a.star').append($.create('span'));
-    }
-    if(doc[id]) {
-      el.find('a.star span').addClass('star').text('' + count);
-    }
-
-    el.attr({href: '/explore/' + id})
-  })
-}
-
-/**
- *  Loads the star counters for all quotes.
- */
-function fetch(ids) {
-  if(!ids) {
-    ids = [];
-    this.quotes.each(function(el) {
-      ids.push($(el).data('id'));
-    })
-  }
-
-  // no elements on page
-  if(!ids.length) {
-    return; 
-  }
-
-  function onResponse(err, res) {
-    // NOTE: errors currently handled by model
-    // NOTE: however follow idiomatic signature
-    this.render(res.body);
-  }
-
-  this.model.count(ids, onResponse.bind(this));
+  this.notifier.emit('love/update');
+  this.notifier.emit('star/update');
 }
 
 [
-  add, init, remove, list, totals, listing, toggle, fetch, render, empty
+  add, remove, list, totals, listing, empty
 ].forEach(
   function(m) {
-    Star.prototype[m.name] = m;
+    StarsPage.prototype[m.name] = m;
   }
 );
 
-module.exports = Star;
+module.exports = StarsPage;
 
-},{"./error":34,"./model/star":39,"air":"air"}],"air":[function(require,module,exports){
+},{"./abstract":34,"./error":38,"./model/star":43,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[36]);
+},{"./lib/air":1}]},{},[40]);

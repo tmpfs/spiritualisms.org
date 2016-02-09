@@ -1,10 +1,6 @@
 "use strict"
 
 var $ = require('air')
-  , Schema = require('async-validate')
-  , descriptor = require('../../lib/schema/quote')
-  , Love = require('./love')
-  , Star = require('./star');
 
 $.plugin(
   [
@@ -23,6 +19,7 @@ $.plugin(
     //require('air/first'),
     require('air/html'),
     require('air/hidden'),
+    require('air/inherit'),
     require('air/parent'),
     require('air/prepend'),
     require('air/request'),
@@ -38,6 +35,13 @@ $.plugin(
   ]
 )
 
+var EventEmitter = require('emanate')
+  , Schema = require('async-validate')
+  , descriptor = require('../../lib/schema/quote')
+  , LoveCount = require('./love-count')
+  , StarCount = require('./star-count')
+  , Stars = require('./stars');
+
 /**
  *  Spiritualisms client-side application.
  */
@@ -49,9 +53,11 @@ function Application(opts) {
 
   opts = opts || {};
   this.opts = opts;
+  this.opts.notifier = this.notifier = new EventEmitter();
   this.validator = new Schema(descriptor);
-  this.love = new Love(opts);
-  this.star = new Star(opts, this.love);
+  this.love = new LoveCount(opts);
+  this.star = new StarCount(opts);
+  this.stars = new Stars(opts);
 
   if(!supported) {
     var notice = $('.browser-update');
@@ -62,6 +68,9 @@ function Application(opts) {
   }
 
   $('a.refresh').on('click', random.bind(this));
+
+  this.notifier.emit('love/update');
+  this.notifier.emit('star/update');
 }
 
 /**
@@ -97,8 +106,10 @@ function random(e) {
 
       star.init();
       star.fetch([doc.id]);
+
       love.init();
       love.fetch([doc.id]);
+
       container.find('blockquote').text(doc.quote);
       container.find('cite').html('&#151; ')
         .append(

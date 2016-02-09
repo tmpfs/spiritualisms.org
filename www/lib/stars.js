@@ -1,14 +1,15 @@
 var $ = require('air')
   , error = require('./error')
+  , Abstract = require('./abstract')
   , StarModel = require('./model/star');
 
 /**
- *  Encapsulates the star functionality.
+ *  Encapsulates the stars page functionality.
  */
-function Star(opts, love) {
+function StarsPage(opts) {
 
-  this.opts = opts;
-  this.love = love;
+  Abstract.apply(this, arguments);
+
   this.model = new StarModel(opts);
   this.isStarPage = document.location.pathname === '/stars';
 
@@ -16,15 +17,6 @@ function Star(opts, love) {
 
     // keep in sync when storage changes
     $(window).on('storage', onStorage.bind(this));
-
-    // inject stars link to main navigation
-    //var nav = $('nav.main');
-    //var el = $.el('a')
-      //.attr({href: '/stars', title: 'Stars'})
-      //.addClass('stars')
-      //.html('&nbsp;Stars');
-    //el.prepend($.el('i').addClass('fa fa-star'));
-    //nav.append(el);
 
     var chooser = $('#import');
 
@@ -43,6 +35,9 @@ function Star(opts, love) {
     $('.actions .export').on('click', save.bind(this));
     $('.actions .clear').on('click', clear.bind(this));
 
+    this.notifier.on('star/add', this.add.bind(this));
+    this.notifier.on('star/remove', this.remove.bind(this));
+
     if(this.isStarPage) {
       $('header').find('a.stars').addClass('selected');
       this.list();
@@ -50,11 +45,13 @@ function Star(opts, love) {
       // only call fetch here on non /stars page
       // for /stars fetch will be called after rendering
       // the listing
-      this.init();
-      this.fetch();
+      //this.init();
+      //this.fetch();
     }
   }
 }
+
+$.inherit(StarsPage, Abstract);
 
 /**
  *  Listen for the storage event.
@@ -131,41 +128,6 @@ function clear(e) {
 }
 
 /**
- *  Initializes the star links on a page.
- */
-function init() {
-  this.quotes = $('.quotation[data-id]');
-  function it(el) {
-    var id = $(el).data('id')
-    this.toggle(id, this.model.has(id));
-  }
-  this.quotes.each(it.bind(this));
-}
-
-/**
- *  Toggle a star link view.
- */
-function toggle(id, unstar) {
-  var add = this.add.bind(this, id)
-    , remove = this.remove.bind(this, id)
-    , el = $('.quotation[data-id="' + id + '"]')
-    , link = el.find('a.star');
-
-  if(unstar) {
-    $.swap(link, $.partial('a.unstar'));
-  }else{
-    $.swap(link, $.partial('a.star'));
-  }
-
-  // rewrote the DOM get the new reference
-  link = el.find('a.star');
-  // update listener
-  link.on('click', unstar ? remove : add);
-  // keep href in sync
-  link.attr({href: '/explore/' + id});
-}
-
-/**
  *  Add a star to the list of stars.
  */
 function add(id, e) {
@@ -179,12 +141,14 @@ function add(id, e) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
     this.model.add(id);
-    // switch link to unstar view
-    this.toggle(id, true);
+
     this.totals();
 
+    // switch link to unstar view
+    this.notifier.emit('star/toggle', id, true);
+
     // must render counter after toggle
-    this.render(res.body);
+    this.notifier.emit('star/render', res.body);
   }
 
   this.model.incr(id, onResponse.bind(this));
@@ -204,11 +168,14 @@ function remove(id, e) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
     this.model.remove(id);
-    // switch to the star view
-    this.toggle(id, false);
+
     this.totals();
+
+    // switch link to unstar view
+    this.notifier.emit('star/toggle', id, false);
+
     // must render counter after toggle
-    this.render(res.body);
+    this.notifier.emit('star/render', res.body);
 
     if(this.isStarPage) {
       var el = $('.quotation[data-id="' + id + '"]');
@@ -256,8 +223,6 @@ function list() {
   // remove any listings
   $('.listing > *').remove();
 
-  //console.log('list: ' + ids);
-
   if(!ids.length) {
     this.empty();
   }else{
@@ -297,68 +262,16 @@ function listing(result) {
   })
 
   // update counters after render
-  this.init();
-  this.fetch();
-
-  // update love counters
-  this.love.init();
-  this.love.fetch();
-}
-
-/**
- *  Render the star counters.
- */
-function render(doc) {
-  var ids = Object.keys(doc);
-  ids.forEach(function(id) {
-    var el = $('.quotation[data-id="' + id + '"]')
-      , txt = el.find('a.star span')
-      , count = doc[id];
-
-    el.data('stars', count);
-
-    if(!txt.length) {
-      el.find('a.star').append($.create('span'));
-    }
-    if(doc[id]) {
-      el.find('a.star span').addClass('star').text('' + count);
-    }
-
-    el.attr({href: '/explore/' + id})
-  })
-}
-
-/**
- *  Loads the star counters for all quotes.
- */
-function fetch(ids) {
-  if(!ids) {
-    ids = [];
-    this.quotes.each(function(el) {
-      ids.push($(el).data('id'));
-    })
-  }
-
-  // no elements on page
-  if(!ids.length) {
-    return; 
-  }
-
-  function onResponse(err, res) {
-    // NOTE: errors currently handled by model
-    // NOTE: however follow idiomatic signature
-    this.render(res.body);
-  }
-
-  this.model.count(ids, onResponse.bind(this));
+  this.notifier.emit('love/update');
+  this.notifier.emit('star/update');
 }
 
 [
-  add, init, remove, list, totals, listing, toggle, fetch, render, empty
+  add, remove, list, totals, listing, empty
 ].forEach(
   function(m) {
-    Star.prototype[m.name] = m;
+    StarsPage.prototype[m.name] = m;
   }
 );
 
-module.exports = Star;
+module.exports = StarsPage;
