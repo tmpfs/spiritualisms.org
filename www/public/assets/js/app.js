@@ -2770,13 +2770,23 @@ function load(e) {
 function clear(e) {
   e.preventDefault();
 
-  this.model.clear();
+  if(!this.model.length()) {
+    return false;
+  }
 
-  // show initial message, remove listings etc.
-  this.list();
+  function onResponse(/*err, res*/) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.model.clear();
 
-  // update totals display
-  this.totals();
+    // show initial message, remove listings etc.
+    this.list();
+
+    // update totals display
+    this.totals();
+  }
+
+  this.model.decr(this.model.read(), onResponse.bind(this));
 }
 
 /**
