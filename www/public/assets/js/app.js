@@ -2330,6 +2330,7 @@ function onDismiss(res) {
 
   // redraw the list of starred quotes
   this.notifier.emit('stars/list');
+  this.notifier.emit('stars/totals');
 
   this.reset();
 
@@ -3009,6 +3010,7 @@ function StarsPage(opts) {
     this.notifier.on('star/remove', this.remove.bind(this));
 
     this.notifier.on('stars/list', this.list.bind(this));
+    this.notifier.on('stars/totals', this.totals.bind(this));
 
     if(this.isStarPage) {
       $('header').find('a.stars').addClass('selected');
