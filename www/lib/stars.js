@@ -53,16 +53,13 @@ $.inherit(StarsPage, Abstract);
  *  Fires in the other tabs/windows.
  */
 function onStorage(e) {
-  if(e.key === this.model.testKey) {
-    return false; 
-  }
-
-  this.totals();
-  if(this.isStarPage) {
-    this.list(); 
-  }else{
-    this.init();
-    this.fetch();
+  if(e.key === this.model.key) {
+    this.totals();
+    if(this.isStarPage) {
+      this.list(); 
+    }else{
+      this.notifier.emit('star/update');
+    }
   }
 }
 

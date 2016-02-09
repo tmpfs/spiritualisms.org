@@ -2062,7 +2062,8 @@ var EventEmitter = require('emanate')
  *  Spiritualisms client-side application.
  */
 function Application(opts) {
-  var supported = typeof XMLHttpRequest !== 'undefined';
+  var supported = typeof XMLHttpRequest !== 'undefined'
+    && window.localStorage;
 
   // NOTE: show browser warning for styling
   //supported = false;
@@ -2422,31 +2423,14 @@ module.exports = onResponse;
 
 },{}],43:[function(require,module,exports){
 var $ = require('air')
-  , onResponse = require('./response')
-  , testKey = '__storage_test__';
-
-/**
- *  Utility to determine if localStorage or sessionStorage 
- *  is supported.
- */
-function storageAvailable(type) {
-	try {
-		var storage = window[type];
-		storage.setItem(testKey, testKey);
-		storage.removeItem(testKey);
-		return storage;
-	}catch(e) {
-		return false;
-	}
-}
+  , onResponse = require('./response');
 
 /**
  *  Represents the local storage model for user's stars.
  */
 function StarModel(opts) {
   opts = opts || {};
-  this.storage = storageAvailable('localStorage');
-  this.testKey = testKey;
+  this.storage = localStorage;
   this.key = opts.key || 'stars';
   this.file = opts.file || 'stars.json';
   this.opts = opts;
@@ -2730,16 +2714,13 @@ $.inherit(StarsPage, Abstract);
  *  Fires in the other tabs/windows.
  */
 function onStorage(e) {
-  if(e.key === this.model.testKey) {
-    return false; 
-  }
-
-  this.totals();
-  if(this.isStarPage) {
-    this.list(); 
-  }else{
-    this.init();
-    this.fetch();
+  if(e.key === this.model.key) {
+    this.totals();
+    if(this.isStarPage) {
+      this.list(); 
+    }else{
+      this.notifier.emit('star/update');
+    }
   }
 }
 

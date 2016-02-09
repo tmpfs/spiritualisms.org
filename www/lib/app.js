@@ -46,7 +46,8 @@ var EventEmitter = require('emanate')
  *  Spiritualisms client-side application.
  */
 function Application(opts) {
-  var supported = typeof XMLHttpRequest !== 'undefined';
+  var supported = typeof XMLHttpRequest !== 'undefined'
+    && window.localStorage;
 
   // NOTE: show browser warning for styling
   //supported = false;
