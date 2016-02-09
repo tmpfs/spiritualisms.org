@@ -1,6 +1,5 @@
 var $ = require('air')
-  , Counter = require('./counter')
-  , StarModel = require('./model/star');
+  , Counter = require('./counter');
 
 /**
  *  Logic for rendering the star counters.
@@ -17,7 +16,7 @@ function StarCount(opts) {
   this.counter = 'a.star span';
 
   // must configure model before calling super
-  this.model = new StarModel(opts);
+  this.model = opts.model.star;
 
   Counter.apply(this, arguments);
 

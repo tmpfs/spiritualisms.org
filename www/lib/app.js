@@ -38,6 +38,8 @@ $.plugin(
 var EventEmitter = require('emanate')
   , Schema = require('async-validate')
   , descriptor = require('../../lib/schema/quote')
+  , LoveModel = require('./model/love')
+  , StarModel = require('./model/star')
   , LoveCount = require('./love-count')
   , StarCount = require('./star-count')
   , refresh = require('./refresh')
@@ -54,9 +56,15 @@ function Application(opts) {
   //supported = false;
 
   opts = opts || {};
+  opts.model = {
+    love: new LoveModel(opts),
+    star: new StarModel(opts)
+  }
   this.opts = opts;
   this.opts.notifier = this.notifier = new EventEmitter();
+
   this.validator = new Schema(descriptor);
+
   this.love = new LoveCount(opts);
   this.star = new StarCount(opts);
   this.stars = new Stars(opts);

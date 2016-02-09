@@ -2054,6 +2054,8 @@ $.plugin(
 var EventEmitter = require('emanate')
   , Schema = require('async-validate')
   , descriptor = require('../../lib/schema/quote')
+  , LoveModel = require('./model/love')
+  , StarModel = require('./model/star')
   , LoveCount = require('./love-count')
   , StarCount = require('./star-count')
   , refresh = require('./refresh')
@@ -2070,9 +2072,15 @@ function Application(opts) {
   //supported = false;
 
   opts = opts || {};
+  opts.model = {
+    love: new LoveModel(opts),
+    star: new StarModel(opts)
+  }
   this.opts = opts;
   this.opts.notifier = this.notifier = new EventEmitter();
+
   this.validator = new Schema(descriptor);
+
   this.love = new LoveCount(opts);
   this.star = new StarCount(opts);
   this.stars = new Stars(opts);
@@ -2093,7 +2101,7 @@ function Application(opts) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":22,"./love-count":41,"./refresh":46,"./star-count":47,"./stars":48,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
+},{"../../lib/schema/quote":22,"./love-count":41,"./model/love":43,"./model/star":45,"./refresh":46,"./star-count":47,"./stars":48,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
 var $ = require('air')
   , Abstract = require('./abstract');
 
@@ -2415,8 +2423,7 @@ module.exports = Import;
 
 },{"./abstract":34,"./dialog":37,"./error":39,"air":"air"}],41:[function(require,module,exports){
 var $ = require('air')
-  , Counter = require('./counter')
-  , LoveModel = require('./model/love');
+  , Counter = require('./counter');
 
 /**
  *  Logic for rendering the love counters.
@@ -2433,7 +2440,7 @@ function LoveCount(opts) {
   this.counter = 'a.love span';
 
   // must configure model before calling super
-  this.model = new LoveModel(opts);
+  this.model = opts.model.love;
 
   Counter.apply(this, arguments);
 
@@ -2468,7 +2475,7 @@ function show(id, e) {
 
 module.exports = LoveCount;
 
-},{"./counter":36,"./model/love":43,"air":"air"}],42:[function(require,module,exports){
+},{"./counter":36,"air":"air"}],42:[function(require,module,exports){
 var Application = require('./app');
 module.exports = new Application(window.app);
 
@@ -2788,8 +2795,7 @@ module.exports = refresh;
 
 },{"air":"air"}],47:[function(require,module,exports){
 var $ = require('air')
-  , Counter = require('./counter')
-  , StarModel = require('./model/star');
+  , Counter = require('./counter');
 
 /**
  *  Logic for rendering the star counters.
@@ -2806,7 +2812,7 @@ function StarCount(opts) {
   this.counter = 'a.star span';
 
   // must configure model before calling super
-  this.model = new StarModel(opts);
+  this.model = opts.model.star;
 
   Counter.apply(this, arguments);
 
@@ -2866,12 +2872,11 @@ function remove(id, e) {
 
 module.exports = StarCount;
 
-},{"./counter":36,"./model/star":45,"air":"air"}],48:[function(require,module,exports){
+},{"./counter":36,"air":"air"}],48:[function(require,module,exports){
 var $ = require('air')
   , dialog = require('./dialog')
   , Abstract = require('./abstract')
-  , Import = require('./import')
-  , StarModel = require('./model/star');
+  , Import = require('./import');
 
 /**
  *  Encapsulates the stars page functionality.
@@ -2880,7 +2885,7 @@ function StarsPage(opts) {
 
   Abstract.apply(this, arguments);
 
-  this.model = new StarModel(opts);
+  this.model = opts.model.star;
   this.isStarPage = document.location.pathname === '/stars';
 
   if(this.model.storage) {
@@ -3116,7 +3121,7 @@ function listing(result) {
 
 module.exports = StarsPage;
 
-},{"./abstract":34,"./dialog":37,"./import":40,"./model/star":45,"air":"air"}],"air":[function(require,module,exports){
+},{"./abstract":34,"./dialog":37,"./import":40,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
 },{"./lib/air":1}]},{},[42]);

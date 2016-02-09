@@ -1,6 +1,5 @@
 var $ = require('air')
-  , Counter = require('./counter')
-  , LoveModel = require('./model/love');
+  , Counter = require('./counter');
 
 /**
  *  Logic for rendering the love counters.
@@ -17,7 +16,7 @@ function LoveCount(opts) {
   this.counter = 'a.love span';
 
   // must configure model before calling super
-  this.model = new LoveModel(opts);
+  this.model = opts.model.love;
 
   Counter.apply(this, arguments);
 

@@ -1,8 +1,7 @@
 var $ = require('air')
   , dialog = require('./dialog')
   , Abstract = require('./abstract')
-  , Import = require('./import')
-  , StarModel = require('./model/star');
+  , Import = require('./import');
 
 /**
  *  Encapsulates the stars page functionality.
@@ -11,7 +10,7 @@ function StarsPage(opts) {
 
   Abstract.apply(this, arguments);
 
-  this.model = new StarModel(opts);
+  this.model = opts.model.star;
   this.isStarPage = document.location.pathname === '/stars';
 
   if(this.model.storage) {
