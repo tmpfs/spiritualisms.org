@@ -61,7 +61,7 @@ function render(doc) {
   function it(id) {
     var el = $('.quotation[data-id="' + id + '"]')
       , txt = el.find(this.counter)
-      , count = doc[id];
+      , count = sanitize(doc[id]);
 
     el.data(this.id, count);
 
@@ -69,12 +69,20 @@ function render(doc) {
       el.find(this.link).append($.create('span'));
     }
     if(doc[id]) {
-      el.find(this.counter).addClass(this.id).text('' + count);
+      el.find(this.counter).addClass(this.id).text(count);
     }
 
     el.attr({href: '/explore/' + id})
   }
   ids.forEach(it.bind(this));
+}
+
+function sanitize(amount) {
+  if(amount < 1000) {
+    return '' + amount; 
+  }
+  var val = (amount / 1000).toFixed(1) + 'k';
+  return val;
 }
 
 [update, init, fetch, render].forEach(function(m) {
