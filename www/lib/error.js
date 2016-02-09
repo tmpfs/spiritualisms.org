@@ -8,7 +8,7 @@ function error(msg, target) {
   target = target || $('section');
   var err = $.partial('.msg.error').clone(true);
   err.find('p').text(msg);
-  target.prepend(err);
+  target.prepend(err).fadeIn();
   dismiss();
 }
 

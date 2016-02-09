@@ -6,22 +6,30 @@ var $ = require('air')
 function Import() {
   Abstract.apply(this, arguments);
 
+  // store the documents to import
+  this.documents = [];
+
   var link = $('a.import');
 
   if(!window.FileList || !window.FileReader) {
     link.hide();
   }else{
-    link.on('click', function() {
-      var opts = {
-        el: $.partial('.dialog.import'),
-        remove: false,
-        modal: false
-      };
-      this.dialog = dialog(opts, onDismiss.bind(this));
-      var chooser = $('#chooser');
-      chooser.on('change', change.bind(this));
-    })
+    link.on('click', showDialog.bind(this));
   }
+}
+
+/**
+ *  Show the import dialog.
+ */ 
+function showDialog() {
+  var opts = {
+    el: $.partial('.dialog.import'),
+    remove: false,
+    modal: false
+  };
+  this.dialog = dialog(opts, onDismiss.bind(this));
+  var chooser = $('#chooser');
+  chooser.on('change', change.bind(this));
 }
 
 /**
@@ -34,30 +42,64 @@ function onDismiss(res) {
   }
 
   console.log('perform import');
-  console.log(res);
+  console.log(this.documents);
 }
 
 /**
- *  Update label on chosen file.
+ *  Remove previous error messages.
+ */
+function removeErrors() {
+  // dismiss any previous errors
+  $('.choose .msg.error').remove();
+}
+
+/**
+ *  Perform the import from the documents array.
+ */
+function process() {
+  var doc = [];
+  this.documents.forEach(function(d) {
+    doc = doc.concat(d);
+  })
+  console.log('process import');
+  console.log(doc);
+}
+
+/**
+ *  Handle file choose dialog change.
  */
 function change(e) {
   e.preventDefault();
   var files = e.target.files
     , file = files[0];
+
+  // user likely dismissed the choose file dialog
+  if(!file) {
+    return; 
+  }
+
   $('.filename').show().text(file.name);
-  console.log('choose file: ' + file.name);
 
   function onRead(err, doc) {
+    console.log('file read completed');
     if(err) {
-      return error(e.message);
+      removeErrors();
+      return error(err.message, this.dialog.find('.choose'));
     } 
 
     // ok, enable 
+    removeErrors();
+    //$('[href="#ok"]').enable();
+    //
+    console.log(this.documents);
 
-    console.log(doc);
+    this.documents.push(doc);
+    this.process();
   }
 
-  read(file, onRead);
+  console.log('call read: ' + this.documents);
+
+  read(file, onRead.bind(this));
 }
 
 /**
@@ -89,42 +131,11 @@ function read(file, cb) {
           'Cannot import document, expected array of strings.'));
       } 
     }
+    cb(null, doc);
   }
   reader.readAsText(file);
 }
 
-/**
- *  Load a JSON document and import into the local storage.
- */
-//function load(e) {
-  //e.preventDefault();
-  //console.log('load file');
-  //var files = e.target.files
-    //, file = files[0];
-  //var reader = new FileReader();
-  //reader.onload = function() {
-    //var doc;
-    //try {
-      //doc = JSON.parse(this.result); 
-    //}catch(e) {
-      //return error('Cannot import document, invalid JSON.');
-    //}
-
-    //if(!Array.isArray(doc)) {
-      //return error('Cannot import document, expected JSON array.');
-    //}
-
-    //for(var i = 0;i < doc.length;i++) {
-      //if(typeof doc[i] !== 'string') {
-        //return error('Cannot import document, expected array of strings.');
-      //} 
-    //}
-
-    //// TODO: implement import
-    //console.log(doc);
-  //}
-  //reader.readAsText(file);
-//}
-
+Import.prototype.process = process;
 
 module.exports = Import;
