@@ -2718,12 +2718,6 @@ function StarsPage(opts) {
     if(this.isStarPage) {
       $('header').find('a.stars').addClass('selected');
       this.list();
-    }else{
-      // only call fetch here on non /stars page
-      // for /stars fetch will be called after rendering
-      // the listing
-      //this.init();
-      //this.fetch();
     }
   }
 }
