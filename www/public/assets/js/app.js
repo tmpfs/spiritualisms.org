@@ -2093,7 +2093,7 @@ function Application(opts) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":22,"./love-count":39,"./refresh":44,"./star-count":45,"./stars":46,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
+},{"../../lib/schema/quote":22,"./love-count":40,"./refresh":45,"./star-count":46,"./stars":47,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
 var $ = require('air')
   , Abstract = require('./abstract');
 
@@ -2113,7 +2113,7 @@ function update(ids) {
 }
 
 /**
- *  Initialize the love event handlers.
+ *  Initialize the event handlers.
  */
 function init() {
   this.quotes = $('.quotation[data-id]');
@@ -2150,7 +2150,7 @@ function fetch(ids) {
 }
 
 /**
- *  Render the love counters.
+ *  Render the counters.
  */
 function render(doc) {
   var ids = Object.keys(doc);
@@ -2164,8 +2164,10 @@ function render(doc) {
     if(!txt.length) {
       el.find(this.link).append($.create('span'));
     }
+
     if(doc[id]) {
-      el.find(this.counter).addClass(this.id).text(count);
+      txt = el.find(this.counter);
+      txt.addClass(this.id + ' counter').text(count);
     }
 
     el.attr({href: '/explore/' + id})
@@ -2190,6 +2192,36 @@ module.exports = Counter;
 },{"./abstract":34,"air":"air"}],37:[function(require,module,exports){
 var $ = require('air');
 
+function dialog(opts, cb) {
+  var el = opts.el.clone(true)
+    , container = opts.container || $('body')
+    , res = {accepted: false};
+
+  container.append(el);
+
+  function onReject(e) {
+    e.preventDefault();
+    el.remove();
+    cb(res);  
+  }
+
+  function onAccept(e) {
+    e.preventDefault();
+    el.remove();
+    res.accepted = true;
+    cb(res);  
+  }
+
+  el.find('.modal').on('click', onReject);
+  el.find('[href="#cancel"]').on('click', onReject);
+  el.find('[href="#ok"]').on('click', onAccept);
+}
+
+module.exports = dialog;
+
+},{"air":"air"}],38:[function(require,module,exports){
+var $ = require('air');
+
 function dismiss() {
   $('[href="#dismiss"]').on('click', function(e) {
     e.preventDefault();
@@ -2202,7 +2234,7 @@ function dismiss() {
 
 module.exports = dismiss;
 
-},{"air":"air"}],38:[function(require,module,exports){
+},{"air":"air"}],39:[function(require,module,exports){
 var $ = require('air')
   , dismiss = require('./dismiss');
 
@@ -2219,7 +2251,7 @@ function error(msg, target) {
 
 module.exports = error;
 
-},{"./dismiss":37,"air":"air"}],39:[function(require,module,exports){
+},{"./dismiss":38,"air":"air"}],40:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter')
   , LoveModel = require('./model/love');
@@ -2274,11 +2306,11 @@ function show(id, e) {
 
 module.exports = LoveCount;
 
-},{"./counter":36,"./model/love":41,"air":"air"}],40:[function(require,module,exports){
+},{"./counter":36,"./model/love":42,"air":"air"}],41:[function(require,module,exports){
 var Application = require('./app');
 module.exports = new Application(window.app);
 
-},{"./app":35}],41:[function(require,module,exports){
+},{"./app":35}],42:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2322,7 +2354,7 @@ function load(ids, cb) {
 
 module.exports = LoveModel;
 
-},{"./response":42,"air":"air"}],42:[function(require,module,exports){
+},{"./response":43,"air":"air"}],43:[function(require,module,exports){
 /**
  *  Generic model api response handler.
  */
@@ -2335,7 +2367,7 @@ function onResponse(cb, err, res) {
 
 module.exports = onResponse;
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2492,7 +2524,7 @@ function decr(ids, cb) {
 
 module.exports = StarModel;
 
-},{"./response":42,"air":"air"}],44:[function(require,module,exports){
+},{"./response":43,"air":"air"}],45:[function(require,module,exports){
 var $ = require('air');
 
 /**
@@ -2592,7 +2624,7 @@ function refresh(e) {
 
 module.exports = refresh;
 
-},{"air":"air"}],45:[function(require,module,exports){
+},{"air":"air"}],46:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter')
   , StarModel = require('./model/star');
@@ -2672,9 +2704,10 @@ function remove(id, e) {
 
 module.exports = StarCount;
 
-},{"./counter":36,"./model/star":43,"air":"air"}],46:[function(require,module,exports){
+},{"./counter":36,"./model/star":44,"air":"air"}],47:[function(require,module,exports){
 var $ = require('air')
   , error = require('./error')
+  , dialog = require('./dialog')
   , Abstract = require('./abstract')
   , StarModel = require('./model/star');
 
@@ -2800,7 +2833,18 @@ function clear(e) {
     this.totals();
   }
 
-  this.model.decr(this.model.read(), onResponse.bind(this));
+  function onDismiss(res) {
+    if(res.accepted) {
+      this.model.decr(this.model.read(), onResponse.bind(this));
+    }
+  }
+
+  var opts = {
+    el: $.partial('.dialog.clear-all')
+  }
+
+  dialog(opts, onDismiss.bind(this));
+
 }
 
 /**
@@ -2952,7 +2996,7 @@ function listing(result) {
 
 module.exports = StarsPage;
 
-},{"./abstract":34,"./error":38,"./model/star":43,"air":"air"}],"air":[function(require,module,exports){
+},{"./abstract":34,"./dialog":37,"./error":39,"./model/star":44,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[40]);
+},{"./lib/air":1}]},{},[41]);

@@ -1,5 +1,6 @@
 var $ = require('air')
   , error = require('./error')
+  , dialog = require('./dialog')
   , Abstract = require('./abstract')
   , StarModel = require('./model/star');
 
@@ -125,7 +126,18 @@ function clear(e) {
     this.totals();
   }
 
-  this.model.decr(this.model.read(), onResponse.bind(this));
+  function onDismiss(res) {
+    if(res.accepted) {
+      this.model.decr(this.model.read(), onResponse.bind(this));
+    }
+  }
+
+  var opts = {
+    el: $.partial('.dialog.clear-all')
+  }
+
+  dialog(opts, onDismiss.bind(this));
+
 }
 
 /**

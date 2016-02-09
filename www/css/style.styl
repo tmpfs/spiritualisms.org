@@ -13,6 +13,7 @@ html, body
   margin: 0;
 
 @import 'header';
+@import 'dialog';
 
 section {
   width: 100%;
@@ -90,6 +91,10 @@ nav.toolbar, nav.download
 
 nav.toolbar
   text-transform: uppercase;
+  a
+    span.counter
+      // lowercase `k` in counter numbers
+      text-transform: none;
 
 .quotation nav.toolbar:not(:first-child), nav.download
   margin-top: 4rem;
@@ -242,6 +247,12 @@ em
 
 [hidden]
   display: none;
+
+.muted
+  color: $muted;
+
+.footnote
+  font-size: 1.6rem;
 
 input[type="file"]
   background: $muted;

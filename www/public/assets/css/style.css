@@ -2822,6 +2822,61 @@ header nav.icon {
 header nav.icon a:not(:last-child) {
   margin-right: 0.5rem;
 }
+.dialog {
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+.dialog .modal {
+  position: absolute;
+  z-index: 2001;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  cursor: pointer;
+}
+.dialog .container {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.dialog .container .content {
+  position: relative;
+  z-index: 2002;
+  position: relative;
+  padding: 2rem;
+  border-radius: 0.4rem;
+  display: inline-block;
+  text-align: left;
+  background: #eee8d5;
+}
+.dialog .container .content .title {
+  border-bottom: 1px solid #000;
+  margin-bottom: 0.5rem;
+}
+.dialog .container .content p {
+  margin-bottom: 0;
+}
+.dialog .container .content p.footnote {
+  margin-bottom: 2rem;
+}
+.dialog .container .content a.close {
+  color: #000;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+.dialog .container .content nav a {
+  margin-bottom: 0;
+}
 section {
   width: 100%;
   height: 100%;
@@ -2887,6 +2942,9 @@ nav.download {
 }
 nav.toolbar {
   text-transform: uppercase;
+}
+nav.toolbar a span.counter {
+  text-transform: none;
 }
 .quotation nav.toolbar:not(:first-child),
 nav.download {
@@ -3040,6 +3098,12 @@ section.stars .actions nav:first-child a:not(:last-child) {
 }
 [hidden] {
   display: none;
+}
+.muted {
+  color: #b3b3b3;
+}
+.footnote {
+  font-size: 1.6rem;
 }
 input[type="file"] {
   background: #b3b3b3;

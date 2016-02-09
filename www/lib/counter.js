@@ -17,7 +17,7 @@ function update(ids) {
 }
 
 /**
- *  Initialize the love event handlers.
+ *  Initialize the event handlers.
  */
 function init() {
   this.quotes = $('.quotation[data-id]');
@@ -54,7 +54,7 @@ function fetch(ids) {
 }
 
 /**
- *  Render the love counters.
+ *  Render the counters.
  */
 function render(doc) {
   var ids = Object.keys(doc);
@@ -68,8 +68,10 @@ function render(doc) {
     if(!txt.length) {
       el.find(this.link).append($.create('span'));
     }
+
     if(doc[id]) {
-      el.find(this.counter).addClass(this.id).text(count);
+      txt = el.find(this.counter);
+      txt.addClass(this.id + ' counter').text(count);
     }
 
     el.attr({href: '/explore/' + id})
