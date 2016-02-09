@@ -2006,10 +2006,6 @@ function Abstract(opts) {
 
 $.inherit(Abstract, EventEmitter);
 
-//[init, fetch, render].forEach(function(m) {
-  //Abstract.prototype[m.name] = m;
-//});
-
 module.exports = Abstract;
 
 
@@ -2290,6 +2286,8 @@ function Import() {
   // store the documents to import
   this.documents = [];
 
+  this.model = this.opts.model.star;
+
   var link = $('a.import');
 
   if(!window.FileList || !window.FileReader) {
@@ -2338,12 +2336,65 @@ function removeErrors() {
  *  Perform the import from the documents array.
  */
 function process() {
-  var doc = [];
+  var doc = []
+    , info = {
+        duplicates: [],
+        missing: [],
+        diff: []
+      }
+    , stars = this.model.read();
+
+  // take all loaded documents and put them
+  // in a single array
   this.documents.forEach(function(d) {
     doc = doc.concat(d);
   })
-  console.log('process import');
-  console.log(doc);
+
+  // check for duplicate identifiers
+  this.documents.forEach(function(id) {
+    if(~stars.indexOf(id)) {
+      return info.duplicates.push(id); 
+    } 
+    info.diff.push(id);
+  })
+
+  // TODO: check for missing quotes (bad quote identifiers)
+
+  console.log(info.diff);
+
+  this.summary(info);
+
+  // reset list of documents for another import
+  this.documents = [];
+}
+
+/**
+ *  Show the processing summary.
+ */
+function summary(info) {
+  var list = $.el('ul')
+    , link = $('[href="#ok"]');
+
+  if(info.missing.length) {
+    list.append($.el('li').text(
+      info.missing.length + ' stars missing').addClass('missing'));
+  }
+
+  if(info.duplicates.length) {
+    list.append($.el('li').text(
+      info.duplicates.length + ' duplicate stars').addClass('duplicate'));
+  }
+
+  if(info.diff.length) {
+    list.append($.el('li').text(
+      info.diff.length + ' new stars').addClass('new'));
+    this.dialog.find('.choose').append(list);
+    link.text('Import ' + info.diff.length + ' stars');
+  }else{
+    link.text('Nothing to import!'); 
+  }
+  
+  link.enable();
 }
 
 /**
@@ -2362,7 +2413,6 @@ function change(e) {
   $('.filename').show().text(file.name);
 
   function onRead(err, doc) {
-    console.log('file read completed');
     if(err) {
       removeErrors();
       return error(err.message, this.dialog.find('.choose'));
@@ -2370,15 +2420,10 @@ function change(e) {
 
     // ok, enable 
     removeErrors();
-    //$('[href="#ok"]').enable();
-    //
-    console.log(this.documents);
 
     this.documents.push(doc);
     this.process();
   }
-
-  console.log('call read: ' + this.documents);
 
   read(file, onRead.bind(this));
 }
@@ -2418,6 +2463,10 @@ function read(file, cb) {
 }
 
 Import.prototype.process = process;
+
+[process, summary].forEach(function(m) {
+  Import.prototype[m.name] = m;
+});
 
 module.exports = Import;
 

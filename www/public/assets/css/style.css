@@ -3102,19 +3102,6 @@ section.stars .empty {
 section.stars .actions nav:first-child a:not(:last-child) {
   margin-right: 1rem;
 }
-[disabled] {
-  opacity: 0.8;
-  pointer-events: none;
-}
-[hidden] {
-  display: none;
-}
-.muted {
-  color: #b3b3b3;
-}
-.footnote {
-  font-size: 1.6rem;
-}
 label[for="chooser"] {
   text-align: center;
   background: #b3b3b3;
@@ -3128,6 +3115,25 @@ label[for="chooser"] {
 label[for="chooser"] >div {
   display: table-cell;
   vertical-align: middle;
+}
+.choose ul {
+  padding-left: 2rem;
+}
+.choose ul li {
+  margin-bottom: 0;
+}
+[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+[hidden] {
+  display: none;
+}
+.muted {
+  color: #b3b3b3;
+}
+.footnote {
+  font-size: 1.6rem;
 }
 .msg {
   position: relative;

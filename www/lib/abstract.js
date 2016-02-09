@@ -11,9 +11,5 @@ function Abstract(opts) {
 
 $.inherit(Abstract, EventEmitter);
 
-//[init, fetch, render].forEach(function(m) {
-  //Abstract.prototype[m.name] = m;
-//});
-
 module.exports = Abstract;
 
