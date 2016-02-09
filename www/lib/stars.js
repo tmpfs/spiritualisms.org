@@ -1,7 +1,7 @@
 var $ = require('air')
-  , error = require('./error')
   , dialog = require('./dialog')
   , Abstract = require('./abstract')
+  , Import = require('./import')
   , StarModel = require('./model/star');
 
 /**
@@ -16,20 +16,10 @@ function StarsPage(opts) {
 
   if(this.model.storage) {
 
+    this.importer = new Import(opts);
+
     // keep in sync when storage changes
     $(window).on('storage', onStorage.bind(this));
-
-    var chooser = $('#import');
-
-    if(!window.FileList || !window.FileReader) {
-      $('a.import').remove();
-      chooser.remove(); 
-    }else{
-      $('a.import').on('click', function() {
-        chooser.show();
-      })
-      chooser.on('change', load.bind(this));
-    }
 
     this.totals();
 
@@ -70,38 +60,6 @@ function onStorage(e) {
 function save(e) {
   e.preventDefault();
   this.model.save();
-}
-
-/**
- *  Load a JSON document and import into the local storage.
- */
-function load(e) {
-  e.preventDefault();
-  var files = e.target.files
-    , file = files[0];
-  var reader = new FileReader();
-  reader.onload = function() {
-    var doc;
-    try {
-      doc = JSON.parse(this.result); 
-    }catch(e) {
-      return error('Cannot import document, invalid JSON.');
-    }
-
-    if(!Array.isArray(doc)) {
-      return error('Cannot import document, expected JSON array.');
-    }
-
-    for(var i = 0;i < doc.length;i++) {
-      if(typeof doc[i] !== 'string') {
-        return error('Cannot import document, expected array of strings.');
-      } 
-    }
-
-    // TODO: implement import
-    console.log(doc);
-  }
-  reader.readAsText(file);
 }
 
 /**

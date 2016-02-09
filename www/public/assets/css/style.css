@@ -3051,11 +3051,13 @@ a.permalink {
   color: #2aa198;
 }
 span.love:before,
-span.star:before {
+span.star:before,
+.filename:before {
   content: " (";
 }
 span.love:after,
-span.star:after {
+span.star:after,
+.filename:after {
   content: ")";
 }
 .page.permalink {
@@ -3105,10 +3107,12 @@ section.stars .actions nav:first-child a:not(:last-child) {
 .footnote {
   font-size: 1.6rem;
 }
-input[type="file"] {
+label[for="chooser"] {
   background: #b3b3b3;
   padding: 0.5rem;
   border-radius: 0.2rem;
+  margin-bottom: 2rem;
+  font-weight: normal;
 }
 .msg {
   position: relative;

@@ -2093,7 +2093,7 @@ function Application(opts) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":22,"./love-count":40,"./refresh":45,"./star-count":46,"./stars":47,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
+},{"../../lib/schema/quote":22,"./love-count":41,"./refresh":46,"./star-count":47,"./stars":48,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
 var $ = require('air')
   , Abstract = require('./abstract');
 
@@ -2195,26 +2195,45 @@ var $ = require('air');
 function dialog(opts, cb) {
   var el = opts.el.clone(true)
     , container = opts.container || $('body')
-    , res = {accepted: false};
+    , res = {accepted: false, el: el};
+
+  // pass function to remove element in result
+  // when we don't handle removing
+  if(opts.remove === false) {
+    res.remove = function() {
+      el.remove(); 
+    }
+  }
 
   container.append(el);
 
   function onReject(e) {
     e.preventDefault();
-    el.remove();
-    cb(res);  
+    if(opts.remove !== false) {
+      el.remove();
+    }
+    cb(res);
   }
 
   function onAccept(e) {
     e.preventDefault();
-    el.remove();
+    if(opts.remove !== false) {
+      el.remove();
+    }
     res.accepted = true;
-    cb(res);  
+    cb(res);
   }
 
-  el.find('.modal').on('click', onReject);
+  var modal = el.find('.modal');
+  if(opts.modal !== false) {
+    modal.on('click', onReject);
+  }else{
+    modal.css({cursor: 'auto'})
+  }
   el.find('[href="#cancel"]').on('click', onReject);
   el.find('[href="#ok"]').on('click', onAccept);
+
+  return el;
 }
 
 module.exports = dialog;
@@ -2252,6 +2271,138 @@ function error(msg, target) {
 module.exports = error;
 
 },{"./dismiss":38,"air":"air"}],40:[function(require,module,exports){
+var $ = require('air')
+  , error = require('./error')
+  , dialog = require('./dialog')
+  , Abstract = require('./abstract');
+
+function Import() {
+  Abstract.apply(this, arguments);
+
+  var link = $('a.import');
+
+  if(!window.FileList || !window.FileReader) {
+    link.hide();
+  }else{
+    link.on('click', function() {
+      var opts = {
+        el: $.partial('.dialog.import'),
+        remove: false,
+        modal: false
+      };
+      this.dialog = dialog(opts, onDismiss.bind(this));
+      var chooser = $('#chooser');
+      chooser.on('change', change.bind(this));
+    })
+  }
+}
+
+/**
+ *  Response to the dialog event.
+ */
+function onDismiss(res) {
+  // user dismissed the dialog
+  if(!res.accepted) {
+    return res.remove(); 
+  }
+
+  console.log('perform import');
+  console.log(res);
+}
+
+/**
+ *  Update label on chosen file.
+ */
+function change(e) {
+  e.preventDefault();
+  var files = e.target.files
+    , file = files[0];
+  $('.filename').show().text(file.name);
+  console.log('choose file: ' + file.name);
+
+  function onRead(err, doc) {
+    if(err) {
+      return error(e.message);
+    } 
+
+    // ok, enable 
+
+    console.log(doc);
+  }
+
+  read(file, onRead);
+}
+
+/**
+ *  Read the file content as text.
+ */
+function read(file, cb) {
+  var reader = new FileReader();
+  reader.onerror = function(err) {
+    cb(err);
+  }
+
+  reader.onload = function() {
+    var doc;
+    try {
+      doc = JSON.parse(this.result); 
+    }catch(e) {
+      return cb(new Error(
+        'Cannot import document, invalid JSON.'));
+    }
+
+    if(!Array.isArray(doc)) {
+      return cb(new Error(
+        'Cannot import document, expected JSON array.'));
+    }
+
+    for(var i = 0;i < doc.length;i++) {
+      if(typeof doc[i] !== 'string') {
+        return cb(new Error(
+          'Cannot import document, expected array of strings.'));
+      } 
+    }
+  }
+  reader.readAsText(file);
+}
+
+/**
+ *  Load a JSON document and import into the local storage.
+ */
+//function load(e) {
+  //e.preventDefault();
+  //console.log('load file');
+  //var files = e.target.files
+    //, file = files[0];
+  //var reader = new FileReader();
+  //reader.onload = function() {
+    //var doc;
+    //try {
+      //doc = JSON.parse(this.result); 
+    //}catch(e) {
+      //return error('Cannot import document, invalid JSON.');
+    //}
+
+    //if(!Array.isArray(doc)) {
+      //return error('Cannot import document, expected JSON array.');
+    //}
+
+    //for(var i = 0;i < doc.length;i++) {
+      //if(typeof doc[i] !== 'string') {
+        //return error('Cannot import document, expected array of strings.');
+      //} 
+    //}
+
+    //// TODO: implement import
+    //console.log(doc);
+  //}
+  //reader.readAsText(file);
+//}
+
+
+module.exports = Import;
+
+},{"./abstract":34,"./dialog":37,"./error":39,"air":"air"}],41:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter')
   , LoveModel = require('./model/love');
@@ -2306,11 +2457,11 @@ function show(id, e) {
 
 module.exports = LoveCount;
 
-},{"./counter":36,"./model/love":42,"air":"air"}],41:[function(require,module,exports){
+},{"./counter":36,"./model/love":43,"air":"air"}],42:[function(require,module,exports){
 var Application = require('./app');
 module.exports = new Application(window.app);
 
-},{"./app":35}],42:[function(require,module,exports){
+},{"./app":35}],43:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2354,7 +2505,7 @@ function load(ids, cb) {
 
 module.exports = LoveModel;
 
-},{"./response":43,"air":"air"}],43:[function(require,module,exports){
+},{"./response":44,"air":"air"}],44:[function(require,module,exports){
 /**
  *  Generic model api response handler.
  */
@@ -2367,7 +2518,7 @@ function onResponse(cb, err, res) {
 
 module.exports = onResponse;
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2524,7 +2675,7 @@ function decr(ids, cb) {
 
 module.exports = StarModel;
 
-},{"./response":43,"air":"air"}],45:[function(require,module,exports){
+},{"./response":44,"air":"air"}],46:[function(require,module,exports){
 var $ = require('air');
 
 /**
@@ -2624,7 +2775,7 @@ function refresh(e) {
 
 module.exports = refresh;
 
-},{"air":"air"}],46:[function(require,module,exports){
+},{"air":"air"}],47:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter')
   , StarModel = require('./model/star');
@@ -2704,11 +2855,11 @@ function remove(id, e) {
 
 module.exports = StarCount;
 
-},{"./counter":36,"./model/star":44,"air":"air"}],47:[function(require,module,exports){
+},{"./counter":36,"./model/star":45,"air":"air"}],48:[function(require,module,exports){
 var $ = require('air')
-  , error = require('./error')
   , dialog = require('./dialog')
   , Abstract = require('./abstract')
+  , Import = require('./import')
   , StarModel = require('./model/star');
 
 /**
@@ -2723,20 +2874,10 @@ function StarsPage(opts) {
 
   if(this.model.storage) {
 
+    this.importer = new Import(opts);
+
     // keep in sync when storage changes
     $(window).on('storage', onStorage.bind(this));
-
-    var chooser = $('#import');
-
-    if(!window.FileList || !window.FileReader) {
-      $('a.import').remove();
-      chooser.remove(); 
-    }else{
-      $('a.import').on('click', function() {
-        chooser.show();
-      })
-      chooser.on('change', load.bind(this));
-    }
 
     this.totals();
 
@@ -2777,38 +2918,6 @@ function onStorage(e) {
 function save(e) {
   e.preventDefault();
   this.model.save();
-}
-
-/**
- *  Load a JSON document and import into the local storage.
- */
-function load(e) {
-  e.preventDefault();
-  var files = e.target.files
-    , file = files[0];
-  var reader = new FileReader();
-  reader.onload = function() {
-    var doc;
-    try {
-      doc = JSON.parse(this.result); 
-    }catch(e) {
-      return error('Cannot import document, invalid JSON.');
-    }
-
-    if(!Array.isArray(doc)) {
-      return error('Cannot import document, expected JSON array.');
-    }
-
-    for(var i = 0;i < doc.length;i++) {
-      if(typeof doc[i] !== 'string') {
-        return error('Cannot import document, expected array of strings.');
-      } 
-    }
-
-    // TODO: implement import
-    console.log(doc);
-  }
-  reader.readAsText(file);
 }
 
 /**
@@ -2996,7 +3105,7 @@ function listing(result) {
 
 module.exports = StarsPage;
 
-},{"./abstract":34,"./dialog":37,"./error":39,"./model/star":44,"air":"air"}],"air":[function(require,module,exports){
+},{"./abstract":34,"./dialog":37,"./import":40,"./model/star":45,"air":"air"}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":1}]},{},[41]);
+},{"./lib/air":1}]},{},[42]);

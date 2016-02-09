@@ -219,10 +219,10 @@ a.star
 a.permalink
   color: #2aa198;
 
-span.love:before, span.star:before
+span.love:before, span.star:before, .filename:before
   content: " (";
 
-span.love:after, span.star:after
+span.love:after, span.star:after, .filename:after
   content: ")";
 
 .page.permalink {
@@ -254,10 +254,12 @@ em
 .footnote
   font-size: 1.6rem;
 
-input[type="file"]
+label[for="chooser"]
   background: $muted;
   padding: .5rem;
   border-radius: .2rem;
+  margin-bottom: 2rem;
+  font-weight: normal;
 
 @import 'message';
 @import 'footer';
