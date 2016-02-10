@@ -35,10 +35,10 @@ describe('api:', function() {
     })
   })
 
-  it('should POST to increment multiple stars', function(done) {
+  it('should PUT to increment multiple stars', function(done) {
     var opts = {
       url: process.env.API + '/quote/star',
-      method: 'POST',
+      method: 'PUT',
       json: true,
       body: [quotes.rows[0].id, quotes.rows[1].id]
     }

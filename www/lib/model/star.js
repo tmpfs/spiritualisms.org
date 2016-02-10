@@ -109,12 +109,14 @@ function load(ids, cb) {
 /**
  *  Increment the server-side star counter.
  */
-function incr(id, cb) {
+function incr(ids, cb) {
   var opts = {
-    url: this.opts.api + '/quote/' + id + '/star',
+    url: this.opts.api + '/quote/star',
     method: 'POST',
-    json: true
+    json: true,
+    body: ids
   };
+  console.log(opts);
   $.request(opts, onResponse.bind(this, cb));
 }
 

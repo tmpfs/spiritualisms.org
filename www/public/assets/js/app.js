@@ -772,7 +772,7 @@ function request(opts, cb) {
   req.onreadystatechange = function() {
     if(this.readyState === 4) {
 
-      var res = opts.repsonseType ? this.response : this.responseText
+      var res = opts.responseType ? this.response : this.responseText
         , info = {
             headers: parse(this.getAllResponseHeaders()),
             status: this.status
@@ -2791,6 +2791,7 @@ function onResponse(cb, err, res) {
   if(err) {
     return console.error(err); 
   }
+  console.log(res);
   cb(null, res);
 }
 
@@ -2908,12 +2909,14 @@ function load(ids, cb) {
 /**
  *  Increment the server-side star counter.
  */
-function incr(id, cb) {
+function incr(ids, cb) {
   var opts = {
-    url: this.opts.api + '/quote/' + id + '/star',
+    url: this.opts.api + '/quote/star',
     method: 'POST',
-    json: true
+    json: true,
+    body: ids
   };
+  console.log(opts);
   $.request(opts, onResponse.bind(this, cb));
 }
 
@@ -3243,7 +3246,7 @@ function add(id, e) {
     this.notifier.emit('star/render', res.body);
   }
 
-  this.model.incr(id, onResponse.bind(this));
+  this.model.incr([id], onResponse.bind(this));
 }
 
 /**

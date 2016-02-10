@@ -123,7 +123,7 @@ function add(id, e) {
     this.notifier.emit('star/render', res.body);
   }
 
-  this.model.incr(id, onResponse.bind(this));
+  this.model.incr([id], onResponse.bind(this));
 }
 
 /**
