@@ -201,7 +201,7 @@ function list() {
   }else{
     $('.empty').css({display: 'none'});
     $('.actions .clear').enable();
-    this.model.list(ids, onResponse.bind(this));
+    this.opts.model.quote.list(ids, onResponse.bind(this));
   }
 }
 

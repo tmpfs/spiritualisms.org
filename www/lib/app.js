@@ -38,6 +38,7 @@ $.plugin(
 var EventEmitter = require('emanate')
   , Schema = require('async-validate')
   , descriptor = require('../../lib/schema/quote')
+  , QuoteModel = require('./model/quote')
   , LoveModel = require('./model/love')
   , StarModel = require('./model/star')
   , LoveCount = require('./love-count')
@@ -57,6 +58,7 @@ function Application(opts) {
 
   opts = opts || {};
   opts.model = {
+    quote: new QuoteModel(opts),
     love: new LoveModel(opts),
     star: new StarModel(opts)
   }

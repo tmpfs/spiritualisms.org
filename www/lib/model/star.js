@@ -94,20 +94,6 @@ function length() {
 }
 
 /**
- *  Get list of documents by array of identifiers.
- */
-// TODO: move to quote model
-function list(ids, cb) {
-  var opts = {
-    url: this.opts.api + '/quote',
-    method: 'POST',
-    json: true,
-    body: ids
-  };
-  $.request(opts, onResponse.bind(this, cb));
-}
-
-/**
  *  Get star counters for an array of document identifiers.
  */
 function load(ids, cb) {
@@ -146,8 +132,7 @@ function decr(ids, cb) {
 }
 
 [
-  save, read, write, add, remove, has, clear, length,
-  list, incr, decr, load 
+  save, read, write, add, remove, has, clear, length, incr, decr, load 
 ].forEach(function(m) {
   StarModel.prototype[m.name] = m;
 });

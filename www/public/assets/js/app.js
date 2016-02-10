@@ -2050,6 +2050,7 @@ $.plugin(
 var EventEmitter = require('emanate')
   , Schema = require('async-validate')
   , descriptor = require('../../lib/schema/quote')
+  , QuoteModel = require('./model/quote')
   , LoveModel = require('./model/love')
   , StarModel = require('./model/star')
   , LoveCount = require('./love-count')
@@ -2069,6 +2070,7 @@ function Application(opts) {
 
   opts = opts || {};
   opts.model = {
+    quote: new QuoteModel(opts),
     love: new LoveModel(opts),
     star: new StarModel(opts)
   }
@@ -2097,7 +2099,7 @@ function Application(opts) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":22,"./love-count":41,"./model/love":43,"./model/star":45,"./refresh":46,"./star-count":47,"./stars":48,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
+},{"../../lib/schema/quote":22,"./love-count":41,"./model/love":43,"./model/quote":44,"./model/star":46,"./refresh":47,"./star-count":48,"./stars":49,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
 var $ = require('air')
   , Abstract = require('./abstract');
 
@@ -2527,7 +2529,7 @@ Import.prototype.process = process;
 
 module.exports = Import;
 
-},{"./abstract":34,"./dialog":37,"./error":39,"./unique":49,"air":"air"}],41:[function(require,module,exports){
+},{"./abstract":34,"./dialog":37,"./error":39,"./unique":50,"air":"air"}],41:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter');
 
@@ -2629,7 +2631,40 @@ function load(ids, cb) {
 
 module.exports = LoveModel;
 
-},{"./response":44,"air":"air"}],44:[function(require,module,exports){
+},{"./response":45,"air":"air"}],44:[function(require,module,exports){
+var $ = require('air')
+  , onResponse = require('./response');
+
+/**
+ *  Represents the model for quote documents.
+ */
+function QuoteModel(opts) {
+  opts = opts || {};
+  this.opts = opts;
+}
+
+/**
+ *  Get list of documents by array of identifiers.
+ */
+function list(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+[
+  list
+].forEach(function(m) {
+  QuoteModel.prototype[m.name] = m;
+});
+
+module.exports = QuoteModel;
+
+},{"./response":45,"air":"air"}],45:[function(require,module,exports){
 /**
  *  Generic model api response handler.
  */
@@ -2642,7 +2677,7 @@ function onResponse(cb, err, res) {
 
 module.exports = onResponse;
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -2739,20 +2774,6 @@ function length() {
 }
 
 /**
- *  Get list of documents by array of identifiers.
- */
-// TODO: move to quote model
-function list(ids, cb) {
-  var opts = {
-    url: this.opts.api + '/quote',
-    method: 'POST',
-    json: true,
-    body: ids
-  };
-  $.request(opts, onResponse.bind(this, cb));
-}
-
-/**
  *  Get star counters for an array of document identifiers.
  */
 function load(ids, cb) {
@@ -2791,15 +2812,14 @@ function decr(ids, cb) {
 }
 
 [
-  save, read, write, add, remove, has, clear, length,
-  list, incr, decr, load 
+  save, read, write, add, remove, has, clear, length, incr, decr, load 
 ].forEach(function(m) {
   StarModel.prototype[m.name] = m;
 });
 
 module.exports = StarModel;
 
-},{"./response":44,"air":"air"}],46:[function(require,module,exports){
+},{"./response":45,"air":"air"}],47:[function(require,module,exports){
 var $ = require('air');
 
 /**
@@ -2899,7 +2919,7 @@ function refresh(e) {
 
 module.exports = refresh;
 
-},{"air":"air"}],47:[function(require,module,exports){
+},{"air":"air"}],48:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter');
 
@@ -2978,7 +2998,7 @@ function remove(id, e) {
 
 module.exports = StarCount;
 
-},{"./counter":36,"air":"air"}],48:[function(require,module,exports){
+},{"./counter":36,"air":"air"}],49:[function(require,module,exports){
 var $ = require('air')
   , dialog = require('./dialog')
   , Abstract = require('./abstract')
@@ -3182,7 +3202,7 @@ function list() {
   }else{
     $('.empty').css({display: 'none'});
     $('.actions .clear').enable();
-    this.model.list(ids, onResponse.bind(this));
+    this.opts.model.quote.list(ids, onResponse.bind(this));
   }
 }
 
@@ -3230,7 +3250,7 @@ function listing(result) {
 
 module.exports = StarsPage;
 
-},{"./abstract":34,"./dialog":37,"./import":40,"air":"air"}],49:[function(require,module,exports){
+},{"./abstract":34,"./dialog":37,"./import":40,"air":"air"}],50:[function(require,module,exports){
 function filter(value, index, self) { 
     return self.indexOf(value) === index;
 }
