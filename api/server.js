@@ -197,7 +197,7 @@ app.post('/quote/star', function(req, res, next) {
      return next(err);
   }
 
-  quote.getStarMulti(opts, function(err, response) {
+  quote.getStars(opts, function(err, response) {
     if(err) {
       return next(err);
     }
