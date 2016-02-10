@@ -93,6 +93,31 @@ app.post('/quote', function(req, res, next) {
 });
 
 /**
+ *  Filter a list of quote identifiers.
+ *
+ *  @rest
+ *  @method POST
+ *  @paths /quote/filter
+ */
+app.post('/quote/filter', function(req, res, next) {
+  var quote = new Quote()
+    , opts = {keys: req.body};
+
+  if(!Array.isArray(req.body)) {
+     var err = new Error('Array body expected');
+     err.status = 400;
+     return next(err);
+  }
+
+  quote.filter(opts, function(err, response, body) {
+    if(err) {
+      return next(err);
+    }
+    res.send(body);
+  })
+});
+
+/**
  *  Get a count of all quotes.
  *
  *  @rest
@@ -189,7 +214,7 @@ app.post('/quote/star', function(req, res, next) {
  */
 app.delete('/quote/star', function(req, res, next) {
   var quote = new Quote()
-    , opts = {ids: req.body};
+    , opts = {keys: req.body};
 
   if(!Array.isArray(req.body)) {
      var err = new Error('Array body expected');

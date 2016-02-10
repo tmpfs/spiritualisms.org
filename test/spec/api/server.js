@@ -35,6 +35,23 @@ describe('api:', function() {
     })
   })
 
+  it('should POST to filter quote identifiers', function(done) {
+    var opts = {
+      url: process.env.API + '/quote/filter',
+      body: ['non-existent', quotes.rows[0].id, quotes.rows[1].id],
+      method: 'POST',
+      json: true
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      var body = res.body;
+      expect(body).to.be.an('array');
+      expect(body.length).to.eql(2);
+      done(); 
+    })
+  })
+
   it('should POST quote list with identifiers', function(done) {
     var opts = {
       url: process.env.API + '/quote',
