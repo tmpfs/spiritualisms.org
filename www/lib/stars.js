@@ -185,7 +185,7 @@ function total() {
  *  server.
  */
 function list() {
-  var ids = this.model.read();
+  var ids = this.model.read().reverse();
 
   function onResponse(err, res) {
     // NOTE: errors currently handled by model
