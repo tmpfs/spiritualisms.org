@@ -26,6 +26,9 @@ $.plugin(
     require('air/remove'),
     require('air/template'),
     require('air/text'),
+
+    require('air/ui/dialog'),
+
     //require('air/val')
     require('vivify'),
     //require('vivify/burst'),

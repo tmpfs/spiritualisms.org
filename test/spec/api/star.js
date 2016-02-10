@@ -35,6 +35,26 @@ describe('api:', function() {
     })
   })
 
+  it('should POST to increment multiple stars', function(done) {
+    var opts = {
+      url: process.env.API + '/quote/star',
+      method: 'POST',
+      json: true,
+      body: [quotes.rows[0].id, quotes.rows[1].id]
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      var body = res.body;
+      expect(body).to.be.an('object')
+      expect(Object.keys(body)).to.be.an('array')
+        .to.have.length.gt(0);
+      expect(body[Object.keys(body)[0]]).to.be.a('number');
+      expect(body[Object.keys(body)[1]]).to.be.a('number');
+      done(); 
+    })
+  })
+
   it('should GET number of stars', function(done) {
     var opts = {
       url: process.env.API + '/quote/' + quotes.rows[0].id + '/star',

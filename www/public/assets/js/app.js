@@ -86,7 +86,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = air;
 })();
 
-},{"zephyr":21}],2:[function(require,module,exports){
+},{"zephyr":22}],2:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -754,6 +754,12 @@ function request(opts, cb) {
 
   req.open(opts.method, url);
 
+  // sadly IE10/11 does not support `json` response type
+  // see: http://caniuse.com/#feat=xhr2
+  if(opts.responseType) {
+    req.responseType = opts.responseType; 
+  }
+
   // apply custom request headers
   for(z in opts.headers) {
     req.setRequestHeader(z, opts.headers[z]);
@@ -765,13 +771,17 @@ function request(opts, cb) {
 
   req.onreadystatechange = function() {
     if(this.readyState === 4) {
-      var res = this.responseText
+
+      var res = opts.repsonseType ? this.response : this.responseText
         , info = {
-            headers: parse(this.getAllResponseHeaders()), status: this.status};
+            headers: parse(this.getAllResponseHeaders()),
+            status: this.status
+          };
+
       info.body = res;
       if(res && opts.json && (this.status === 200 || this.status === 201)) {
         try {
-          info.body = JSON.parse(res);
+          info.body = JSON.parse(this.responseText);
         }catch(e) {
           return done(
             e,
@@ -888,6 +898,121 @@ module.exports = function() {
 }
 
 },{}],21:[function(require,module,exports){
+/**
+ *  Show a modal dialog.
+ *
+ *  The passed element (`el`) is cloned and appended to the `container`.
+ *
+ *  @param opts {Object} Dialog options.
+ *  @param cb {Function} A callback function for accept or reject.
+ *
+ *  @options:
+ *
+ *  - el: The dialog element (root of the markup below).
+ *  - container: Parent element to append the dialog to.
+ *  - modal: Whether the modal element dismisses the dialog.
+ *  - remove: Whether the dialog is removed on accept or reject.
+ *  - evt: The event name to listen to.
+ *  - accept: Selector used to accept the dialog.
+ *  - reject: Selector used to reject the dialog.
+ *
+ *  @markup
+ *
+ *  - .dialog
+ *    - .modal
+ *    - .container
+ *      - .content
+ *
+ *  @css/stylus
+ *
+ *  .dialog
+ *    position: absolute;
+ *    z-index: 2000;
+ *    top: 0;
+ *    left: 0;
+ *    width: 100%;
+ *    height: 100%;
+ *    display: table;
+ *    .modal
+ *      position: absolute;
+ *      z-index: 2001;
+ *      left: 0;
+ *      top: 0;
+ *      right: 0;
+ *      bottom: 0;
+ *      background: rgba(0,0,0,.8);
+ *      cursor: pointer;
+ *    .container
+ *      display: table-cell;
+ *      vertical-align: middle;
+ *      text-align: center;
+ *      .content
+ *        position: relative;
+ *        z-index: 2002;
+ *
+ *  @dependencies
+ *
+ *  - clone
+ *  - css
+ *  - event
+ *  - find
+ */
+function dialog(opts, cb) {
+  var $ = dialog.air
+    , el = opts.el.clone(true)
+    , container = opts.container || $('body')
+    , evt = opts.evt || 'click'
+    , res = {accepted: false, el: el};
+
+  opts.accept = opts.accept || '[href="#ok"]';
+  opts.reject = opts.reject || '[href="#cancel"]';
+
+  // pass function to remove element in result
+  // when we don't handle removing
+  if(opts.remove === false) {
+    res.remove = function() {
+      el.remove(); 
+    }
+  }
+
+  container.append(el);
+
+  function onReject(e) {
+    e.preventDefault();
+    if(opts.remove !== false) {
+      el.remove();
+    }
+    cb(res);
+  }
+
+  function onAccept(e) {
+    e.preventDefault();
+    if(opts.remove !== false) {
+      el.remove();
+    }
+    res.accepted = true;
+    cb(res);
+  }
+
+  var modal = el.find('.modal');
+  if(opts.modal !== false) {
+    modal.on(evt, onReject);
+  }else{
+    modal.css({cursor: 'auto'})
+  }
+  el.find(opts.reject).on(evt, onReject);
+  el.find(opts.accept).on(evt, onAccept);
+
+  return el;
+}
+
+module.exports = function() {
+  // static method needs access to main function
+  dialog.air = this.air;
+  this.air.dialog = dialog;
+}
+
+},{}],22:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -990,7 +1115,7 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = {
   type: 'object',
   fields: {
@@ -1012,7 +1137,7 @@ module.exports = {
   }
 }
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -1064,7 +1189,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -1094,7 +1219,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -1263,7 +1388,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":27,"./reason":24,"format-util":28,"zephyr":29}],26:[function(require,module,exports){
+},{"../messages":28,"./reason":25,"format-util":29,"zephyr":30}],27:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1669,7 +1794,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":27,"./iterator":23,"./rule":25,"format-util":28}],27:[function(require,module,exports){
+},{"../messages":28,"./iterator":24,"./rule":26,"format-util":29}],28:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1728,7 +1853,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1767,9 +1892,9 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],29:[function(require,module,exports){
-arguments[4][21][0].apply(exports,arguments)
-},{"dup":21}],30:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"dup":22}],31:[function(require,module,exports){
 'use strict';
 
 var EventEmitter = function EventEmitter(){}
@@ -1872,7 +1997,7 @@ proto.off = proto.removeListener;
 
 module.exports = EventEmitter;
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1952,7 +2077,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1972,7 +2097,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1992,7 +2117,7 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 var $ = require('air')
   , EventEmitter = require('emanate');
 
@@ -2009,7 +2134,7 @@ $.inherit(Abstract, EventEmitter);
 module.exports = Abstract;
 
 
-},{"air":"air","emanate":30}],35:[function(require,module,exports){
+},{"air":"air","emanate":31}],36:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
@@ -2038,6 +2163,9 @@ $.plugin(
     require('air/remove'),
     require('air/template'),
     require('air/text'),
+
+    require('air/ui/dialog'),
+
     //require('air/val')
     require('vivify'),
     //require('vivify/burst'),
@@ -2099,7 +2227,7 @@ function Application(opts) {
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":22,"./love-count":41,"./model/love":43,"./model/quote":44,"./model/star":46,"./refresh":47,"./star-count":48,"./stars":49,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"async-validate":26,"emanate":30,"vivify":31,"vivify/fade-in":32,"vivify/fade-out":33}],36:[function(require,module,exports){
+},{"../../lib/schema/quote":23,"./love-count":41,"./model/love":43,"./model/quote":44,"./model/star":46,"./refresh":47,"./star-count":48,"./stars":49,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"air/ui/dialog":21,"async-validate":27,"emanate":31,"vivify":32,"vivify/fade-in":33,"vivify/fade-out":34}],37:[function(require,module,exports){
 var $ = require('air')
   , Abstract = require('./abstract');
 
@@ -2195,56 +2323,7 @@ function sanitize(amount) {
 
 module.exports = Counter;
 
-},{"./abstract":34,"air":"air"}],37:[function(require,module,exports){
-var $ = require('air');
-
-function dialog(opts, cb) {
-  var el = opts.el.clone(true)
-    , container = opts.container || $('body')
-    , res = {accepted: false, el: el};
-
-  // pass function to remove element in result
-  // when we don't handle removing
-  if(opts.remove === false) {
-    res.remove = function() {
-      el.remove(); 
-    }
-  }
-
-  container.append(el);
-
-  function onReject(e) {
-    e.preventDefault();
-    if(opts.remove !== false) {
-      el.remove();
-    }
-    cb(res);
-  }
-
-  function onAccept(e) {
-    e.preventDefault();
-    if(opts.remove !== false) {
-      el.remove();
-    }
-    res.accepted = true;
-    cb(res);
-  }
-
-  var modal = el.find('.modal');
-  if(opts.modal !== false) {
-    modal.on('click', onReject);
-  }else{
-    modal.css({cursor: 'auto'})
-  }
-  el.find('[href="#cancel"]').on('click', onReject);
-  el.find('[href="#ok"]').on('click', onAccept);
-
-  return el;
-}
-
-module.exports = dialog;
-
-},{"air":"air"}],38:[function(require,module,exports){
+},{"./abstract":35,"air":"air"}],38:[function(require,module,exports){
 var $ = require('air');
 
 function dismiss() {
@@ -2279,10 +2358,13 @@ module.exports = error;
 },{"./dismiss":38,"air":"air"}],40:[function(require,module,exports){
 var $ = require('air')
   , error = require('./error')
-  , dialog = require('./dialog')
   , unique = require('./unique')
   , Abstract = require('./abstract');
 
+/**
+ *  Encapsulates the logic for importing stars into the 
+ *  local storage model.
+ */
 function Import() {
   Abstract.apply(this, arguments);
 
@@ -2308,13 +2390,13 @@ function showDialog() {
     remove: false,
     modal: false
   };
-  this.dialog = dialog(opts, onDismiss.bind(this));
+  this.dialog = $.dialog(opts, onDismiss.bind(this));
   var chooser = $('#chooser');
   chooser.on('change', change.bind(this));
 }
 
 /**
- *  Response to the dialog event.
+ *  Respond to the dialog event.
  */
 function onDismiss(res) {
 
@@ -2553,7 +2635,7 @@ Import.prototype.process = process;
 
 module.exports = Import;
 
-},{"./abstract":34,"./dialog":37,"./error":39,"./unique":50,"air":"air"}],41:[function(require,module,exports){
+},{"./abstract":35,"./error":39,"./unique":50,"air":"air"}],41:[function(require,module,exports){
 var $ = require('air')
   , Counter = require('./counter');
 
@@ -2607,11 +2689,11 @@ function show(id, e) {
 
 module.exports = LoveCount;
 
-},{"./counter":36,"air":"air"}],42:[function(require,module,exports){
+},{"./counter":37,"air":"air"}],42:[function(require,module,exports){
 var Application = require('./app');
 module.exports = new Application(window.app);
 
-},{"./app":35}],43:[function(require,module,exports){
+},{"./app":36}],43:[function(require,module,exports){
 var $ = require('air')
   , onResponse = require('./response');
 
@@ -3035,9 +3117,8 @@ function remove(id, e) {
 
 module.exports = StarCount;
 
-},{"./counter":36,"air":"air"}],49:[function(require,module,exports){
+},{"./counter":37,"air":"air"}],49:[function(require,module,exports){
 var $ = require('air')
-  , dialog = require('./dialog')
   , Abstract = require('./abstract')
   , Import = require('./import');
 
@@ -3134,7 +3215,7 @@ function clear(e) {
     el: $.partial('.dialog.clear-all')
   }
 
-  dialog(opts, onDismiss.bind(this));
+  $.dialog(opts, onDismiss.bind(this));
 
 }
 
@@ -3287,7 +3368,7 @@ function listing(result) {
 
 module.exports = StarsPage;
 
-},{"./abstract":34,"./dialog":37,"./import":40,"air":"air"}],50:[function(require,module,exports){
+},{"./abstract":35,"./import":40,"air":"air"}],50:[function(require,module,exports){
 function filter(value, index, self) { 
     return self.indexOf(value) === index;
 }

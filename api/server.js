@@ -328,6 +328,33 @@ app.post('/quote/:id/star', function(req, res, next) {
 });
 
 /**
+ *  Increment the star counter for multiple quotes.
+ *
+ *  @rest
+ *  @method POST
+ *  @paths /quote/star
+ */
+app.post('/quote/star', function(req, res, next) {
+  var star = new Star()
+    , opts = {};
+
+  if(!Array.isArray(req.body)) {
+     var err = new Error('Array body expected');
+     err.status = 400;
+     return next(err);
+  }
+
+  opts.keys = req.body;
+
+  star.addStars(opts, function(err, response, body) {
+    if(err) {
+      return next(err);
+    }
+    res.send(body);
+  })
+});
+
+/**
  *  Decrement the star counter for a quote.
  *
  *  @rest

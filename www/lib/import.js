@@ -1,9 +1,12 @@
 var $ = require('air')
   , error = require('./error')
-  , dialog = require('./dialog')
   , unique = require('./unique')
   , Abstract = require('./abstract');
 
+/**
+ *  Encapsulates the logic for importing stars into the 
+ *  local storage model.
+ */
 function Import() {
   Abstract.apply(this, arguments);
 
@@ -29,13 +32,13 @@ function showDialog() {
     remove: false,
     modal: false
   };
-  this.dialog = dialog(opts, onDismiss.bind(this));
+  this.dialog = $.dialog(opts, onDismiss.bind(this));
   var chooser = $('#chooser');
   chooser.on('change', change.bind(this));
 }
 
 /**
- *  Response to the dialog event.
+ *  Respond to the dialog event.
  */
 function onDismiss(res) {
 

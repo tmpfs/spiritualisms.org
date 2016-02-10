@@ -25,6 +25,18 @@ describe('www:', function() {
     })
   })
 
+  it('should GET browser home page with trailing slash', function(done) {
+    var opts = {
+      url: process.env.WWW + '/home/',
+      followRedirect: false
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(301);
+      done(); 
+    })
+  })
+
   it('should GET why page', function(done) {
     var opts = {
       url: process.env.WWW + '/why'

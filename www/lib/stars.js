@@ -1,5 +1,4 @@
 var $ = require('air')
-  , dialog = require('./dialog')
   , Abstract = require('./abstract')
   , Import = require('./import');
 
@@ -96,7 +95,7 @@ function clear(e) {
     el: $.partial('.dialog.clear-all')
   }
 
-  dialog(opts, onDismiss.bind(this));
+  $.dialog(opts, onDismiss.bind(this));
 
 }
 
