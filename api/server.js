@@ -281,7 +281,7 @@ app.get('/quote/:id/love', function(req, res, next) {
 app.post('/quote/:id/love', function(req, res, next) {
   var love = new Love()
     , opts = {id: req.params.id};
-  love.showLove(opts, function(err, response) {
+  love.addLove(opts, function(err, response) {
     if(err) {
       return next(err);
     }
