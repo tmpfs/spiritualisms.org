@@ -7,12 +7,12 @@ describe('api:', function() {
 
   before(function(done) {
     var opts = {
-      url: process.env.API + '/quote'
+      url: process.env.API + '/quote',
+      json: true
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
-      var body = JSON.parse(res.body);
-      quotes = body;
+      quotes = res.body;
       done(); 
     })
   })
@@ -20,12 +20,13 @@ describe('api:', function() {
   it('should POST to increment number of stars', function(done) {
     var opts = {
       url: process.env.API + '/quote/' + quotes.rows[0].id + '/star',
-      method: 'POST'
+      method: 'POST',
+      json: true
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
-      var body = JSON.parse(res.body);
+      var body = res.body;
       expect(body).to.be.an('object')
       expect(Object.keys(body)).to.be.an('array')
         .to.have.length.gt(0);
@@ -36,12 +37,13 @@ describe('api:', function() {
 
   it('should GET number of stars', function(done) {
     var opts = {
-      url: process.env.API + '/quote/' + quotes.rows[0].id + '/star'
+      url: process.env.API + '/quote/' + quotes.rows[0].id + '/star',
+      json: true
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
-      var body = JSON.parse(res.body);
+      var body = res.body;
       expect(body).to.be.an('object')
       expect(Object.keys(body)).to.be.an('array')
         .to.have.length.gt(0);
@@ -54,12 +56,13 @@ describe('api:', function() {
   it('should DELETE to decrement number of stars', function(done) {
     var opts = {
       url: process.env.API + '/quote/' + quotes.rows[0].id + '/star',
-      method: 'DELETE'
+      method: 'DELETE',
+      json: true
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
-      var body = JSON.parse(res.body);
+      var body = res.body;
       expect(body).to.be.an('object')
       expect(Object.keys(body)).to.be.an('array')
         .to.have.length.gt(0);
@@ -100,15 +103,13 @@ describe('api:', function() {
     var opts = {
       url: process.env.API + '/quote/star',
       method: 'POST',
-      headers: {
-        'content-type': 'application/json' 
-      },
-      body: JSON.stringify(ids)
+      json: true,
+      body: ids
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
-      var body = JSON.parse(res.body);
+      var body = res.body;
       expect(body).to.be.an('object')
       expect(Object.keys(body)).to.be.an('array')
         .to.have.length.gt(0);
