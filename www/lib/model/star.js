@@ -112,11 +112,10 @@ function load(ids, cb) {
 function incr(ids, cb) {
   var opts = {
     url: this.opts.api + '/quote/star',
-    method: 'POST',
+    method: 'PUT',
     json: true,
     body: ids
   };
-  console.log(opts);
   $.request(opts, onResponse.bind(this, cb));
 }
 

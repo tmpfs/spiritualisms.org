@@ -5,7 +5,6 @@ function onResponse(cb, err, res) {
   if(err) {
     return console.error(err); 
   }
-  console.log(res);
   cb(null, res);
 }
 

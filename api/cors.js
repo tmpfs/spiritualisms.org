@@ -6,7 +6,7 @@
  */
 function cors(req, res) {
   var requested = req.headers['access-control-request-headers'] || []
-    , methods = ['GET', 'POST', 'DELETE'];
+    , methods = ['GET', 'POST', 'DELETE', 'PUT'];
   if(typeof(requested) === 'string') {
     requested = requested.split(/, ?/);
   }

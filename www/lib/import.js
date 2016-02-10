@@ -50,7 +50,14 @@ function onDismiss(res) {
   console.log('perform import');
   console.log(this.info);
 
-  if(this.info.diff.length) {
+  var finish = (function done() {
+    // reset state
+    this.reset();
+    // dismiss the dialog
+    res.remove();
+  }).bind(this);
+
+  function onIncrement(/*err, res*/) {
 
     // update the list of model identifers
     var ids = this.model.read().concat(this.info.diff);
@@ -59,13 +66,15 @@ function onDismiss(res) {
     // redraw the list of starred quotes
     this.notifier.emit('stars/list');
     this.notifier.emit('stars/total');
+
+    finish();
   }
 
-  // reset state
-  this.reset();
-
-  // dismiss the dialog
-  res.remove();
+  if(this.info.diff.length) {
+    this.model.incr(this.info.diff, onIncrement.bind(this));
+  }else{
+    finish();
+  }
 }
 
 /**
