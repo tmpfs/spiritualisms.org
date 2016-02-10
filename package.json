@@ -76,6 +76,7 @@
       {
         "inc": [
           "introduction.md",
+          "design.md",
           "developer.md"
         ]
       }
