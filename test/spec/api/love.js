@@ -54,7 +54,6 @@ describe('api:', function() {
     quotes.rows.forEach(function(row) {
       ids.push(row.id); 
     })
-    //console.log(ids)
     var opts = {
       url: process.env.API + '/quote/love',
       method: 'POST',

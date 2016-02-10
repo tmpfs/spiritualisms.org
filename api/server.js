@@ -1,10 +1,13 @@
 var express = require('express')
   , app = express()
+  , env = require('nenv')()
   , pkg = require('../package.json')
   , bodyParser = require('body-parser')
   , info = JSON.stringify({name: pkg.name, version: pkg.version})
   , cors = require('./cors')
-  , Quote = require('../lib/model/quote');
+  , Quote = require('../lib/model/quote')
+  , Love = require('../lib/model/love')
+  , Star = require('../lib/model/star');
 
 /**
  *  @api
@@ -161,7 +164,7 @@ app.get('/quote/random', function(req, res, next) {
  *  @paths /quote/count
  */
 app.post('/quote/love', function(req, res, next) {
-  var quote = new Quote()
+  var love = new Love()
     , opts = {ids: req.body}
     , err;
 
@@ -171,7 +174,7 @@ app.post('/quote/love', function(req, res, next) {
      return next(err);
   }
 
-  quote.getLoveMulti(opts, function(err, response) {
+  love.getLoves(opts, function(err, response) {
     if(err) {
       return next(err);
     }
@@ -187,7 +190,7 @@ app.post('/quote/love', function(req, res, next) {
  *  @paths /quote/count
  */
 app.post('/quote/star', function(req, res, next) {
-  var quote = new Quote()
+  var star = new Star()
     , opts = {ids: req.body}
     , err;
 
@@ -197,7 +200,7 @@ app.post('/quote/star', function(req, res, next) {
      return next(err);
   }
 
-  quote.getStars(opts, function(err, response) {
+  star.getStars(opts, function(err, response) {
     if(err) {
       return next(err);
     }
@@ -213,7 +216,7 @@ app.post('/quote/star', function(req, res, next) {
  *  @paths /quote/star
  */
 app.delete('/quote/star', function(req, res, next) {
-  var quote = new Quote()
+  var star = new Star()
     , opts = {keys: req.body};
 
   if(!Array.isArray(req.body)) {
@@ -222,14 +225,13 @@ app.delete('/quote/star', function(req, res, next) {
      return next(err);
   }
 
-  quote.removeStars(opts, function(err, response) {
+  star.removeStars(opts, function(err, response) {
     if(err) {
       return next(err);
     }
     res.send(response);
   })
 });
-
 
 /**
  *  Get a quote by identifier.
@@ -259,9 +261,9 @@ app.get('/quote/:id', function(req, res, next) {
  *  @paths /quote/{id}/love
  */
 app.get('/quote/:id/love', function(req, res, next) {
-  var quote = new Quote()
+  var love = new Love()
     , opts = {id: req.params.id};
-  quote.getLove(opts, function(err, response) {
+  love.getLove(opts, function(err, response) {
     if(err) {
       return next(err);
     }
@@ -277,9 +279,9 @@ app.get('/quote/:id/love', function(req, res, next) {
  *  @paths /quote/{id}/love
  */
 app.post('/quote/:id/love', function(req, res, next) {
-  var quote = new Quote()
+  var love = new Love()
     , opts = {id: req.params.id};
-  quote.showLove(opts, function(err, response) {
+  love.showLove(opts, function(err, response) {
     if(err) {
       return next(err);
     }
@@ -297,9 +299,9 @@ app.post('/quote/:id/love', function(req, res, next) {
  *  @paths /quote/{id}/star
  */
 app.get('/quote/:id/star', function(req, res, next) {
-  var quote = new Quote()
+  var star = new Star()
     , opts = {id: req.params.id};
-  quote.getStar(opts, function(err, response) {
+  star.getStar(opts, function(err, response) {
     if(err) {
       return next(err);
     }
@@ -315,9 +317,9 @@ app.get('/quote/:id/star', function(req, res, next) {
  *  @paths /quote/{id}/star
  */
 app.post('/quote/:id/star', function(req, res, next) {
-  var quote = new Quote()
+  var star = new Star()
     , opts = {id: req.params.id};
-  quote.addStar(opts, function(err, response) {
+  star.addStar(opts, function(err, response) {
     if(err) {
       return next(err);
     }
@@ -333,9 +335,9 @@ app.post('/quote/:id/star', function(req, res, next) {
  *  @paths /quote/{id}/star
  */
 app.delete('/quote/:id/star', function(req, res, next) {
-  var quote = new Quote()
+  var star = new Star()
     , opts = {id: req.params.id};
-  quote.removeStar(opts, function(err, response) {
+  star.removeStar(opts, function(err, response) {
     if(err) {
       return next(err);
     }
@@ -353,6 +355,9 @@ app.use(function(err, req, res, next) {
   var doc = {
     status: err.status || 500,
     message: err.message || err.reason
+  }
+  if(!env.production) {
+    doc.stack = (err.stack || '').split('\n');
   }
   res.status(doc.status).send(doc);
   next();
