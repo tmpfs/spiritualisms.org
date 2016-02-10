@@ -2849,7 +2849,6 @@ header nav.icon a:not(:last-child) {
 .dialog .container .content {
   position: relative;
   z-index: 2002;
-  position: relative;
   max-width: 60rem;
   padding: 2rem;
   border-radius: 0.4rem;
