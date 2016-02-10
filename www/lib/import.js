@@ -45,16 +45,20 @@ function onDismiss(res) {
   }
 
   console.log('perform import');
-  console.log(this.documents);
+  console.log(this.info);
 
-  // update the list of model identifers
-  var ids = this.model.read().concat(this.documents);
-  this.model.write(ids);
+  if(this.info.diff.length) {
 
-  // redraw the list of starred quotes
-  this.notifier.emit('stars/list');
-  this.notifier.emit('stars/total');
+    // update the list of model identifers
+    var ids = this.model.read().concat(this.info.diff);
+    this.model.write(ids);
 
+    // redraw the list of starred quotes
+    this.notifier.emit('stars/list');
+    this.notifier.emit('stars/total');
+  }
+
+  // reset state
   this.reset();
 
   // dismiss the dialog
@@ -113,12 +117,31 @@ function process() {
     info.diff.push(id);
   })
 
-  // rewrite documents to flattened array
-  this.documents = info.diff;
+  function onFilter(err, res) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
 
-  // TODO: check for missing quotes (bad quote identifiers)
+    // array of identifiers that are valid (exist in the db)
+    var exists = res.body
+      , id
+      , i;
 
-  this.summary(this.info);
+    // remove bad identifiers from the diff and 
+    // add them to the missing info array
+    for(i = 0;i < info.diff.length;i++) {
+      id = info.diff[i];
+      if(!~exists.indexOf(id)) {
+        info.missing.push(id);
+        info.diff.splice(i, 1); 
+        i--;
+      }
+    }
+  
+    this.summary(this.info);
+  }
+
+  // check for missing quotes (bad quote identifiers)
+  this.opts.model.quote.filter(info.diff, onFilter.bind(this));
 }
 
 /**
@@ -142,8 +165,6 @@ function summary(info) {
     list.append($.el('li').text(
       info.duplicates.length + ' duplicate stars').addClass('duplicate'));
   }
-
-  console.log(info);
 
   this.dialog.find('.choose').append(list);
 
@@ -174,8 +195,13 @@ function change(e) {
   this.load(files);
 }
 
+/**
+ *  Displays the file names and loads the file contents.
+ */
 function load(files) {
-  console.log(files);
+  //$('.filename').show().text(file.name);
+
+  // TODO: show file name list
   this.each(files);
 }
 
@@ -185,8 +211,6 @@ function load(files) {
 function each(files, index) {
   index = index || 0;
   var file = files[index];
-
-  //$('.filename').show().text(file.name);
 
   function onRead(err, doc) {
     if(err) {

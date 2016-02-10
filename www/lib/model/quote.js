@@ -22,8 +22,21 @@ function list(ids, cb) {
   $.request(opts, onResponse.bind(this, cb));
 }
 
+/**
+ *  Filter array of document identifiers.
+ */
+function filter(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/filter',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
 [
-  list
+  list, filter
 ].forEach(function(m) {
   QuoteModel.prototype[m.name] = m;
 });
