@@ -36,7 +36,7 @@ function refresh(e) {
       this.notifier.emit('love/update', [doc.id]);
 
       container.find('blockquote').text(doc.quote);
-      container.find('cite').html('&#151; ')
+      container.find('cite').html('&#8212; ')
         .append(
           $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
         ).text(doc.author));

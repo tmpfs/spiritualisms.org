@@ -223,7 +223,7 @@ function listing(result) {
       , el = $.partial('.quotation.item').clone(true).data('id', doc.id);
     el.find('blockquote').text(doc.quote);
     var cite = el.find('cite');
-    cite.html('&#151; ');
+    cite.html('&#8212; ');
     cite.append(
         $.el('a',
           {href: doc.link, title: doc.author + ' (' + doc.domain + ')'})
