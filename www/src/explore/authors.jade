@@ -6,7 +6,7 @@ include ../mixin/tag-list
 
 block content
   section.page
-    h2
+    h2.clearfix
       a(href='/explore', title='Explore') Explore
       | &nbsp;/&nbsp;
       - if(search) {
@@ -14,6 +14,8 @@ block content
       - }else{
         | Authors
       - }
+      span.float-right
+        a(href='/explore/tags', title='Tags') Tags
     form.table.search(method='get', action='/explore/authors')
       fieldset
         .cell
