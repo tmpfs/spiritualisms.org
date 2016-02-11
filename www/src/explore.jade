@@ -3,8 +3,12 @@ extends layout
 include mixin/quote-toolbar
 
 block content
-  section.browse.page
-    h2 Explore
+  section.page
+    h2.clearfix Explore
+      span.float-right
+        a(href='/explore/tags', title='Tags') Tags
+        | &nbsp;|&nbsp;
+        a(href='/explore/authors', title='Authors') Authors
     .listing
       - var rows = quotes.rows, doc;
       - for(var i = 0;i < rows.length;i++) {
