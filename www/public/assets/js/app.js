@@ -2400,20 +2400,21 @@ function showDialog() {
  */
 function onDismiss(res) {
 
-  // user dismissed the dialog
-  if(!res.accepted) {
-    return res.remove(); 
-  }
-
-  console.log('perform import');
-  console.log(this.info);
-
   var finish = (function done() {
     // reset state
     this.reset();
     // dismiss the dialog
     res.remove();
   }).bind(this);
+
+  // user dismissed the dialog
+  if(!res.accepted) {
+    finish();
+    return res.remove(); 
+  }
+
+  console.log('perform import');
+  console.log(this.info);
 
   function onIncrement(/*err, res*/) {
 
@@ -2570,6 +2571,16 @@ function change(e) {
  */
 function load(files) {
   //$('.filename').show().text(file.name);
+  //
+
+
+  var i
+    , file
+    , list = $('ul.filenames');
+  for(i = 0;i < files.length;i++) {
+    file = files.item(i); 
+    list.append($.el('li').text(file.name));
+  }
 
   // TODO: show file name list
   this.each(files);
