@@ -3,6 +3,8 @@ var path = require('path')
   , app = express()
   , env = require('nenv')()
   , slashes = require('../lib/http/slashes')
+  , pkg = require('../package.json')
+  , info = JSON.stringify({name: pkg.name, version: pkg.version});
   //, Quote = require('../lib/model/quote')
   //, formats = require('../lib/formats');
 
@@ -12,9 +14,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(slashes);
 
-app.get('/', function(req, res, next) {
-  //random('index', req, res, next);
-  next();
+/**
+ *  Get service name and version.
+ *
+ *  @rest
+ *  @method GET
+ *  @paths /
+ */
+app.get('/', function(req, res) {
+  res.send(info)
 });
 
 app.all('*', function(req, res, next) {
