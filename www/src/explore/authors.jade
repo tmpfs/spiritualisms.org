@@ -10,17 +10,17 @@ block content
       a(href='/explore', title='Explore') Explore
       | &nbsp;/&nbsp;
       - if(search) {
-        a(href='/explore/tags', title='Tags') Tags
+        a(href='/explore/authors', title='Authors') Authors
       - }else{
-        | Tags
+        | Authors
       - }
-    form.table.search(method='get', action='/explore/tags')
+    form.table.search(method='get', action='/explore/authors')
       fieldset
         .cell
           input(
             type='search',
             name='q',
-            placeholder='Search by tags (eg: love wisdom)')
+            placeholder='Search by authors (eg: Rumi Osho)')
         .cell
           input(type='submit', value='Search')
     - if(search) {
@@ -31,5 +31,5 @@ block content
         +quote-listing(search.quotes)
     - }
     hr
-    p.all-tags.listing
-      +tag-list(tags, 'tags')
+    p.all-authors.listing
+      +tag-list(authors, 'authors')

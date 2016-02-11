@@ -21,7 +21,7 @@ function routes(app) {
     if(req.query.q) {
       var keys = req.query.q.split(/,?\s+/);
 
-      // tags are normalized to lowercase in the db
+      // tags are normalized to lowercase in the db view
       keys = keys.map(function(key) {
         return key.toLowerCase();
       })
@@ -48,7 +48,7 @@ function routes(app) {
     var tag = new Tag()
       , info = getViewInfo(req);
 
-    info.tag = req.params.tag;
+    info.tag = Tag.titleCase(req.params.tag);
 
     tag.findByTags({keys: [req.params.tag]}, function(err, response, body) {
       if(err) {
