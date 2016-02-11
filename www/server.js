@@ -110,6 +110,7 @@ app.get('/explore/:id\.:ext?', function(req, res, next) {
         return next(err); 
       }
       info.doc = body;
+      info.doc.tags = Tag.convert(info.doc.tags);
       if(!req.params.ext) {
         res.render('quotation', info);
       }else{
