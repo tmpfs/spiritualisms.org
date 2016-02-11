@@ -3197,6 +3197,10 @@ form.search fieldset input[type="search"] {
   display: block;
   text-align: right;
 }
+.search-results >small.empty {
+  text-align: center;
+  font-size: 3rem;
+}
 .msg {
   position: relative;
   padding: 1rem;

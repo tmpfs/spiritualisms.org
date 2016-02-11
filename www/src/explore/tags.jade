@@ -25,9 +25,9 @@ block content
           input(type='submit', value='Search')
     - if(search) {
       .listing.search-results
-        small.muted
+        small.muted(class=(search.total === 0 ? 'empty' : undefined))
           | Searching for &#8220;#{search.query}&#8221;
-          | returned #{search.total} quote#{search.total > 1 ? 's' : ''}
+          | returned #{search.total} quote#{search.total !== 1 ? 's' : ''}
         +quote-listing(search.quotes)
     - }
     hr
