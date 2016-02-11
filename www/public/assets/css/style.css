@@ -2898,17 +2898,19 @@ header nav.icon a:not(:last-child) {
   padding: 0;
   max-width: 30rem;
 }
-section {
+section,
+.quote-main,
+.ism {
   width: 100%;
   height: 100%;
 }
 section.page {
   padding-top: 6rem;
 }
-section.quote {
+.quote-main {
   display: table;
 }
-div.ism {
+.quote-main .ism {
   width: 100%;
   height: 100%;
   display: table-cell;

@@ -15,26 +15,21 @@ html, body
 @import 'header';
 @import 'dialog';
 
-section {
+section, .quote-main, .ism
   width: 100%;
   height: 100%;
-}
 
-section.page {
+section.page
   padding-top: 6rem;
-}
 
-section.quote {
+.quote-main
   display: table;
-}
-
-div.ism {
-  width: 100%;
-  height: 100%;
-  display: table-cell;
-  vertical-align: middle;
-  padding: 0 10%;
-}
+  .ism
+    width: 100%;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 10%;
 
 blockquote.primary {
   border-left: none;
