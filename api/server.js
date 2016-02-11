@@ -178,7 +178,6 @@ app.get('/quote/:id', function(req, res, next) {
   })
 });
 
-
 app.all('*', function(req, res, next) {
   var err = new Error('not_found');
   err.status = 404;

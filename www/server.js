@@ -2,6 +2,7 @@ var path = require('path')
   , express = require('express')
   , app = express()
   , getViewInfo = require('./view-info')
+  , slashes = require('../lib/http/slashes')
   , tags = require('./tags')
   , authors = require('./authors')
   , Quote = require('../lib/model/quote')
@@ -12,13 +13,7 @@ app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
-  if(req.url.substr(-1) === '/' && req.url.length > 1) {
-    res.redirect(301, req.url.slice(0, -1));
-  }else{
-    next();
-  }
-});
+app.use(slashes);
 
 /**
  *  Helper function to pass a random quote to a view.
