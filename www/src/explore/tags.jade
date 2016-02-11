@@ -4,7 +4,9 @@ include ../mixin/quote-toolbar
 
 block content
   section.browse.page
-    h2 Tags
+    h2
+      a(href='/explore', title='Explore') Explore
+      | &nbsp;/ Tags
     .listing
       p.all-tags
         - var i, key, value;
@@ -13,5 +15,7 @@ block content
           - value = tags.rows[i].value;
           a(href='/explore/tags/' + key, title=key + ' (' + value + ')')
             | #{key}
-          | , 
+          - if(i < (tags.rows.length - 1)) {
+            | , 
+          - }
         - }
