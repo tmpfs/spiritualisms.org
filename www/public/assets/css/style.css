@@ -3156,6 +3156,34 @@ label[for="chooser"] >div {
 .footnote {
   font-size: 1.6rem;
 }
+.table {
+  display: table;
+}
+.cell {
+  display: table-cell;
+  width: 100%;
+  padding: 0;
+}
+form {
+  padding-bottom: 0;
+}
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+fieldset.tag-search {
+  display: table-row;
+  width: 100%;
+}
+fieldset.tag-search >.cell:first-child {
+  padding-right: 1rem;
+}
+fieldset.tag-search input.tag-search {
+  font-size: 2rem;
+  padding: 2rem 1rem;
+  margin-right: 12rem;
+  width: 100%;
+}
 .msg {
   position: relative;
   padding: 1rem;

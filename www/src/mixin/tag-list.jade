@@ -4,7 +4,8 @@ mixin tag-list(tags)
     - title = tags.rows[i].title;
     - key = tags.rows[i].key;
     - value = tags.rows[i].value;
-    a(href='/explore/tags/' + key, title=title + (value ? ' (' + value + ')' : ''))
+    a(href='/explore/tags/' + key,
+      title=title + (value ? ' (' + value + ')' : ''))
       | #{title}
     - if(i < (tags.rows.length - 1)) {
       | , 

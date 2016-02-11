@@ -8,6 +8,14 @@ block content
     h2
       a(href='/explore', title='Explore') Explore
       | &nbsp;/ Tags
+    form.table
+      fieldset.tag-search
+        .cell
+          input.tag-search(
+            type='search',
+            placeholder='Search by tags (eg: love wisdom)')
+        .cell
+          input(type='submit', value='Search')
     .listing
       p.all-tags
         +tag-list(tags)
