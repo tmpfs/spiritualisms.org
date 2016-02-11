@@ -1,0 +1,13 @@
+extends ../layout
+
+include ../mixin/quote-toolbar
+include ../mixin/quote-listing
+
+block content
+  section.page
+    h2
+      a(href='/explore/authors', title='Explore authors') Authors
+      | &nbsp;/
+      | #{author.length ? author.substr(0,1).toUpperCase() + author.substr(1) : author}
+    .listing
+      +quote-listing(quotes)

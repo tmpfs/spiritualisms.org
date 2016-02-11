@@ -5,7 +5,7 @@ module.exports = {
       && doc.publish === true
       && Array.isArray(doc.tags)) {
       doc.tags.forEach(function(tag){
-        emit(tag, 1); 
+        emit((tag || '').toLowerCase(), 1); 
       })
     }
   },

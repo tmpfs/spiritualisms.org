@@ -158,4 +158,38 @@ describe('www:', function() {
     })
   })
 
+  // authors
+  it('should GET authors page', function(done) {
+    var opts = {
+      url: process.env.WWW + '/explore/authors'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
+  it('should GET authors search results', function(done) {
+    var opts = {
+      url: process.env.WWW + '/explore/authors?q=rumi'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
+  it('should GET author page (rumi)', function(done) {
+    var opts = {
+      url: process.env.WWW + '/explore/authors/rumi'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
 })

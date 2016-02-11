@@ -4,7 +4,7 @@ module.exports = {
     if(doc.type === 'quote'
       && doc.publish === true
       && doc.author) {
-      emit(doc.author, 1); 
+      emit(doc.author.toLowerCase(), 1); 
     }
   },
   reduce: function(keys, values) {

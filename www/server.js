@@ -3,6 +3,7 @@ var path = require('path')
   , app = express()
   , getViewInfo = require('./view-info')
   , tags = require('./tags')
+  , authors = require('./authors')
   , Quote = require('../lib/model/quote')
   , Tag = require('../lib/model/tag')
   , formats = require('../lib/formats');
@@ -60,6 +61,7 @@ app.get('/explore', function(req, res, next) {
 });
 
 tags(app);
+authors(app);
 
 app.get('/explore/:id\.:ext?', function(req, res, next) {
     var quote = new Quote()

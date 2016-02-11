@@ -6,7 +6,7 @@ describe('author model:', function() {
   it('should find quotes by authors', function(done) {
     var author = new Author()
       , opts = {
-        keys: ['Rumi']
+        keys: ['rumi']
       };
     author.findByAuthors(opts, function(err, res, body) {
       expect(err).to.eql(null);

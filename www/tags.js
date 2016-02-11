@@ -21,7 +21,7 @@ function routes(app) {
     if(req.query.q) {
       var keys = req.query.q.split(/,?\s+/);
 
-      // tags are normalized to lowercase in the db
+      // tags are normalized to lowercase in the db view
       keys = keys.map(function(key) {
         return key.toLowerCase();
       })
