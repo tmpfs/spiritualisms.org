@@ -10,5 +10,6 @@ block content
         a(href='/explore/authors', title='Authors') Authors
         | &nbsp;|&nbsp;
         a(href='/explore/tags', title='Tags') Tags
+      sup &nbsp;#{quotes.total_rows}
     .listing
       +quote-listing(quotes)
