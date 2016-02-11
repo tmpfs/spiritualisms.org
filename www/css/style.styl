@@ -268,18 +268,17 @@ fieldset
   margin: 0;
   padding: 0;
 
-fieldset.tag-search
-  display: table-row;
-  width: 100%;
-  >.cell:first-child
-    padding-right: 1rem;
-  input.tag-search
-    font-size: 2rem;
-    padding 2rem 1rem;
-    margin-right: 12rem;
+form.tag-search
+  fieldset
+    display: table-row;
     width: 100%;
-  input[type="submit"]
-    //vertical-align: top;
+    >.cell:first-child
+      padding-right: 1rem;
+    input[type="search"]
+      font-size: 2rem;
+      padding 2rem 1rem;
+      margin-right: 12rem;
+      width: 100%;
 
 @import 'message';
 @import 'footer';
