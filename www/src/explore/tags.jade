@@ -11,10 +11,11 @@ block content
       p.all-tags
         - var i, key, value;
         - for(var i = 0;i < tags.rows.length;i++) {
+          - title = tags.rows[i].title;
           - key = tags.rows[i].key;
           - value = tags.rows[i].value;
           a(href='/explore/tags/' + key, title=key + ' (' + value + ')')
-            | #{key}
+            | #{title}
           - if(i < (tags.rows.length - 1)) {
             | , 
           - }
