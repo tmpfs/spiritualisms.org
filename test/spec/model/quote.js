@@ -41,36 +41,4 @@ describe('model:', function() {
     })
   })
 
-  it('should find quotes by tags', function(done) {
-    var quote = new Quote()
-      , opts = {
-        keys: ['food', 'love']
-      };
-    quote.findByTag(opts, function(err, res, body) {
-      expect(err).to.eql(null);
-      expect(res).to.be.an('object');
-      expect(body).to.be.an('object');
-      expect(body.rows).to.be.an('array');
-      expect(body.rows.length).to.be.gt(0);
-      expect(body.rows[0]).to.be.an('object');
-      done();
-    })
-  })
-
-  it('should get all tags', function(done) {
-    var quote = new Quote()
-      , opts = {};
-    quote.getAllTags(opts, function(err, res, body) {
-      expect(err).to.eql(null);
-      expect(res).to.be.an('object');
-      expect(body).to.be.an('object');
-      expect(body.rows).to.be.an('array');
-      expect(body.rows.length).to.be.gt(0);
-      expect(body.rows[0]).to.be.an('object');
-      expect(body.rows[0].key).to.be.a('string');
-      expect(body.rows[0].value).to.be.a('number');
-      done();
-    })
-  })
-
 })

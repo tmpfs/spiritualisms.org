@@ -4,6 +4,7 @@ var path = require('path')
   , app = express()
   , env = require('nenv')()
   , Quote = require('../lib/model/quote')
+  , Tag = require('../lib/model/tag')
   , formats = require('../lib/formats');
 
 app.set('view engine', 'jade');
@@ -75,9 +76,9 @@ app.get('/explore', function(req, res, next) {
 });
 
 app.get('/explore/tags', function(req, res, next) {
-  var quote = new Quote()
+  var tag = new Tag()
     , info = getViewInfo(req);
-  quote.getAllTags({}, function(err, response, body) {
+  tag.getAllTags({}, function(err, response, body) {
     if(err) {
       return next(err); 
     }
@@ -87,12 +88,12 @@ app.get('/explore/tags', function(req, res, next) {
 });
 
 app.get('/explore/tags/:tag', function(req, res, next) {
-  var quote = new Quote()
+  var tag = new Tag()
     , info = getViewInfo(req);
 
   info.tag = req.params.tag;
 
-  quote.findByTag({keys: [req.params.tag]}, function(err, response, body) {
+  tag.findByTag({keys: [req.params.tag]}, function(err, response, body) {
     if(err) {
       return next(err); 
     }
