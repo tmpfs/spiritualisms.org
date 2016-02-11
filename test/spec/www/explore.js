@@ -124,4 +124,38 @@ describe('www:', function() {
     })
   })
 
+  // tags
+  it('should GET tags page', function(done) {
+    var opts = {
+      url: process.env.WWW + '/explore/tags'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
+  it('should GET tags search results', function(done) {
+    var opts = {
+      url: process.env.WWW + '/explore/tags?q=love'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
+  it('should GET tag page (love)', function(done) {
+    var opts = {
+      url: process.env.WWW + '/explore/tags/love'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
 })
