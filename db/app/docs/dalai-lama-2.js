@@ -11,6 +11,6 @@ module.exports = {
   tags: [
     'hope',
     'focus',
-    'judgement'
+    'universe'
   ]
 }
