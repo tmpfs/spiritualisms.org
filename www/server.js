@@ -74,11 +74,17 @@ app.get('/explore', function(req, res, next) {
   });
 });
 
-//app.get('/explore/tags', function(req, res, next) {
-  //var quote = new Quote()
-    //, info = getViewInfo(req);
-  //res.render('explore/tags', info);
-//});
+app.get('/explore/tags', function(req, res, next) {
+  var quote = new Quote()
+    , info = getViewInfo(req);
+  quote.getAllTags({}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    }
+    info.tags = body;
+    res.render('explore/tags', info);
+  });
+});
 
 app.get('/explore/tags/:tag', function(req, res, next) {
   var quote = new Quote()
@@ -91,7 +97,7 @@ app.get('/explore/tags/:tag', function(req, res, next) {
       return next(err); 
     }
     info.quotes = body;
-    res.render('explore/tags', info);
+    res.render('explore/tags-listing', info);
   });
 });
 

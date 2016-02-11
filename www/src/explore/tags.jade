@@ -4,22 +4,14 @@ include ../mixin/quote-toolbar
 
 block content
   section.browse.page
-    h2 Tags / #{tag}
+    h2 Tags
     .listing
-      - var rows = quotes.rows, doc;
-      - for(var i = 0;i < rows.length;i++) {
-        - doc = rows[i].doc;
-        .quotation.item(data-id=doc.id)
-          blockquote.primary #{doc.quote} 
-          div.meta.clearfix
-            cite.float-left &#151;
-              - if(doc.link) {
-                a(href=doc.link) #{doc.author}
-                - if(doc.domain) {
-                  span  (#{doc.domain})
-                - }
-              - }else {
-                span #{doc.author}
-              - }
-            +quote-toolbar(doc, {permalink: true})
-      - }
+      p.all-tags
+        - var i, key, value;
+        - for(var i = 0;i < tags.rows.length;i++) {
+          - key = tags.rows[i].key;
+          - value = tags.rows[i].value;
+          a(href='/explore/tags/' + key, title=key + ' (' + value + ')')
+            | #{key}
+          | , 
+        - }
