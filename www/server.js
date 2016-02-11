@@ -74,6 +74,27 @@ app.get('/explore', function(req, res, next) {
   });
 });
 
+//app.get('/explore/tags', function(req, res, next) {
+  //var quote = new Quote()
+    //, info = getViewInfo(req);
+  //res.render('explore/tags', info);
+//});
+
+app.get('/explore/tags/:tag', function(req, res, next) {
+  var quote = new Quote()
+    , info = getViewInfo(req);
+
+  info.tag = req.params.tag;
+
+  quote.findByTag({keys: [req.params.tag]}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    }
+    info.quotes = body;
+    res.render('explore/tags', info);
+  });
+});
+
 app.get('/explore/:id\.:ext?', function(req, res, next) {
     var quote = new Quote()
       , info = getViewInfo(req);
