@@ -1,15 +1,12 @@
 extends layout
 
 include mixin/quotation
-include mixin/refresh
-include mixin/footer
 
 //- no header for home page
 block header
 
 block content
-  section.quote
-    div.ism
+  .quote-main
+    .ism
       +quotation(doc)
-  +footer(doc, {home: true})
-  +refresh()
+  include include/footer-browser-home

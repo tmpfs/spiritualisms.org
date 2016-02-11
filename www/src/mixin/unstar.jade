@@ -1,0 +1,8 @@
+mixin unstar(doc, opts)
+  - doc = doc || {};
+  - opts = opts || {};
+  a.star.unstar(
+    href='/explore/' + (doc.id || ''),
+    title=opts.title || 'Remove from your stars')
+    i.fa.fa-star-o.star
+    | &nbsp;Unstar

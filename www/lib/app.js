@@ -1,9 +1,6 @@
 "use strict"
 
 var $ = require('air')
-  , Schema = require('async-validate')
-  , descriptor = require('../../lib/schema/quote')
-  , Love = require('./love');
 
 $.plugin(
   [
@@ -15,16 +12,23 @@ $.plugin(
     require('air/create'),
     require('air/css'),
     require('air/data'),
+    require('air/disabled'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),
     //require('air/first'),
     require('air/html'),
+    require('air/hidden'),
+    require('air/inherit'),
     require('air/parent'),
+    require('air/prepend'),
     require('air/request'),
     require('air/remove'),
-    //require('air/template'),
+    require('air/template'),
     require('air/text'),
+
+    require('air/ui/dialog'),
+
     //require('air/val')
     require('vivify'),
     //require('vivify/burst'),
@@ -34,103 +38,54 @@ $.plugin(
   ]
 )
 
+var EventEmitter = require('emanate')
+  , Schema = require('async-validate')
+  , descriptor = require('../../lib/schema/quote')
+  , QuoteModel = require('./model/quote')
+  , LoveModel = require('./model/love')
+  , StarModel = require('./model/star')
+  , LoveCount = require('./love-count')
+  , StarCount = require('./star-count')
+  , refresh = require('./refresh')
+  , Stars = require('./stars');
+
 /**
  *  Spiritualisms client-side application.
  */
 function Application(opts) {
-  var supported = typeof XMLHttpRequest !== 'undefined';
+  var supported = typeof XMLHttpRequest !== 'undefined'
+    && window.localStorage;
 
   // NOTE: show browser warning for styling
   //supported = false;
 
   opts = opts || {};
+  opts.model = {
+    quote: new QuoteModel(opts),
+    love: new LoveModel(opts),
+    star: new StarModel(opts)
+  }
   this.opts = opts;
+  this.opts.notifier = this.notifier = new EventEmitter();
+
   this.validator = new Schema(descriptor);
-  this.love = new Love(opts);
+
+  this.love = new LoveCount(opts);
+  this.star = new StarCount(opts);
+  this.stars = new Stars(opts);
 
   if(!supported) {
-    $('.browser-update').css({display: 'block'});
+    var notice = $('.browser-update');
+    notice.css({display: 'block'}).fadeIn();
+    if(document.location.pathname === '/home') {
+      notice.css({top: '0'});
+    }
+  }else{
+    this.notifier.emit('love/update');
+    this.notifier.emit('star/update');
+    $('a.refresh').on('click', refresh.bind(this));
   }
 
-  $('a.refresh').on('click', random.bind(this));
-}
-
-/**
- *  Load a new random quote.
- */
-function random(e) {
-  e.preventDefault();
-
-  var love = this.love
-    , icon = $(e.target).find('i')
-    , container = $('.quotation')
-    , start = new Date().getTime()
-    , doc = false;
-
-  function render() {
-    if(doc) {
-      container.data('id', doc.id);
-
-      // clone to remove events
-      var tools = container.find('nav.toolbar')
-      var toolbar = tools.clone(true);
-      toolbar.find('span').remove();
-      // append clone
-      tools.parent().append(toolbar);
-      // remove original
-      tools.remove();
-
-      love.init();
-      love.fetch([doc.id]);
-      container.find('blockquote').text(doc.quote);
-      container.find('cite').html('&#151; ')
-        .append(
-          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
-        ).text(doc.author));
-
-      var nav = container.find('nav')
-        , href = '/explore/' + doc.id;
-      nav.find('a.love, a.star, a.permalink').attr({href: href});
-      container.fadeIn(function() {
-        container.css({opacity: 1}); 
-      });
-    }
-  }
-
-  function onResponse(err, res) {
-    var duration = new Date().getTime() - start;
-    if(err) {
-      return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
-    }
-
-    //container.css({display: 'none'});
-
-    function complete() {
-      icon.removeClass('fa-spin');
-      render();
-    }
-
-    // animation completed before load: 1s animation
-    if(duration >= 1000) {
-      complete(); 
-    }else{
-      setTimeout(complete, 1000 - duration);
-    }
-  }
-
-  $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
-
-  icon.addClass('fa-spin');
-  container.fadeOut(function() {
-    container.find('a.love span').text('');
-    container.css(
-      {
-        opacity: 0,
-      }
-    ); 
-  });
 }
 
 module.exports = Application;

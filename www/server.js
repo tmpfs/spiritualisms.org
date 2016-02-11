@@ -37,9 +37,11 @@ function random(view, req, res, next) {
  *  Helper function to get default view information.
  */
 function getViewInfo(req) {
-  var o = {};
+  var o = {}
+    , uri = url.parse(req.url);
+
   o.url = req.url;
-  o.uri = url.parse(req.url);
+  o.uri = uri;
   o.app = {
     api: process.env.API || 'http://localhost:3001'
   }
@@ -91,6 +93,11 @@ app.get('/explore/:id\.:ext?', function(req, res, next) {
         formats.map[req.params.ext](info, req, res, next);
       }
     });
+});
+
+app.get('/stars', function(req, res) {
+  var info = getViewInfo(req);
+  res.render('stars', info);
 });
 
 app.get('/contribute', function(req, res) {

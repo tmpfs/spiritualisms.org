@@ -1,0 +1,43 @@
+section.stars .empty
+  display: none;
+
+.listing .quotation
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid $muted;
+  blockquote
+    font-size: 2.8rem;
+    text-align: left;
+  nav.toolbar
+    float: right;
+    margin-top: 0;
+    border: 0;
+  cite
+    font-size: 2.4rem;
+
+section.stars .actions nav:first-child a:not(:last-child)
+  margin-right: 1rem;
+
+// import dialog
+label[for="chooser"]
+  text-align: center;
+  background: $muted;
+  padding: .5rem 1rem;
+  border-radius: .2rem;
+  //margin-bottom: 2rem;
+  font-weight: normal;
+  min-height: 8rem;
+  display: table;
+  width: 100%;
+  &.dragover
+    background: $medium;
+  >div
+    display: table-cell;
+    vertical-align: middle;
+
+.choose
+  ul
+    padding-left: 2rem;
+    li
+      margin-bottom: 0;
+  

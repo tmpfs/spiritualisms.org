@@ -1,0 +1,15 @@
+.dialog.clear-all
+  .modal &nbsp;
+  .container
+    .content
+      a.close.fa.fa-close(href='#cancel')
+      h3.title Clear All
+      p.copy Are you sure you want to delete all stars?
+      p.muted.footnote.warn
+        i.fa.fa-warning
+        | You cannot undo this action, it is irreversible.
+      nav.clearfix
+        a.button.button-outline.float-left(href='#cancel') Cancel
+
+        div.float-right
+          a.button(href='#ok') Ok

@@ -3,3 +3,5 @@
 [![Coverage Status](https://coveralls.io/repos/tmpfs/spiritualisms/badge.svg?branch=master&service=github&v=1)](https://coveralls.io/github/tmpfs/spiritualisms?branch=master)
 
 Spritualisms web application.
+
+> Spiritualisms provides a list of curated quotes for daily inspiration; illumination for your path.

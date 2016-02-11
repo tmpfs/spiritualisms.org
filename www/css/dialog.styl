@@ -1,0 +1,65 @@
+.dialog
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: table;
+  .modal
+    position: absolute;
+    z-index: 2001;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.8);
+    //width: 100%;
+    //height: 100%;
+    cursor: pointer;
+  .container
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    .content
+      position: relative;
+      z-index: 2002;
+      max-width: 60rem;
+      padding: 2rem;
+      border-radius: .4rem;
+      display: inline-block;
+      text-align: left;
+      background: $light;
+      .title
+        border-bottom: 1px solid black;
+        margin-bottom: .5rem;
+      h3
+        font-size: 2.6rem;
+      p.copy, label
+        font-size: 2rem;
+      p
+        margin-bottom: 0;
+      p.footnote
+        margin-bottom: 2rem;
+      > a.close
+        color: black;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 1rem;
+        margin-right: 1rem;
+      nav a
+        margin-bottom: 0;
+
+      ul.filenames
+        margin-left: 1rem;
+        text-align: left;
+        margin-bottom: 0;
+        font-size: 1.6rem;
+        li
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin: 0;
+          padding: 0;
+          max-width: 30rem;

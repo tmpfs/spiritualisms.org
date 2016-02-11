@@ -2,6 +2,9 @@ Table of Contents
 =================
 
 * [Spiritualisms](#spiritualisms)
+  * [Design](#design)
+  * [Database](#database)
+  * [Services](#services)
   * [Developer](#developer)
     * [Sync](#sync)
     * [Server](#server)
@@ -26,6 +29,40 @@ Spiritualisms
 [<img src="https://coveralls.io/repos/tmpfs/spiritualisms/badge.svg?branch=master&service=github&v=1" alt="Coverage Status">](https://coveralls.io/github/tmpfs/spiritualisms?branch=master).
 
 Spritualisms web application.
+
+> Spiritualisms provides a list of curated quotes for daily inspiration; illumination for your path.
+
+## Design
+
+* Clean and elegant interface.
+* Fast page load.
+* Modern browsers (IE10+).
+* Dynamic and static file formats.
+* ECMAScript 5 - no transpiling.
+* Valid HTML5/CSS3.
+* Dynamic sitemap.
+* No adverts.
+* No signup/login.
+* No cookies.
+* No third-party code (analytics etc).
+* No assets from other domains (google fonts etc).
+
+## Database
+
+Right tool for the job:
+
+* [couchdb](http://couchdb.apache.org) for document storage.
+* [redis](http://redis.io) for fast in-memory access.
+* [postgres][] for indexing and search.
+* [nginx][] for static file serving.
+
+## Services
+
+Decoupled microservices architecture:
+
+* api.* - JSON REST API with [swagger][] v2.0 support.
+* www.* - Web server.
+* files.* - Static file service.
 
 ## Developer
 

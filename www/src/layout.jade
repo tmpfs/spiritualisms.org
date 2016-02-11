@@ -8,7 +8,7 @@ html
       script.
         window.app = !{JSON.stringify(app)}
       meta(name='viewport', content='width=device-width, initial-scale=1')
-      link(rel='icon', type='image/png', href='/assets/img/favicon.png')
+      link(rel='icon', type='image/png', href='/assets/img/favicon.png?v=1')
       block css
         link(rel='stylesheet', href='/assets/css/style.css', media='screen')
       block script
@@ -17,14 +17,16 @@ html
       include include/header
     block content
     block footer
-      //-include include/footer
     block misc
       include include/browser-update
+    template
+      block template
+          include include/template/stars
     block js
       script(src='/assets/js/app.js')
 
-  //- NOTE: inject browser sync in devel mode
-  - if(env.devel) {
-    script(async
-      src='http://localhost:5000/browser-sync/browser-sync-client.2.11.1.js')
-  - }
+    //- NOTE: inject browser sync in devel mode
+    - if(env.devel) {
+      script(async
+        src='http://localhost:5000/browser-sync/browser-sync-client.2.11.1.js')
+    - }

@@ -1,0 +1,27 @@
+.dialog.import
+  .modal &nbsp;
+  .container
+    .content
+      a.close.fa.fa-close(href='#cancel')
+      h3.title Import
+      .choose
+        p.copy Recreate your stars from an exported document.
+        label(for='chooser')
+          div
+            input(
+              type='file',
+              id='chooser',
+              name='files',
+              accept='application/json',
+              multiple
+              hidden)
+            i.fa.fa-upload
+            | &nbsp; Drag files here or click to choose a file
+            ul.filenames
+        p.muted.footnote.warn
+          i.fa.fa-info-circle
+          | &nbsp;Files should have been created using an export.
+      nav.clearfix
+        a.button.button-outline.float-left(href='#cancel') Cancel
+        div.float-right
+          a.button(href='#ok', disabled) Import

@@ -5,6 +5,13 @@ mixin main-nav(uri)
   - map.contribute = {title: 'Find out how to contribute', text: 'Contribute'};
   - map.create = {title: 'Create a quote', text: 'Create'};
   - keys = Object.keys(map);
+  nav.icon.float-right
+    a.stars(href='/stars', title='Stars')
+      i.fa.fa-star
+    a.home(href='/home', title='Browser Home')
+      i.fa.fa-home
+    a.sitemap(href='/sitemap', title='Sitemap')
+      i.fa.fa-sitemap
   nav.main.float-right
     - for(i = 0;i < keys.length;i++) {
       a(href="/" + keys[i],

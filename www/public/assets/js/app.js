@@ -1,26 +1,4 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = {
-  type: 'object',
-  fields: {
-    type: {type: 'string', required: true},
-    publish: {type: 'boolean'},
-    quote: {type: 'string', required: true},
-    author: {type: 'string', required: true},
-    link: [
-      {type: 'string', required: true}
-      // TODO: implement protocol validation
-    ],
-    domain: [
-      {type: 'string'}
-      // TODO: implement tld validation
-    ],
-    created: {type: 'integer', required: true},
-    random: {type: 'float', required: true},
-    tags: {type: 'array'}
-  }
-}
-
-},{}],2:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -64,7 +42,7 @@ module.exports = {
       if(this.dom instanceof NodeList) {
         this.dom = Array.prototype.slice.call(this.dom);
       }else{
-        this.dom = (el instanceof Element || el === window) ? [el] : [];
+        this.dom = ((el instanceof Element) || el === window) ? [el] : [];
       }
     }
 
@@ -108,7 +86,7 @@ module.exports = {
   module.exports = air;
 })();
 
-},{"zephyr":17}],3:[function(require,module,exports){
+},{"zephyr":22}],2:[function(require,module,exports){
 /**
  *  Insert content, specified by the parameter, to the end of each
  *  element in the set of matched elements.
@@ -135,7 +113,7 @@ module.exports = function() {
   this.append = append;
 }
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  *  Get the value of an attribute for the first element in the set of
  *  matched elements or set one or more attributes for every matched element.
@@ -188,7 +166,7 @@ module.exports = function() {
   this.attr = attr;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  *  IE9 does not support `Element.classList`, when support for IE9 is
  *  dropped this can be refactored.
@@ -285,7 +263,7 @@ module.exports = function() {
   this.toggleClass = toggleClass;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  *  Create a deep copy of the set of matched elements.
  */
@@ -301,7 +279,7 @@ module.exports = function() {
   this.clone = clone;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  *  Create a DOM element.
  *
@@ -309,6 +287,15 @@ module.exports = function() {
  */
 function create(tag) {
   return document.createElement(tag);
+}
+
+/**
+ *  Create a text node.
+ *
+ *  @param txt The text for the node.
+ */
+function text(txt) {
+  return document.createTextNode(txt);
 }
 
 /**
@@ -332,12 +319,13 @@ module.exports = function() {
 
   this.air.create = create;
   this.air.el = el;
+  this.air.text = text;
 }
 
 // optional `attr` dependency
 //plugin.deps = {attr: false};
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  *  Get the value of a computed style property for the first element
  *  in the set of matched elements or set one or more CSS properties
@@ -382,7 +370,7 @@ module.exports = function() {
   this.css = css;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var prefix = 'data-';
 
 /**
@@ -420,6 +408,45 @@ module.exports = function() {
 // required `attr` dependency
 //plugin.deps = {attr: true};
 
+},{}],9:[function(require,module,exports){
+var attr = 'disabled';
+
+/**
+ *  Toggles the diabled attribute on an element.
+ *
+ *  A typical css rule might be:
+ *
+ *  [disabled]{pointer-events: none; opacity: 0.8;}
+ */
+function disabled(val) {
+  // return whether the first element in the set
+  // is hidden
+  if(val === undefined) {
+    return this.attr(attr);
+  // hide on truthy
+  }else if(val) {
+    this.attr(attr, '1');
+  // show on falsey
+  }else{
+    this.attr(attr, null);
+  }
+  return this;
+}
+
+function enable() {
+  return this.disabled(false);
+}
+
+function disable() {
+  return this.disabled(true);
+}
+
+module.exports = function() {
+  this.disabled = disabled;
+  this.enable = enable;
+  this.disable = disable;
+}
+
 },{}],10:[function(require,module,exports){
 function on(nm, cb, capture) {
   this.each(function(el) {
@@ -443,7 +470,7 @@ function trigger(event, bubbles, cancelable, type) {
     var evt;
     if(document.createEvent) {
       // dispatch for firefox + others
-      evt = document.createEvent('HTMLEvents');
+      evt = document.createEvent(type);
       // event type,bubbling,cancelable
       evt.initEvent(event, bubbles, cancelable);
       return !el.dispatchEvent(evt);
@@ -484,6 +511,49 @@ module.exports = function() {
 }
 
 },{}],12:[function(require,module,exports){
+var attr = 'hidden';
+
+/**
+ *  Modify the hidden attribute.
+ */
+function hidden(val) {
+  // return whether the first element in the set
+  // is hidden
+  if(val === undefined) {
+    return this.attr(attr);
+  // hide on truthy
+  }else if(val) {
+    this.attr(attr, '1');
+  // show on falsey
+  }else{
+    this.attr(attr, null);
+  }
+  return this;
+}
+
+function show(fn) {
+  this.hidden(false);
+  if(typeof fn === 'function') {
+    fn.call(this);
+  }
+  return this;
+}
+
+function hide(fn) {
+  this.hidden(true);
+  if(typeof fn === 'function') {
+    fn.call(this);
+  }
+  return this.hidden(true);
+}
+
+module.exports = function() {
+  this.hidden = hidden;
+  this.show = show;
+  this.hide = hide;
+}
+
+},{}],13:[function(require,module,exports){
 /**
  *  Get the HTML of the first matched element or set the HTML
  *  content of all matched elements.
@@ -518,7 +588,19 @@ module.exports = function() {
   this.html = html;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
+/**
+ *  Lightweight ECMAScript 5 inheritance.
+ *
+ *  @see http://stackoverflow.com/a/12816953
+ */
+module.exports = function() {
+  this.air.inherit = function(sub, sup) {
+    sub.prototype = Object.create(sup.prototype);
+  }
+}
+
+},{}],15:[function(require,module,exports){
 /**
  *  Get the parent of each element in the current set of matched elements,
  *  optionally filtered by a selector.
@@ -537,7 +619,40 @@ module.exports = function() {
   this.parent = parent;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
+/**
+ *  Insert content, specified by the parameter, to the beginning of each
+ *  element in the set of matched elements.
+ */
+function prepend() {
+  var i, l = this.length, el, args = this.slice.call(arguments);
+  function it(node, index) {
+    // content elements to insert
+    el.each(function(ins) {
+      ins = (index < (l - 1)) ? ins.cloneNode(true) : ins;
+      // no children yet - append
+      if(!node.firstChild) {
+        node.appendChild(ins);
+      // insert before first child
+      }else{
+        node.insertBefore(ins, node.firstChild);
+      }
+    });
+  }
+  for(i = 0;i < args.length;i++) {
+    // wrap content
+    el = this.air(args[i]);
+    // matched parent elements (targets)
+    this.each(it);
+  }
+  return this;
+}
+
+module.exports = function() {
+  this.prepend = prepend;
+}
+
+},{}],17:[function(require,module,exports){
 /**
  *  Remove all matched elements.
  */
@@ -561,7 +676,7 @@ module.exports = function() {
   this.remove = remove;
 }
 
-},{}],15:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  *  Thin wrapper for XMLHttpRequest using a 
  *  callback style.
@@ -622,7 +737,28 @@ function request(opts, cb) {
     }
   }
 
-  req.open(opts.method, opts.url);
+  var url = opts.url;
+
+  if(opts.qs) {
+    var keys = Object.keys(opts.qs)
+      , qs = '?';
+    keys.forEach(function(key, index) {
+      if(index) {
+        qs += '&'; 
+      }
+      qs += encodeURIComponent(key) + '=' + encodeURIComponent(opts.qs[key]); 
+    })
+
+    url += qs;
+  }
+
+  req.open(opts.method, url);
+
+  // sadly IE10/11 does not support `json` response type
+  // see: http://caniuse.com/#feat=xhr2
+  if(opts.responseType) {
+    req.responseType = opts.responseType; 
+  }
 
   // apply custom request headers
   for(z in opts.headers) {
@@ -635,10 +771,27 @@ function request(opts, cb) {
 
   req.onreadystatechange = function() {
     if(this.readyState === 4) {
+
+      var res = opts.responseType ? this.response : this.responseText
+        , info = {
+            headers: parse(this.getAllResponseHeaders()),
+            status: this.status
+          };
+
+      info.body = res;
+      if(res && opts.json && (this.status === 200 || this.status === 201)) {
+        try {
+          info.body = JSON.parse(this.responseText);
+        }catch(e) {
+          return done(
+            e,
+            info,
+            this);
+        }
+      }
       done(
         null,
-        this.responseText,
-        {headers: parse(this.getAllResponseHeaders()), status: this.status},
+        info,
         this);
     }
   }
@@ -658,7 +811,68 @@ module.exports = function() {
   this.air.request = request;
 }
 
-},{}],16:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
+var $
+  , slice = Array.prototype.slice;
+
+/**
+ *  Get a map of template elements.
+ *
+ *  Source object is id => selector,
+ *  target object is id => elements(s).
+ */
+function template(source, target) {
+  source = source || {};
+  target = target || {};
+  for(var z in source) {
+    target[z] = $.partial(source[z]);
+  }
+  return target;
+}
+
+/**
+ *  Find all template element(s) by selector.
+ */
+function partial(selector) {
+  var templates = $('template')
+    , context
+    , arr = [];
+  templates.each(function(el) {
+    context = el && el.content ? el.content : el;
+    arr = arr.concat(slice.call($(selector, context).dom));
+  })
+  return $(arr);
+}
+
+/**
+ *  Swap a source list of element's with a target list of element's.
+ *
+ *  The target elements are cloned as they should be template partials, the
+ *  source element(s) should exist in the DOM.
+ */
+function swap(source, target) {
+  // wrap to allow string selectors, arrays etc.
+  source = $(source);
+  target = $(target);
+  source.each(function(el, index) {
+    var content = target.get(index);
+    if(el.parentNode && content) {
+      // deep clone template partial
+      content = content.cloneNode(true);
+      // replace sourc element with cloned target element
+      el.parentNode.replaceChild(content, el);
+    }
+  })
+}
+
+module.exports = function() {
+  $ = this.air;
+  this.air.template = template;
+  this.air.partial = partial;
+  this.air.swap = swap;
+}
+
+},{}],20:[function(require,module,exports){
 /**
  *  IE9 supports textContent and innerText has various issues.
  *
@@ -683,7 +897,122 @@ module.exports = function() {
   this.text = text;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
+/**
+ *  Show a modal dialog.
+ *
+ *  The passed element (`el`) is cloned and appended to the `container`.
+ *
+ *  @param opts {Object} Dialog options.
+ *  @param cb {Function} A callback function for accept or reject.
+ *
+ *  @options:
+ *
+ *  - el: The dialog element (root of the markup below).
+ *  - container: Parent element to append the dialog to.
+ *  - modal: Whether the modal element dismisses the dialog.
+ *  - remove: Whether the dialog is removed on accept or reject.
+ *  - evt: The event name to listen to.
+ *  - accept: Selector used to accept the dialog.
+ *  - reject: Selector used to reject the dialog.
+ *
+ *  @markup
+ *
+ *  - .dialog
+ *    - .modal
+ *    - .container
+ *      - .content
+ *
+ *  @css/stylus
+ *
+ *  .dialog
+ *    position: absolute;
+ *    z-index: 2000;
+ *    top: 0;
+ *    left: 0;
+ *    width: 100%;
+ *    height: 100%;
+ *    display: table;
+ *    .modal
+ *      position: absolute;
+ *      z-index: 2001;
+ *      left: 0;
+ *      top: 0;
+ *      right: 0;
+ *      bottom: 0;
+ *      background: rgba(0,0,0,.8);
+ *      cursor: pointer;
+ *    .container
+ *      display: table-cell;
+ *      vertical-align: middle;
+ *      text-align: center;
+ *      .content
+ *        position: relative;
+ *        z-index: 2002;
+ *
+ *  @dependencies
+ *
+ *  - clone
+ *  - css
+ *  - event
+ *  - find
+ */
+function dialog(opts, cb) {
+  var $ = dialog.air
+    , el = opts.el.clone(true)
+    , container = opts.container || $('body')
+    , evt = opts.evt || 'click'
+    , res = {accepted: false, el: el};
+
+  opts.accept = opts.accept || '[href="#ok"]';
+  opts.reject = opts.reject || '[href="#cancel"]';
+
+  // pass function to remove element in result
+  // when we don't handle removing
+  if(opts.remove === false) {
+    res.remove = function() {
+      el.remove(); 
+    }
+  }
+
+  container.append(el);
+
+  function onReject(e) {
+    e.preventDefault();
+    if(opts.remove !== false) {
+      el.remove();
+    }
+    cb(res);
+  }
+
+  function onAccept(e) {
+    e.preventDefault();
+    if(opts.remove !== false) {
+      el.remove();
+    }
+    res.accepted = true;
+    cb(res);
+  }
+
+  var modal = el.find('.modal');
+  if(opts.modal !== false) {
+    modal.on(evt, onReject);
+  }else{
+    modal.css({cursor: 'auto'})
+  }
+  el.find(opts.reject).on(evt, onReject);
+  el.find(opts.accept).on(evt, onAccept);
+
+  return el;
+}
+
+module.exports = function() {
+  // static method needs access to main function
+  dialog.air = this.air;
+  this.air.dialog = dialog;
+}
+
+},{}],22:[function(require,module,exports){
 ;(function() {
   'use strict'
 
@@ -786,7 +1115,29 @@ module.exports = function() {
   module.exports = plug;
 })();
 
-},{}],18:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
+module.exports = {
+  type: 'object',
+  fields: {
+    type: {type: 'string', required: true},
+    publish: {type: 'boolean'},
+    quote: {type: 'string', required: true},
+    author: {type: 'string', required: true},
+    link: [
+      {type: 'string', required: true}
+      // TODO: implement protocol validation
+    ],
+    domain: [
+      {type: 'string'}
+      // TODO: implement tld validation
+    ],
+    created: {type: 'integer', required: true},
+    random: {type: 'float', required: true},
+    tags: {type: 'array'}
+  }
+}
+
+},{}],24:[function(require,module,exports){
 function mapSeries(list, cb, complete) {
   var item = list.shift()
     , out = [];
@@ -838,7 +1189,7 @@ module.exports = {
   mapSeries: mapSeries
 }
 
-},{}],19:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 function Reason(id, meta) {
   for(var k in meta) {
     this[k] = meta[k];
@@ -868,7 +1219,7 @@ Reason.reasons = reasons;
 
 module.exports = Reason;
 
-},{}],20:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var plugin = require('zephyr')
   , format = require('format-util')
   , Reason = require('./reason');
@@ -1037,7 +1388,7 @@ Rule.prototype.diff = diff;
 
 module.exports = plugin({type: Rule, proto: Rule.prototype});
 
-},{"../messages":22,"./reason":19,"format-util":23,"zephyr":24}],21:[function(require,module,exports){
+},{"../messages":28,"./reason":25,"format-util":29,"zephyr":30}],27:[function(require,module,exports){
 var iterator = require('./iterator')
   , format = require('format-util')
   , Rule = require('./rule');
@@ -1443,7 +1794,7 @@ Schema.plugin = Rule.plugin;
 
 module.exports = Schema;
 
-},{"../messages":22,"./iterator":18,"./rule":20,"format-util":23}],22:[function(require,module,exports){
+},{"../messages":28,"./iterator":24,"./rule":26,"format-util":29}],28:[function(require,module,exports){
 /**
  *  Default validation error messages.
  */
@@ -1502,7 +1853,7 @@ var messages = {
 
 module.exports = messages;
 
-},{}],23:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 function format(fmt) {
   var re = /(%?)(%([jds]))/g
     , args = Array.prototype.slice.call(arguments, 1);
@@ -1541,9 +1892,112 @@ function format(fmt) {
 
 module.exports = format;
 
-},{}],24:[function(require,module,exports){
-arguments[4][17][0].apply(exports,arguments)
-},{"dup":17}],25:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"dup":22}],31:[function(require,module,exports){
+'use strict';
+
+var EventEmitter = function EventEmitter(){}
+  , proto = EventEmitter.prototype;
+
+/**
+ *  Add a listener for an event.
+ *
+ *  @param event The event name.
+ *  @param listener The event listener function.
+ */
+function addListener(event, listener) {
+  this._events = this._events || {};
+  this._events[event] = this._events[event] || [];
+  this._events[event].push(listener);
+  return this;
+}
+
+/**
+ *  Registers a listener to be invoked once.
+ *
+ *  @param event The event name.
+ *  @param listener The listener function.
+ */
+function once(event, listener) {
+  function g() {
+    this.removeListener(event, g);
+    listener.apply(this, arguments);
+  };
+  this.on(event, g);
+  return this;
+}
+
+/**
+ *  Remove all listeners for an event.
+ *
+ *  @param event The event name.
+ */
+function removeAllListeners(event) {
+  if(event) {
+    this._events[event] = [];
+  }else{
+    this._events = {};
+  }
+  return this;
+}
+
+/**
+ *  Remove a listener for an event.
+ *
+ *  @param event The event name.
+ *  @param listener The event listener function.
+ */
+function removeListener(event, listener) {
+  this._events = this._events || {};
+  if(event in this._events) {
+    this._events[event].splice(this._events[event].indexOf(listener), 1);
+  }
+  return this;
+}
+
+/**
+ *  Returns an array of listeners for the specified event.
+ */
+function listeners(event) {
+  this._events = this._events || {};
+  return this._events[event] || [];
+}
+
+/**
+ *  Execute each of the listeners in order with the supplied arguments.
+ *
+ *  Returns true if event had listeners, false otherwise.
+ *
+ *  @param event The event name.
+ *  @param args... The arguments to pass to event listeners.
+ */
+function emit(event /* , args... */) {
+  this._events = this._events || {};
+  // NOTE: copy array so that removing listeners in listeners (once etc)
+  // NOTE: does not affect the iteration
+  var list = (this._events[event] || []).slice(0);
+  for(var i = 0; i < list.length; i++) {
+    list[i].apply(this, Array.prototype.slice.call(arguments, 1))
+  }
+  return list.length > 0;
+}
+
+proto.addListener = addListener;
+proto.removeAllListeners = removeAllListeners;
+proto.removeListener = removeListener;
+proto.listeners = listeners;
+proto.emit = emit;
+// jquery style alias: one()
+proto.once = proto.one = once;
+
+// aliases
+proto.on = proto.addListener;
+proto.off = proto.removeListener;
+
+module.exports = EventEmitter;
+
+},{}],32:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1623,7 +2077,7 @@ module.exports = function() {
   this.vivify = vivify;
 }
 
-},{}],26:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1643,7 +2097,7 @@ module.exports = function() {
   this.fadeIn = fadeIn;
 }
 
-},{}],27:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = function() {
 
   /**
@@ -1663,13 +2117,27 @@ module.exports = function() {
   this.fadeOut = fadeOut;
 }
 
-},{}],28:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
+var $ = require('air')
+  , EventEmitter = require('emanate');
+
+/**
+ *  Generic abstract class.
+ */
+function Abstract(opts) {
+  this.opts = opts;
+  this.notifier = opts.notifier;
+}
+
+$.inherit(Abstract, EventEmitter);
+
+module.exports = Abstract;
+
+
+},{"air":"air","emanate":31}],36:[function(require,module,exports){
 "use strict"
 
 var $ = require('air')
-  , Schema = require('async-validate')
-  , descriptor = require('../../lib/schema/quote')
-  , Love = require('./love');
 
 $.plugin(
   [
@@ -1681,16 +2149,23 @@ $.plugin(
     require('air/create'),
     require('air/css'),
     require('air/data'),
+    require('air/disabled'),
     require('air/event'),
     //require('air/filter'),
     require('air/find'),
     //require('air/first'),
     require('air/html'),
+    require('air/hidden'),
+    require('air/inherit'),
     require('air/parent'),
+    require('air/prepend'),
     require('air/request'),
     require('air/remove'),
-    //require('air/template'),
+    require('air/template'),
     require('air/text'),
+
+    require('air/ui/dialog'),
+
     //require('air/val')
     require('vivify'),
     //require('vivify/burst'),
@@ -1700,129 +2175,91 @@ $.plugin(
   ]
 )
 
+var EventEmitter = require('emanate')
+  , Schema = require('async-validate')
+  , descriptor = require('../../lib/schema/quote')
+  , QuoteModel = require('./model/quote')
+  , LoveModel = require('./model/love')
+  , StarModel = require('./model/star')
+  , LoveCount = require('./love-count')
+  , StarCount = require('./star-count')
+  , refresh = require('./refresh')
+  , Stars = require('./stars');
+
 /**
  *  Spiritualisms client-side application.
  */
 function Application(opts) {
-  var supported = typeof XMLHttpRequest !== 'undefined';
+  var supported = typeof XMLHttpRequest !== 'undefined'
+    && window.localStorage;
 
   // NOTE: show browser warning for styling
   //supported = false;
 
   opts = opts || {};
+  opts.model = {
+    quote: new QuoteModel(opts),
+    love: new LoveModel(opts),
+    star: new StarModel(opts)
+  }
   this.opts = opts;
+  this.opts.notifier = this.notifier = new EventEmitter();
+
   this.validator = new Schema(descriptor);
-  this.love = new Love(opts);
+
+  this.love = new LoveCount(opts);
+  this.star = new StarCount(opts);
+  this.stars = new Stars(opts);
 
   if(!supported) {
-    $('.browser-update').css({display: 'block'});
+    var notice = $('.browser-update');
+    notice.css({display: 'block'}).fadeIn();
+    if(document.location.pathname === '/home') {
+      notice.css({top: '0'});
+    }
+  }else{
+    this.notifier.emit('love/update');
+    this.notifier.emit('star/update');
+    $('a.refresh').on('click', refresh.bind(this));
   }
 
-  $('a.refresh').on('click', random.bind(this));
-}
-
-/**
- *  Load a new random quote.
- */
-function random(e) {
-  e.preventDefault();
-
-  var love = this.love
-    , icon = $(e.target).find('i')
-    , container = $('.quotation')
-    , start = new Date().getTime()
-    , doc = false;
-
-  function render() {
-    if(doc) {
-      container.data('id', doc.id);
-
-      // clone to remove events
-      var tools = container.find('nav.toolbar')
-      var toolbar = tools.clone(true);
-      toolbar.find('span').remove();
-      // append clone
-      tools.parent().append(toolbar);
-      // remove original
-      tools.remove();
-
-      love.init();
-      love.fetch([doc.id]);
-      container.find('blockquote').text(doc.quote);
-      container.find('cite').html('&#151; ')
-        .append(
-          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
-        ).text(doc.author));
-
-      var nav = container.find('nav')
-        , href = '/explore/' + doc.id;
-      nav.find('a.love, a.star, a.permalink').attr({href: href});
-      container.fadeIn(function() {
-        container.css({opacity: 1}); 
-      });
-    }
-  }
-
-  function onResponse(err, res) {
-    var duration = new Date().getTime() - start;
-    if(err) {
-      return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
-    }
-
-    //container.css({display: 'none'});
-
-    function complete() {
-      icon.removeClass('fa-spin');
-      render();
-    }
-
-    // animation completed before load: 1s animation
-    if(duration >= 1000) {
-      complete(); 
-    }else{
-      setTimeout(complete, 1000 - duration);
-    }
-  }
-
-  $.request({url: this.opts.api + '/quote/random'}, onResponse.bind(this));
-
-  icon.addClass('fa-spin');
-  container.fadeOut(function() {
-    container.find('a.love span').text('');
-    container.css(
-      {
-        opacity: 0,
-      }
-    ); 
-  });
 }
 
 module.exports = Application;
 
-},{"../../lib/schema/quote":1,"./love":29,"air":"air","air/append":3,"air/attr":4,"air/class":5,"air/clone":6,"air/create":7,"air/css":8,"air/data":9,"air/event":10,"air/find":11,"air/html":12,"air/parent":13,"air/remove":14,"air/request":15,"air/text":16,"async-validate":21,"vivify":25,"vivify/fade-in":26,"vivify/fade-out":27}],29:[function(require,module,exports){
-var $ = require('air');
+},{"../../lib/schema/quote":23,"./love-count":41,"./model/love":43,"./model/quote":44,"./model/star":46,"./refresh":47,"./star-count":48,"./stars":49,"air":"air","air/append":2,"air/attr":3,"air/class":4,"air/clone":5,"air/create":6,"air/css":7,"air/data":8,"air/disabled":9,"air/event":10,"air/find":11,"air/hidden":12,"air/html":13,"air/inherit":14,"air/parent":15,"air/prepend":16,"air/remove":17,"air/request":18,"air/template":19,"air/text":20,"air/ui/dialog":21,"async-validate":27,"emanate":31,"vivify":32,"vivify/fade-in":33,"vivify/fade-out":34}],37:[function(require,module,exports){
+var $ = require('air')
+  , Abstract = require('./abstract');
 
 /**
- *  Render the love counters.
+ *  Abstract class for the love and star counters.
  */
-function render(doc) {
-  var ids = Object.keys(doc);
-  ids.forEach(function(id) {
-    var el = $('.quotation[data-id="' + id + '"]')
-      , txt = el.find('a.love span');
-    if(!txt.length) {
-      el.find('a.love').append($.create('span'));
-    }
-    if(doc[id]) {
-      el.find('a.love span').addClass('love').text('' + doc[id]);
-    }
-  })
+function Counter() {
+  Abstract.apply(this, arguments);
+  this.notifier.on(this.id + '/update', this.update.bind(this));
+}
+
+$.inherit(Counter, Abstract);
+
+function update(ids) {
+  this.init();
+  this.fetch(ids);
 }
 
 /**
- *  Loads the love counters for all quotes.
+ *  Initialize the event handlers.
+ */
+function init() {
+  this.quotes = $('.quotation[data-id]');
+  function it(el) {
+    el = $(el);
+    this.onInit(el, el.data('id'));
+  }
+  this.quotes.each(it.bind(this));
+}
+
+/**
+ *  Loads the counters for all quotes.
  */
 function fetch(ids) {
   if(!ids) {
@@ -1838,23 +2275,452 @@ function fetch(ids) {
   }
 
   function onResponse(err, res) {
-    var doc;
-    if(err) {
-      return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
-    }
-    //console.log(doc);
-    render(doc);
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.render(res.body);
   }
-  var opts = {
-    url: this.opts.api + '/quote/love',
-    method: 'POST',
-    json: true,
-    body: ids
-  };
 
-  $.request(opts, onResponse.bind(this));
+  this.model.load(ids, onResponse.bind(this));
+}
+
+/**
+ *  Render the counters.
+ */
+function render(doc) {
+  var ids = Object.keys(doc);
+  function it(id) {
+    var el = $('.quotation[data-id="' + id + '"]')
+      , txt = el.find(this.counter)
+      , count = sanitize(doc[id]);
+
+    el.data(this.id, count);
+
+    if(!txt.length) {
+      el.find(this.link).append($.create('span'));
+    }
+
+    if(doc[id]) {
+      txt = el.find(this.counter);
+      txt.addClass(this.id + ' counter').text(count);
+    }
+
+    el.attr({href: '/explore/' + id})
+  }
+  ids.forEach(it.bind(this));
+}
+
+function sanitize(amount) {
+  if(amount < 1000) {
+    return '' + amount; 
+  }
+  var val = (amount / 1000).toFixed(1) + 'k';
+  return val;
+}
+
+[update, init, fetch, render].forEach(function(m) {
+  Counter.prototype[m.name] = m;
+});
+
+module.exports = Counter;
+
+},{"./abstract":35,"air":"air"}],38:[function(require,module,exports){
+var $ = require('air');
+
+function dismiss() {
+  $('[href="#dismiss"]').on('click', function(e) {
+    e.preventDefault();
+    var p = $(e.currentTarget).parent(); 
+    p.fadeOut(function() {
+      p.remove(); 
+    })
+  })
+}
+
+module.exports = dismiss;
+
+},{"air":"air"}],39:[function(require,module,exports){
+var $ = require('air')
+  , dismiss = require('./dismiss');
+
+/**
+ *  Show an error message to the user.
+ */
+function error(msg, target) {
+  target = target || $('section');
+  var err = $.partial('.msg.error').clone(true);
+  err.find('p').text(msg);
+  target.prepend(err).fadeIn();
+  dismiss();
+}
+
+module.exports = error;
+
+},{"./dismiss":38,"air":"air"}],40:[function(require,module,exports){
+var $ = require('air')
+  , error = require('./error')
+  , unique = require('./unique')
+  , Abstract = require('./abstract');
+
+/**
+ *  Encapsulates the logic for importing stars into the 
+ *  local storage model.
+ */
+function Import() {
+  Abstract.apply(this, arguments);
+
+  this.reset();
+
+  this.model = this.opts.model.star;
+
+  var link = $('a.import');
+
+  if(!window.FileList || !window.FileReader) {
+    link.hide();
+  }else{
+    link.on('click', showDialog.bind(this));
+  }
+}
+
+/**
+ *  Show the import dialog.
+ */ 
+function showDialog() {
+  var opts = {
+    el: $.partial('.dialog.import'),
+    remove: false,
+    modal: false
+  };
+  this.dialog = $.dialog(opts, onDismiss.bind(this));
+  var chooser = $('#chooser')
+    , label = $('[for="chooser"]');
+  chooser.on('change', change.bind(this));
+
+  // drag drop handlers
+  label.on('drop', drop.bind(this), false);
+  label.on('dragover', dragOver, false);
+  label.on('dragleave', dragLeave, false);
+}
+
+/**
+ *  Handle drag over event.
+ */
+function dragOver(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+  var el = $(e.currentTarget);
+  el.addClass('dragover');
+}
+
+/**
+ *  Handle drag leave event.
+ */
+function dragLeave(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  var el = $(e.currentTarget);
+  el.removeClass('dragover');
+}
+
+/**
+ *  Handle file drop event.
+ */
+function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  this.load(e.dataTransfer.files);
+}
+
+/**
+ *  Respond to the dialog event.
+ */
+function onDismiss(res) {
+
+  var finish = (function done() {
+    // reset state
+    this.reset();
+    // dismiss the dialog
+    res.remove();
+  }).bind(this);
+
+  // user dismissed the dialog
+  if(!res.accepted) {
+    finish();
+    return res.remove(); 
+  }
+
+  //console.log('perform import');
+  //console.log(this.info);
+
+  function onIncrement(/*err, res*/) {
+
+    // update the list of model identifers
+    var ids = this.model.read().concat(this.info.diff);
+    this.model.write(ids);
+
+    // redraw the list of starred quotes
+    this.notifier.emit('stars/list');
+    this.notifier.emit('stars/total');
+
+    finish();
+  }
+
+  if(this.info.diff.length) {
+    this.model.incr(this.info.diff, onIncrement.bind(this));
+  }else{
+    finish();
+  }
+}
+
+/**
+ *  Remove previous error messages.
+ */
+function removeErrors() {
+  // dismiss any previous errors
+  $('.choose .msg.error').remove();
+}
+
+/**
+ *  Reset list of documents for another import.
+ */
+function reset() {
+  this.info = {
+    duplicates: [],
+    missing: [],
+    diff: []
+  }
+
+  this.documents = [];
+}
+
+/**
+ *  Perform the import from the documents array.
+ */
+function process() {
+  var doc = []
+    , info = this.info
+    , stars = this.model.read();
+
+  // take all loaded documents and put them
+  // in a single array
+  this.documents.forEach(function(d) {
+    doc = doc.concat(d);
+  })
+
+  // with unique entries
+  //
+  // can have multiple entries if the user
+  // chooses the same document multiple times
+  // one after the other, ie: select `stars.json`
+  // select `other-stars.json` and then select
+  // `stars.json` again
+  doc = unique(doc);
+
+  // check for duplicate identifiers
+  doc.forEach(function(id) {
+    if(~stars.indexOf(id)) {
+      return info.duplicates.push(id); 
+    } 
+    info.diff.push(id);
+  })
+
+  function onFilter(err, res) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+
+    // array of identifiers that are valid (exist in the db)
+    var exists = res.body
+      , id
+      , i;
+
+    // remove bad identifiers from the diff and 
+    // add them to the missing info array
+    for(i = 0;i < info.diff.length;i++) {
+      id = info.diff[i];
+      if(!~exists.indexOf(id)) {
+        info.missing.push(id);
+        info.diff.splice(i, 1); 
+        i--;
+      }
+    }
+  
+    this.summary(this.info);
+  }
+
+  // check for missing quotes (bad quote identifiers)
+  this.opts.model.quote.filter(info.diff, onFilter.bind(this));
+}
+
+/**
+ *  Show the processing summary.
+ */
+function summary(info) {
+  var list = $.el('ul')
+    , link = $('[href="#ok"]');
+
+  list.addClass('summary');
+
+  // clean any previous summary
+  $('.choose').find('ul.summary').remove();
+
+  if(info.missing.length) {
+    list.append($.el('li').text(
+      info.missing.length + ' stars missing').addClass('missing'));
+  }
+
+  if(info.duplicates.length) {
+    list.append($.el('li').text(
+      info.duplicates.length + ' duplicate stars').addClass('duplicate'));
+  }
+
+  this.dialog.find('.choose').append(list);
+
+  if(info.diff.length) {
+    list.append($.el('li').text(
+      info.diff.length + ' new stars').addClass('new'));
+    link.text('Import ' + info.diff.length + ' stars');
+  }else{
+    link.text('Nothing to import!'); 
+  }
+  
+  link.enable();
+}
+
+/**
+ *  Handle file choose dialog change.
+ */
+function change(e) {
+  e.preventDefault();
+  var files = e.target.files
+    , file = files[0];
+
+  // user likely dismissed the choose file dialog
+  if(!file) {
+    return; 
+  }
+
+  this.load(files);
+}
+
+/**
+ *  Displays the file names and loads the file contents.
+ */
+function load(files) {
+  var i
+    , file
+    , list = $('ul.filenames');
+
+  // show file name list
+  for(i = 0;i < files.length;i++) {
+    file = files.item(i); 
+    list.append($.el('li').text(file.name));
+  }
+
+  this.each(files);
+}
+
+/**
+ *  Iterate and read all files.
+ */
+function each(files, index) {
+  index = index || 0;
+  var file = files[index];
+
+  function onRead(err, doc) {
+    if(err) {
+      removeErrors();
+      return error(err.message, this.dialog.find('.choose'));
+    } 
+
+    removeErrors();
+    this.documents.push(doc);
+
+    // keep iterating
+    if(index < (files.length - 1)) {
+      return this.each(files, ++index);
+    }
+
+    this.process();
+  }
+
+  read(file, onRead.bind(this));
+}
+
+/**
+ *  Read the file content as text.
+ */
+function read(file, cb) {
+  var reader = new FileReader();
+  reader.onerror = function(err) {
+    cb(err);
+  }
+
+  reader.onload = function() {
+    var doc;
+    try {
+      doc = JSON.parse(this.result); 
+    }catch(e) {
+      return cb(new Error(
+        'Cannot import document, invalid JSON.'));
+    }
+
+    if(!Array.isArray(doc)) {
+      return cb(new Error(
+        'Cannot import document, expected JSON array.'));
+    }
+
+    for(var i = 0;i < doc.length;i++) {
+      if(typeof doc[i] !== 'string') {
+        return cb(new Error(
+          'Cannot import document, expected array of strings.'));
+      } 
+    }
+    cb(null, doc);
+  }
+  reader.readAsText(file);
+}
+
+Import.prototype.process = process;
+
+[process, summary, reset, load, each].forEach(function(m) {
+  Import.prototype[m.name] = m;
+});
+
+module.exports = Import;
+
+},{"./abstract":35,"./error":39,"./unique":50,"air":"air"}],41:[function(require,module,exports){
+var $ = require('air')
+  , Counter = require('./counter');
+
+/**
+ *  Logic for rendering the love counters.
+ */
+function LoveCount(opts) {
+
+  // id for event prefixes, data attr and class name
+  this.id = 'love';
+
+  // link selector
+  this.link = 'a.love';
+
+  // counter display selector
+  this.counter = 'a.love span';
+
+  // must configure model before calling super
+  this.model = opts.model.love;
+
+  Counter.apply(this, arguments);
+
+}
+
+$.inherit(LoveCount, Counter);
+
+/**
+ *  Add the link event handlers on initialization.
+ */
+function onInit(container, id) {
+  var show = this.show.bind(this, id);
+  container.find(this.link).on('click', show);
 }
 
 /**
@@ -1863,58 +2729,711 @@ function fetch(ids) {
 function show(id, e) {
   e.preventDefault();
   function onResponse(err, res) {
-    var doc;
-    if(err) {
-      return console.error(err); 
-    }else if(res) {
-      doc = JSON.parse(res); 
-    }
-    render(doc);
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.render(res.body);
   }
-  var opts = {
-    url: this.opts.api + '/quote/' + id + '/love',
-    method: 'POST'
-  };
-
-  $.request(opts, onResponse.bind(this));
+  this.model.show(id, onResponse.bind(this));
 }
 
-function init() {
-  var scope = this;
-  this.quotes = $('.quotation[data-id]');
-  this.quotes.each(function(el) {
-    el = $(el);
-    var id = el.data('id');
-    var show = scope.show.bind(scope, id);
-    el.find('a.love').on('click', show);
-  })
+[onInit, show].forEach(function(m) {
+  LoveCount.prototype[m.name] = m;
+});
+
+module.exports = LoveCount;
+
+},{"./counter":37,"air":"air"}],42:[function(require,module,exports){
+var Application = require('./app');
+module.exports = new Application(window.app);
+
+},{"./app":36}],43:[function(require,module,exports){
+var $ = require('air')
+  , onResponse = require('./response');
+
+/**
+ *  Represents the love counter operations.
+ */
+function LoveModel(opts) {
+  this.opts = opts;
 }
 
 /**
- *  Love handlers.
+ *  Increment the love counter for an identifier.
  */
-function Love(opts) {
-  this.opts = opts;
-  //this.render = render.bind(this);
-  //this.fetch = fetch.bind(this);
-  //this.init = init.bind(this);
-  this.init();
-  this.fetch();
+function show(id, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/' + id + '/love',
+    json: true,
+    method: 'POST'
+  };
+  $.request(opts, onResponse.bind(this, cb));
 }
 
-[render, fetch, init, show].forEach(function(m) {
-  Love.prototype[m.name] = m;
+/**
+ *  Load the love counters for an array of identifiers.
+ */
+function load(ids, cb) {
+
+  var opts = {
+    url: this.opts.api + '/quote/love',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+[show, load].forEach(function(m) {
+  LoveModel.prototype[m.name] = m;
 });
 
-module.exports = Love;
+module.exports = LoveModel;
 
-},{"air":"air"}],30:[function(require,module,exports){
-/* jshint ignore:start */
-var Application = require('./app');
-module.exports = new Application(window.app);
-/* jshint ignore:end */
+},{"./response":45,"air":"air"}],44:[function(require,module,exports){
+var $ = require('air')
+  , onResponse = require('./response');
 
-},{"./app":28}],"air":[function(require,module,exports){
+/**
+ *  Represents the model for quote documents.
+ */
+function QuoteModel(opts) {
+  opts = opts || {};
+  this.opts = opts;
+}
+
+/**
+ *  Get list of documents by array of identifiers.
+ */
+function list(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Filter array of document identifiers.
+ */
+function filter(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/filter',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+[
+  list, filter
+].forEach(function(m) {
+  QuoteModel.prototype[m.name] = m;
+});
+
+module.exports = QuoteModel;
+
+},{"./response":45,"air":"air"}],45:[function(require,module,exports){
+/**
+ *  Generic model api response handler.
+ */
+function onResponse(cb, err, res) {
+  if(err) {
+    return console.error(err); 
+  }
+  cb(null, res);
+}
+
+module.exports = onResponse;
+
+},{}],46:[function(require,module,exports){
+var $ = require('air')
+  , onResponse = require('./response');
+
+/**
+ *  Represents the local storage model for user's stars.
+ */
+function StarModel(opts) {
+  opts = opts || {};
+  this.storage = localStorage;
+  this.key = opts.key || 'stars';
+  this.file = opts.file || 'stars.json';
+  this.opts = opts;
+}
+
+/**
+ *  Save the array of identifiers as a file to disc.
+ */
+function save() {
+  var blob = new Blob(
+    [JSON.stringify(this.read(), undefined, 2)], {type: 'application/json'});
+  // requires file-saver.js to be loaded
+  window.saveAs(blob, this.file, true);
+}
+
+/**
+ *  Read the identifier array from local storage.
+ */
+function read() {
+  var ids = localStorage.getItem(this.key);
+  if(ids) {
+    try {
+      ids = JSON.parse(ids); 
+    }catch(e) {
+      ids = [];
+    }
+  }
+  return ids || [];
+}
+
+/**
+ *  Add an identifier to the array.
+ */
+function add(id) {
+  var ids = this.read();
+  if(!~ids.indexOf(id)) {
+    ids.push(id); 
+    this.write(ids);
+  }
+  return ids;
+}
+
+/**
+ *  Remove an identifier from the array.
+ */
+function remove(id) {
+  var ids = this.read()
+    , ind = ids.indexOf(id);
+  if(~ind) {
+    ids.splice(ind, 1);
+    this.write(ids);
+  }
+  return ids;
+}
+
+/**
+ *  Delete all identifiers from the array.
+ */
+function clear() {
+  localStorage.removeItem(this.key);
+}
+
+/**
+ *  Write an array of identifiers to local storage.
+ */
+function write(ids) {
+  ids = ids || [];
+  localStorage.setItem(this.key, JSON.stringify(ids));
+}
+
+/**
+ *  Determine if an identifier already exists.
+ */
+function has(id) {
+  var ids = this.read();
+  return Boolean(~ids.indexOf(id));
+}
+
+/**
+ *  Count the number of stars for this user.
+ */
+function length() {
+  var ids = this.read();
+  return ids.length;
+}
+
+/**
+ *  Get star counters for an array of document identifiers.
+ */
+function load(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/star',
+    method: 'POST',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Increment the server-side star counter.
+ */
+function incr(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/star',
+    method: 'PUT',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+/**
+ *  Decrement the server-side star counters.
+ */
+function decr(ids, cb) {
+  var opts = {
+    url: this.opts.api + '/quote/star',
+    method: 'DELETE',
+    json: true,
+    body: ids
+  };
+  $.request(opts, onResponse.bind(this, cb));
+}
+
+[
+  save, read, write, add, remove, has, clear, length, incr, decr, load 
+].forEach(function(m) {
+  StarModel.prototype[m.name] = m;
+});
+
+module.exports = StarModel;
+
+},{"./response":45,"air":"air"}],47:[function(require,module,exports){
+var $ = require('air');
+
+/**
+ *  Load a new random quote.
+ */
+function refresh(e) {
+  e.preventDefault();
+
+  var last = $('.quotation').data('id')
+    , icon = $(e.currentTarget).find('i')
+    , container = $('.quotation')
+    , start = new Date().getTime()
+    , doc = false
+    , link = $('a.refresh')
+    , render;
+
+  link.disable();
+
+  function update() {
+    if(doc) {
+      container.data('id', doc.id);
+
+      var tools = container.find('nav.toolbar')
+
+      // clone to remove events
+      var toolbar = tools.clone(true);
+      toolbar.find('span').remove();
+
+      // append clone
+      tools.parent().append(toolbar);
+      // remove original
+      tools.remove();
+
+      // update star/love counters
+      this.notifier.emit('star/update', [doc.id]);
+      this.notifier.emit('love/update', [doc.id]);
+
+      container.find('blockquote').text(doc.quote);
+      container.find('cite').html('&#8212; ')
+        .append(
+          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
+        ).text(doc.author));
+
+      var nav = container.find('nav')
+        , href = '/explore/' + doc.id;
+      nav.find('a.love, a.star, a.permalink').attr({href: href});
+      container.fadeIn(function() {
+        container.css({opacity: 1}); 
+        link.enable();
+      });
+    }
+  }
+
+  render = update.bind(this);
+
+  function onResponse(err, res) {
+    var duration = new Date().getTime() - start;
+    if(err) {
+      return console.error(err); 
+    }
+
+    doc = res.body;
+
+    function complete() {
+      icon.removeClass('fa-spin');
+      render();
+    }
+
+    // animation completed before load: 1s animation
+    if(duration >= 1000) {
+      complete(); 
+    }else{
+      setTimeout(complete, 1000 - duration);
+    }
+  }
+
+  var opts = {
+    url: this.opts.api + '/quote/random',
+    qs: {
+      last: last 
+    },
+    json: true
+  };
+
+  $.request(opts, onResponse.bind(this));
+
+  icon.addClass('fa-spin');
+  container.fadeOut(function() {
+    container.find('a.love span').text('');
+    container.css(
+      {
+        opacity: 0,
+      }
+    ); 
+  });
+}
+
+module.exports = refresh;
+
+},{"air":"air"}],48:[function(require,module,exports){
+var $ = require('air')
+  , Counter = require('./counter');
+
+/**
+ *  Logic for rendering the star counters.
+ */
+function StarCount(opts) {
+
+  // id for event prefixes
+  this.id = 'star';
+
+  // link selector
+  this.link = 'a.star';
+
+  // counter display selector
+  this.counter = 'a.star span';
+
+  // must configure model before calling super
+  this.model = opts.model.star;
+
+  Counter.apply(this, arguments);
+
+  this.notifier.on('star/toggle', this.toggle.bind(this));
+  this.notifier.on('star/render', this.render.bind(this));
+}
+
+$.inherit(StarCount, Counter);
+
+/**
+ *  Add the link event handlers on initialization.
+ */
+function onInit(container, id) {
+  this.toggle(id, this.model.has(id));
+}
+
+/**
+ *  Toggle a star link view.
+ */
+function toggle(id) {
+
+  var unstar = this.model.has(id);
+
+  var add = this.add.bind(this, id)
+    , remove = this.remove.bind(this, id)
+    , el = $('.quotation[data-id="' + id + '"]')
+    , link = el.find('a.star');
+
+  if(unstar) {
+    $.swap(link, $.partial('a.unstar'));
+  }else{
+    $.swap(link, $.partial('a.star'));
+  }
+
+  // rewrote the DOM get the new reference
+  link = el.find('a.star');
+
+  // update listener
+  link.on('click', unstar ? remove : add);
+  // keep href in sync
+  link.attr({href: '/explore/' + id});
+}
+
+function add(id, e) {
+  e.preventDefault();
+  this.notifier.emit('star/add', id, e);
+}
+
+function remove(id, e) {
+  e.preventDefault();
+  this.notifier.emit('star/remove', id, e);
+}
+
+[onInit, toggle, add, remove].forEach(function(m) {
+  StarCount.prototype[m.name] = m;
+});
+
+module.exports = StarCount;
+
+},{"./counter":37,"air":"air"}],49:[function(require,module,exports){
+var $ = require('air')
+  , Abstract = require('./abstract')
+  , Import = require('./import');
+
+/**
+ *  Encapsulates the stars page functionality.
+ */
+function StarsPage(opts) {
+
+  Abstract.apply(this, arguments);
+
+  this.model = opts.model.star;
+  this.isStarPage = document.location.pathname === '/stars';
+
+  if(this.model.storage) {
+
+    this.importer = new Import(opts);
+
+    // keep in sync when storage changes
+    $(window).on('storage', onStorage.bind(this));
+
+    this.total();
+
+    $('.actions .export').on('click', save.bind(this));
+    $('.actions .clear').on('click', clear.bind(this));
+
+    this.notifier.on('star/add', this.add.bind(this));
+    this.notifier.on('star/remove', this.remove.bind(this));
+
+    this.notifier.on('stars/list', this.list.bind(this));
+    this.notifier.on('stars/total', this.total.bind(this));
+
+    if(this.isStarPage) {
+      $('header').find('a.stars').addClass('selected');
+      this.list();
+    }
+  }
+}
+
+$.inherit(StarsPage, Abstract);
+
+/**
+ *  Listen for the storage event.
+ *
+ *  Fires in the other tabs/windows.
+ */
+function onStorage(e) {
+  if(e.key === this.model.key) {
+    this.total();
+    if(this.isStarPage) {
+      this.list(); 
+    }else{
+      this.notifier.emit('star/update');
+    }
+  }
+}
+
+/**
+ *  Saves the array of identifiers as a JSON document.
+ */
+function save(e) {
+  e.preventDefault();
+  this.model.save();
+}
+
+/**
+ *  Removes all stars from the local storage.
+ */
+function clear(e) {
+  e.preventDefault();
+
+  if(!this.model.length()) {
+    return false;
+  }
+
+  function onResponse(/*err, res*/) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.model.clear();
+
+    // show initial message, remove listings etc.
+    this.list();
+
+    // update total display
+    this.total();
+  }
+
+  function onDismiss(res) {
+    if(res.accepted) {
+      this.model.decr(this.model.read(), onResponse.bind(this));
+    }
+  }
+
+  var opts = {
+    el: $.partial('.dialog.clear-all')
+  }
+
+  $.dialog(opts, onDismiss.bind(this));
+
+}
+
+/**
+ *  Add a star to the list of stars.
+ */
+function add(id, e) {
+  e.preventDefault();
+
+  if(this.model.has(id)) {
+    return false;
+  }
+
+  function onResponse(err, res) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.model.add(id);
+
+    this.total();
+
+    // switch link to unstar view
+    this.notifier.emit('star/toggle', id, true);
+
+    // must render counter after toggle
+    this.notifier.emit('star/render', res.body);
+  }
+
+  this.model.incr([id], onResponse.bind(this));
+}
+
+/**
+ *  Remove a star from the list of stars.
+ */
+function remove(id, e) {
+  e.preventDefault();
+
+  if(!this.model.has(id)) {
+    return false; 
+  }
+
+  function onResponse(err, res) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.model.remove(id);
+
+    this.total();
+
+    // switch link to unstar view
+    this.notifier.emit('star/toggle', id, false);
+
+    // must render counter after toggle
+    this.notifier.emit('star/render', res.body);
+
+    if(this.isStarPage) {
+      var el = $('.quotation[data-id="' + id + '"]');
+      el.remove();
+      if(!this.model.length()) {
+        this.empty(); 
+      }
+    }
+  }
+
+  this.model.decr([id], onResponse.bind(this));
+}
+
+
+/**
+ *  Render count total in main navigation.
+ */
+function total() {
+  var len = this.model.length()
+    , el = $('header');
+  if(len > 0) {
+    el.find('a.stars span').remove();
+    el.find('a.stars').append($.create('span'));
+    el.find('a.stars span').addClass('star').text('' + len);
+  }else{
+    el.find('a.stars span').remove();
+  }
+}
+
+/**
+ *  List stars.
+ *
+ *  Reads the list of identifiers and loads the documents from the 
+ *  server.
+ */
+function list() {
+  var ids = this.model.read().reverse();
+
+  function onResponse(err, res) {
+    // NOTE: errors currently handled by model
+    // NOTE: however follow idiomatic signature
+    this.listing(res.body);
+  }
+
+  // remove any listings
+  $('.listing > *').remove();
+
+  if(!ids.length) {
+    this.empty();
+  }else{
+    $('.empty').css({display: 'none'});
+    $('.actions .clear').enable();
+    this.opts.model.quote.list(ids, onResponse.bind(this));
+  }
+}
+
+/**
+ *  Show the empty listing view.
+ */
+function empty() {
+  $('.empty').css({display: 'block'});
+  $('.actions .export').disable();
+  $('.actions .clear').disable();
+}
+
+/**
+ *  Render the stars page listing.
+ */
+function listing(result) {
+  var container = $('section.stars .listing');
+  result.rows.forEach(function(item) {
+    var doc = item.doc
+      , el = $.partial('.quotation.item').clone(true).data('id', doc.id);
+    el.find('blockquote').text(doc.quote);
+    var cite = el.find('cite');
+    cite.html('&#8212; ');
+    cite.append(
+        $.el('a',
+          {href: doc.link, title: doc.author + ' (' + doc.domain + ')'})
+            .text(doc.author)
+    );
+    el.find('nav.toolbar a').attr('href', '/explore/' + doc.id);
+    container.append(el);
+  })
+
+  // update counters after render
+  this.notifier.emit('love/update');
+  this.notifier.emit('star/update');
+}
+
+[
+  add, remove, list, total, listing, empty
+].forEach(
+  function(m) {
+    StarsPage.prototype[m.name] = m;
+  }
+);
+
+module.exports = StarsPage;
+
+},{"./abstract":35,"./import":40,"air":"air"}],50:[function(require,module,exports){
+function filter(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+function uniq(arr) {
+  return arr.filter(filter);
+}
+
+module.exports = uniq;
+
+},{}],"air":[function(require,module,exports){
 module.exports = require('./lib/air');
 
-},{"./lib/air":2}]},{},[30]);
+},{"./lib/air":1}]},{},[42]);
