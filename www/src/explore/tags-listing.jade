@@ -1,0 +1,13 @@
+extends ../layout
+
+include ../mixin/quote-toolbar
+include ../mixin/quote-listing
+
+block content
+  section.page
+    h2
+      a(href='/explore/tags', title='Explore tags') Tags
+      | &nbsp;/
+      | #{tag.length ? tag.substr(0,1).toUpperCase() + tag.substr(1) : tag}
+    .listing
+      +quote-listing(quotes)

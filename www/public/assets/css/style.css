@@ -2975,6 +2975,9 @@ nav.download {
   padding: 1rem 0 0 0;
   border-top: 1px solid #000;
 }
+nav.tags {
+  margin-top: 4rem;
+}
 nav.download {
   border-bottom: 1px solid #000;
   padding: 1rem 0;
@@ -3000,8 +3003,7 @@ section.page,
 .error pre,
 form,
 section h2,
-blockquote:not(.primary),
-.listing {
+blockquote:not(.primary) {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
@@ -3094,10 +3096,14 @@ em {
   font-style: normal;
   border-bottom: 1px dotted;
 }
-section.stars .empty {
-  display: none;
+.listing {
+  max-width: 92rem;
+  margin: auto;
 }
-.listing .quotation {
+.listing:not(.search-results) {
+  padding-bottom: 2rem;
+}
+.listing .quotation:not(:last-child) {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid #b3b3b3;
@@ -3113,6 +3119,9 @@ section.stars .empty {
 }
 .listing .quotation cite {
   font-size: 2.4rem;
+}
+section.stars .empty {
+  display: none;
 }
 section.stars .actions nav:first-child a:not(:last-child) {
   margin-right: 1rem;
@@ -3152,6 +3161,41 @@ label[for="chooser"] >div {
 }
 .footnote {
   font-size: 1.6rem;
+}
+.table {
+  display: table;
+}
+.cell {
+  display: table-cell;
+  width: 100%;
+  padding: 0;
+}
+form {
+  padding-bottom: 0;
+}
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+.all-tags {
+  font-size: 2.8rem;
+}
+form.search fieldset {
+  display: table-row;
+  width: 100%;
+}
+form.search fieldset >.cell:first-child {
+  padding-right: 1rem;
+}
+form.search fieldset input[type="search"] {
+  font-size: 2rem;
+  padding: 2rem 1rem;
+  margin-right: 12rem;
+  width: 100%;
+}
+.search-results >small {
+  display: block;
+  text-align: right;
 }
 .msg {
   position: relative;

@@ -1,9 +1,10 @@
 var path = require('path')
-  , url = require('url')
   , express = require('express')
   , app = express()
-  , env = require('nenv')()
+  , getViewInfo = require('./view-info')
+  , tags = require('./tags')
   , Quote = require('../lib/model/quote')
+  , Tag = require('../lib/model/tag')
   , formats = require('../lib/formats');
 
 app.set('view engine', 'jade');
@@ -33,22 +34,6 @@ function random(view, req, res, next) {
   })
 }
 
-/**
- *  Helper function to get default view information.
- */
-function getViewInfo(req) {
-  var o = {}
-    , uri = url.parse(req.url);
-
-  o.url = req.url;
-  o.uri = uri;
-  o.app = {
-    api: process.env.API || 'http://localhost:3001'
-  }
-  o.env = env;
-  return o;
-}
-
 app.get('/', function(req, res, next) {
   random('index', req, res, next);
 });
@@ -74,6 +59,8 @@ app.get('/explore', function(req, res, next) {
   });
 });
 
+tags(app);
+
 app.get('/explore/:id\.:ext?', function(req, res, next) {
     var quote = new Quote()
       , info = getViewInfo(req);
@@ -82,6 +69,7 @@ app.get('/explore/:id\.:ext?', function(req, res, next) {
         return next(err); 
       }
       info.doc = body;
+      info.doc.tags = Tag.convert(info.doc.tags);
       if(!req.params.ext) {
         res.render('quotation', info);
       }else{
@@ -123,6 +111,7 @@ app.all('*', function(req, res, next) {
 
 app.use(function(err, req, res, next) {
   var info = getViewInfo(req);
+  /* istanbul ignore next: assume internal server error */
   info.status = err.status || 500;
   info.message = err.message || err.reason;
   info.doc = err.doc;

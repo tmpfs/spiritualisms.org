@@ -70,6 +70,18 @@ describe('www:', function() {
     })
   })
 
+  it('should GET stars page', function(done) {
+    var opts = {
+      url: process.env.WWW + '/stars'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
+  // docs
   it('should GET contributing page', function(done) {
     var opts = {
       url: process.env.WWW + '/contributing'
@@ -77,6 +89,17 @@ describe('www:', function() {
     request(opts, function(err, res) {
       expect(err).to.eql(null);
       expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
+  it('should GET page not found', function(done) {
+    var opts = {
+      url: process.env.WWW + '/non-existent'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(404);
       done(); 
     })
   })

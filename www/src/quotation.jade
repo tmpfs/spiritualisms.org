@@ -2,6 +2,7 @@ extends layout
 
 include mixin/cite-primary
 include mixin/quote-toolbar
+include mixin/tag-list
 
 block content
   section.page.permalink
@@ -9,6 +10,12 @@ block content
       +quote-toolbar(doc)
       blockquote.primary #{doc.quote}
       +cite-primary(doc)
+      - if(doc.tags.rows.length) {
+        hr
+        nav.tags
+          | Tags:&nbsp;
+          +tag-list(doc.tags)
+      - }
       nav.download
         span 
           i.fa.fa-download
