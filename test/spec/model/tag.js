@@ -8,7 +8,7 @@ describe('tag model:', function() {
       , opts = {
         keys: ['food', 'love']
       };
-    tag.findByTag(opts, function(err, res, body) {
+    tag.findByTags(opts, function(err, res, body) {
       expect(err).to.eql(null);
       expect(res).to.be.an('object');
       expect(body).to.be.an('object');

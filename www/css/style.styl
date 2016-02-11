@@ -124,11 +124,10 @@ nav.toolbar a:not(:last-child) {
   margin-bottom: 4rem;
 }
 
-section.page, .error pre, form, section h2, blockquote:not(.primary), .listing {
+section.page, .error pre, form, section h2, blockquote:not(.primary)
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
-}
 
 section h2 {
   margin-top: 4rem;
@@ -237,6 +236,7 @@ em
   border-bottom: 1px dotted;
   //text-decoration: underline;
 
+@import 'listing';
 @import 'stars-page';
 
 [disabled]
@@ -268,17 +268,9 @@ fieldset
   margin: 0;
   padding: 0;
 
-form.tag-search
-  fieldset
-    display: table-row;
-    width: 100%;
-    >.cell:first-child
-      padding-right: 1rem;
-    input[type="search"]
-      font-size: 2rem;
-      padding 2rem 1rem;
-      margin-right: 12rem;
-      width: 100%;
+.all-tags
+  font-size: 2.8rem;
 
+@import 'search';
 @import 'message';
 @import 'footer';

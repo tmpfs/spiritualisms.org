@@ -3003,8 +3003,7 @@ section.page,
 .error pre,
 form,
 section h2,
-blockquote:not(.primary),
-.listing {
+blockquote:not(.primary) {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
@@ -3097,10 +3096,14 @@ em {
   font-style: normal;
   border-bottom: 1px dotted;
 }
-section.stars .empty {
-  display: none;
+.listing {
+  max-width: 92rem;
+  margin: auto;
 }
-.listing .quotation {
+.listing:not(.search-results) {
+  padding-bottom: 2rem;
+}
+.listing .quotation:not(:last-child) {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid #b3b3b3;
@@ -3116,6 +3119,9 @@ section.stars .empty {
 }
 .listing .quotation cite {
   font-size: 2.4rem;
+}
+section.stars .empty {
+  display: none;
 }
 section.stars .actions nav:first-child a:not(:last-child) {
   margin-right: 1rem;
@@ -3171,18 +3177,25 @@ fieldset {
   margin: 0;
   padding: 0;
 }
-form.tag-search fieldset {
+.all-tags {
+  font-size: 2.8rem;
+}
+form.search fieldset {
   display: table-row;
   width: 100%;
 }
-form.tag-search fieldset >.cell:first-child {
+form.search fieldset >.cell:first-child {
   padding-right: 1rem;
 }
-form.tag-search fieldset input[type="search"] {
+form.search fieldset input[type="search"] {
   font-size: 2rem;
   padding: 2rem 1rem;
   margin-right: 12rem;
   width: 100%;
+}
+.search-results >small {
+  display: block;
+  text-align: right;
 }
 .msg {
   position: relative;
