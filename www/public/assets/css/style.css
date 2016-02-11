@@ -3127,6 +3127,9 @@ label[for="chooser"] {
   display: table;
   width: 100%;
 }
+label[for="chooser"].dragover {
+  background: #93a1a1;
+}
 label[for="chooser"] >div {
   display: table-cell;
   vertical-align: middle;

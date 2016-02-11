@@ -33,8 +33,44 @@ function showDialog() {
     modal: false
   };
   this.dialog = $.dialog(opts, onDismiss.bind(this));
-  var chooser = $('#chooser');
+  var chooser = $('#chooser')
+    , label = $('[for="chooser"]');
   chooser.on('change', change.bind(this));
+
+  // drag drop handlers
+  label.on('drop', drop.bind(this), false);
+  label.on('dragover', dragOver, false);
+  label.on('dragleave', dragLeave, false);
+}
+
+/**
+ *  Handle drag over event.
+ */
+function dragOver(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+  var el = $(e.currentTarget);
+  el.addClass('dragover');
+}
+
+/**
+ *  Handle drag leave event.
+ */
+function dragLeave(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  var el = $(e.currentTarget);
+  el.removeClass('dragover');
+}
+
+/**
+ *  Handle file drop event.
+ */
+function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  this.load(e.dataTransfer.files);
 }
 
 /**
@@ -55,8 +91,8 @@ function onDismiss(res) {
     return res.remove(); 
   }
 
-  console.log('perform import');
-  console.log(this.info);
+  //console.log('perform import');
+  //console.log(this.info);
 
   function onIncrement(/*err, res*/) {
 
@@ -212,19 +248,16 @@ function change(e) {
  *  Displays the file names and loads the file contents.
  */
 function load(files) {
-  //$('.filename').show().text(file.name);
-  //
-
-
   var i
     , file
     , list = $('ul.filenames');
+
+  // show file name list
   for(i = 0;i < files.length;i++) {
     file = files.item(i); 
     list.append($.el('li').text(file.name));
   }
 
-  // TODO: show file name list
   this.each(files);
 }
 
