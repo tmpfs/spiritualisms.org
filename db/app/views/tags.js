@@ -5,11 +5,12 @@ module.exports = {
       && doc.publish === true
       && Array.isArray(doc.tags)) {
       doc.tags.forEach(function(tag){
-        emit(tag); 
+        emit(tag, 1); 
       })
-      //emit(doc._id, null);
     }
   },
-  reduce: '_count'
+  reduce: function(keys, values) {
+    return sum(values); 
+  }
 }
 /* jshint ignore:end */
