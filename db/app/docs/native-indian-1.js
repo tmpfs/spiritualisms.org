@@ -6,7 +6,6 @@ module.exports = {
   author: 'Native Indian',
   anonymous: true,
   link: 'https://en.wikipedia.org/wiki/Native_Indian',
-  title: 'Native Indian',
   domain: 'en.wikipedia.org',
   created: new Date().getTime(),
   random: Math.random(),

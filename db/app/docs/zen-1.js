@@ -6,7 +6,6 @@ module.exports = {
   author: 'Zen Master',
   anonymous: true,
   link: 'https://en.wikipedia.org/wiki/Zen',
-  title: 'Zen',
   domain: 'en.wikipedia.org',
   created: new Date().getTime(),
   random: Math.random(),
