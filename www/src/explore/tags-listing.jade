@@ -6,7 +6,8 @@ block content
   section.browse.page
     h2
       a(href='/explore/tags', title='Explore tags') Tags
-      | &nbsp;/ #{tag}
+      | &nbsp;/
+      | #{tag.length ? tag.substr(0,1).toUpperCase() + tag.substr(1) : tag}
     .listing
       - var rows = quotes.rows, doc;
       - for(var i = 0;i < rows.length;i++) {
