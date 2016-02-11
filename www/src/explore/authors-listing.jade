@@ -8,6 +8,6 @@ block content
     h2
       a(href='/explore/authors', title='Explore authors') Authors
       | &nbsp;/
-      | #{author.length ? author.substr(0,1).toUpperCase() + author.substr(1) : author}
+      | #{author}
     .listing
       +quote-listing(quotes)

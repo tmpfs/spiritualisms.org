@@ -48,7 +48,7 @@ function routes(app) {
     var tag = new Tag()
       , info = getViewInfo(req);
 
-    info.tag = req.params.tag;
+    info.tag = Tag.titleCase(req.params.tag);
 
     tag.findByTags({keys: [req.params.tag]}, function(err, response, body) {
       if(err) {

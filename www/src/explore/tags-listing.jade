@@ -8,6 +8,6 @@ block content
     h2
       a(href='/explore/tags', title='Explore tags') Tags
       | &nbsp;/
-      | #{tag.length ? tag.substr(0,1).toUpperCase() + tag.substr(1) : tag}
+      | #{tag}
     .listing
       +quote-listing(quotes)

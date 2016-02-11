@@ -48,7 +48,7 @@ function routes(app) {
     var author = new Author()
       , info = getViewInfo(req);
 
-    info.author = req.params.author;
+    info.author = Author.titleCase(req.params.author);
 
     author.findByAuthors({keys: [req.params.author]},
       function(err, response, body) {
