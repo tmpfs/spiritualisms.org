@@ -4,7 +4,7 @@ if(!env.defined) {
 }
 
 // start the web server
-require('./server');
+require('./www-server');
 
 // start the api server
 require('./api-server');
