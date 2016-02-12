@@ -14,6 +14,7 @@ var path = require('path')
 function buffer(stream, cb) {
   var buf = new Buffer(0);
   var writable = new Writable();
+  //console.log(stream);
   writable._write = function(chunk, encoding, cb) {
     buf = Buffer.concat([buf, chunk], buf.length + chunk.length);
     cb();
@@ -149,8 +150,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
       return next(err); 
     }
 
-    // have to buffer stream for force download
-    // sadly pdfkit does not maintain a byte length
+    // have to buffer stream for force/fresh download on streams
     if((fresh || force) && ext === formats.PDF) {
       return buffer(buf.stream, function(err, buf) {
         if(err) {

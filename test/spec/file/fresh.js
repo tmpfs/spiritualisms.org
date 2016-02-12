@@ -117,4 +117,17 @@ describe('file (?fresh=1):', function() {
     })
   })
 
+  it('should GET jpg document', function(done) {
+    var opts = {
+      url: process.env.FILES + '/' + id + '.jpg?fresh=1'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      expect(parseInt(res.headers['content-length'])).to.be.gt(0);
+      expect(res.headers['content-type']).to.eql('image/jpg');
+      done(); 
+    })
+  })
+
 })
