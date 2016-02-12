@@ -194,10 +194,10 @@ app.get('/:id\.:ext?', function(req, res, next) {
       return sendBuffer(buf); 
     }
 
-    // TODO: get stats for first time creation
     if(info.stats) {
       formats.write(info, buf, onWrite);
     // need to get file stats for first time lazy creation
+    // after file is compiled
     }else{
       formats.write(info, buf, function(err) {
         if(err) {
@@ -274,6 +274,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
   });
 });
 
+// TODO: share these handlers with www-server
 app.all('*', function(req, res, next) {
   var err = new Error('not_found');
   err.status = 404;
