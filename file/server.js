@@ -31,6 +31,10 @@ function buffer(stream, cb) {
  *
  *  By design this does not use couchdb attachments as that would 
  *  create new revisions and increase the size of the database.
+ *
+ *  When no query parameters are specified if the file does not exist it 
+ *  is created and served to the client otherwise the version from disc is 
+ *  served.
  * 
  *  GET / serves an index listing of all quotes and download links.
  *
@@ -38,13 +42,17 @@ function buffer(stream, cb) {
  *
  *  GET /:id\.:ext? serves a file for download.
  *
- *  Query
+ *  Query Parameters
  *
- *  All file formats support the `fresh` query parameter which returns a 
- *  file based on the latest version of the document in the database.
+ *  The `fresh` query parameter returns a file based on the latest 
+ *  version of the document in the database, it does not serve files 
+ *  from disc.
+ *
+ *  The `force` parameter switches the content type to 
+ *  `application/octet-stream` and forces a download of the file.
  *
  *  For the .json file format a `pretty` query parameter will pretty print the 
- *  JSON document, this operation then becomes dynamic.
+ *  JSON document, this operation then becomes dynamic (implies `fresh`).
  */
 app.disable('x-powered-by');
 app.set('view engine', 'jade');
