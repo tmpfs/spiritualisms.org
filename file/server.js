@@ -129,7 +129,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
     }
 
     function sendBuffer(buf) {
-      setResponseHeaders();
+      setResponseHeaders(buf);
       if(typeof buf === 'object' && buf.stream) {
         buf.stream.pipe(res);
       }else{
@@ -152,7 +152,6 @@ app.get('/:id\.:ext?', function(req, res, next) {
       // have to buffer stream for force download
       // sadly pdfkit does not maintain a byte length
       if((fresh || force) && ext === formats.PDF) {
-        console.log('buffering pdf');
         return buffer(buf.stream, function(err, buf) {
           if(err) {
             return next(err);
@@ -161,7 +160,6 @@ app.get('/:id\.:ext?', function(req, res, next) {
           sendBuffer(buf); 
         }) 
       }
-
 
       if(fresh) {
         return sendBuffer(buf); 

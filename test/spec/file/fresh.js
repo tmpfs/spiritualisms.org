@@ -6,7 +6,7 @@ var fs = require('fs')
   , request = require('request')
   , id = 'gone';
 
-describe('file:', function() {
+describe('file (?fresh=1):', function() {
 
   // ensure files do not exist
   before(function(done) {
@@ -22,7 +22,7 @@ describe('file:', function() {
 
   it('should GET markdown document', function(done) {
     var opts = {
-      url: process.env.FILES + '/' + id + '.md'
+      url: process.env.FILES + '/' + id + '.md?fresh=1'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -36,7 +36,7 @@ describe('file:', function() {
 
   it('should GET text document', function(done) {
     var opts = {
-      url: process.env.FILES + '/' + id + '.txt'
+      url: process.env.FILES + '/' + id + '.txt?fresh=1'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -50,7 +50,7 @@ describe('file:', function() {
 
   it('should GET pdf document', function(done) {
     var opts = {
-      url: process.env.FILES + '/' + id + '.pdf'
+      url: process.env.FILES + '/' + id + '.pdf?fresh=1'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -64,7 +64,7 @@ describe('file:', function() {
 
   it('should GET json document', function(done) {
     var opts = {
-      url: process.env.FILES + '/' + id + '.json'
+      url: process.env.FILES + '/' + id + '.json?fresh=1'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -78,7 +78,7 @@ describe('file:', function() {
 
   it('should GET pretty json document', function(done) {
     var opts = {
-      url: process.env.FILES + '/' + id + '.json?pretty=1'
+      url: process.env.FILES + '/' + id + '.json?pretty=1&fresh=1'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -92,7 +92,7 @@ describe('file:', function() {
 
   it('should GET html document', function(done) {
     var opts = {
-      url: process.env.FILES + '/' + id + '.html'
+      url: process.env.FILES + '/' + id + '.html?fresh=1'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -106,7 +106,7 @@ describe('file:', function() {
 
   it('should GET xml document', function(done) {
     var opts = {
-      url: process.env.FILES + '/' + id + '.xml'
+      url: process.env.FILES + '/' + id + '.xml?fresh=1'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
