@@ -22,12 +22,9 @@ var path = require('path')
  *
  *  GET /:id\.:ext? serves a file for download.
  */
-
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, '/../www/src'));
-
 app.use(express.static(path.join(__dirname, '/../www/public')));
-
 app.use(slashes);
 
 /**
