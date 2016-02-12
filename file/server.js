@@ -35,6 +35,8 @@ function buffer(stream, cb) {
  *  When no query parameters are specified if the file does not exist it 
  *  is created and served to the client otherwise the version from disc is 
  *  served.
+ *
+ *  ## Routes
  * 
  *  GET / serves an index listing of all quotes and download links.
  *
@@ -42,7 +44,17 @@ function buffer(stream, cb) {
  *
  *  GET /:id\.:ext? serves a file for download.
  *
- *  Query Parameters
+ *  ## Extensions
+ *
+ *  - md
+ *  - txt
+ *  - pdf
+ *  - html
+ *  - json
+ *  - xml
+ *  - jpg
+ *
+ *  ## Query Parameters
  *
  *  The `fresh` query parameter returns a file based on the latest 
  *  version of the document in the database, it does not serve files 
@@ -53,6 +65,15 @@ function buffer(stream, cb) {
  *
  *  For the .json file format a `pretty` query parameter will pretty print the 
  *  JSON document, this operation then becomes dynamic (implies `fresh`).
+ *
+ *  Examples
+ *
+ *  - /docid.jpg
+ *  - /docid.pdf
+ *  - /docid.json?pretty=1
+ *  - /docid.txt?fresh=1
+ *  - /docid.xml?force=1
+ *  - /docid.html?fresh=1&force=1
  */
 app.disable('x-powered-by');
 app.set('view engine', 'jade');
