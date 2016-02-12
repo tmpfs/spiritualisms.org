@@ -24,8 +24,8 @@ var path = require('path')
  *
  *  Query
  *
- *  All file formats support the `fresh` query parameter which forces the 
- *  static file to be re-created and written to disc.
+ *  All file formats support the `fresh` query parameter which returns a 
+ *  file based on the latest version of the document in the database.
  *
  *  For the .json file format a `pretty` query parameter will pretty print the 
  *  JSON document, this operation then becomes dynamic.
@@ -65,37 +65,43 @@ app.get('/:id\.:ext?', function(req, res, next) {
       // file extensions
       , ext = req.params.ext;
 
+    function setResponseHeaders() {
+      // set content type header
+      res.set('content-type', formats.mime[ext]);
+    }
+
     function sendFile() {
-      //console.log('send file: ' + info.filepath);
+      setResponseHeaders();
 
       // TODO: add try/catch, EMFILE etc?
       var readable = fs.createReadStream(info.filepath);
-
       // TODO: log file stream errors
-
-      //readable.on('end', function() {
-        //console.log('file pipe ended'); 
-      //})
-
       readable.pipe(res);
+    }
+
+    function sendBuffer(buf) {
+      setResponseHeaders();
+      if(typeof buf === 'object' && buf.stream) {
+        buf.stream.pipe(res);
+      }else{
+        res.end(buf);
+      }
     }
 
     function onWrite(err) {
       if(err) {
         return next(err); 
       } 
-
       sendFile();
-
-      //console.log('written to disc');
-      //next();
     }
 
     function onCompile(err, buf) {
       if(err) {
         return next(err); 
       }
-
+      if(fresh) {
+        return sendBuffer(buf); 
+      }
       formats.write(info, buf, onWrite);
     }
 
@@ -139,11 +145,8 @@ app.get('/:id\.:ext?', function(req, res, next) {
           return next(err);
         }
 
-        // set content type header
-        res.set('content-type', formats.mime[ext]);
-
         if(ext === formats.JSON && pretty) {
-          return res.send(JSON.stringify(info.doc, undefined, 2));  
+          return sendBuffer(JSON.stringify(info.doc, undefined, 2));
         }
 
         info.filename = id + '.' + ext;
