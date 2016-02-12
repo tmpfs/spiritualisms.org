@@ -30,6 +30,7 @@ var path = require('path')
  *  For the .json file format a `pretty` query parameter will pretty print the 
  *  JSON document, this operation then becomes dynamic.
  */
+app.disable('x-powered-by');
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, '/../www/src'));
 app.use(express.static(path.join(__dirname, '/../www/public')));
@@ -56,6 +57,8 @@ app.get('/', function(req, res, next) {
 app.get('/:id\.:ext?', function(req, res, next) {
     var quote = new Quote()
       , info = getViewInfo(req)
+      // force download the file: octet-stream
+      , force = req.query.force
       // fresh dynamic response - latest (dynamic)
       , fresh = req.query.fresh
       // pretty print json output (dynamic)
@@ -65,14 +68,43 @@ app.get('/:id\.:ext?', function(req, res, next) {
       // file extensions
       , ext = req.params.ext;
 
-    function setResponseHeaders() {
-      // set content type header
-      res.set('content-type', formats.mime[ext]);
+    function setResponseHeaders(buf) {
+      var size = 0;
+
+      // string or buffer
+      if(buf && buf.length !== undefined) {
+        size = buf.length; 
+      }else{
+        // NOTE: info.size is for stream types (pdf)
+        // NOTE: when they are written first time around
+        // NOTE: the write logic keeps track of the bytes written
+        // NOTE: which saves an additional call to stat
+        size = info.size || info.stats.size;
+      }
+
+      //console.log('size: %s', size);
+
+      // force download
+      if(force) {
+        res.set('Content-Description', 'File Transfer');
+        res.set('Content-Type', 'application/octet-stream');
+        res.set('Content-Disposition', 'attachment; filename="'
+          + info.filename + '"'); 
+        res.set('Content-Transfer-Encoding','binary');
+        res.set('Connection', 'Keep-Alive');
+        res.set('Expires', '0');
+        res.set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+        res.set('Pragma', 'public');
+      }else{
+        // set content type header
+        res.set('Content-Type', formats.mime[ext]);
+      }
+
+      res.set('Content-Length', size);
     }
 
     function sendFile() {
       setResponseHeaders();
-
       // TODO: add try/catch, EMFILE etc?
       var readable = fs.createReadStream(info.filepath);
       // TODO: log file stream errors
@@ -80,7 +112,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
     }
 
     function sendBuffer(buf) {
-      setResponseHeaders();
+      setResponseHeaders(buf);
       if(typeof buf === 'object' && buf.stream) {
         buf.stream.pipe(res);
       }else{
@@ -102,12 +134,35 @@ app.get('/:id\.:ext?', function(req, res, next) {
       if(fresh) {
         return sendBuffer(buf); 
       }
-      formats.write(info, buf, onWrite);
+
+      // TODO: get stats for first time creation
+      if(info.stats) {
+        formats.write(info, buf, onWrite);
+      // need to get file stats for first time lazy creation
+      }else{
+        formats.write(info, buf, function(err) {
+          if(err) {
+            return next(err); 
+          } 
+          fs.stat(info.filepath, function(err, stats) {
+            if(err) {
+              return next(err); 
+            }
+            info.stats = stats;
+            onWrite();
+          })
+        });
+      }
     }
 
     // check if file exists
-    function exists(file) {
-      if(fresh || !file) {
+    function onStat(err, stats) {
+      var exists = !err && stats;
+      if(err && err.code !== 'ENOENT') {
+        return next(err); 
+      }
+      info.stats = stats;
+      if(fresh || !exists) {
         return formats.compile[ext](info, onCompile);
       }else{
         sendFile();
@@ -145,16 +200,17 @@ app.get('/:id\.:ext?', function(req, res, next) {
           return next(err);
         }
 
-        if(ext === formats.JSON && pretty) {
-          return sendBuffer(JSON.stringify(info.doc, undefined, 2));
-        }
-
         info.filename = id + '.' + ext;
         info.ext = ext;
         info.mime = formats.mime[ext];
         info.filepath = path.join(files, info.filename);
 
-        fs.exists(info.filepath, exists);
+        if(ext === formats.JSON && pretty) {
+          var buf = JSON.stringify(info.doc, undefined, 2);
+          return sendBuffer(buf);
+        }
+
+        fs.stat(info.filepath, onStat);
       }
     });
 });

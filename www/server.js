@@ -9,6 +9,7 @@ var path = require('path')
   , Tag = require('../lib/model/tag')
   , formats = require('../lib/formats');
 
+app.disable('x-powered-by');
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
 app.use(express.static(path.join(__dirname, 'public')));

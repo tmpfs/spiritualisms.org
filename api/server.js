@@ -26,6 +26,7 @@ var express = require('express')
  *  @produces application/json
  */
 
+app.disable('x-powered-by');
 app.use(bodyParser.json());
 
 app.all('*', function(req, res, next) {
