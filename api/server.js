@@ -85,9 +85,9 @@ app.post('/quote', function(req, res, next) {
     , opts = {};
 
   if(!Array.isArray(req.body)) {
-     var err = new Error('Array body expected');
-     err.status = 400;
-     return next(err);
+    var err = new Error('Array body expected');
+    err.status = 400;
+    return next(err);
   }
 
   opts.keys = req.body;
@@ -112,9 +112,9 @@ app.post('/quote/filter', function(req, res, next) {
     , opts = {keys: req.body};
 
   if(!Array.isArray(req.body)) {
-     var err = new Error('Array body expected');
-     err.status = 400;
-     return next(err);
+    var err = new Error('Array body expected');
+    err.status = 400;
+    return next(err);
   }
 
   quote.filter(opts, function(err, response, body) {

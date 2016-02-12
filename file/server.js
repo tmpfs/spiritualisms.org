@@ -70,179 +70,179 @@ app.get('/', function(req, res, next) {
  *  Get file download page or file by extension.
  */
 app.get('/:id\.:ext?', function(req, res, next) {
-    var quote = new Quote()
-      , info = getViewInfo(req)
-      // force download the file: octet-stream
-      , force = req.query.force
-      // fresh dynamic response - latest (dynamic)
-      , fresh = req.query.fresh
-      // pretty print json output (dynamic)
-      , pretty = req.query.pretty
-      // document identifier
-      , id = req.params.id
-      // file extensions
-      , ext = req.params.ext;
+  var quote = new Quote()
+    , info = getViewInfo(req)
+    // force download the file: octet-stream
+    , force = req.query.force
+    // fresh dynamic response - latest (dynamic)
+    , fresh = req.query.fresh
+    // pretty print json output (dynamic)
+    , pretty = req.query.pretty
+    // document identifier
+    , id = req.params.id
+    // file extensions
+    , ext = req.params.ext;
 
-    function setResponseHeaders(buf) {
-      var size = 0;
+  function setResponseHeaders(buf) {
+    var size = 0;
 
-      // string or buffer
-      if(buf && buf.length !== undefined) {
-        size = buf.length; 
-      }else{
-        // NOTE: info.size is for stream types (pdf)
-        // NOTE: when they are written first time around
-        // NOTE: the write logic keeps track of the bytes written
-        // NOTE: which saves an additional call to stat
-        size = info.size || (info.stats ? info.stats.size : 0);
-      }
-
-      //console.log('size: %j', info.stats);
-      //console.log('size: %s', info.size);
-      //console.log('size: %s', size);
-
-      // force download
-      if(force) {
-        res.set('Content-Description', 'File Transfer');
-        res.set('Content-Type', 'application/octet-stream');
-        res.set('Content-Disposition', 'attachment; filename="'
-          + info.filename + '"'); 
-        res.set('Content-Transfer-Encoding','binary');
-        res.set('Connection', 'Keep-Alive');
-        res.set('Expires', '0');
-        res.set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
-        res.set('Pragma', 'public');
-      }else{
-        // set content type header
-        res.set('Content-Type', formats.mime[ext]);
-      }
-
-      res.set('Content-Length', size);
+    // string or buffer
+    if(buf && buf.length !== undefined) {
+      size = buf.length; 
+    }else{
+      // NOTE: info.size is for stream types (pdf)
+      // NOTE: when they are written first time around
+      // NOTE: the write logic keeps track of the bytes written
+      // NOTE: which saves an additional call to stat
+      size = info.size || (info.stats ? info.stats.size : 0);
     }
 
-    function sendFile() {
-      setResponseHeaders();
-      // TODO: add try/catch, EMFILE etc?
-      var readable = fs.createReadStream(info.filepath);
-      // TODO: log file stream errors
-      readable.pipe(res);
+    //console.log('size: %j', info.stats);
+    //console.log('size: %s', info.size);
+    //console.log('size: %s', size);
+
+    // force download
+    if(force) {
+      res.set('Content-Description', 'File Transfer');
+      res.set('Content-Type', 'application/octet-stream');
+      res.set('Content-Disposition', 'attachment; filename="'
+        + info.filename + '"'); 
+      res.set('Content-Transfer-Encoding','binary');
+      res.set('Connection', 'Keep-Alive');
+      res.set('Expires', '0');
+      res.set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+      res.set('Pragma', 'public');
+    }else{
+      // set content type header
+      res.set('Content-Type', formats.mime[ext]);
     }
 
-    function sendBuffer(buf) {
-      setResponseHeaders(buf);
-      if(typeof buf === 'object' && buf.stream) {
-        buf.stream.pipe(res);
-      }else{
-        res.end(buf);
-      }
+    res.set('Content-Length', size);
+  }
+
+  function sendFile() {
+    setResponseHeaders();
+    // TODO: add try/catch, EMFILE etc?
+    var readable = fs.createReadStream(info.filepath);
+    // TODO: log file stream errors
+    readable.pipe(res);
+  }
+
+  function sendBuffer(buf) {
+    setResponseHeaders(buf);
+    if(typeof buf === 'object' && buf.stream) {
+      buf.stream.pipe(res);
+    }else{
+      res.end(buf);
+    }
+  }
+
+  function onWrite(err) {
+    if(err) {
+      return next(err); 
+    } 
+    sendFile();
+  }
+
+  function onCompile(err, buf) {
+    if(err) {
+      return next(err); 
     }
 
-    function onWrite(err) {
-      if(err) {
-        return next(err); 
-      } 
-      sendFile();
+    // have to buffer stream for force download
+    // sadly pdfkit does not maintain a byte length
+    if((fresh || force) && ext === formats.PDF) {
+      return buffer(buf.stream, function(err, buf) {
+        if(err) {
+          return next(err);
+        } 
+        info.size = buf.length;
+        sendBuffer(buf); 
+      }) 
     }
 
-    function onCompile(err, buf) {
-      if(err) {
-        return next(err); 
-      }
+    if(fresh) {
+      return sendBuffer(buf); 
+    }
 
-      // have to buffer stream for force download
-      // sadly pdfkit does not maintain a byte length
-      if((fresh || force) && ext === formats.PDF) {
-        return buffer(buf.stream, function(err, buf) {
-          if(err) {
-            return next(err);
-          } 
-          info.size = buf.length;
-          sendBuffer(buf); 
-        }) 
-      }
-
-      if(fresh) {
-        return sendBuffer(buf); 
-      }
-
-      // TODO: get stats for first time creation
-      if(info.stats) {
-        formats.write(info, buf, onWrite);
-      // need to get file stats for first time lazy creation
-      }else{
-        formats.write(info, buf, function(err) {
+    // TODO: get stats for first time creation
+    if(info.stats) {
+      formats.write(info, buf, onWrite);
+    // need to get file stats for first time lazy creation
+    }else{
+      formats.write(info, buf, function(err) {
+        if(err) {
+          return next(err); 
+        } 
+        fs.stat(info.filepath, function(err, stats) {
           if(err) {
             return next(err); 
-          } 
-          fs.stat(info.filepath, function(err, stats) {
-            if(err) {
-              return next(err); 
-            }
-            info.stats = stats;
-            onWrite();
-          })
-        });
-      }
+          }
+          info.stats = stats;
+          onWrite();
+        })
+      });
+    }
+  }
+
+  // check if file exists
+  function onStat(err, stats) {
+    var exists = !err && stats;
+    if(err && err.code !== 'ENOENT') {
+      return next(err); 
+    }
+    info.stats = stats;
+    if(fresh || !exists) {
+      return formats.compile[ext](info, onCompile);
+    }else{
+      sendFile();
+    }
+  }
+
+  // fetch document from the database
+  quote.get({id: id, raw: true}, function(err, response, body) {
+
+    // database error, 404 errors are caught here
+    if(err) {
+      return next(err); 
     }
 
-    // check if file exists
-    function onStat(err, stats) {
-      var exists = !err && stats;
-      if(err && err.code !== 'ENOENT') {
-        return next(err); 
-      }
-      info.stats = stats;
-      if(fresh || !exists) {
-        return formats.compile[ext](info, onCompile);
-      }else{
-        sendFile();
-      }
+    // only serve published quotes
+    if(body.publish !== true) {
+      err = new Error('not_found');
+      err.status = 404;
+      return next(err);
     }
 
-    // fetch document from the database
-    quote.get({id: id, raw: true}, function(err, response, body) {
+    // inject document into view information
+    info.doc = Quote.normalize(body);
+    info.doc.tags = Tag.convert(info.doc.tags);
 
-      // database error, 404 errors are caught here
-      if(err) {
-        return next(err); 
-      }
+    // no extension, serve download page
+    if(!ext) {
+      res.render('files/page', info);
+    }else{
 
-      // only serve published quotes
-      if(body.publish !== true) {
+      // unsupported file extension
+      if(!formats.map[ext]) {
         err = new Error('not_found');
         err.status = 404;
         return next(err);
       }
 
-      // inject document into view information
-      info.doc = Quote.normalize(body);
-      info.doc.tags = Tag.convert(info.doc.tags);
+      info.filename = id + '.' + ext;
+      info.ext = ext;
+      info.mime = formats.mime[ext];
+      info.filepath = path.join(files, info.filename);
 
-      // no extension, serve download page
-      if(!ext) {
-        res.render('files/page', info);
-      }else{
-
-        // unsupported file extension
-        if(!formats.map[ext]) {
-          err = new Error('not_found');
-          err.status = 404;
-          return next(err);
-        }
-
-        info.filename = id + '.' + ext;
-        info.ext = ext;
-        info.mime = formats.mime[ext];
-        info.filepath = path.join(files, info.filename);
-
-        if(ext === formats.JSON && pretty) {
-          var buf = JSON.stringify(info.doc, undefined, 2);
-          return sendBuffer(buf);
-        }
-
-        fs.stat(info.filepath, onStat);
+      if(ext === formats.JSON && pretty) {
+        var buf = JSON.stringify(info.doc, undefined, 2);
+        return sendBuffer(buf);
       }
-    });
+
+      fs.stat(info.filepath, onStat);
+    }
+  });
 });
 
 app.all('*', function(req, res, next) {

@@ -14,7 +14,6 @@ describe('file (?fresh=1):', function() {
       var file = files + '/' + id + '.' + ext;
       try {
         fs.unlinkSync(file);
-      // it's cool if it doesn't already exist
       }catch(e){}
     }) 
     done();

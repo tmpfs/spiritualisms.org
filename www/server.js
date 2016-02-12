@@ -60,28 +60,28 @@ tags(app);
 authors(app);
 
 app.get('/explore/:id\.:ext?', function(req, res, next) {
-    var quote = new Quote()
-      , info = getViewInfo(req)
-      , id = req.params.id
-      , ext = req.params.ext;
+  var quote = new Quote()
+    , info = getViewInfo(req)
+    , id = req.params.id
+    , ext = req.params.ext;
 
-    quote.get({id: id}, function(err, response, body) {
-      if(err) {
-        return next(err); 
+  quote.get({id: id}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    }
+    info.doc = body;
+    info.doc.tags = Tag.convert(info.doc.tags);
+    if(!ext) {
+      res.render('quotation', info);
+    }else{
+      if(!formats.map[ext]) {
+        err = new Error('not_found');
+        err.status = 404;
+        return next(err);
       }
-      info.doc = body;
-      info.doc.tags = Tag.convert(info.doc.tags);
-      if(!ext) {
-        res.render('quotation', info);
-      }else{
-        if(!formats.map[ext]) {
-          err = new Error('not_found');
-          err.status = 404;
-          return next(err);
-        }
-        res.redirect(info.app.files + '/' + id + '.' + ext);
-      }
-    });
+      res.redirect(info.app.files + '/' + id + '.' + ext);
+    }
+  });
 });
 
 app.get('/stars', function(req, res) {
