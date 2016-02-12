@@ -3184,8 +3184,16 @@ section > h2 > sup {
   color: #b3b3b3;
   font-size: 1.8rem;
 }
-.file-list-item p {
+.file-list-item {
   font-size: 1.8rem;
+  margin: 0;
+}
+.file-list-item nav.download {
+  font-size: 1.4rem;
+  text-align: left;
+  float: right;
+  border: 0;
+  padding: 0;
   margin: 0;
 }
 form.search fieldset {

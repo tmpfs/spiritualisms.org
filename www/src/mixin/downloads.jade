@@ -1,0 +1,18 @@
+mixin downloads(url, opts)
+  - opts = opts || {};
+  - var compact = opts.compact;
+  nav.download
+    span 
+      i.fa.fa-download
+        | &nbsp; 
+      - if(!compact) {
+        | Download: 
+      - }
+    a(href=url + '.md', title='Download markdown')
+      | #{compact ? 'MD' : 'Markdown'}
+    a(href=url + '.txt', title='Download text')
+      | #{compact ? 'TXT' : 'Text'}
+    a(href=url + '.pdf', title='Download pdf') PDF
+    a(href=url + '.html', title='Download html') HTML
+    a(href=url + '.json', title='Download json') JSON
+    a(href=url + '.xml', title='Download xml') XML

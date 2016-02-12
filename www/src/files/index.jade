@@ -1,14 +1,16 @@
 extends ../layout
 
+include ../mixin/downloads
+
 mixin file-list(quotes)
   - var i, row;
   - for(i = 0;i < quotes.rows.length;i++) {
     - row = quotes.rows[i];
-    .file-list-item
-      p
-        a(href='/' + row.doc.id) #{row.doc.id}
-        | &nbsp;by
-        | #{row.doc.author}
+    .file-list-item.clearfix(data-id=row.doc.id)
+      a(href='/' + row.doc.id) #{row.doc.id}
+      | &nbsp;by
+      | #{row.doc.author}
+      +downloads('/' + row.doc.id, {compact: true})
   - }
 
 block header
@@ -16,8 +18,7 @@ block header
 
 block content
   section.page
-    h2 Files
-    p Browse quote files that are available for download.
-    hr
+    h2.clearfix Downloads
+      span.muted.float-right Browse files to download
     .listing
       +file-list(quotes)

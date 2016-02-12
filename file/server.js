@@ -4,6 +4,7 @@ var path = require('path')
   , slashes = require('../lib/http/slashes')
   , getViewInfo = require('../lib/http/view-info')
   , Quote = require('../lib/model/quote')
+  , Tag = require('../lib/model/tag')
   , formats = require('../lib/formats');
 
 app.set('view engine', 'jade');
@@ -38,7 +39,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
         return next(err); 
       }
       info.doc = body;
-      //info.doc.tags = Tag.convert(info.doc.tags);
+      info.doc.tags = Tag.convert(info.doc.tags);
       if(!req.params.ext) {
         res.render('files/page', info);
       }else{
