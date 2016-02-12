@@ -15,9 +15,16 @@ app.use(slashes);
 /**
  *  Get file list.
  */
-app.get('/', function(req, res) {
-  var info = getViewInfo(req);
-  res.render('files/index', info);
+app.get('/', function(req, res, next) {
+  var quote = new Quote()
+    , info = getViewInfo(req);
+  quote.list({}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    }
+    info.quotes = body;
+    res.render('files/index', info);
+  });
 });
 
 /**
@@ -30,7 +37,6 @@ app.get('/:id\.:ext?', function(req, res, next) {
       if(err) {
         return next(err); 
       }
-      console.log(body);
       info.doc = body;
       //info.doc.tags = Tag.convert(info.doc.tags);
       if(!req.params.ext) {

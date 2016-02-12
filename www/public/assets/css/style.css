@@ -3184,6 +3184,10 @@ section > h2 > sup {
   color: #b3b3b3;
   font-size: 1.8rem;
 }
+.file-list-item p {
+  font-size: 1.8rem;
+  margin: 0;
+}
 form.search fieldset {
   display: table-row;
   width: 100%;

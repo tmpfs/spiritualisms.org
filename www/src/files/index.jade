@@ -1,7 +1,23 @@
 extends ../layout
 
+mixin file-list(quotes)
+  - var i, row;
+  - for(i = 0;i < quotes.rows.length;i++) {
+    - row = quotes.rows[i];
+    .file-list-item
+      p
+        a(href='/' + row.doc.id) #{row.doc.id}
+        | &nbsp;by
+        | #{row.doc.author}
+  - }
+
 block header
+  include header
 
 block content
   section.page
     h2 Files
+    p Browse quote files that are available for download.
+    hr
+    .listing
+      +file-list(quotes)
