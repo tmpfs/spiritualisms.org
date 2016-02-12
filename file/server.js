@@ -2,6 +2,7 @@ var path = require('path')
   , fs = require('fs')
   , express = require('express')
   , app = express()
+  , Writable = require('stream').Duplex
   , slashes = require('../lib/http/slashes')
   , getViewInfo = require('../lib/http/view-info')
   , Quote = require('../lib/model/quote')
@@ -9,6 +10,20 @@ var path = require('path')
   , formats = require('../lib/formats')
   // file storage directory
   , files = path.normalize(path.join(__dirname + '/../www/public/files'));
+
+function buffer(stream, cb) {
+  var buf = new Buffer(0);
+  var writable = new Writable();
+  writable._write = function(chunk, encoding, cb) {
+    buf = Buffer.concat([buf, chunk], buf.length + chunk.length);
+    cb();
+  }
+  writable.on('finish', function() {
+    cb(null, buf);
+  })
+  writable.cork();
+  stream.pipe(writable);
+}
 
 /**
  *  Static and dynamic caching file download service.
@@ -79,9 +94,11 @@ app.get('/:id\.:ext?', function(req, res, next) {
         // NOTE: when they are written first time around
         // NOTE: the write logic keeps track of the bytes written
         // NOTE: which saves an additional call to stat
-        size = info.size || info.stats.size;
+        size = info.size || (info.stats ? info.stats.size : 0);
       }
 
+      //console.log('size: %j', info.stats);
+      //console.log('size: %s', info.size);
       //console.log('size: %s', size);
 
       // force download
@@ -112,7 +129,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
     }
 
     function sendBuffer(buf) {
-      setResponseHeaders(buf);
+      setResponseHeaders();
       if(typeof buf === 'object' && buf.stream) {
         buf.stream.pipe(res);
       }else{
@@ -131,6 +148,21 @@ app.get('/:id\.:ext?', function(req, res, next) {
       if(err) {
         return next(err); 
       }
+
+      // have to buffer stream for force download
+      // sadly pdfkit does not maintain a byte length
+      if((fresh || force) && ext === formats.PDF) {
+        console.log('buffering pdf');
+        return buffer(buf.stream, function(err, buf) {
+          if(err) {
+            return next(err);
+          } 
+          info.size = buf.length;
+          sendBuffer(buf); 
+        }) 
+      }
+
+
       if(fresh) {
         return sendBuffer(buf); 
       }
