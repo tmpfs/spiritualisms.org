@@ -60,22 +60,25 @@ authors(app);
 
 app.get('/explore/:id\.:ext?', function(req, res, next) {
     var quote = new Quote()
-      , info = getViewInfo(req);
-    quote.get({id: req.params.id}, function(err, response, body) {
+      , info = getViewInfo(req)
+      , id = req.params.id
+      , ext = req.params.ext;
+
+    quote.get({id: id}, function(err, response, body) {
       if(err) {
         return next(err); 
       }
       info.doc = body;
       info.doc.tags = Tag.convert(info.doc.tags);
-      if(!req.params.ext) {
+      if(!ext) {
         res.render('quotation', info);
       }else{
-        if(!formats.map[req.params.ext]) {
+        if(!formats.map[ext]) {
           err = new Error('not_found');
           err.status = 404;
           return next(err);
         }
-        formats.map[req.params.ext](info, req, res, next);
+        res.redirect(info.app.files + '/' + id + '.' + ext);
       }
     });
 });

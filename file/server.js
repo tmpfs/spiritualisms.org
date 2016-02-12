@@ -21,6 +21,14 @@ var path = require('path')
  *  GET /:id serves a download page for a quote.
  *
  *  GET /:id\.:ext? serves a file for download.
+ *
+ *  Query
+ *
+ *  All file formats support the `fresh` query parameter which forces the 
+ *  static file to be re-created and written to disc.
+ *
+ *  For the .json file format a `pretty` query parameter will pretty print the 
+ *  JSON document, this operation then becomes dynamic.
  */
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, '/../www/src'));
@@ -58,7 +66,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
       , ext = req.params.ext;
 
     function sendFile() {
-      console.log('send file: ' + info.filepath);
+      //console.log('send file: ' + info.filepath);
 
       // TODO: add try/catch, EMFILE etc?
       var readable = fs.createReadStream(info.filepath);
@@ -144,8 +152,6 @@ app.get('/:id\.:ext?', function(req, res, next) {
         info.filepath = path.join(files, info.filename);
 
         fs.exists(info.filepath, exists);
-
-        //formats.map[req.params.ext](info, req, res, next);
       }
     });
 });
