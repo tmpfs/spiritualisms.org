@@ -1,5 +1,5 @@
 var Author = require('../lib/model/author')
-  , getViewInfo = require('./view-info');
+  , getViewInfo = require('../lib/http/view-info');
 
 function routes(app) {
 

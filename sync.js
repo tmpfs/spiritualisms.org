@@ -9,6 +9,9 @@ require('./server');
 // start the api server
 require('./api-server');
 
+// start the file server
+require('./file-server');
+
 // browsersync
 var bs = require('browser-sync').create()
   , chokidar = require('chokidar')

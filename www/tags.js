@@ -1,5 +1,5 @@
 var Tag = require('../lib/model/tag')
-  , getViewInfo = require('./view-info');
+  , getViewInfo = require('../lib/http/view-info');
 
 function routes(app) {
 

@@ -1,7 +1,7 @@
 var path = require('path')
   , express = require('express')
   , app = express()
-  , getViewInfo = require('./view-info')
+  , getViewInfo = require('../lib/http/view-info')
   , slashes = require('../lib/http/slashes')
   , tags = require('./tags')
   , authors = require('./authors')
