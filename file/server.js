@@ -6,10 +6,12 @@ var path = require('path')
   , getViewInfo = require('../lib/http/view-info')
   , Quote = require('../lib/model/quote')
   , Tag = require('../lib/model/tag')
-  , formats = require('../lib/formats');
+  , formats = require('../lib/formats')
+  // file storage directory
+  , files = path.normalize(path.join(__dirname + '/../www/public/files'));
 
 /**
- *  Static and dynamic file download service.
+ *  Static and dynamic caching file download service.
  *
  *  By design this does not use couchdb attachments as that would 
  *  create new revisions and increase the size of the database.
@@ -18,7 +20,7 @@ var path = require('path')
  *
  *  GET /:id serves a download page for a quote.
  *
- *  GET /:id\.:ext? serves a file for download
+ *  GET /:id\.:ext? serves a file for download.
  */
 
 app.set('view engine', 'jade');
@@ -52,10 +54,57 @@ app.get('/:id\.:ext?', function(req, res, next) {
       // fresh dynamic response - latest (dynamic)
       , fresh = req.query.fresh
       // pretty print json output (dynamic)
-      , pretty = req.query.pretty;
+      , pretty = req.query.pretty
+      // document identifier
+      , id = req.params.id
+      // file extensions
+      , ext = req.params.ext;
+
+    function sendFile() {
+      console.log('send file: ' + info.filepath);
+
+      // TODO: add try/catch, EMFILE etc?
+      var readable = fs.createReadStream(info.filepath);
+
+      // TODO: log file stream errors
+
+      //readable.on('end', function() {
+        //console.log('file pipe ended'); 
+      //})
+
+      readable.pipe(res);
+    }
+
+    function onWrite(err) {
+      if(err) {
+        return next(err); 
+      } 
+
+      sendFile();
+
+      //console.log('written to disc');
+      //next();
+    }
+
+    function onCompile(err, buf) {
+      if(err) {
+        return next(err); 
+      }
+
+      formats.write(info, buf, onWrite);
+    }
+
+    // check if file exists
+    function exists(file) {
+      if(fresh || !file) {
+        return formats.compile[ext](info, onCompile);
+      }else{
+        sendFile();
+      }
+    }
 
     // fetch document from the database
-    quote.get({id: req.params.id, raw: true}, function(err, response, body) {
+    quote.get({id: id, raw: true}, function(err, response, body) {
 
       // database error, 404 errors are caught here
       if(err) {
@@ -74,25 +123,32 @@ app.get('/:id\.:ext?', function(req, res, next) {
       info.doc.tags = Tag.convert(info.doc.tags);
 
       // no extension, serve download page
-      if(!req.params.ext) {
+      if(!ext) {
         res.render('files/page', info);
       }else{
 
         // unsupported file extension
-        if(!formats.map[req.params.ext]) {
+        if(!formats.map[ext]) {
           err = new Error('not_found');
           err.status = 404;
           return next(err);
         }
 
         // set content type header
-        res.set('content-type', formats.mime[req.params.ext]);
+        res.set('content-type', formats.mime[ext]);
 
-        if(req.params.ext === formats.JSON && pretty) {
+        if(ext === formats.JSON && pretty) {
           return res.send(JSON.stringify(info.doc, undefined, 2));  
         }
 
-        formats.map[req.params.ext](info, req, res, next);
+        info.filename = id + '.' + ext;
+        info.ext = ext;
+        info.mime = formats.mime[ext];
+        info.filepath = path.join(files, info.filename);
+
+        fs.exists(info.filepath, exists);
+
+        //formats.map[req.params.ext](info, req, res, next);
       }
     });
 });
