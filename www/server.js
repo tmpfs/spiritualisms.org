@@ -3,6 +3,7 @@ var path = require('path')
   , app = express()
   , getViewInfo = require('../lib/http/view-info')
   , slashes = require('../lib/http/slashes')
+  , wildcard = require('../lib/http/wildcard')
   , tags = require('./tags')
   , authors = require('./authors')
   , Quote = require('../lib/model/quote')
@@ -104,11 +105,7 @@ app.get('/contributing', function(req, res) {
   res.render('contributing', info);
 });
 
-app.all('*', function(req, res, next) {
-  var err = new Error('not_found');
-  err.status = 404;
-  next(err);
-});
+app.all('*', wildcard);
 
 app.use(function(err, req, res, next) {
   var info = getViewInfo(req);

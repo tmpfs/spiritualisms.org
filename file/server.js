@@ -4,6 +4,7 @@ var path = require('path')
   , app = express()
   , Writable = require('stream').Duplex
   , slashes = require('../lib/http/slashes')
+  , wildcard = require('../lib/http/wildcard')
   , getViewInfo = require('../lib/http/view-info')
   , Quote = require('../lib/model/quote')
   , Tag = require('../lib/model/tag')
@@ -274,12 +275,7 @@ app.get('/:id\.:ext?', function(req, res, next) {
   });
 });
 
-// TODO: share these handlers with www-server
-app.all('*', function(req, res, next) {
-  var err = new Error('not_found');
-  err.status = 404;
-  next(err);
-});
+app.all('*', wildcard);
 
 app.use(function(err, req, res, next) {
   var info = getViewInfo(req);
