@@ -5,6 +5,7 @@ var path = require('path')
   , Writable = require('stream').Duplex
   , slashes = require('../lib/http/slashes')
   , wildcard = require('../lib/http/wildcard')
+  , errorView = require('../lib/http/error-view')
   , getViewInfo = require('../lib/http/view-info')
   , Quote = require('../lib/model/quote')
   , Tag = require('../lib/model/tag')
@@ -276,17 +277,6 @@ app.get('/:id\.:ext?', function(req, res, next) {
 });
 
 app.all('*', wildcard);
-
-app.use(function(err, req, res, next) {
-  var info = getViewInfo(req);
-  /* istanbul ignore next: assume internal server error */
-  info.status = err.status || 500;
-  info.message = err.message || err.reason;
-  info.doc = err.doc;
-  info.res = err.res;
-  info.stack = err.stack;
-  res.status(info.status).render('error', info);
-  next();
-});
+app.use(errorView);
 
 module.exports = app;
