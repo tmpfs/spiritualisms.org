@@ -1,0 +1,16 @@
+extends ../layout
+
+include ../mixin/tag-list
+include ../mixin/cite-primary
+include ../mixin/downloads
+
+block header
+  include header
+
+block content
+  section.page.download
+    h2
+      +downloads('/' + doc.id, {compact: true})
+    div.quotation(data-id=doc.id)
+      blockquote.primary #{doc.quote}
+      +cite-primary(doc)

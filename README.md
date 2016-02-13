@@ -9,6 +9,7 @@ Table of Contents
     * [Sync](#sync)
     * [Server](#server)
     * [API Server](#api-server)
+    * [File Server](#file-server)
     * [Teardown](#teardown)
     * [Bootstrap](#bootstrap)
     * [CSS](#css)
@@ -85,18 +86,26 @@ npm run sync
 
 ### Server
 
-To start the node web server:
+To start the web server:
 
 ```
-npm start
+npm run www
 ```
 
 ### API Server
 
-To start the node api server:
+To start the api server:
 
 ```
 npm run api
+```
+
+### File Server
+
+To start the file server:
+
+```
+npm run file
 ```
 
 ### Teardown

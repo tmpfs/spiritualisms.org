@@ -1,5 +1,5 @@
 function filter(value, index, self) { 
-    return self.indexOf(value) === index;
+  return self.indexOf(value) === index;
 }
 
 function uniq(arr) {

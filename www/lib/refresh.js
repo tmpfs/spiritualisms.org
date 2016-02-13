@@ -38,7 +38,8 @@ function refresh(e) {
       container.find('blockquote').text(doc.quote);
       container.find('cite').html('&#8212; ')
         .append(
-          $.el('a', {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
+          $.el('a',
+            {href: doc.link, title: doc.author + ' (' + doc.domain + ')'}
         ).text(doc.author));
 
       var nav = container.find('nav')
@@ -89,7 +90,7 @@ function refresh(e) {
     container.find('a.love span').text('');
     container.css(
       {
-        opacity: 0,
+        opacity: 0
       }
     ); 
   });

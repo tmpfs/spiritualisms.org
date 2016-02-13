@@ -14,6 +14,7 @@
     "excludeFiles": [
       "db/app",
       "node_modules",
+      "www/public/assets/js",
       "coverage",
       "target"
     ]

@@ -15,9 +15,9 @@ function routes(app) {
       , err;
 
     if(!Array.isArray(req.body)) {
-       err = new Error('Array body expected');
-       err.status = 400;
-       return next(err);
+      err = new Error('Array body expected');
+      err.status = 400;
+      return next(err);
     }
 
     love.getLoves(opts, function(err, response) {

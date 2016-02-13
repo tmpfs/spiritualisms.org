@@ -1,14 +1,17 @@
 var path = require('path')
   , express = require('express')
   , app = express()
-  , getViewInfo = require('./view-info')
+  , getViewInfo = require('../lib/http/view-info')
   , slashes = require('../lib/http/slashes')
+  , wildcard = require('../lib/http/wildcard')
+  , errorView = require('../lib/http/error-view')
   , tags = require('./tags')
   , authors = require('./authors')
   , Quote = require('../lib/model/quote')
   , Tag = require('../lib/model/tag')
   , formats = require('../lib/formats');
 
+app.disable('x-powered-by');
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -59,25 +62,28 @@ tags(app);
 authors(app);
 
 app.get('/explore/:id\.:ext?', function(req, res, next) {
-    var quote = new Quote()
-      , info = getViewInfo(req);
-    quote.get({id: req.params.id}, function(err, response, body) {
-      if(err) {
-        return next(err); 
+  var quote = new Quote()
+    , info = getViewInfo(req)
+    , id = req.params.id
+    , ext = req.params.ext;
+
+  quote.get({id: id}, function(err, response, body) {
+    if(err) {
+      return next(err); 
+    }
+    info.doc = body;
+    info.doc.tags = Tag.convert(info.doc.tags);
+    if(!ext) {
+      res.render('quotation', info);
+    }else{
+      if(!formats.map[ext]) {
+        err = new Error('not_found');
+        err.status = 404;
+        return next(err);
       }
-      info.doc = body;
-      info.doc.tags = Tag.convert(info.doc.tags);
-      if(!req.params.ext) {
-        res.render('quotation', info);
-      }else{
-        if(!formats.map[req.params.ext]) {
-          err = new Error('not_found');
-          err.status = 404;
-          return next(err);
-        }
-        formats.map[req.params.ext](info, req, res, next);
-      }
-    });
+      res.redirect(info.app.files + '/' + id + '.' + ext);
+    }
+  });
 });
 
 app.get('/stars', function(req, res) {
@@ -100,22 +106,7 @@ app.get('/contributing', function(req, res) {
   res.render('contributing', info);
 });
 
-app.all('*', function(req, res, next) {
-  var err = new Error('not_found');
-  err.status = 404;
-  next(err);
-});
-
-app.use(function(err, req, res, next) {
-  var info = getViewInfo(req);
-  /* istanbul ignore next: assume internal server error */
-  info.status = err.status || 500;
-  info.message = err.message || err.reason;
-  info.doc = err.doc;
-  info.res = err.res;
-  info.stack = err.stack;
-  res.status(info.status).render('error', info);
-  next();
-});
+app.all('*', wildcard);
+app.use(errorView);
 
 module.exports = app;

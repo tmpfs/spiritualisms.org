@@ -15,9 +15,9 @@ function routes(app) {
       , err;
 
     if(!Array.isArray(req.body)) {
-       err = new Error('Array body expected');
-       err.status = 400;
-       return next(err);
+      err = new Error('Array body expected');
+      err.status = 400;
+      return next(err);
     }
 
     star.getStars(opts, function(err, response) {
@@ -40,9 +40,9 @@ function routes(app) {
       , opts = {keys: req.body};
 
     if(!Array.isArray(req.body)) {
-       var err = new Error('Array body expected');
-       err.status = 400;
-       return next(err);
+      var err = new Error('Array body expected');
+      err.status = 400;
+      return next(err);
     }
 
     star.removeStars(opts, function(err, response) {
@@ -101,9 +101,9 @@ function routes(app) {
       , opts = {};
 
     if(!Array.isArray(req.body)) {
-       var err = new Error('Array body expected');
-       err.status = 400;
-       return next(err);
+      var err = new Error('Array body expected');
+      err.status = 400;
+      return next(err);
     }
 
     opts.keys = req.body;
