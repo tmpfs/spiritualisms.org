@@ -2,7 +2,7 @@ var path = require('path')
   , fs = require('fs')
   , express = require('express')
   , app = express()
-  , Writable = require('stream').Duplex
+  , buffer = require('./buffer')
   , slashes = require('../lib/http/slashes')
   , wildcard = require('../lib/http/wildcard')
   , errorView = require('../lib/http/error-view')
@@ -12,21 +12,6 @@ var path = require('path')
   , formats = require('../lib/formats')
   // file storage directory
   , files = path.normalize(path.join(__dirname + '/../www/public/files'));
-
-function buffer(stream, cb) {
-  var buf = new Buffer(0);
-  var writable = new Writable();
-  //console.log(stream);
-  writable._write = function(chunk, encoding, cb) {
-    buf = Buffer.concat([buf, chunk], buf.length + chunk.length);
-    cb();
-  }
-  writable.on('finish', function() {
-    cb(null, buf);
-  })
-  writable.cork();
-  stream.pipe(writable);
-}
 
 /**
  *  Static and dynamic caching file download service.
@@ -267,6 +252,9 @@ app.get('/:id\.:ext?', function(req, res, next) {
       info.filepath = path.join(files, info.filename);
 
       if(ext === formats.JSON && pretty) {
+        // no need for nested object (JSON only)
+        info.doc.tags = info.doc.tags.rows;
+
         var buf = JSON.stringify(info.doc, undefined, 2);
         return sendBuffer(buf);
       }
