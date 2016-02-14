@@ -8,9 +8,8 @@ block header
   include header
 
 block content
-  section.page.download
-    h2
-      +downloads('/' + doc.id, {compact: true})
+  .page.download
+    +downloads('/' + doc.id, {compact: true})
     div.quotation(data-id=doc.id)
       blockquote.primary #{doc.quote}
       +cite-primary(doc)

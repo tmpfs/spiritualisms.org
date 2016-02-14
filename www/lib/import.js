@@ -224,7 +224,7 @@ function summary(info) {
   }else{
     link.text('Nothing to import!'); 
   }
-  
+
   link.enable();
 }
 

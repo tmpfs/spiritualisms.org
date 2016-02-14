@@ -3149,7 +3149,8 @@ label[for="chooser"] >div {
 .choose ul li {
   margin-bottom: 0;
 }
-[disabled] {
+[disabled],
+.disabled {
   opacity: 0.8;
   pointer-events: none;
 }
