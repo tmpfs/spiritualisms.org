@@ -6,8 +6,8 @@ include mixin/tag-list
 include mixin/downloads
 
 block content
-  section.page.permalink
-    div.quotation(data-id=doc.id)
+  .page.permalink
+    .quotation(data-id=doc.id)
       +quote-toolbar(doc)
       blockquote.primary #{doc.quote}
       +cite-primary(doc)

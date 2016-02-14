@@ -2904,7 +2904,7 @@ section,
   width: 100%;
   height: 100%;
 }
-section.page {
+.page {
   padding-top: 6rem;
 }
 .quote-main {
@@ -2999,7 +2999,7 @@ nav.toolbar a:not(:last-child) {
 .why blockquote.primary {
   margin-bottom: 4rem;
 }
-section.page,
+.page,
 .error pre,
 form,
 section h2,
