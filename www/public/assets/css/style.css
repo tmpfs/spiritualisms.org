@@ -3185,6 +3185,11 @@ section > h2 > sup {
   color: #b3b3b3;
   font-size: 1.8rem;
 }
+.page.download nav.download {
+  display: block;
+  text-align: center;
+  border-top: 0;
+}
 .file-list-item {
   font-size: 1.8rem;
   margin: 0;
