@@ -127,9 +127,14 @@ function removeErrors() {
  */
 function reset() {
   this.info = {
+    // duplicates are ids already in the model (user's star list)
     duplicates: [],
+    // missing are ids that do not exist on the server
     missing: [],
-    diff: []
+    // this is the diff of ids that we should process
+    diff: [],
+    // conflicts are duplicate ids presented on import
+    conflicts: []
   }
 
   this.documents = [];
@@ -162,8 +167,16 @@ function process() {
   doc.forEach(function(id) {
     if(~stars.indexOf(id)) {
       return info.duplicates.push(id); 
-    } 
-    info.diff.push(id);
+    }
+    if(!~info.diff.indexOf(id)) {
+      info.diff.push(id);
+    }else{
+      // if the user adds different documents with the same identifier
+      // they could be duplicated in the diff, ensure uniqueness
+      // these are not duplicates as they don't exist in the model yet
+      // however we don't want to import the same id more than once
+      info.conflicts.push(id);
+    }
   })
 
   function onFilter(err, res) {
@@ -257,6 +270,7 @@ function load(files) {
     file = files.item(i); 
     list.append(
       $.el('span').addClass('filename')
+        .data('filename', file.name)
         .html('&#8226;&nbsp;')
         .append($.text(file.name)));
   }
