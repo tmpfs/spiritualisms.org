@@ -2885,6 +2885,7 @@ header nav.icon a:not(:last-child) {
   margin-bottom: 0;
 }
 .dialog .container .content .filenames {
+  display: block;
   margin-left: 1rem;
   text-align: left;
   margin-bottom: 0;
