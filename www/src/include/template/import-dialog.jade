@@ -6,18 +6,18 @@
       h3.title Import
       .choose
         p.copy Recreate your stars from an exported document.
-        label(for='chooser')
-          div
-            input(
-              type='file',
-              id='chooser',
-              name='files',
-              accept='application/json',
-              multiple
-              hidden)
+        div.chooser
+          label(for='chooser')
             i.fa.fa-upload
             | &nbsp; Drag files here or click to choose a file
-            ul.filenames
+            span.filenames
+          input(
+            type='file',
+            id='chooser',
+            name='files',
+            accept='application/json',
+            multiple
+            hidden)
         p.muted.footnote.warn
           i.fa.fa-info-circle
           | &nbsp;Files should have been created using an export.

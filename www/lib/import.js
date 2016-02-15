@@ -250,12 +250,15 @@ function change(e) {
 function load(files) {
   var i
     , file
-    , list = $('ul.filenames');
+    , list = $('.filenames');
 
   // show file name list
   for(i = 0;i < files.length;i++) {
     file = files.item(i); 
-    list.append($.el('li').text(file.name));
+    list.append(
+      $.el('span').addClass('filename')
+        .html('&#8226;&nbsp;')
+        .append($.text(file.name)));
   }
 
   this.each(files);

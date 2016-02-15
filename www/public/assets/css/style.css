@@ -2884,13 +2884,14 @@ header nav.icon a:not(:last-child) {
 .dialog .container .content nav a {
   margin-bottom: 0;
 }
-.dialog .container .content ul.filenames {
+.dialog .container .content .filenames {
   margin-left: 1rem;
   text-align: left;
   margin-bottom: 0;
   font-size: 1.6rem;
 }
-.dialog .container .content ul.filenames li {
+.dialog .container .content .filenames .filename {
+  display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -3076,13 +3077,11 @@ a.permalink {
   color: #2aa198;
 }
 span.love:before,
-span.star:before,
-.filename:before {
+span.star:before {
   content: " (";
 }
 span.love:after,
-span.star:after,
-.filename:after {
+span.star:after {
   content: ")";
 }
 .page.permalink {
