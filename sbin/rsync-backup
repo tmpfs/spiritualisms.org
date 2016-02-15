@@ -12,7 +12,8 @@ final="${dest}/${dir}";
 
 # 	--dry-run \
 
-rsync -avzp \
+rsync -avz \
+  --perms \
 	--delete \
 	--progress \
 	--exclude 'node_modules' \
