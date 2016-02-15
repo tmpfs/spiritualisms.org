@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Use the --dry-run option to test what would be done
+
+name="muji";
+disc="${1:-QUARTZ}"
+src="${2:-$PWD}";
+volume="/media/${name}/${disc}";
+dest="${volume}";
+dir=$(basename $src);
+final="${dest}/${dir}";
+
+# 	--dry-run \
+
+rsync -avz \
+	--delete \
+	--progress \
+	--exclude 'node_modules' \
+	--exclude 'coverage' \
+	--exclude 'target' \
+	--exclude 'www/public/files/*.*' \
+  --exclude 'www/public/assets/js/*.*' \
+	--exclude '*.log' \
+	--exclude '*.bak' \
+	--exclude '*.rdb' \
+	"$src" "$dest";
+
+if [ -d "${final}" ]; then
+	echo `date` > "${final}/backup.date.log";
+fi

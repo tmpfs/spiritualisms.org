@@ -52,6 +52,7 @@
   },
   "scripts": {
     "sync": "node sync.js",
+    "backup": "./sbin/rsync-backup",
     "lint": "jshint . && jscs .",
     "readme": "mdp --force -v",
     "clean": "rm -rf coverage",
