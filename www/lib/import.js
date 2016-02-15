@@ -334,6 +334,7 @@ function read(file, cb) {
           'Cannot import document, expected array of strings.'));
       } 
     }
+    doc.file = file;
     cb(null, doc);
   }
   reader.readAsText(file);

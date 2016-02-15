@@ -2884,22 +2884,6 @@ header nav.icon a:not(:last-child) {
 .dialog .container .content nav a {
   margin-bottom: 0;
 }
-.dialog .container .content .filenames {
-  display: block;
-  margin-left: 1rem;
-  text-align: left;
-  margin-bottom: 0;
-  font-size: 1.6rem;
-}
-.dialog .container .content .filenames .filename {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  margin: 0;
-  padding: 0;
-  max-width: 30rem;
-}
 section,
 .quote-main,
 .ism {
@@ -3132,16 +3116,26 @@ label[for="chooser"] {
   padding: 0.5rem 1rem;
   border-radius: 0.2rem;
   font-weight: normal;
-  min-height: 8rem;
-  display: table;
   width: 100%;
 }
 label[for="chooser"].dragover {
   background: #93a1a1;
 }
-label[for="chooser"] >div {
-  display: table-cell;
-  vertical-align: middle;
+label[for="chooser"] .filenames {
+  display: block;
+  margin-left: 1rem;
+  text-align: left;
+  margin-bottom: 0;
+  font-size: 1.6rem;
+}
+label[for="chooser"] .filenames .filename {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+  max-width: 30rem;
 }
 .choose ul {
   padding-left: 2rem;

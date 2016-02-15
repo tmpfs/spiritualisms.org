@@ -12,14 +12,25 @@ label[for="chooser"]
   border-radius: .2rem;
   //margin-bottom: 2rem;
   font-weight: normal;
-  min-height: 8rem;
-  display: table;
+  //min-height: 8rem;
+  //display: table;
   width: 100%;
   &.dragover
     background: $medium;
-  >div
-    display: table-cell;
-    vertical-align: middle;
+  .filenames
+    display: block;
+    margin-left: 1rem;
+    text-align: left;
+    margin-bottom: 0;
+    font-size: 1.6rem;
+    .filename
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin: 0;
+      padding: 0;
+      max-width: 30rem;
 
 .choose
   ul
