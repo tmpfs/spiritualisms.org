@@ -18,10 +18,8 @@ rsync -avz \
 	--exclude 'node_modules' \
 	--exclude 'coverage' \
 	--exclude 'target' \
-	--exclude 'www/public/files/*.*' \
-	--include 'www/public/files/.gitignore' \
-  --exclude 'www/public/assets/js/*.*' \
-  --include 'www/public/assets/js/.gitignore' \
+	--exclude 'www/public/files/[^.]*.*' \
+  --exclude 'www/public/assets/js/*.js' \
 	--exclude '*.log' \
 	--exclude '*.bak' \
 	--exclude '*.rdb' \
