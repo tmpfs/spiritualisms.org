@@ -152,7 +152,9 @@ function remove(id, e) {
     this.total();
 
     // switch link to unstar view
-    this.notifier.emit('star/toggle', id, false);
+    if(!this.isStarPage) {
+      this.notifier.emit('star/toggle', id, false);
+    }
 
     // must render counter after toggle
     this.notifier.emit('star/render', res.body);
@@ -161,12 +163,17 @@ function remove(id, e) {
     parent.find('i.star').flash();
     $('header .icon i.fa-star').flash();
 
-    if(this.isStarPage) {
-      var el = $('.quotation[data-id="' + id + '"]');
+    var el = $('.quotation[data-id="' + id + '"]');
+    function onFadeOut() {
       el.remove();
       if(!this.model.length()) {
         this.empty(); 
       }
+    }
+
+    if(this.isStarPage) {
+      el.disable();
+      el.fadeOut(onFadeOut.bind(this));
     }
   }
 
