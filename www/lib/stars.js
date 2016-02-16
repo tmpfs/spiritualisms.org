@@ -109,6 +109,8 @@ function add(id, e) {
     return false;
   }
 
+  var parent = $(e.currentTarget).parent();
+
   function onResponse(err, res) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
@@ -121,6 +123,10 @@ function add(id, e) {
 
     // must render counter after toggle
     this.notifier.emit('star/render', res.body);
+
+    // animate a little
+    parent.find('i.star').flash();
+    $('header .icon i.fa-star').flash();
   }
 
   this.model.incr([id], onResponse.bind(this));
@@ -136,6 +142,8 @@ function remove(id, e) {
     return false; 
   }
 
+  var parent = $(e.currentTarget).parent();
+
   function onResponse(err, res) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
@@ -148,6 +156,10 @@ function remove(id, e) {
 
     // must render counter after toggle
     this.notifier.emit('star/render', res.body);
+
+    // animate a little
+    parent.find('i.star').flash();
+    $('header .icon i.fa-star').flash();
 
     if(this.isStarPage) {
       var el = $('.quotation[data-id="' + id + '"]');
