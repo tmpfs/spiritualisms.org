@@ -2139,6 +2139,10 @@
   -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
 }
+.flash {
+  -webkit-animation-name: flash;
+  animation-name: flash;
+}
 @-moz-keyframes fadeIn {
   0% {
     opacity: 0;
@@ -2200,6 +2204,38 @@
     opacity: 1;
   }
   100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes flash {
+  0%, 10%, 30%, 50%, 70%, 90%, 100% {
+    opacity: 1;
+  }
+  20%, 40%, 60%, 80% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes flash {
+  0%, 10%, 30%, 50%, 70%, 90%, 100% {
+    opacity: 1;
+  }
+  20%, 40%, 60%, 80% {
+    opacity: 0;
+  }
+}
+@-o-keyframes flash {
+  0%, 10%, 30%, 50%, 70%, 90%, 100% {
+    opacity: 1;
+  }
+  20%, 40%, 60%, 80% {
+    opacity: 0;
+  }
+}
+@keyframes flash {
+  0%, 10%, 30%, 50%, 70%, 90%, 100% {
+    opacity: 1;
+  }
+  20%, 40%, 60%, 80% {
     opacity: 0;
   }
 }

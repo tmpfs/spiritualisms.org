@@ -37,10 +37,13 @@ function onInit(container, id) {
  */
 function show(id, e) {
   e.preventDefault();
+  var el = $(e.currentTarget);
   function onResponse(err, res) {
     // NOTE: errors currently handled by model
     // NOTE: however follow idiomatic signature
     this.render(res.body);
+
+    el.find('i').flash();
   }
   this.model.show(id, onResponse.bind(this));
 }

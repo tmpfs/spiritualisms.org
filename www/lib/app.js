@@ -32,7 +32,7 @@ $.plugin(
     //require('air/val')
     require('vivify'),
     //require('vivify/burst'),
-    //require('vivify/flash'),
+    require('vivify/flash'),
     require('vivify/fade-in'),
     require('vivify/fade-out')
   ]

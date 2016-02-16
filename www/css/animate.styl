@@ -57,3 +57,19 @@ animated-hinge-block                := {
   -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
 
+// @stylint off
+@keyframes flash {
+  0%, 10%, 30%, 50%, 70%, 90%, 100% {
+    opacity: 1;
+  }
+
+  20%, 40%, 60%, 80% {
+    opacity: 0;
+  }
+}
+// @stylint on
+
+// rules
+.flash
+  -webkit-animation-name    : flash
+  animation-name            : flash
