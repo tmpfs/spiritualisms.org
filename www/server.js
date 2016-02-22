@@ -18,6 +18,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(slashes);
 
+//app.use(function(req, res, next) {
+  //console.log(req.url);
+  //next();
+//})
+
 /**
  *  Helper function to pass a random quote to a view.
  */
