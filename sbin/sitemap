@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# switch to --list-style=tty with --labels to debug tree
+
 NODE_ENV=devel ldn exec http://localhost:3000 --cmd 'ldn meta' --json \
   --pattern-file sitemap.conf \
-  | NODE_ENV=devel ldn tree --list-style=tty --labels
+    | NODE_ENV=devel ldn tree --list-style=jade \
+      --sort=label
