@@ -3309,7 +3309,8 @@ body footer nav.refresh {
   transition: opacity 0.75s ease;
   opacity: 0.5;
 }
-.swatches a:hover {
+.swatches a:hover,
+.swatches a.selected {
   transition: opacity 0.75s ease;
   opacity: 1;
 }

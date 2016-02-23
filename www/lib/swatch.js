@@ -32,6 +32,9 @@ function click(e) {
 
   body.addClass(id);
 
+  $('.swatches a').removeClass('selected');
+  el.addClass('selected');
+
   this.current = id;
 }
 
