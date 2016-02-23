@@ -3261,6 +3261,41 @@ section > h2 > sup {
   color: #b3b3b3;
   padding-left: 2rem;
 }
+svg path {
+  shape-rendering: auto;
+}
+.swatches {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  padding: 0 0 0.5rem 1rem;
+  margin: 0;
+}
+.swatches a.swatch {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  padding: 0;
+}
+.swatches a.swatch svg {
+  stroke: $black;
+  stroke-width: 2;
+}
+.swatches a.swatch svg.pure {
+  fill: #fff;
+}
+.swatches a.swatch svg.survival {
+  fill: #f00;
+}
+.swatches a.swatch svg.sexuality {
+  fill: #f00;
+}
+.swatches a.swatch:not(:last-child) {
+  margin-right: 0.5rem;
+}
 form.search fieldset {
   display: table-row;
   width: 100%;

@@ -1,6 +1,16 @@
 include ../mixin/refresh
 
 footer
+  .swatches
+    a.swatch(href='#color')
+      svg.pure(viewBox='0 0 20 20')
+        use(xlink:href="/assets/img/circle.svg#circle")
+    a.swatch(href='#color')
+      svg.survival(viewBox='0 0 20 20')
+        use(xlink:href="/assets/img/circle.svg#circle")
+    a.swatch(href='#color')
+      svg.sexuality(viewBox='0 0 20 20')
+        use(xlink:href="/assets/img/circle.svg#circle")
   +refresh()
   a.home(
     href='/',
