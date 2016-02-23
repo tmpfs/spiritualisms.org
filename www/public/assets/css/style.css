@@ -3279,6 +3279,10 @@ svg path {
   height: 16px;
   border-radius: 8px;
   padding: 0;
+  opacity: 0.5;
+}
+.swatches a.swatch:hover {
+  opacity: 1;
 }
 .swatches a.swatch svg {
   stroke: $black;
@@ -3288,10 +3292,25 @@ svg path {
   fill: #fff;
 }
 .swatches a.swatch svg.survival {
-  fill: #f00;
+  fill: #ea1a28;
 }
 .swatches a.swatch svg.sexuality {
-  fill: #f00;
+  fill: #f43d1d;
+}
+.swatches a.swatch svg.power {
+  fill: #f4ef5f;
+}
+.swatches a.swatch svg.love {
+  fill: #4fd252;
+}
+.swatches a.swatch svg.communication {
+  fill: #45edf8;
+}
+.swatches a.swatch svg.intuition {
+  fill: #2d57fb;
+}
+.swatches a.swatch svg.spirituality {
+  fill: #f14ffd;
 }
 .swatches a.swatch:not(:last-child) {
   margin-right: 0.5rem;

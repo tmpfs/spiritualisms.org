@@ -15,14 +15,27 @@ svg path // or rect, circle, etc
     height: 16px;
     border-radius: 8px;
     padding: 0;
+    opacity: 0.5;
+    &:hover
+      opacity: 1;
     svg
       stroke: $black;
       stroke-width: 2;
     svg.pure
       fill: #fff;
     svg.survival
-      fill: #ff0000;
+      fill: #ea1a28;
     svg.sexuality
-      fill: #ff0000;
+      fill: #f43d1d;
+    svg.power
+      fill: #f4ef5f;
+    svg.love
+      fill: #4fd252;
+    svg.communication
+      fill: #45edf8;
+    svg.intuition
+      fill: #2d57fb;
+    svg.spirituality
+        fill: #f14ffd;
     &:not(:last-child)
       margin-right: 0.5rem;
