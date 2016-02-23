@@ -3269,7 +3269,7 @@ svg path {
   z-index: 2;
   left: 0;
   bottom: 0;
-  padding: 0 0 0.5rem 1rem;
+  padding: 0 0 7px 1rem;
   margin: 0;
 }
 .swatches a.swatch {
@@ -3378,6 +3378,7 @@ footer a.home {
   position: fixed;
   right: 0;
   bottom: 0;
+  margin-bottom: -1px;
   z-index: 2;
 }
 footer a.home img {
