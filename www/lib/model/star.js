@@ -6,7 +6,7 @@ var $ = require('air')
  */
 function StarModel(opts) {
   opts = opts || {};
-  this.storage = localStorage;
+  //this.storage = localStorage;
   this.key = opts.key || 'stars';
   this.file = opts.file || 'stars.json';
   this.opts = opts;
