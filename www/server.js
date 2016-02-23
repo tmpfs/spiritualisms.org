@@ -125,6 +125,11 @@ app.get('/docs/privacy-policy', function(req, res) {
   res.render('docs/privacy-policy', info);
 });
 
+app.get('/docs/source-code', function(req, res) {
+  var info = getViewInfo(req);
+  res.render('docs/source-code', info);
+});
+
 app.all('*', wildcard);
 app.use(errorView);
 

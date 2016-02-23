@@ -1,0 +1,22 @@
+extends ../layout
+
+block title
+  title Source Code
+
+append meta
+  meta(name='description', content='Get the website source code')
+
+block content
+  section.page
+    h2
+      a(href='/docs', title='Documents') Documents
+      | &nbsp;/&nbsp;
+      | Source Code
+    p The entire source code, except private information, is hosted on Github 
+      | for people that wish to learn more about how this application was built 
+      | or verify the information on this website.
+    p.source-code
+      a(
+        href='http://github.com/tmpfs/spiritualisms',
+        title='Source code (github.com)')
+        i.fa.fa-github

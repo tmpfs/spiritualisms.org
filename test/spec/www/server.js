@@ -115,6 +115,17 @@ describe('www:', function() {
     })
   })
 
+  it('should GET source code', function(done) {
+    var opts = {
+      url: process.env.WWW + '/docs/source-code'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
   it('should GET page not found', function(done) {
     var opts = {
       url: process.env.WWW + '/non-existent'

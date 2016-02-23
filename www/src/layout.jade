@@ -14,7 +14,7 @@ html(lang='en')
         link(rel='stylesheet', href='/assets/css/style.css', media='screen')
       block script
   block body
-    body
+    | <body>
   block main
       block header
         include include/header
@@ -33,3 +33,4 @@ html(lang='en')
         script(async
           src='http://localhost:5000/browser-sync/browser-sync-client.2.11.1.js')
       - }
+  | </body>

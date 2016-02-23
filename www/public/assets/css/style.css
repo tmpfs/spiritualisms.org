@@ -3346,6 +3346,18 @@ body.browser footer nav.refresh {
 .swatches a:not(:last-child) {
   margin-right: 0.5rem;
 }
+.source-code {
+  text-align: center;
+}
+.source-code a {
+  color: #93a1a1;
+}
+.source-code a:hover {
+  color: #268bd2;
+}
+.source-code a i.fa.fa-github {
+  font-size: 20rem;
+}
 form.search fieldset {
   display: table-row;
   width: 100%;
