@@ -3274,7 +3274,7 @@ body.browser.pure {
   background-color: #fff;
 }
 body.browser.survival {
-  background-color: #ff4500;
+  background-color: #f08080;
 }
 body.browser.sexuality {
   background-color: #ffa500;
@@ -3292,7 +3292,7 @@ body.browser.intuition {
   background-color: #b0c4de;
 }
 body.browser.spirituality {
-  background-color: #9b4dca;
+  background-color: #da70d6;
 }
 body.browser footer nav.refresh {
   background: transparent;
@@ -3324,7 +3324,7 @@ body.browser footer nav.refresh {
   fill: #fff;
 }
 .swatches a svg.survival {
-  fill: #ff4500;
+  fill: #f08080;
 }
 .swatches a svg.sexuality {
   fill: #ffa500;
@@ -3342,7 +3342,7 @@ body.browser footer nav.refresh {
   fill: #b0c4de;
 }
 .swatches a svg.spirituality {
-  fill: #9b4dca;
+  fill: #da70d6;
 }
 .swatches a:not(:last-child) {
   margin-right: 0.5rem;
