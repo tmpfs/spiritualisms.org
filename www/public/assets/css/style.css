@@ -2826,12 +2826,20 @@ header {
   background: #fff;
   z-index: 1;
   height: 6rem; /* 60px */
-  padding: 10px 10px 0px 0px;
+  padding: 10px 10px 0 0;
 /*border-bottom: 1px solid black;*/
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+}
+header h1 {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  position: absolute;
+  line-height: 0;
 }
 header img.logo {
   width: 220px;
