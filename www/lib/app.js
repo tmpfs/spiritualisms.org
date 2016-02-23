@@ -41,6 +41,7 @@ $.plugin(
 var EventEmitter = require('emanate')
   , Schema = require('async-validate')
   , descriptor = require('../../lib/schema/quote')
+  , Swatch = require('./swatch')
   , QuoteModel = require('./model/quote')
   , LoveModel = require('./model/love')
   , StarModel = require('./model/star')
@@ -86,6 +87,8 @@ function Application(opts) {
     $('a.refresh').on('click', refresh.bind(this));
   }
 
+  // browser home specific
+  this.swatch = new Swatch(opts);
 }
 
 module.exports = Application;

@@ -1,6 +1,38 @@
-svg path // or rect, circle, etc
-  shape-rendering: auto;
+//- colors
+$pure             = white;
+$survival         = orangered;
+$sexuality        = orange;
+$power            = yellow;
+$love             = yellowgreen;
+$communication    = paleturquoise;
+$intuition        = lightsteelblue;
+$spirituality     = $purple;
 
+//- page styles
+body
+  transition: background-color 0.75s ease;
+  &.pure
+    background-color: $pure;
+  &.survival
+    background-color: $survival;
+  &.sexuality
+    background-color: $sexuality;
+  &.power
+    background-color: $power;
+  &.love
+    background-color: $love;
+  &.communication
+    background-color: $communication;
+  &.intuition
+    background-color: $intuition;
+  &.spirituality
+    background-color: $spirituality;
+  footer
+    nav.refresh
+      background: transparent;
+
+
+//- swatch styles
 .swatches
   position: fixed;
   z-index: 2;
@@ -8,34 +40,33 @@ svg path // or rect, circle, etc
   bottom: 0;
   padding: 0 0 7px 1rem;
   margin: 0;
-  a.swatch
+  a
     display: inline-block;
     vertical-align: bottom;
     width: 16px;
     height: 16px;
     border-radius: 8px;
     padding: 0;
+    transition: opacity 0.75s ease;
     opacity: 0.5;
     &:hover
+      transition: opacity 0.75s ease;
       opacity: 1;
-    svg
-      stroke: $black;
-      stroke-width: 2;
     svg.pure
-      fill: white;
+      fill: $pure;
     svg.survival
-      fill: orangered;
+      fill: $survival;
     svg.sexuality
-      fill: orange;
+      fill: $sexuality;
     svg.power
-      fill: yellow;
+      fill: $power;
     svg.love
-      fill: yellowgreen;
+      fill: $love;
     svg.communication
-      fill: paleturquoise;
+      fill: $communication;
     svg.intuition
-      fill: lightsteelblue;
+      fill: $intuition;
     svg.spirituality
-        fill: $purple;
+        fill: $spirituality;
     &:not(:last-child)
       margin-right: 0.5rem;

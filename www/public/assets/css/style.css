@@ -3261,8 +3261,35 @@ section > h2 > sup {
   color: #b3b3b3;
   padding-left: 2rem;
 }
-svg path {
-  shape-rendering: auto;
+body {
+  transition: background-color 0.75s ease;
+}
+body.pure {
+  background-color: #fff;
+}
+body.survival {
+  background-color: #ff4500;
+}
+body.sexuality {
+  background-color: #ffa500;
+}
+body.power {
+  background-color: #ff0;
+}
+body.love {
+  background-color: #9acd32;
+}
+body.communication {
+  background-color: #afeeee;
+}
+body.intuition {
+  background-color: #b0c4de;
+}
+body.spirituality {
+  background-color: #9b4dca;
+}
+body footer nav.refresh {
+  background: transparent;
 }
 .swatches {
   position: fixed;
@@ -3272,47 +3299,45 @@ svg path {
   padding: 0 0 7px 1rem;
   margin: 0;
 }
-.swatches a.swatch {
+.swatches a {
   display: inline-block;
   vertical-align: bottom;
   width: 16px;
   height: 16px;
   border-radius: 8px;
   padding: 0;
+  transition: opacity 0.75s ease;
   opacity: 0.5;
 }
-.swatches a.swatch:hover {
+.swatches a:hover {
+  transition: opacity 0.75s ease;
   opacity: 1;
 }
-.swatches a.swatch svg {
-  stroke: $black;
-  stroke-width: 2;
-}
-.swatches a.swatch svg.pure {
+.swatches a svg.pure {
   fill: #fff;
 }
-.swatches a.swatch svg.survival {
+.swatches a svg.survival {
   fill: #ff4500;
 }
-.swatches a.swatch svg.sexuality {
+.swatches a svg.sexuality {
   fill: #ffa500;
 }
-.swatches a.swatch svg.power {
+.swatches a svg.power {
   fill: #ff0;
 }
-.swatches a.swatch svg.love {
+.swatches a svg.love {
   fill: #9acd32;
 }
-.swatches a.swatch svg.communication {
+.swatches a svg.communication {
   fill: #afeeee;
 }
-.swatches a.swatch svg.intuition {
+.swatches a svg.intuition {
   fill: #b0c4de;
 }
-.swatches a.swatch svg.spirituality {
+.swatches a svg.spirituality {
   fill: #9b4dca;
 }
-.swatches a.swatch:not(:last-child) {
+.swatches a:not(:last-child) {
   margin-right: 0.5rem;
 }
 form.search fieldset {
