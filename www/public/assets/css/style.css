@@ -3292,25 +3292,25 @@ svg path {
   fill: #fff;
 }
 .swatches a.swatch svg.survival {
-  fill: #ea1a28;
+  fill: #ff4500;
 }
 .swatches a.swatch svg.sexuality {
-  fill: #f43d1d;
+  fill: #ffa500;
 }
 .swatches a.swatch svg.power {
-  fill: #f4ef5f;
+  fill: #ff0;
 }
 .swatches a.swatch svg.love {
-  fill: #4fd252;
+  fill: #9acd32;
 }
 .swatches a.swatch svg.communication {
-  fill: #45edf8;
+  fill: #afeeee;
 }
 .swatches a.swatch svg.intuition {
-  fill: #2d57fb;
+  fill: #b0c4de;
 }
 .swatches a.swatch svg.spirituality {
-  fill: #f14ffd;
+  fill: #9b4dca;
 }
 .swatches a.swatch:not(:last-child) {
   margin-right: 0.5rem;
