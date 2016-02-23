@@ -3350,6 +3350,7 @@ body.browser footer nav.refresh {
   text-align: center;
 }
 .source-code a {
+  transition: color 0.75s ease;
   color: #93a1a1;
 }
 .source-code a:hover {

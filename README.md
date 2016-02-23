@@ -42,6 +42,7 @@ Spritualisms web application.
 * ECMAScript 5 - no transpiling.
 * Valid HTML5/CSS3.
 * Dynamic sitemap.
+* Vector graphics all the way -- no bitmaps.
 * No adverts.
 * No signup/login.
 * No cookies.
@@ -59,11 +60,11 @@ Right tool for the job:
 
 ## Services
 
-Decoupled microservices architecture:
+Decoupled micro-services architecture:
 
 * api.* - JSON REST API with [swagger][] v2.0 support.
 * www.* - Web server.
-* files.* - Static file service.
+* files.* - Lazy static file service.
 
 ## Developer
 
