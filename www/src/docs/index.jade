@@ -7,18 +7,6 @@ append meta
   meta(name='description', content='Documents and reference material')
 
 block content
-  section.page
+  section.page.index
     h2 Documents
-    ul
-      li
-        a(
-          href='/docs/contribution-guidelines',
-          title='Contributing guidelines') Contribution Guidelines
-      li
-        a(
-          href='/docs/privacy-policy',
-          title='Privacy policy') Privacy Policy
-      li
-        a(
-          href='/docs/source-code',
-          title='Source code') Source Code
+    include ./list

@@ -3258,14 +3258,14 @@ section > h2 > sup {
   display: inline;
   vertical-align: baseline;
 }
-.sitemap ul li {
+.page.index ul li {
   margin-bottom: 0;
 }
-.sitemap ul li ul {
+.page.index ul li ul {
   margin-top: 0;
   margin-bottom: 0;
 }
-.sitemap ul li span {
+.page.index ul li span {
   display: block;
   font-size: 2rem;
   color: #b3b3b3;

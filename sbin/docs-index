@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# switch to --list-style=tty with --labels to debug tree
+
+NODE_ENV=devel ldn exec http://localhost:3000/docs --cmd 'ldn meta' --json \
+  --pattern-file docs.conf \
+    | NODE_ENV=devel ldn tree --list-style=jade \
+      --sort=label > www/src/docs/list.jade
