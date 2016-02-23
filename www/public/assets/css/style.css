@@ -3024,8 +3024,7 @@ nav.toolbar a:not(:last-child) {
 .page,
 .error pre,
 form,
-section h2,
-blockquote:not(.primary) {
+section h2 {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
