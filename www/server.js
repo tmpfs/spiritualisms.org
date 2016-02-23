@@ -1,6 +1,8 @@
 var path = require('path')
   , express = require('express')
   , app = express()
+  , env = require('nenv')()
+  , month = '1y'
   , getViewInfo = require('../lib/http/view-info')
   , slashes = require('../lib/http/slashes')
   , wildcard = require('../lib/http/wildcard')
@@ -9,12 +11,17 @@ var path = require('path')
   , authors = require('./authors')
   , Quote = require('../lib/model/quote')
   , Tag = require('../lib/model/tag')
-  , formats = require('../lib/formats');
+  , formats = require('../lib/formats')
+  , staticOptions = {
+      maxage: env.production ? month : 0 
+    }
+
+console.dir(staticOptions);
 
 app.disable('x-powered-by');
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), staticOptions));
 
 app.use(slashes);
 
