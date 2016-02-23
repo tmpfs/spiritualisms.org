@@ -22,11 +22,6 @@ app.use(express.static(path.join(__dirname, 'public'), staticOptions));
 
 app.use(slashes);
 
-//app.use(function(req, res, next) {
-  //console.log(req.url);
-  //next();
-//})
-
 /**
  *  Helper function to pass a random quote to a view.
  */
@@ -114,6 +109,7 @@ app.get('/create', function(req, res) {
   res.render('create', info);
 });
 
+// DOCS
 app.get('/docs', function(req, res) {
   var info = getViewInfo(req);
   res.render('docs/index', info);
@@ -122,6 +118,11 @@ app.get('/docs', function(req, res) {
 app.get('/docs/contribution-guidelines', function(req, res) {
   var info = getViewInfo(req);
   res.render('docs/contribution-guidelines', info);
+});
+
+app.get('/docs/privacy-policy', function(req, res) {
+  var info = getViewInfo(req);
+  res.render('docs/privacy-policy', info);
 });
 
 app.all('*', wildcard);

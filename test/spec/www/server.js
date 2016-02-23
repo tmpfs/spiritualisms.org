@@ -104,6 +104,17 @@ describe('www:', function() {
     })
   })
 
+  it('should GET privacy policy', function(done) {
+    var opts = {
+      url: process.env.WWW + '/docs/privacy-policy'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
   it('should GET page not found', function(done) {
     var opts = {
       url: process.env.WWW + '/non-existent'
