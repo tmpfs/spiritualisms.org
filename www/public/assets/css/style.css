@@ -3403,7 +3403,7 @@ footer nav.refresh {
   text-align: center;
 }
 footer nav.refresh a {
-  color: #000;
+  color: inherit;
   font-size: 1.4rem;
 }
 footer a.home {
