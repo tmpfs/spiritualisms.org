@@ -3219,6 +3219,9 @@ section > h2 > sup {
   text-align: center;
   border-top: 0;
 }
+.small {
+  font-size: 1.8rem;
+}
 .file-list-item {
   font-size: 1.8rem;
   margin: 0;
@@ -3358,6 +3361,33 @@ body.browser footer nav.refresh {
 }
 .source-code a i.fa.fa-github {
   font-size: 20rem;
+}
+.browser-update-links {
+  text-align: center;
+}
+.browser-update-links a {
+  font-size: 4rem;
+  transition: color 0.75s ease;
+  color: #93a1a1;
+}
+.browser-update-links a:not(:last-child) {
+  margin-right: 2rem;
+}
+.browser-update-links a:hover {
+  color: #268bd2;
+}
+.update-info {
+  text-align: center;
+}
+.update-info p {
+  vertical-align: top;
+  text-align: left;
+  display: inline-block;
+  max-width: 24rem;
+  margin-bottom: 0;
+}
+.update-info p:not(:last-child) {
+  margin-right: 2rem;
 }
 form.search fieldset {
   display: table-row;

@@ -130,6 +130,11 @@ app.get('/docs/source-code', function(req, res) {
   res.render('docs/source-code', info);
 });
 
+app.get('/docs/browser-update', function(req, res) {
+  var info = getViewInfo(req);
+  res.render('docs/browser-update', info);
+});
+
 app.all('*', wildcard);
 app.use(errorView);
 

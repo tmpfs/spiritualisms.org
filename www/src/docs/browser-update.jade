@@ -1,0 +1,60 @@
+extends ../layout
+
+block title
+  title Browser Update
+
+append meta
+  meta(name='description', content='How to update your browser')
+
+block content
+  section.page
+    h2
+      a(href='/docs', title='Documents') Documents
+      | &nbsp;/&nbsp;
+      | Browser Update
+    p It appears your browser does not support the features required by this 
+      | website*.
+    p We recommend you download and install one of these 
+      | excellent free modern browsers:
+    p.browser-update-links
+      a(
+        href='http://www.mozilla.com/firefox/',
+        title='Download Firefox')
+        i.fa.fa-firefox
+          | &nbsp;Firefox
+      a(
+        href='https://www.google.com/chrome/browser/desktop/',
+        title='Download Chrome')
+        i.fa.fa-chrome
+          | &nbsp;Chrome
+      a(
+        href='http://www.opera.com/browser/',
+        title='Download Opera')
+        i.fa.fa-opera
+          | &nbsp;Opera
+    hr
+    //- thanks to browser-update.org - but sorry, don't like your styles ;)
+    .update-info
+      p.small
+        i.fa.fa-shield.muted &nbsp;
+        | Newer browsers protect you better against scams, viruses, trojans, 
+        | phishing and other threats. They also fix security holes in your
+        | current browser!
+      p.small
+        i.fa.fa-cogs.muted &nbsp;
+        | Websites using new technology will be displayed more correctly.
+      p.small
+        i.fa.fa-clock-o.muted &nbsp;
+        | Every new browser generation improves speed.
+    hr
+    p.small.muted.center * Only need 
+      a(
+        href='https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage'
+        title='LocalStorage (developer.mozilla.org)')
+        | LocalStorage
+      | &nbsp;and&nbsp;
+      a(
+        href='https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest'
+        title='XMLHttpRequest (developer.mozilla.org)')
+        | XMLHttpRequest
+      | .

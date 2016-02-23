@@ -126,6 +126,17 @@ describe('www:', function() {
     })
   })
 
+  it('should GET browser update', function(done) {
+    var opts = {
+      url: process.env.WWW + '/docs/browser-update'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
   it('should GET page not found', function(done) {
     var opts = {
       url: process.env.WWW + '/non-existent'

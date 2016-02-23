@@ -75,7 +75,8 @@ function Application(opts) {
   this.star = new StarCount(opts);
   this.stars = new Stars(opts);
 
-  if(!supported) {
+  if(!supported
+    && document.location.pathname !== '/docs/browser-update') {
     var notice = $('.browser-update');
     notice.css({display: 'block'}).fadeIn();
     if(document.location.pathname === '/home') {
