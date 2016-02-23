@@ -14,7 +14,7 @@
 * No third-party code (analytics etc)
 * No assets from other domains (google fonts etc)
 
-## Database
+## Tools
 
 Right tool for the job:
 
