@@ -46,6 +46,10 @@ app.get('/home', function(req, res, next) {
   random('home', req, res, next);
 });
 
+app.get('/sitemap', function(req, res, next) {
+  random('sitemap/index', req, res, next);
+});
+
 app.get('/why', function(req, res) {
   var info = getViewInfo(req);
   res.render('why', info);

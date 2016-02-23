@@ -3248,6 +3248,19 @@ section > h2 > sup {
   display: inline;
   vertical-align: baseline;
 }
+.sitemap ul li {
+  margin-bottom: 0;
+}
+.sitemap ul li ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.sitemap ul li span {
+  display: block;
+  font-size: 2rem;
+  color: #b3b3b3;
+  padding-left: 2rem;
+}
 form.search fieldset {
   display: table-row;
   width: 100%;

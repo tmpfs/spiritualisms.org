@@ -5,4 +5,4 @@
 NODE_ENV=devel ldn exec http://localhost:3000 --cmd 'ldn meta' --json \
   --pattern-file sitemap.conf \
     | NODE_ENV=devel ldn tree --list-style=jade \
-      --sort=label
+      --sort=label > www/src/sitemap/list.jade

@@ -3,6 +3,12 @@ extends layout
 include mixin/quote-toolbar
 include mixin/quote-listing
 
+block title
+  title Explore
+
+append meta
+  meta(name='description', content='Browse the quotes')
+
 block content
   section.page
     h2.clearfix Explore

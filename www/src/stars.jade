@@ -3,6 +3,13 @@ extends layout
 block script
   script(src='/assets/js/vendor/file-saver.js')
 
+
+block title
+  title Stars
+
+append meta
+  meta(name='description', content='Your favourite quotes')
+
 block content
   section.stars.page
     h2 Stars

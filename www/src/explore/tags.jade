@@ -4,6 +4,13 @@ include ../mixin/quote-toolbar
 include ../mixin/quote-listing
 include ../mixin/tag-list
 
+block title
+  title Tags
+
+append meta
+  meta(name='description', content='Find quotes by tags')
+
+
 block content
   section.page
     h2.clearfix
