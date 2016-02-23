@@ -13,21 +13,23 @@ html
       block css
         link(rel='stylesheet', href='/assets/css/style.css', media='screen')
       block script
-  body
-    block header
-      include include/header
-    block content
-    block footer
-    block misc
-      include include/browser-update
-    template
-      block template
-          include include/template/stars
-    block js
-      script(src='/assets/js/app.js')
+  block body
+    body
+  block main
+      block header
+        include include/header
+      block content
+      block footer
+      block misc
+        include include/browser-update
+      template
+        block template
+            include include/template/stars
+      block js
+        script(src='/assets/js/app.js')
 
-    //- NOTE: inject browser sync in devel mode
-    - if(env.devel) {
-      script(async
-        src='http://localhost:5000/browser-sync/browser-sync-client.2.11.1.js')
-    - }
+      //- NOTE: inject browser sync in devel mode
+      - if(env.devel) {
+        script(async
+          src='http://localhost:5000/browser-sync/browser-sync-client.2.11.1.js')
+      - }
