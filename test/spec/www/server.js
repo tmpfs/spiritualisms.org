@@ -82,9 +82,20 @@ describe('www:', function() {
   })
 
   // docs
-  it('should GET contributing page', function(done) {
+  it('should GET docs index page', function(done) {
     var opts = {
-      url: process.env.WWW + '/contributing'
+      url: process.env.WWW + '/docs'
+    }
+    request(opts, function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.statusCode).to.eql(200);
+      done(); 
+    })
+  })
+
+  it('should GET contribution guidelines', function(done) {
+    var opts = {
+      url: process.env.WWW + '/docs/contribution-guidelines'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);

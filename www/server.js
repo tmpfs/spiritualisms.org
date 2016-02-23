@@ -114,9 +114,14 @@ app.get('/create', function(req, res) {
   res.render('create', info);
 });
 
-app.get('/contributing', function(req, res) {
+app.get('/docs', function(req, res) {
   var info = getViewInfo(req);
-  res.render('contributing', info);
+  res.render('docs/index', info);
+});
+
+app.get('/docs/contribution-guidelines', function(req, res) {
+  var info = getViewInfo(req);
+  res.render('docs/contribution-guidelines', info);
 });
 
 app.all('*', wildcard);
