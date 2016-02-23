@@ -9,8 +9,14 @@ $intuition        = lightsteelblue;
 $spirituality     = $purple;
 
 //- page styles
-body
+body.browser
   transition: background-color 0.75s ease;
+  cite
+    a
+      color: inherit;
+  &:not(.pure)
+    nav.toolbar a
+      color: inherit;
   &.pure
     background-color: $pure;
   &.survival

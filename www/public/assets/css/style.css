@@ -3261,34 +3261,40 @@ section > h2 > sup {
   color: #b3b3b3;
   padding-left: 2rem;
 }
-body {
+body.browser {
   transition: background-color 0.75s ease;
 }
-body.pure {
+body.browser cite a {
+  color: inherit;
+}
+body.browser:not(.pure) nav.toolbar a {
+  color: inherit;
+}
+body.browser.pure {
   background-color: #fff;
 }
-body.survival {
+body.browser.survival {
   background-color: #ff4500;
 }
-body.sexuality {
+body.browser.sexuality {
   background-color: #ffa500;
 }
-body.power {
+body.browser.power {
   background-color: #ff0;
 }
-body.love {
+body.browser.love {
   background-color: #9acd32;
 }
-body.communication {
+body.browser.communication {
   background-color: #afeeee;
 }
-body.intuition {
+body.browser.intuition {
   background-color: #b0c4de;
 }
-body.spirituality {
+body.browser.spirituality {
   background-color: #9b4dca;
 }
-body footer nav.refresh {
+body.browser footer nav.refresh {
   background: transparent;
 }
 .swatches {

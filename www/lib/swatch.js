@@ -18,6 +18,7 @@ function Swatch() {
     this.state = setState.bind(this);
 
     $('.swatches a').on('click', click.bind(this));
+
     if(this.storage[this.key]) {
       this.state(this.storage[this.key]);
     }
