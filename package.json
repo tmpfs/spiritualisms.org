@@ -83,6 +83,7 @@
         "inc": [
           "introduction.md",
           "design.md",
+          "software.md",
           "developer.md"
         ]
       }
