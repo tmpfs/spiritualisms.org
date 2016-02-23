@@ -3023,8 +3023,7 @@ nav.toolbar a:not(:last-child) {
 }
 .page,
 .error pre,
-form,
-section h2 {
+form {
   max-width: 92rem;
   margin: auto;
   padding-bottom: 2rem;
@@ -3033,6 +3032,7 @@ section h2 {
   margin-top: 4rem;
   border-bottom: 1px solid #000;
   margin-bottom: 2rem;
+  padding-bottom: 2rem;
 }
 p.donate {
   text-align: center;
