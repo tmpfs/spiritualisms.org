@@ -8,6 +8,8 @@ function Swatch() {
   Abstract.apply(this, arguments);
   $('.swatches a').on('click', click.bind(this));
   this.current = null;
+  this.storage = localStorage;
+  this.key = 'bodyClass';
 }
 
 $.inherit(Swatch, Abstract);
@@ -34,6 +36,8 @@ function click(e) {
 
   $('.swatches a').removeClass('selected');
   el.addClass('selected');
+
+  this.storage.setItem(this.key, id);
 
   this.current = id;
 }
