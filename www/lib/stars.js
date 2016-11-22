@@ -192,10 +192,10 @@ function total() {
     el.find('a.stars span').remove();
     el.find('a.stars').append($.create('span'));
     el.find('a.stars span').addClass('star').text('' + len);
-    $('h2 sup').text(' ' + len);
+    //$('h2 sup').text(' ' + len);
   }else{
     el.find('a.stars span').remove();
-    $('h2 sup').text('');
+    //$('h2 sup').text('');
   }
 }
 
