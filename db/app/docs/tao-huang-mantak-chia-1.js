@@ -9,7 +9,7 @@ module.exports = {
   citation: {
     type: 'book',
     title: 'The Secret Teachings of the Tao Te Ching',
-    page: 0,
+    page: 154,
     isbn: '978-089281191-5'
   },
   created: new Date().getTime(),
