@@ -15,6 +15,7 @@ module.exports = {
   created: new Date().getTime(),
   random: Math.random(),
   tags: [
-    'tao'
+    'tao',
+    'desire'
   ]
 }
