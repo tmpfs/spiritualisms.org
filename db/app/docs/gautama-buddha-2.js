@@ -1,5 +1,5 @@
 module.exports = {
-  _id: '',
+  _id: 'the-mind-is-everything',
   type: 'quote',
   publish: true,
   quote: 'The mind is everything. What you think you become.',
