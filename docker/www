@@ -1,10 +1,11 @@
+# Runs the web server application
 FROM node:argon
 
 # Create www directory for web server
 RUN mkdir -p /usr/src
 WORKDIR /usr/src
 
-# Install www dependencies
+# Install web application dependencies
 COPY package.json /usr/src
 RUN npm install
 
@@ -15,7 +16,5 @@ ADD lib /usr/src/lib
 ADD www /usr/src/www
 
 EXPOSE 3000
-
-#CMD pwd && ls -la www
 
 CMD node www-server.js
