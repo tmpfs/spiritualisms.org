@@ -1,7 +1,5 @@
 FROM node:argon
 
-#RUN apt-get install nodejs
-
 # Create www directory for web server
 RUN mkdir -p /usr/src
 WORKDIR /usr/src
@@ -9,8 +7,6 @@ WORKDIR /usr/src
 # Install www dependencies
 COPY package.json /usr/src
 RUN npm install
-
-RUN echo $PATH
 
 # Bundle web application source
 COPY www-server.js /usr/src
