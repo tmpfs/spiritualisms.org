@@ -1,0 +1,20 @@
+# Runs the web server application
+FROM node:argon
+
+# Create www directory for web server
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
+
+# Install web application dependencies
+COPY package.json /usr/src
+RUN npm install
+
+# Bundle web application source
+COPY api-server.js /usr/src
+RUN mkdir -p /usr/src/lib /usr/src/api
+ADD lib /usr/src/lib
+ADD api /usr/src/api
+
+EXPOSE 3001
+
+CMD node api-server.js
