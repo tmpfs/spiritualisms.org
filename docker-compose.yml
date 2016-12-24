@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: docker/www
+    links:
+      - "redis:cache"
+      - "couchdb:db"
     ports:
      - "3000:3000"
   api:
@@ -13,6 +16,9 @@ services:
     build:
       context: .
       dockerfile: docker/api
+    links:
+      - "redis:cache"
+      - "couchdb:db"
     ports:
      - "3001:3001"
   redis:
@@ -20,3 +26,14 @@ services:
     build:
       context: .
       dockerfile: docker/redis
+    ports:
+     - "6379:6379"
+  couchdb:
+    image: spiritualisms-couchdb
+    build:
+      context: .
+      dockerfile: docker/couchdb
+    ports:
+     - "5984:5984"
+    volumes:
+      - /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb

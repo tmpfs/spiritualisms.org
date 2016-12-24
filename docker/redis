@@ -1,1 +1,5 @@
 FROM redis:3.0.7
+
+#RUN echo never > /sys/kernel/mm/transparent_hugepage/enabled
+
+CMD redis-server
