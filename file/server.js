@@ -183,8 +183,8 @@ app.get('/:id\.:ext?', function(req, res, next) {
 
     if(info.stats) {
       formats.write(info, buf, onWrite);
-    // need to get file stats for first time lazy creation
-    // after file is compiled
+      // need to get file stats for first time lazy creation
+      // after file is compiled
     }else{
       formats.write(info, buf, function(err) {
         if(err) {

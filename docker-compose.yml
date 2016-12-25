@@ -1,6 +1,16 @@
 version: '2'
 
 services:
+  nginx:
+    image: spiritualisms-nginx
+    build:
+      context: .
+      dockerfile: docker/nginx
+    links:
+      - "web:www.spiritualisms.org"
+      - "api:api.spiritualisms.org"
+    ports:
+     - "80:80"
   web:
     image: spiritualisms-www
     build:

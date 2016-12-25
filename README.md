@@ -91,11 +91,13 @@ docker-compose build
 docker-compose create
 ```
 
+And add the [host](https://github.com/tmpfs/spiritualisms/blob/master/conf/hosts) to `/etc/hosts` so that the domain are mapped locally.
+
 To get started clone the repository and install dependencies, start [couchdb](http://couchdb.apache.org), [redis](http://redis.io) and a browser sync session:
 
 ```
 npm i
-docker-compose up redis couchdb
+docker-compose up redis couchdb nginx
 npm run sync
 ```
 

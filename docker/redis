@@ -1,5 +1,8 @@
 FROM redis:3.0.7
 
-#RUN echo never > /sys/kernel/mm/transparent_hugepage/enabled
+COPY conf/sys-kernel.conf /sys/kernel/mm/transparent_hugepage/enabled
+
+RUN echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
+#RUN cat /etc/sysctl.conf
 
 CMD redis-server
