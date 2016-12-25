@@ -4,7 +4,7 @@
     {
       "name": "www-app",
       "host": {
-        "sourcePath": "/var/app/current/www-app"
+        "sourcePath": "/var/app/current/www"
       }
     }
   ],
@@ -20,11 +20,41 @@
           "containerPort": 3000
         }
       ],
+      "links": [
+        "redis"
+      ],
       "mountPoints": [
         {
           "sourceVolume": "www-app",
           "containerPath": "/var/www/html",
           "readOnly": true
+        }
+      ]
+    },
+    {
+      "name": "api-app",
+      "image": "spiritualisms-api",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 3001,
+          "containerPort": 3001
+        }
+      ],
+      "links": [
+        "redis"
+      ]
+    },
+    {
+      "name": "redis",
+      "image": "spiritualisms-redis",
+      "essential": true,
+      "memory": 1024,
+      "portMappings": [
+        {
+          "hostPort": 6379,
+          "containerPort": 6379
         }
       ]
     },
@@ -40,7 +70,8 @@
         }
       ],
       "links": [
-        "www-app"
+        "www-app",
+        "api-app"
       ],
       "mountPoints": [
         {
