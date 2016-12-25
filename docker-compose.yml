@@ -1,5 +1,8 @@
 version: '2'
 
+volumes:
+  files:
+
 services:
   nginx:
     image: spiritualisms-nginx
@@ -9,6 +12,7 @@ services:
     links:
       - "web:www.spiritualisms.org"
       - "api:api.spiritualisms.org"
+      - "file:file.spiritualisms.org"
     ports:
      - "80:80"
   web:
@@ -31,6 +35,18 @@ services:
       - "couchdb:db.spiritualisms.org"
     ports:
      - "3001:3001"
+  file:
+    image: spiritualisms-file
+    build:
+      context: .
+      dockerfile: docker/file
+    links:
+      - "redis:cache.spiritualisms.org"
+      - "couchdb:db.spiritualisms.org"
+    ports:
+     - "3002:3002"
+    volumes:
+      - files:www/public/files
   redis:
     image: spiritualisms-redis
     build:
