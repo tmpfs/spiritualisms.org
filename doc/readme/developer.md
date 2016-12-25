@@ -1,11 +1,17 @@
 ## Developer
 
+Before running the application you should install [docker][] and [docker-compose][] and build the images with:
+
+```
+docker-compose build
+docker-compose create
+```
+
 To get started clone the repository and install dependencies, start [couchdb][], [redis][] and a browser sync session:
 
 ```
 npm i
-couchdb
-redis-server
+docker-compose up redis couchdb
 npm run sync
 ```
 
