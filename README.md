@@ -26,10 +26,6 @@ Table of Contents
 Spiritualisms
 =============
 
-[<img src="https://travis-ci.org/tmpfs/spiritualisms.svg" alt="Build Status">](https://travis-ci.org/tmpfs/spiritualisms)
-[<img src="http://img.shields.io/npm/v/spiritualisms.svg" alt="npm version">](https://npmjs.org/package/spiritualisms)
-[<img src="https://coveralls.io/repos/tmpfs/spiritualisms/badge.svg?branch=master&service=github&v=1" alt="Coverage Status">](https://coveralls.io/github/tmpfs/spiritualisms?branch=master).
-
 Spritualisms web application.
 
 > Spiritualisms provides a list of curated quotes for daily inspiration; illumination for your path.
