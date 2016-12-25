@@ -1,8 +1,5 @@
 version: '2'
 
-volumes:
-  files:
-
 services:
   nginx:
     image: spiritualisms-nginx
@@ -46,7 +43,7 @@ services:
     ports:
      - "3002:3002"
     volumes:
-      - files:www/public/files
+      - ./www/public/files:/usr/src/www/public/files
   redis:
     image: spiritualisms-redis
     build:
