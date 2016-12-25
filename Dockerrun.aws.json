@@ -47,6 +47,21 @@
       ]
     },
     {
+      "name": "file-app",
+      "image": "spiritualisms-file",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 3002,
+          "containerPort": 3002
+        }
+      ],
+      "links": [
+        "redis"
+      ]
+    },
+    {
       "name": "redis",
       "image": "spiritualisms-redis",
       "essential": true,
