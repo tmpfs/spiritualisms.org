@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: docker/www
     links:
-      - "redis:cache"
-      - "couchdb:db"
+      - "redis:cache.spiritualisms.org"
+      - "couchdb:db.spiritualisms.org"
     ports:
      - "3000:3000"
   api:
@@ -17,8 +17,8 @@ services:
       context: .
       dockerfile: docker/api
     links:
-      - "redis:cache"
-      - "couchdb:db"
+      - "redis:cache.spiritualisms.org"
+      - "couchdb:db.spiritualisms.org"
     ports:
      - "3001:3001"
   redis:
