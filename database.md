@@ -25,7 +25,7 @@ Copy the password into the `local.ini` file in the repository removing the plain
 
 ## Server
 
-Create an Amazon EC2 instance exposing port 5984 and SSH to the server using the supplied PEM file you can then connect to the server via SSH:
+Create an Amazon EC2 instance exposing ports 22, 80, 5984 and 6379 then SSH to the server using the supplied PEM file you can then connect to the server via SSH:
 
 ```
 ssh -i ~/.ssh/spiritualisms-db.pem ec2-user@ec2-54-251-184-147.ap-southeast-1.compute.amazonaws.com
