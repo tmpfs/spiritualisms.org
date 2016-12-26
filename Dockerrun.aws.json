@@ -101,7 +101,8 @@
       ],
       "links": [
         "www-app",
-        "api-app"
+        "api-app",
+        "file-app"
       ],
       "mountPoints": [
         {
