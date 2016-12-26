@@ -6,6 +6,8 @@ Create an Amazon EC2 instance exposing port 5984 and SSH to the server using the
 ssh -i ~/.ssh/spiritualisms-db.pem ec2-user@ec2-54-251-184-147.ap-southeast-1.compute.amazonaws.com
 ```
 
+## Installation
+
 Install and start docker:
 
 ```
@@ -53,5 +55,26 @@ ps ax | grep couchdb
 
 You can then check the service with the [public IP address](http://54.251.184.147:5984/).
 
-TODO: bootstrap the data
+## DNS
+
+Map the domain name `db.spiritualisms.org` to the IP address of the instance in Route53 so that the database is available via a hostname.
+
+## Bootstrap
+
+You should have [rlx][] installed to bootstrap the default data.
+
+Configure an alias `spiritualisms` pointing to `http://db.spiritualisms.org:5984` than create the database:
+
+```
+rlx db add quotes -s :spiritualisms
+```
+
+Now you can bootstrap the default database from the git repository:
+
+```
+rlx app push --no-auto-id -d quotes -s :spiritualisms -i app ./db/app
+```
+
 TODO: configure authentication
+
+[rlx]: https://github.com/tmpfs/rlx
