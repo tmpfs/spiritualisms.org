@@ -21,7 +21,8 @@
         }
       ],
       "links": [
-        "redis"
+        "redis",
+        "couchdb"
       ],
       "mountPoints": [
         {
@@ -43,7 +44,8 @@
         }
       ],
       "links": [
-        "redis"
+        "redis",
+        "couchdb"
       ]
     },
     {
@@ -58,7 +60,8 @@
         }
       ],
       "links": [
-        "redis"
+        "redis",
+        "couchdb"
       ]
     },
     {
@@ -70,6 +73,18 @@
         {
           "hostPort": 6379,
           "containerPort": 6379
+        }
+      ]
+    },
+    {
+      "name": "couchdb",
+      "image": "spiritualisms-couchdb",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 5984,
+          "containerPort": 5984
         }
       ]
     },
