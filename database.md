@@ -48,7 +48,7 @@ sudo docker images
 And run the image:
 
 ```
-sudo docker run -d -p 5984:5984 -v /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb {IMAGE}:{TAG}
+sudo docker run -d -p 5984:5984 --restart always -v /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb {IMAGE}:{TAG}
 ```
 
 Add the image run command to `/etc/rc.local` so that the service is started when the machine boots.
@@ -83,7 +83,5 @@ Now you can bootstrap the default database from the git repository:
 ```
 rlx app push --no-auto-id -d quotes -s :spiritualisms -i app ./db/app
 ```
-
-TODO: configure authentication
 
 [rlx]: https://github.com/tmpfs/rlx
