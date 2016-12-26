@@ -1,1 +1,3 @@
 FROM couchdb:1.6.1
+
+COPY conf/local.ini /usr/local/etc/couchdb/

@@ -20,6 +20,12 @@ Check the docker installation:
 sudo docker ps
 ```
 
+Create the directory on the host that will be the volume for the databases:
+
+```
+sudo mkdir -p /usr/local/var/lib/couchdb
+```
+
 Pull the `couchdb` tag from the ECR repository, see the [pull ecr guide](http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html).
 
 1. Configure the aws credentials `aws configure` and use the `spiritualisms` access key id and secret key.
@@ -42,7 +48,7 @@ sudo docker images
 And run the image:
 
 ```
-sudo docker run -p 5984:5984 {IMAGE}:{TAG}
+sudo docker run -d -p 5984:5984 -v /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb {IMAGE}:{TAG}
 ```
 
 Add the image run command to `/etc/rc.local` so that the service is started when the machine boots.
@@ -53,11 +59,14 @@ Restart the machine `sudo reboot`, reconnect with SSH and verify the services ar
 ps ax | grep couchdb
 ```
 
+
 You can then check the service with the [public IP address](http://54.251.184.147:5984/).
 
 ## DNS
 
 Map the domain name `db.spiritualisms.org` to the IP address of the instance in Route53 so that the database is available via a hostname.
+
+Wait for the DNS to propagate before proceeding.
 
 ## Bootstrap
 
