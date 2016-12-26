@@ -1,10 +1,35 @@
 # Database Server
 
-Create an Amazon EC2 instance exposing port 5984 and SSH to the server using the supplied PEM file:
+## Server
+
+Create an Amazon EC2 instance exposing port 5984 and SSH to the server using the supplied PEM file you can then connect to the server via SSH:
 
 ```
 ssh -i ~/.ssh/spiritualisms-db.pem ec2-user@ec2-54-251-184-147.ap-southeast-1.compute.amazonaws.com
 ```
+
+## Building
+
+To build the docker image:
+
+```
+docker build -t spiritualisms-couchdb -f docker/couchdb .
+```
+
+And then run the image locally:
+
+```
+docker run -d -p 5984:5984 spiritualisms-couchdb
+```
+
+You should already have the administrator password otherwise it can be set (or rotated) by configuring the `[admins]` section in `local.ini` to a plain text password, running the container and extracting the encrypted pbkdf2 login information:
+
+```
+docker exec -it 79bbefd98988 bash
+cat /usr/local/etc/couchdb/local.ini | grep spiritualisms
+```
+
+Copy the password into the `local.ini` file in the repository removing the plain text version. You may now commit the `local.ini` file to the repository.
 
 ## Installation
 
