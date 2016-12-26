@@ -53,7 +53,7 @@
     "sync": "node sync.js",
     "backup": "./sbin/rsync-backup",
     "lint": "jshint . && jscs .",
-    "readme": "mdp --force -v",
+    "readme": "mk readme --force",
     "clean": "rm -rf coverage",
     "css": "stylus -o www/public/assets/css www/css/style.styl",
     "standalone": "stylus -c -o www/public/assets/css www/css/standalone.styl",
@@ -67,24 +67,5 @@
     "test": "NODE_ENV=test mocha test/global ${SPEC:-test/spec}",
     "cover": "NODE_ENV=test istanbul cover _mocha -- test/global ${SPEC:-test/spec}",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
-  },
-  "mdp": {
-    "title": "Spiritualisms",
-    "pedantic": true,
-    "include": "doc/readme",
-    "require": "lib",
-    "links": "links.md",
-    "toc": "Table of Contents",
-    "base": "https://github.com/tmpfs/spiritualisms",
-    "partial": [
-      {
-        "inc": [
-          "introduction.md",
-          "design.md",
-          "software.md",
-          "developer.md"
-        ]
-      }
-    ]
   }
 }

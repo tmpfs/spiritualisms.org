@@ -1,90 +1,86 @@
-Table of Contents
-=================
-
-* [Spiritualisms](#spiritualisms)
-  * [Design](#design)
-  * [Tools](#tools)
-  * [Services](#services)
-  * [Software](#software)
-  * [Developer](#developer)
-    * [Sync](#sync)
-    * [Server](#server)
-    * [API Server](#api-server)
-    * [File Server](#file-server)
-    * [Teardown](#teardown)
-    * [Bootstrap](#bootstrap)
-    * [CSS](#css)
-    * [Standalone CSS](#standalone-css)
-    * [Compile](#compile)
-    * [Minify](#minify)
-    * [Test](#test)
-    * [Cover](#cover)
-    * [Lint](#lint)
-    * [Clean](#clean)
-    * [Readme](#readme)
-
-Spiritualisms
-=============
-
 Spritualisms web application.
 
 > Spiritualisms provides a list of curated quotes for daily inspiration; illumination for your path.
 
+---
+
+- [Design](#design)
+- [Tools](#tools)
+- [Services](#services)
+- [Software](#software)
+- [Developer](#developer)
+  - [Sync](#sync)
+  - [Server](#server)
+  - [API Server](#api-server)
+  - [File Server](#file-server)
+  - [Teardown](#teardown)
+  - [Bootstrap](#bootstrap)
+  - [CSS](#css)
+  - [Standalone CSS](#standalone-css)
+  - [Compile](#compile)
+  - [Minify](#minify)
+  - [Test](#test)
+  - [Cover](#cover)
+  - [Lint](#lint)
+  - [Clean](#clean)
+  - [Readme](#readme)
+- [License](#license)
+
+---
+
 ## Design
 
-* Clean and elegant interface.
-* Fast page load.
-* Modern browsers (IE10+).
-* Dynamic and static file formats.
-* ECMAScript 5 - no transpiling.
-* Valid HTML5/CSS3.
-* Dynamic sitemap.
-* Vector graphics all the way -- no bitmaps.
-* No adverts.
-* No signup/login.
-* No cookies.
-* No third-party code (analytics etc).
-* No assets from other domains (google fonts etc).
+* Clean and elegant interface
+* Fast page load
+* Modern browsers (IE10+)
+* Dynamic and static file formats
+* ECMAScript 5 - no transpiling
+* Valid HTML5/CSS3
+* Dynamic sitemap
+* Vector graphics all the way -- no bitmaps
+* No adverts
+* No signup/login
+* No cookies
+* No third-party code (analytics etc)
+* No assets from other domains (google fonts etc)
 
 ## Tools
 
 Right tool for the job:
 
-* [couchdb](http://couchdb.apache.org) for document storage.
-* [redis](http://redis.io) for fast in-memory access.
-* [postgres](http://www.postgresql.org) for indexing and search.
-* [nginx](http://nginx.org) for static file serving.
+* [couchdb][] for document storage
+* [redis][] for fast in-memory access
+* [postgres][] for indexing and search
+* [nginx][] for static file serving
 
 ## Services
 
 Decoupled micro-services architecture:
 
-* api.* - JSON REST API with [swagger][] v2.0 support.
-* www.* - Web server.
-* files.* - Lazy static file service.
-
+* api.* - JSON REST API with [swagger][] v2.0 support
+* www.* - Web server
+* files.* - Lazy static file service
 ## Software
 
 Want to play along? You're going to need a POSIX system and this stuff:
 
-* [docker](https://docker.com/).
-* [node](https://nodejs.org).
-* [nginx](http://nginx.org).
-* [redis](http://redis.io).
-* [postgres](http://www.postgresql.org).
-* [couchdb](http://couchdb.apache.org).
-* [wkhtmltopdf](http://wkhtmltopdf.org/).
-* [java](https://www.java.com/).
-* [validator](https://github.com/validator/validator).
-* [mdp](https://github.com/tmpfs/mdp).
-* [rlx](https://github.com/tmpfs/rlx).
-* [linkdown](https://github.com/tmpfs/linkdown).
-* [jshint](http://jshint.com).
-* [jscs](http://jscs.info).
-
+* [docker][]
+* [node][]
+* [nginx][]
+* [redis][]
+* [postgres][]
+* [couchdb][]
+* [wkhtmltopdf][]
+* [java][]
+* [validator][]
+* [mdp][]
+* [rlx][]
+* [linkdown][]
+* [jshint][]
+* [jscs][]
 ## Developer
 
-Before running the application you should install [docker](https://docker.com/) and [docker-compose](https://docs.docker.com/compose/) and build the images with:
+Before running the application you should install [docker][] and [docker-compose][] and build the images with:
 
 ```
 docker-compose build
@@ -93,7 +89,7 @@ docker-compose create
 
 And add the [host](https://github.com/tmpfs/spiritualisms/blob/master/conf/hosts) to `/etc/hosts` so that the domain are mapped locally.
 
-To get started clone the repository and install dependencies, start [couchdb](http://couchdb.apache.org), [redis](http://redis.io) and a browser sync session:
+To get started clone the repository and install dependencies, start [couchdb][], [redis][] and a browser sync session:
 
 ```
 npm i
@@ -143,7 +139,7 @@ npm run teardown
 
 ### Bootstrap
 
-Create the database and bootstrap the application: 
+Create the database and bootstrap the application:
 
 ```
 npm run teardown; npm run bootstrap
@@ -185,7 +181,7 @@ npm run minify
 
 ### Test
 
-Beforehand ensure the database is created (see [bootstrap](#bootstrap)). Both [couchdb](http://couchdb.apache.org) and [redis](http://redis.io) must be running. Then run the test specifications:
+Beforehand ensure the database is created (see [bootstrap](#bootstrap)). Both [couchdb][] and [redis][] must be running. Then run the test specifications:
 
 ```
 npm test
@@ -201,7 +197,7 @@ npm run cover
 
 ### Lint
 
-Run the source tree through [jshint](http://jshint.com) and [jscs](http://jscs.info):
+Run the source tree through [jshint][] and [jscs][]:
 
 ```
 npm run lint
@@ -217,16 +213,22 @@ npm run clean
 
 ### Readme
 
-To build the readme file from the partial definitions (requires [mdp](https://github.com/tmpfs/mdp)):
+To build the readme file from the partial definitions (requires [mdp][]):
 
 ```
 npm run readme
 ```
 
-Generated by [mdp(1)](https://github.com/tmpfs/mdp).
+## License
+
+MIT
+
+---
+
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on December 26, 2016
 
 [node]: https://nodejs.org
-[docker]: https://docker.com/
+[docker]: http://www.docker.com
 [nginx]: http://nginx.org
 [postgres]: http://www.postgresql.org
 [couchdb]: http://couchdb.apache.org
@@ -240,3 +242,4 @@ Generated by [mdp(1)](https://github.com/tmpfs/mdp).
 [mdp]: https://github.com/tmpfs/mdp
 [rlx]: https://github.com/tmpfs/rlx
 [linkdown]: https://github.com/tmpfs/linkdown
+
