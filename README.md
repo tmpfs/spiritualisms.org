@@ -60,6 +60,7 @@ Decoupled micro-services architecture:
 * api.* - JSON REST API with [swagger][] v2.0 support
 * www.* - Web server
 * files.* - Lazy static file service
+
 ## Software
 
 Want to play along? You're going to need a POSIX system and this stuff:
@@ -78,6 +79,7 @@ Want to play along? You're going to need a POSIX system and this stuff:
 * [linkdown][]
 * [jshint][]
 * [jscs][]
+
 ## Developer
 
 Before running the application you should install [docker][] and [docker-compose][] and build the images with:
