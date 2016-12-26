@@ -2,7 +2,10 @@ FROM redis:3.0.7
 
 COPY conf/sys-kernel.conf /sys/kernel/mm/transparent_hugepage/enabled
 
-RUN echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
-#RUN cat /etc/sysctl.conf
+# Redis configuration must be done on the host!
+# see: https://github.com/docker-library/redis/issues/19
+
+#RUN echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
+#RUN sysctl vm.overcommit_memory=1
 
 CMD redis-server

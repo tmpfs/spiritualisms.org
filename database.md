@@ -11,7 +11,7 @@ docker build -t spiritualisms-couchdb -f docker/couchdb .
 And then run the image locally:
 
 ```
-docker run -d -p 5984:5984 spiritualisms-couchdb
+docker run -d -p 5984:5984 -v /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb spiritualisms-couchdb
 ```
 
 You should already have the administrator password otherwise it can be set (or rotated) by configuring the `[admins]` section in `local.ini` to a plain text password, running the container and extracting the encrypted pbkdf2 login information:
