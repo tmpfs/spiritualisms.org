@@ -74,7 +74,7 @@ Want to play along? You're going to need a POSIX system and this stuff:
 * [wkhtmltopdf][]
 * [java][]
 * [validator][]
-* [mdp][]
+* [mkdoc][]
 * [rlx][]
 * [linkdown][]
 * [jshint][]
@@ -215,7 +215,7 @@ npm run clean
 
 ### Readme
 
-To build the readme file from the partial definitions (requires [mdp][]):
+To build the readme file from the partial definitions (requires [mkdoc][]):
 
 ```
 npm run readme
@@ -241,7 +241,7 @@ Created by [mkdoc](https://github.com/mkdoc/mkdoc) on December 26, 2016
 [jshint]: http://jshint.com
 [jscs]: http://jscs.info
 [docker-compose]: https://docs.docker.com/compose/
-[mdp]: https://github.com/tmpfs/mdp
+[mkdoc]: https://github.com/mkdoc/mkdoc
 [rlx]: https://github.com/tmpfs/rlx
 [linkdown]: https://github.com/tmpfs/linkdown
 
