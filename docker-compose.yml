@@ -58,6 +58,8 @@ services:
       dockerfile: docker/redis
     ports:
      - "6379:6379"
+    volumes:
+      - /opt/redis/data:/opt/redis/data
   couchdb:
     image: spiritualisms-couchdb
     build:
