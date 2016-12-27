@@ -4,9 +4,11 @@ RUN mkdir -p /opt/redis/data
 WORKDIR /opt/redis
 
 COPY conf/redis.conf /opt/redis
+COPY docker/redis-entrypoint.sh /opt/redis
 
 # Redis configuration must be done on the host!
 # see: https://github.com/docker-library/redis/issues/19
 # see: https://github.com/openfirmware/docker-redis/issues/1
 
-CMD redis-server /opt/redis/redis.conf
+ENTRYPOINT ./redis-entrypoint.sh
+

@@ -11,22 +11,23 @@ touch /var/lock/subsys/local
 # NOTE: be issued once, afterwards the docker daemon will manage the containers
 # NOTE: when the VM host is booted
 
+# NOTE: for the ulimit change to take effect you should edit:
+# NOTE: /etc/security/limits.conf
+# NOTE: and add:
+#
+# * soft nofile 64000
+# * hard nofile 64000
+#
+
 # start couchdb
-#docker run -d -p 5984:5984 \
-  #--restart unless_stopped \
-  #--name couchdb \
-  #-v /opt/couchdb/data:/opt/couchdb/data \
-  #077333142038.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:couchdb
+#docker run -d -p 5984:5984 --restart always --name couchdb -v /opt/couchdb/data:/opt/couchdb/data 077333142038.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:couchdb
 
 # redis configuration
 sysctl -w vm.overcommit_memory=1
 sysctl -w net.core.somaxconn=1024
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
+ulimit -n 16384 16384
 
 # start redis
-#docker run -d -p 6379:6379 \
-  #--restart unless_stopped \
-  #--name redis \
-  #-v /opt/redis/data:/opt/redis/data \
-  #077333142038.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:redis
+#docker run -d -p 6379:6379 --privileged --restart always --name redis --ulimit nofile=16384:16384 -v /opt/redis/data:/opt/redis/data 077333142038.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:redis
 ~
