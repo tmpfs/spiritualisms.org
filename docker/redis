@@ -7,5 +7,6 @@ COPY conf/redis.conf /opt/redis
 
 # Redis configuration must be done on the host!
 # see: https://github.com/docker-library/redis/issues/19
+# see: https://github.com/openfirmware/docker-redis/issues/1
 
 CMD redis-server /opt/redis/redis.conf
