@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# This script will be executed *after* all the other init scripts.
+# You can put your own initialization stuff in here if you don't
+# want to do the full Sys V style init stuff.
+
+touch /var/lock/subsys/local
+
+docker run -d -p 5984:5984 --restart always -v /opt/couchdb/data:/opt/couchdb/data 077333142038.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:couchdb
+
+sysctl vm.overcommit_memory=1
+sysctl -w net.core.somaxconn=1024
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+
+docker run -d -p 6379:6379 --restart always -v /opt/redis/data:/opt/redis/data 077333142038.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:redis
+~

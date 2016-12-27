@@ -11,7 +11,7 @@ docker build -t spiritualisms-couchdb -f docker/couchdb .
 And then run the image locally:
 
 ```
-docker run -d -p 5984:5984 -v /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb spiritualisms-couchdb
+docker run -d -p 5984:5984 -v /opt/couchdb/data:/opt/couchdb/data spiritualisms-couchdb
 ```
 
 You should already have the administrator password otherwise it can be set (or rotated) by configuring the `[admins]` section in `local.ini` to a plain text password, running the container and extracting the encrypted pbkdf2 login information:
@@ -51,7 +51,7 @@ Create the directory on the host that will be the volume for the databases:
 sudo mkdir -p /opt/couchdb/data
 ```
 
-Pull the `couchdb` tag from the ECR repository, see the [pull ecr guide](http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html).
+Pull the `couchdb` and `redis` tags from the ECR repository, see the [pull ecr guide](http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html).
 
 1. Configure the aws credentials `aws configure` and use the `spiritualisms` access key id and secret key.
 2. Get the docker login command `aws ecr get-login --region ap-southeast-1`.
@@ -62,6 +62,8 @@ Pull the `couchdb` tag from the ECR repository, see the [pull ecr guide](http://
 
 ```
 sudo docker pull {AWS_ACCOUNT_ID}.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:couchdb
+
+sudo docker pull {AWS_ACCOUNT_ID}.dkr.ecr.ap-southeast-1.amazonaws.com/spiritualisms:redis
 ```
 
 Check the images list:
@@ -70,22 +72,15 @@ Check the images list:
 sudo docker images
 ```
 
-And run the image:
+## Configure
 
-```
-sudo docker run -d -p 5984:5984 --restart always -v /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb {IMAGE}:{TAG}
-```
-
-Add the image run command to `/etc/rc.local` so that the service is started when the machine boots.
+Configure the host system by copying the contents of [rc.local](/conf/rc.local) to `/etc/rc.local`:
 
 Restart the machine `sudo reboot`, reconnect with SSH and verify the services are running:
 
 ```
-ps ax | grep couchdb
+sudo docker ps
 ```
-
-
-You can then check the service with the [public IP address](http://54.251.184.147:5984/).
 
 ## DNS
 
@@ -93,20 +88,23 @@ Map the domain name `db.spiritualisms.org` to the IP address of the instance in 
 
 Wait for the DNS to propagate before proceeding.
 
+## Verify
+
+You can now test the services with:
+
+```
+curl -I http://db.spiritualisms.org:5984
+redis-cli -h db.spiritualisms.org
+```
+
 ## Bootstrap
 
 You should have [rlx][] installed to bootstrap the default data.
 
-Configure an alias `spiritualisms` pointing to `http://db.spiritualisms.org:5984` than create the database:
+Configure an alias `spiritualisms` pointing to `http://db.spiritualisms.org:5984` than bootstrap the application data. You will need to supply the admin password for authentication and create the application user `spiritualisms-appuser`.
 
 ```
-rlx db add quotes -s :spiritualisms
-```
-
-Now you can bootstrap the default database from the git repository:
-
-```
-rlx app push --no-auto-id -d quotes -s :spiritualisms -i app ./db/app
+./sbin/bootstrap :spiritualisms
 ```
 
 [rlx]: https://github.com/tmpfs/rlx
