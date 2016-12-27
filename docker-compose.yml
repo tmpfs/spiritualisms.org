@@ -17,6 +17,9 @@ services:
     build:
       context: .
       dockerfile: docker/www
+    environment:
+      SPIRITUALISMS_COUCHDB_USER: "$SPIRITUALISMS_COUCHDB_USER"
+      SPIRITUALISMS_COUCHDB_PASS: "$SPIRITUALISMS_COUCHDB_PASS"
     links:
       - "redis:cache.spiritualisms.org"
       - "couchdb:db.spiritualisms.org"
@@ -27,6 +30,9 @@ services:
     build:
       context: .
       dockerfile: docker/api
+    environment:
+      SPIRITUALISMS_COUCHDB_USER: "$SPIRITUALISMS_COUCHDB_USER"
+      SPIRITUALISMS_COUCHDB_PASS: "$SPIRITUALISMS_COUCHDB_PASS"
     links:
       - "redis:cache.spiritualisms.org"
       - "couchdb:db.spiritualisms.org"
@@ -37,13 +43,14 @@ services:
     build:
       context: .
       dockerfile: docker/file
+    environment:
+      SPIRITUALISMS_COUCHDB_USER: "$SPIRITUALISMS_COUCHDB_USER"
+      SPIRITUALISMS_COUCHDB_PASS: "$SPIRITUALISMS_COUCHDB_PASS"
     links:
       - "redis:cache.spiritualisms.org"
       - "couchdb:db.spiritualisms.org"
     ports:
      - "3002:3002"
-    volumes:
-      - ./www/public/files:/usr/src/www/public/files
   redis:
     image: spiritualisms-redis
     build:
@@ -59,4 +66,4 @@ services:
     ports:
      - "5984:5984"
     volumes:
-      - /usr/local/var/lib/couchdb:/usr/local/var/lib/couchdb
+      - /opt/couchdb/data:/opt/couchdb/data

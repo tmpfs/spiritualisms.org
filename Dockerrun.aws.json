@@ -4,7 +4,7 @@
     {
       "name": "databases",
       "host": {
-        "sourcePath": "/usr/local/var/lib/couchdb"
+        "sourcePath": "/opt/couchdb/data"
       }
     }
   ],
@@ -90,7 +90,7 @@
       "mountPoints": [
         {
           "sourceVolume": "databases",
-          "containerPath": "/usr/local/var/lib/couchdb"
+          "containerPath": "/opt/couchdb/data"
         }
       ]
     },

@@ -48,7 +48,7 @@ sudo docker ps
 Create the directory on the host that will be the volume for the databases:
 
 ```
-sudo mkdir -p /usr/local/var/lib/couchdb
+sudo mkdir -p /opt/couchdb/data
 ```
 
 Pull the `couchdb` tag from the ECR repository, see the [pull ecr guide](http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html).

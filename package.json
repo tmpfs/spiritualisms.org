@@ -23,7 +23,7 @@
     "air": "~0.4.9",
     "async-validate": "~0.13.0",
     "body-parser": "~1.14.2",
-    "cdb": "~0.3.1",
+    "cdb": "~0.3.4",
     "emanate": "~1.2.1",
     "express": "~5.0.0-alpha.2",
     "hiredis": "~0.4.1",
@@ -51,7 +51,6 @@
   },
   "scripts": {
     "sync": "node sync.js",
-    "backup": "./sbin/rsync-backup",
     "lint": "jshint . && jscs .",
     "readme": "mk readme --force",
     "clean": "rm -rf coverage",
@@ -62,8 +61,8 @@
     "www": "node www-server.js",
     "compile": "NODE_PATH=.:./node_modules/air/lib:./node_modules/vivify/lib browserify -o www/public/assets/js/app.js -r air www/lib/main.js",
     "minify": "npm run compile && uglifyjs -o www/public/assets/js/app.js www/public/assets/js/app.js",
-    "teardown": "rlx db rm quotes -s :lh --no-interactive",
-    "bootstrap": "rlx db add quotes -s :lh; rlx app push --no-auto-id -d quotes -s :lh -i app ./db/app",
+    "teardown": "./sbin/teardown :lh",
+    "bootstrap": "./sbin/bootstrap :lh",
     "test": "NODE_ENV=test mocha test/global ${SPEC:-test/spec}",
     "cover": "NODE_ENV=test istanbul cover _mocha -- test/global ${SPEC:-test/spec}",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"

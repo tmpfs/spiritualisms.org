@@ -1,3 +1,6 @@
-FROM couchdb:1.6.1
+FROM klaemo/couchdb:2.0.0
 
-COPY conf/local.ini /usr/local/etc/couchdb/
+# 1.6.1 location
+#COPY conf/local.ini /usr/local/etc/couchdb/
+
+COPY conf/local.ini /opt/couchdb/etc/local.d

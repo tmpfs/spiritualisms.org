@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+command -v rlx > /dev/null \
+  || >&2 echo "rlx(1) is not installed, run 'npm i -g rlx'";
+
+bootstrap() {
+  # rlx alias to use, default is ':lh', remote database is typically
+  # mapped to the ':spiritualisms' alias
+  local name="${1:-:lh}";
+  rlx batch exec conf/teardown-batch.js -s "${name}"
+}
+
+bootstrap "$@";
