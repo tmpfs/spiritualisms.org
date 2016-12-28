@@ -2821,9 +2821,10 @@ body {
   width: 100%;
   height: 100%;
   margin: 0;
+  background: #fdf6e3;
 }
 header {
-  background: #fff;
+  background: #fdf6e3;
   z-index: 1;
   height: 6rem; /* 60px */
   padding: 10px 10px 0 0;
@@ -3258,19 +3259,6 @@ section > h2 > sup {
   display: inline;
   vertical-align: baseline;
 }
-.page.index ul li {
-  margin-bottom: 0;
-}
-.page.index ul li ul {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.page.index ul li span {
-  display: block;
-  font-size: 2rem;
-  color: #b3b3b3;
-  padding-left: 2rem;
-}
 body.browser {
   transition: background-color 0.75s ease;
 }
@@ -3281,7 +3269,7 @@ body.browser:not(.pure) nav.toolbar a {
   color: inherit;
 }
 body.browser.pure {
-  background-color: #fff;
+  background-color: #fdf6e3;
 }
 body.browser.survival {
   background-color: #f08080;
@@ -3331,7 +3319,7 @@ body.browser footer nav.refresh {
   opacity: 1;
 }
 .swatches a svg.pure {
-  fill: #fff;
+  fill: #fdf6e3;
 }
 .swatches a svg.survival {
   fill: #f08080;
@@ -3356,6 +3344,19 @@ body.browser footer nav.refresh {
 }
 .swatches a:not(:last-child) {
   margin-right: 0.5rem;
+}
+.page.index ul li {
+  margin-bottom: 0;
+}
+.page.index ul li ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.page.index ul li span {
+  display: block;
+  font-size: 2rem;
+  color: #b3b3b3;
+  padding-left: 2rem;
 }
 .source-code {
   text-align: center;
@@ -3431,10 +3432,10 @@ form.search fieldset input[type="search"] {
 }
 .msg.error {
   background: #dc322f;
-  color: #fff;
+  color: #fdf6e3;
 }
 .msg.error a.close {
-  color: #fff;
+  color: #fdf6e3;
   position: absolute;
   top: 0;
   right: 0;
@@ -3443,7 +3444,7 @@ form.search fieldset input[type="search"] {
 }
 footer nav.refresh {
   display: block;
-  background: #fff;
+  background: #fdf6e3;
   width: 100%;
   position: fixed;
   left: 0;
