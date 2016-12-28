@@ -50,7 +50,7 @@
     "uglifyjs": "~2.4.10"
   },
   "scripts": {
-    "sync": "node sync.js",
+    "sync": "node sbin/sync.js",
     "lint": "jshint . && jscs .",
     "readme": "mk readme --force",
     "clean": "rm -rf coverage",
