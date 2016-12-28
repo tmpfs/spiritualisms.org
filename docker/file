@@ -18,6 +18,10 @@ ADD lib /usr/src/lib
 ADD www /usr/src/www
 ADD file /usr/src/file
 
+RUN npm i -g browserify stylus uglifyjs
+RUN npm run minify
+RUN npm run minify-css
+
 EXPOSE 3001
 
 CMD node file-server.js
