@@ -4,7 +4,6 @@ header
   background: $white;
   z-index: 1;
   height: 6rem; /* 60px */
-  padding: 10px 10px 0 0;
   /*border-bottom: 1px solid black;*/
   position: fixed;
   top: 0;
@@ -18,22 +17,27 @@ header
     position: absolute;
     // prevent a shift when rendering
     line-height: 0;
+  a.logo
+    display: inline-block;
+    position: relative;
+    left 1rem;
+    top: 0.5rem;
   img.logo
-    width: 220px;
+    width: 40px;
     height: 40px;
   a.selected
     padding-bottom: .3rem;
     border-bottom: .2rem solid #9b4dca;
   nav.main
     display: inline-block;
+    padding: 1rem 1rem 0 0;
     a
       margin-left: 1rem;
   nav.icon
     background: $light;
     display: inline-block;
     height: 24px;
-    padding: 0 4px;
-    margin-left: 1rem;
+    margin: 1rem 1rem 1rem 0;
     border-radius: 2px;
     a:not(:last-child)
       margin-right: .5rem;

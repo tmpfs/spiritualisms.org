@@ -2,6 +2,9 @@ mixin quote-listing(quotes)
   - var rows = quotes.rows, doc;
   - for(var i = 0;i < rows.length;i++) {
     - doc = rows[i].doc;
+    - if(Array.isArray(doc.author)) {
+      - doc.author = doc.author.join(' & ');
+    - }
     .quotation.item(data-id=doc.id)
       blockquote.primary #{doc.quote} 
       div.meta.clearfix
