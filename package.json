@@ -55,6 +55,7 @@
     "readme": "mk readme --force",
     "clean": "rm -rf coverage",
     "css": "stylus -o www/public/assets/css www/css/style.styl",
+    "minify-css": "stylus -c -o www/public/assets/css www/css/style.styl",
     "standalone": "stylus -c -o www/public/assets/css www/css/standalone.styl",
     "api": "node api-server.js",
     "file": "node file-server.js",
