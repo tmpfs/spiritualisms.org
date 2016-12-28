@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  pre !{JSON.stringify(env)}
   section.error.page
     h2 #{status}
     - if(env.production) {
