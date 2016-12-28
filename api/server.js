@@ -9,6 +9,10 @@ var express = require('express')
   , star = require('./star')
   , Quote = require('../lib/model/quote')
 
+if(!env.defined) {
+  env.set(env.PRODUCTION);
+}
+
 /**
  *  @api
  *  @swagger 2.0

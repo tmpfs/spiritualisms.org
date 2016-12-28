@@ -15,6 +15,10 @@ var path = require('path')
       maxage: env.production ? '1y' : 0 
     }
 
+if(!env.defined) {
+  env.set(env.PRODUCTION);
+}
+
 app.disable('x-powered-by');
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'src'));

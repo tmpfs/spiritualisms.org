@@ -2,6 +2,7 @@ var path = require('path')
   , fs = require('fs')
   , express = require('express')
   , app = express()
+  , env = require('nenv')
   , buffer = require('./buffer')
   , slashes = require('../lib/http/slashes')
   , wildcard = require('../lib/http/wildcard')
@@ -12,6 +13,11 @@ var path = require('path')
   , formats = require('../lib/formats')
   // file storage directory
   , files = path.normalize(path.join(__dirname + '/../www/public/files'));
+
+
+if(!env.defined) {
+  env.set(env.PRODUCTION);
+}
 
 /**
  *  Static and dynamic caching file download service.
