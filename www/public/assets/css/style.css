@@ -3351,10 +3351,14 @@ body.browser footer nav.refresh {
 .swatches a:not(:last-child) {
   margin-right: 0.5rem;
 }
+.page.index ul {
+  list-style-position: outside;
+}
 .page.index ul li {
-  margin-bottom: 0;
+  margin: 0;
 }
 .page.index ul li ul {
+  list-style-position: outside;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -3362,7 +3366,6 @@ body.browser footer nav.refresh {
   display: block;
   font-size: 2rem;
   color: #b3b3b3;
-  padding-left: 2rem;
 }
 .source-code {
   text-align: center;
