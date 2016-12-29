@@ -19,6 +19,14 @@ You should also have created the `spritualisms.rc` file in your home directory c
 
 See the [.spiritualisms.rc.example](/conf/.spiritualisms.rc.example) file.
 
+You should also place in the [conf](/conf) directory a file named `redis-password.conf` and add the redis password to the file:
+
+```
+requirepass {password}
+```
+
+Be sure to pick a very strong password.
+
 ### Hosts
 
 Then add the [host](/conf/hosts) to `/etc/hosts` so that the domains are mapped locally, remember to comment these out if you are testing against a live environment. If you are running a local DNS server you may need to restart it after changing the hosts file, for example:

@@ -1,2 +1,3 @@
 export SPIRITUALISMS_COUCHDB_USER={username}
 export SPIRITUALISMS_COUCHDB_PASS={password}
+export SPIRITUALISMS_REDIS_PASS={password}
