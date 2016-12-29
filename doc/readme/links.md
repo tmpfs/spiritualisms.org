@@ -16,3 +16,5 @@
 [mkdoc]: https://github.com/mkdoc/mkdoc
 [rlx]: https://github.com/tmpfs/rlx
 [linkdown]: https://github.com/tmpfs/linkdown
+
+[browser-sync]: https://www.browsersync.io/

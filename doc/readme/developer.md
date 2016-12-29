@@ -121,6 +121,14 @@ To compile the CSS files run:
 npm run css
 ```
 
+#### Minify CSS
+
+To compile and minify the CSS files run:
+
+```
+npm run minify-css
+```
+
 #### Standalone CSS
 
 To compile the standalone CSS file run:

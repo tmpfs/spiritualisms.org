@@ -193,6 +193,14 @@ To compile the CSS files run:
 npm run css
 ```
 
+#### Minify CSS
+
+To compile and minify the CSS files run:
+
+```
+npm run minify-css
+```
+
 #### Standalone CSS
 
 To compile the standalone CSS file run:
@@ -266,4 +274,5 @@ Created by [mkdoc](https://github.com/mkdoc/mkdoc) on December 29, 2016
 [mkdoc]: https://github.com/mkdoc/mkdoc
 [rlx]: https://github.com/tmpfs/rlx
 [linkdown]: https://github.com/tmpfs/linkdown
+[browser-sync]: https://www.browsersync.io/
 
