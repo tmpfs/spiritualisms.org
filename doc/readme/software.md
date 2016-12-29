@@ -6,7 +6,7 @@ Want to play along? You're going to need a POSIX system and this stuff:
 * [node][]
 * [nginx][]
 * [redis][]
-* [postgres][]
+* [elastic][]
 * [couchdb][]
 * [wkhtmltopdf][]
 * [java][]

@@ -38,18 +38,18 @@ Spritualisms web application.
 
 Right tool for the job:
 
-* [couchdb][] for document storage
-* [redis][] for fast in-memory access
-* [elastic][] for indexing and search
-* [nginx][] for static file serving
+* [couchdb][] for document storage.
+* [elastic][] ELK stack for indexing and search.
+* [redis][] for fast in-memory access.
+* [nginx][] as a reverse proxy with SSL termination and static file serving.
 
 ## Services
 
 Decoupled micro-services architecture:
 
-* [api.*](api.spiritualisms.org) - JSON REST API
-* [file.*](file.spiritualisms.org) - Dynamic file service
-* [www.*](www.spiritualisms.org) - Web server
+* [api.*](http://api.spiritualisms.org) - JSON REST API
+* [file.*](http://file.spiritualisms.org) - Dynamic file service
+* [www.*](http://www.spiritualisms.org) - Web server
 
 ## Software
 
@@ -59,7 +59,7 @@ Want to play along? You're going to need a POSIX system and this stuff:
 * [node][]
 * [nginx][]
 * [redis][]
-* [postgres][]
+* [elastic][]
 * [couchdb][]
 * [wkhtmltopdf][]
 * [java][]
