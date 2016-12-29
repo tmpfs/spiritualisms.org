@@ -9,21 +9,10 @@ Spritualisms web application.
 - [Services](#services)
 - [Software](#software)
 - [Developer](#developer)
-  - [Sync](#sync)
-  - [Server](#server)
-  - [API Server](#api-server)
-  - [File Server](#file-server)
-  - [Teardown](#teardown)
-  - [Bootstrap](#bootstrap)
-  - [CSS](#css)
-  - [Standalone CSS](#standalone-css)
-  - [Compile](#compile)
-  - [Minify](#minify)
-  - [Test](#test)
-  - [Cover](#cover)
-  - [Lint](#lint)
-  - [Clean](#clean)
-  - [Readme](#readme)
+  - [Setup](#setup)
+  - [Database Bootstrap](#database-bootstrap)
+  - [Start](#start)
+  - [Scripts](#scripts)
 - [License](#license)
 
 ---
@@ -82,72 +71,109 @@ Want to play along? You're going to need a POSIX system and this stuff:
 
 ## Developer
 
-Before running the application you should install [docker][] and [docker-compose][] and build the images with:
+### Setup
+
+To get setup you should have installed all the prerequisite software, particularly [docker][] be able to run `docker` commands as the current user.
+
+Create the folder structure for the mounted docker volumes:
+
+```
+mkdir -p /opt/couchdb /opt/redis
+chown $USER:docker /opt/couchdb /opt/redis
+```
+
+You should also have created the `spritualisms.rc` file in your home directory containing authentication information and ensured that it is sourced when you log in to your shell (`~/.zshrc` or `~/.bashrc`):
+
+```
+[ -f ~/.spiritualisms.rc ] && source ~/.spiritualisms.rc
+```
+
+See the [spiritualisms.rc.example](https://github.com/tmpfs/spiritualisms/blob/master/conf/spiritualisms.rc.example) file.
+
+Then add the [host](https://github.com/tmpfs/spiritualisms/blob/master/conf/hosts) to `/etc/hosts` so that the domain are mapped locally.
+
+### Database Bootstrap
+
+To bootstrap the database with the required initial user and default documents you must have [rlx][] installed and run:
+
+```
+./sbin/bootstrap :lh
+```
+
+You can reverse this at any time with:
+
+```
+./sbin/teardown :lh
+```
+
+If you are modifying database views or adding documents you may want to do:
+
+```
+./sbin/teardown :lh && ./sbin/bootstrap :lh
+```
+
+To bootstrap to a remote database you configure a different alias in [rlx][], typically `:spiritualisms` will point to the live database URL (`http://db.spiritualisms.org:5984`) and then you can bootstrap using that alias:
+
+```
+./sbin/bootstrap :spiritualisms
+```
+
+### Start
+
+#### Test
+
+To run the test suite start [couchdb][] and [redis][] and then run:
+
+```
+npm test
+```
+
+You can generate code coverage with:
+
+```
+npm run cover
+```
+
+Note that for the `test` environment different ports are used so you can have the `devel` environment running and execute the tests at the same time.
+
+#### Development
+
+To start in the development environment you should run [couchdb][] and [redis][] using [docker-compose][]:
+
+```
+docker-compose up couchdb
+```
+
+And in a different shell:
+
+```
+docker-compose up redis
+```
+
+Then you can start the services running in the `devel` environment with [browser-sync][] enabled:
+
+```
+./sbin/sync
+```
+
+#### Stage
+
+To start everything running in the stage environment you build the images to ensure they are up to date:
 
 ```
 docker-compose build
 docker-compose create
 ```
 
-And add the [host](https://github.com/tmpfs/spiritualisms/blob/master/conf/hosts) to `/etc/hosts` so that the domain are mapped locally.
-
-To get started clone the repository and install dependencies, start [couchdb][], [redis][] and a browser sync session:
+Then start all the services:
 
 ```
-npm i
-docker-compose up redis couchdb nginx
-npm run sync
+docker-compose up
 ```
 
-### Sync
+### Scripts
 
-To start the services and sync with the browser:
-
-```
-npm run sync
-```
-
-### Server
-
-To start the web server:
-
-```
-npm run www
-```
-
-### API Server
-
-To start the api server:
-
-```
-npm run api
-```
-
-### File Server
-
-To start the file server:
-
-```
-npm run file
-```
-
-### Teardown
-
-Remove the database:
-
-```
-npm run teardown
-```
-
-### Bootstrap
-
-Create the database and bootstrap the application:
-
-```
-npm run teardown; npm run bootstrap
-```
-
-### CSS
+#### CSS
 
 To compile the CSS files run:
 
@@ -155,7 +181,7 @@ To compile the CSS files run:
 npm run css
 ```
 
-### Standalone CSS
+#### Standalone CSS
 
 To compile the standalone CSS file run:
 
@@ -165,7 +191,7 @@ npm run standalone
 
 This is the CSS injected into standalone downloads of quotes when appending a `.html` file extension.
 
-### Compile
+#### Compile
 
 To compile the client-side javascript run:
 
@@ -173,7 +199,7 @@ To compile the client-side javascript run:
 npm run compile
 ```
 
-### Minify
+#### Minify
 
 To compile and minify the client-side javascript run:
 
@@ -181,23 +207,7 @@ To compile and minify the client-side javascript run:
 npm run minify
 ```
 
-### Test
-
-Beforehand ensure the database is created (see [bootstrap](#bootstrap)). Both [couchdb][] and [redis][] must be running. Then run the test specifications:
-
-```
-npm test
-```
-
-### Cover
-
-To generate code coverage run:
-
-```
-npm run cover
-```
-
-### Lint
+#### Lint
 
 Run the source tree through [jshint][] and [jscs][]:
 
@@ -205,7 +215,7 @@ Run the source tree through [jshint][] and [jscs][]:
 npm run lint
 ```
 
-### Clean
+#### Clean
 
 Remove generated files:
 
@@ -213,7 +223,7 @@ Remove generated files:
 npm run clean
 ```
 
-### Readme
+#### Readme
 
 To build the readme file from the partial definitions (requires [mkdoc][]):
 
@@ -227,7 +237,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on December 26, 2016
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on December 29, 2016
 
 [node]: https://nodejs.org
 [docker]: http://www.docker.com

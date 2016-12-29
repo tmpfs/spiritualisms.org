@@ -108,10 +108,12 @@ app.get('/contribute', function(req, res) {
   res.render('contribute', info);
 });
 
-//app.get('/create', function(req, res) {
-  //var info = getViewInfo(req);
-  //res.render('create', info);
-//});
+/*
+app.get('/create', function(req, res) {
+  var info = getViewInfo(req);
+  res.render('create', info);
+});
+*/
 
 // DOCS
 app.get('/docs', function(req, res) {

@@ -37,9 +37,9 @@ describe('www:', function() {
     })
   })
 
-  it('should GET why page', function(done) {
+  it('should GET about page', function(done) {
     var opts = {
-      url: process.env.WWW + '/why'
+      url: process.env.WWW + '/about'
     }
     request(opts, function(err, res) {
       expect(err).to.eql(null);
@@ -48,6 +48,7 @@ describe('www:', function() {
     })
   })
 
+  /*
   it('should GET contribute page', function(done) {
     var opts = {
       url: process.env.WWW + '/contribute'
@@ -58,7 +59,9 @@ describe('www:', function() {
       done(); 
     })
   })
+  */
 
+  /*
   it('should GET create page', function(done) {
     var opts = {
       url: process.env.WWW + '/create'
@@ -69,6 +72,7 @@ describe('www:', function() {
       done(); 
     })
   })
+  */
 
   it('should GET stars page', function(done) {
     var opts = {
