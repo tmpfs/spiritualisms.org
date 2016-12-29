@@ -5,8 +5,6 @@ target
 build
 package
 www/public/assets/js/*
-www/src/sitemap/list.jade
-www/src/docs/list.jade
 spider.*
 /ref
 *.bak
