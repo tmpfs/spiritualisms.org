@@ -10,6 +10,7 @@ Spritualisms web application.
 - [Software](#software)
 - [Developer](#developer)
   - [Setup](#setup)
+  - [Hosts](#hosts)
   - [Database Bootstrap](#database-bootstrap)
   - [Start](#start)
   - [Scripts](#scripts)
@@ -39,16 +40,16 @@ Right tool for the job:
 
 * [couchdb][] for document storage
 * [redis][] for fast in-memory access
-* [postgres][] for indexing and search
+* [elastic][] for indexing and search
 * [nginx][] for static file serving
 
 ## Services
 
 Decoupled micro-services architecture:
 
-* api.* - JSON REST API with [swagger][] v2.0 support
-* www.* - Web server
-* files.* - Lazy static file service
+* [api.*](api.spiritualisms.org) - JSON REST API
+* [file.*](file.spiritualisms.org) - Dynamic file service
+* [www.*](www.spiritualisms.org) - Web server
 
 ## Software
 
@@ -88,9 +89,16 @@ You should also have created the `spritualisms.rc` file in your home directory c
 [ -f ~/.spiritualisms.rc ] && source ~/.spiritualisms.rc
 ```
 
-See the [spiritualisms.rc.example](https://github.com/tmpfs/spiritualisms/blob/master/conf/spiritualisms.rc.example) file.
+See the [.spiritualisms.rc.example](https://github.com/tmpfs/spiritualisms/blob/master/conf/.spiritualisms.rc.example) file.
 
-Then add the [host](https://github.com/tmpfs/spiritualisms/blob/master/conf/hosts) to `/etc/hosts` so that the domain are mapped locally.
+### Hosts
+
+Then add the [host](https://github.com/tmpfs/spiritualisms/blob/master/conf/hosts) to `/etc/hosts` so that the domains are mapped locally, remember to comment these out if you are testing against a live environment. If you are running a local DNS server you may need to restart it after changing the hosts file, for example:
+
+```
+sudo /etc/init.d/dnsmasq restart
+nslookup db.spiritualisms.org
+```
 
 ### Database Bootstrap
 
@@ -242,7 +250,7 @@ Created by [mkdoc](https://github.com/mkdoc/mkdoc) on December 29, 2016
 [node]: https://nodejs.org
 [docker]: http://www.docker.com
 [nginx]: http://nginx.org
-[postgres]: http://www.postgresql.org
+[elastic]: https://www.elastic.co/
 [couchdb]: http://couchdb.apache.org
 [redis]: http://redis.io
 [wkhtmltopdf]: http://wkhtmltopdf.org/

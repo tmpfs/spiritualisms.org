@@ -1,7 +1,7 @@
 [node]: https://nodejs.org
 [docker]: http://www.docker.com
 [nginx]: http://nginx.org
-[postgres]: http://www.postgresql.org
+[elastic]: https://www.elastic.co/
 [couchdb]: http://couchdb.apache.org
 [redis]: http://redis.io
 [wkhtmltopdf]: http://wkhtmltopdf.org/

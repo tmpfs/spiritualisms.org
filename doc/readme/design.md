@@ -20,14 +20,14 @@ Right tool for the job:
 
 * [couchdb][] for document storage
 * [redis][] for fast in-memory access
-* [postgres][] for indexing and search
+* [elastic][] for indexing and search
 * [nginx][] for static file serving
 
 ## Services
 
 Decoupled micro-services architecture:
 
-* api.* - JSON REST API with [swagger][] v2.0 support
-* www.* - Web server
-* files.* - Lazy static file service
+* [api.*](api.spiritualisms.org) - JSON REST API 
+* [file.*](file.spiritualisms.org) - Dynamic file service
+* [www.*](www.spiritualisms.org) - Web server
 
