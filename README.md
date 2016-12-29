@@ -164,6 +164,8 @@ Then you can start the services running in the `devel` environment with [browser
 ./sbin/sync
 ```
 
+And view the application at [localhost:3000](http://localhost:3000).
+
 #### Stage
 
 To start everything running in the stage environment you build the images to ensure they are up to date:
@@ -178,6 +180,8 @@ Then start all the services:
 ```
 docker-compose up
 ```
+
+And view the application at [www.spiritualisms.org](http://www.spiritualisms.org).
 
 ### Scripts
 
