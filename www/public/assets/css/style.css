@@ -2962,7 +2962,7 @@ blockquote.primary {
   margin-top: 0;
   padding: 0;
 }
-.why blockquote.primary {
+.about blockquote.primary {
   width: 110%;
   margin-left: -5%;
 }
@@ -3032,7 +3032,7 @@ nav.toolbar a:hover {
 nav.toolbar a:not(:last-child) {
   margin-right: 1rem;
 }
-.why blockquote.primary {
+.about blockquote.primary {
   margin-bottom: 4rem;
 }
 .page,

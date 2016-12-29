@@ -53,9 +53,9 @@ app.get('/sitemap', function(req, res, next) {
   random('sitemap/index', req, res, next);
 });
 
-app.get('/why', function(req, res) {
+app.get('/about', function(req, res) {
   var info = getViewInfo(req);
-  res.render('why', info);
+  res.render('about', info);
 });
 
 app.get('/explore', function(req, res, next) {
