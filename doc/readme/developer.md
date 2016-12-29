@@ -17,9 +17,16 @@ You should also have created the `spritualisms.rc` file in your home directory c
 [ -f ~/.spiritualisms.rc ] && source ~/.spiritualisms.rc
 ```
 
-See the [spiritualisms.rc.example](/conf/spiritualisms.rc.example) file.
+See the [.spiritualisms.rc.example](/conf/.spiritualisms.rc.example) file.
 
-Then add the [host](/conf/hosts) to `/etc/hosts` so that the domain are mapped locally.
+### Hosts
+
+Then add the [host](/conf/hosts) to `/etc/hosts` so that the domains are mapped locally, remember to comment these out if you are testing against a live environment. If you are running a local DNS server you may need to restart it after changing the hosts file, for example:
+
+```
+sudo /etc/init.d/dnsmasq restart
+nslookup db.spiritualisms.org
+```
 
 ### Database Bootstrap
 
