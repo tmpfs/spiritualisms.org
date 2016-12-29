@@ -12,7 +12,6 @@ WORKDIR /usr/src
 COPY package.json /usr/src
 RUN npm install --production
 
-COPY file-server.js /usr/src
 RUN mkdir -p /usr/src/lib /usr/src/file
 ADD lib /usr/src/lib
 ADD www /usr/src/www
@@ -24,4 +23,4 @@ RUN npm run minify-css
 
 EXPOSE 3001
 
-CMD node file-server.js
+CMD node file/file-server.js

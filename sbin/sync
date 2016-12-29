@@ -6,13 +6,13 @@ if(!env.defined) {
 }
 
 // start the web server
-require('../www-server');
+require('../www/www-server');
 
 // start the api server
-require('../api-server');
+require('../api/api-server');
 
 // start the file server
-require('../file-server');
+require('../file/file-server');
 
 // browsersync
 var bs = require('browser-sync').create()

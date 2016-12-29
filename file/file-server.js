@@ -6,5 +6,5 @@ if(env.devel) {
   process.env.FILES = 'http://localhost:3002'; 
 }
 
-var app = require('./file/server');
+var app = require('./server');
 app.listen(3002);

@@ -7,11 +7,10 @@ WORKDIR /usr/src
 COPY package.json /usr/src
 RUN npm install --production
 
-COPY api-server.js /usr/src
 RUN mkdir -p /usr/src/lib /usr/src/api
 ADD lib /usr/src/lib
 ADD api /usr/src/api
 
 EXPOSE 3001
 
-CMD node api-server.js
+CMD node api/api-server.js

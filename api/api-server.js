@@ -6,5 +6,5 @@ if(env.devel) {
   process.env.API = 'http://localhost:3001';
 }
 
-var app = require('./api/server');
+var app = require('./server');
 app.listen(3001);

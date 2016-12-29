@@ -6,5 +6,5 @@ if(env.devel) {
   process.env.WWW = 'http://localhost:3000';
 }
 
-var app = require('./www/server');
+var app = require('./server');
 app.listen(3000);

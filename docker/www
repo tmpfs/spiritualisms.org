@@ -10,7 +10,6 @@ COPY package.json /usr/src
 RUN npm install --production
 
 # Bundle web application source
-COPY www-server.js /usr/src
 RUN mkdir -p /usr/src/lib /usr/src/www
 ADD lib /usr/src/lib
 ADD www /usr/src/www
@@ -21,4 +20,4 @@ RUN npm run minify-css
 
 EXPOSE 3000
 
-CMD node www-server.js
+CMD node www/www-server.js
