@@ -2827,7 +2827,6 @@ header {
   background: #fdf6e3;
   z-index: 1;
   height: 6rem; /* 60px */
-  padding: 10px 10px 0 0;
 /*border-bottom: 1px solid black;*/
   position: fixed;
   top: 0;
@@ -2842,8 +2841,14 @@ header h1 {
   position: absolute;
   line-height: 0;
 }
+header a.logo {
+  display: inline-block;
+  position: relative;
+  left: 1rem;
+  top: 0.5rem;
+}
 header img.logo {
-  width: 220px;
+  width: 40px;
   height: 40px;
 }
 header a.selected {
@@ -2852,6 +2857,7 @@ header a.selected {
 }
 header nav.main {
   display: inline-block;
+  padding: 1rem 1rem 0 0;
 }
 header nav.main a {
   margin-left: 1rem;
@@ -2860,8 +2866,7 @@ header nav.icon {
   background: #eee8d5;
   display: inline-block;
   height: 24px;
-  padding: 0 4px;
-  margin-left: 1rem;
+  margin: 1rem 1rem 1rem 0;
   border-radius: 2px;
 }
 header nav.icon a:not(:last-child) {
@@ -3459,9 +3464,9 @@ footer nav.refresh a {
 }
 footer a.home {
   position: fixed;
-  right: 0;
-  bottom: 0;
-  margin-bottom: -1px;
+  display: inline-block;
+  right: 1rem;
+  bottom: -0.5rem;
   z-index: 2;
 }
 footer a.home img {
