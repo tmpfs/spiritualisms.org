@@ -22,9 +22,25 @@ header
     position: relative;
     left 1rem;
     top: 0.5rem;
-  img.logo
-    width: 40px;
-    height: 40px;
+    color: black;
+    img.logo
+      position: relative;
+      width: 40px;
+      height: 40px;
+      top: 0;
+      left: 0;
+    span
+      position: relative;
+      font-size: 2rem;
+      text-transform: uppercase;
+      left: 5px;
+      top: -20px;
+    > .logo + span
+      border-bottom: 1px solid black;
+    > span:last-child
+      font-size: 1.2rem;
+      left: 45px;
+      letter-spacing: 1.5px;
   a.selected
     padding-bottom: .3rem;
     border-bottom: .2rem solid #9b4dca;
