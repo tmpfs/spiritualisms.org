@@ -2869,7 +2869,7 @@ header a.logo > .logo + span {
 header a.logo > span:last-child {
   font-size: 1.2rem;
   left: 45px;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.4px;
 }
 header a.selected {
   padding-bottom: 0.3rem;
