@@ -1,0 +1,13 @@
+{{> components}}
+
+<ul>
+{{#children}}
+{{#unless self}}
+<li>
+<a href="{{href}}" title="{{title}}">{{title}}</a>
+</li>
+{{/unless}}
+{{/children}}
+</ul>
+
+{{> back}}

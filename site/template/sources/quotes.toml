@@ -1,0 +1,11 @@
+[source]
+destination = "quotes"
+template = "quote.hbs"
+
+["everything-in-life"]
+quote = "Everything in life is vibration."
+quote_author = "Albert Einstein"
+quote_link = "https://en.wikipedia.org/wiki/Albert_Einstein"
+quote_domain = "en.wikipedia.org"
+quote_tags = ["life", "vibration"]
+
