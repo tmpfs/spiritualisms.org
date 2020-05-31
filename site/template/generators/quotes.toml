@@ -2,6 +2,7 @@
 destination = "quotes"
 template = "quote.hbs"
 json = "quotes.json"
+index = "quotes-index.hbs"
 
 [""]
 quote = ""
