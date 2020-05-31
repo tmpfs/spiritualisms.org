@@ -1,9 +1,0 @@
-include ./cite-primary
-include ./quote-toolbar
-
-mixin quotation(doc, opts)
-  - opts = opts || {};
-  div.quotation(data-id=doc.id)
-    blockquote.primary #{doc.quote}
-    +cite-primary(doc)
-    +quote-toolbar(doc, {permalink: true})
