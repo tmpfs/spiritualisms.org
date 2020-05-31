@@ -1,0 +1,30 @@
+extends layout
+
+block title
+  title Why?
+
+append meta
+  meta(name='description', content='Why this project exists')
+
+block content
+  section.why.page
+    h2 Why?
+    div.quotation
+      blockquote.primary Spiritualisms provides a list of curated quotes for
+        | daily inspiration; illumination for your path.
+    h2 How do I use it?
+    p Designed to be so elegant you could set it as your home page or, 
+      | if you prefer, drop by once in a while for some inspiration.
+    p To use as the default page in your web browser set 
+      a(href='/home', title='Browser Home') http://spiritualisms.com/home
+      |  as your home page.
+    p This page has been designed to draw all attention to the quote 
+      | being shown with minimal interference.
+    h2 How do I submit a quote?
+    p You may submit a quote to the list, to do so use the create button in 
+      | the page header. If you have not submitted a quote before please read 
+      | the 
+      a(href='/docs/contribution-guidelines' title='Contributing guidelines')
+        | contributing guidelines
+      | . All submitted quotes are given a pending status and you will be 
+      | notified when the quote is accepted or rejected.
