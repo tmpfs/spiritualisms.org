@@ -1,11 +1,74 @@
 [source]
 destination = "quotes"
 template = "quote.hbs"
+json = "quotes.json"
+
+[""]
+quote = ""
+quote_author = ""
+quote_link = ""
+quote_domain = ""
+quote_tags = []
 
 ["everything-in-life"]
 quote = "Everything in life is vibration."
 quote_author = "Albert Einstein"
 quote_link = "https://en.wikipedia.org/wiki/Albert_Einstein"
 quote_domain = "en.wikipedia.org"
-quote_tags = ["life", "vibration"]
+quote_tags = ["Life", "Vibration"]
 
+["empty-your-mind"]
+quote = "Empty your mind, be formless. Shapeless, like water. [...] Be water, my friend."
+quote_author = "Bruce Lee"
+quote_link = "https://www.youtube.com/watch?v=APx2yFA0-B4"
+quote_domain = "youtube.com"
+quote_tags = ["Life", "Inspirational"]
+
+["our-ideas-about-death"]
+quote = "Our ideas about death define how we live our lives."
+quote_author = "Dag Hammarskjöld"
+quote_link = "https://en.wikipedia.org/wiki/Dag_Hammarskj%C3%B6ld"
+quote_domain = "en.wikipedia.org"
+quote_tags = ["Life", "Death"]
+
+["elevate-your-experience"]
+quote = "Elevate your experience and remain wide-open like the sky."
+quote_author = "Dakpo Tashi Namgyal"
+quote_link = "https://en.wikipedia.org/wiki/Dagpo_Tashi_Namgyal"
+quote_domain = "en.wikipedia.org"
+quote_tags = ["Natural State", "Sky"]
+
+["expand-your-mindfulness"]
+quote = "Expand your mindfulness and remain pervasive like the earth."
+quote_author = "Dakpo Tashi Namgyal"
+quote_link = "https://en.wikipedia.org/wiki/Dagpo_Tashi_Namgyal"
+quote_domain = "en.wikipedia.org"
+quote_tags = ["Natural State", "Earth"]
+
+["steady-your-attention"]
+quote = "Steady your attention and remain unshakable like a mountain."
+quote_author = "Dakpo Tashi Namgyal"
+quote_link = "https://en.wikipedia.org/wiki/Dagpo_Tashi_Namgyal"
+quote_domain = "en.wikipedia.org"
+quote_tags = ["Natural State", "Mountain"]
+
+["brighten-your-awareness"]
+quote = "Brighten your awareness and remain shining like a flame."
+quote_author = "Dakpo Tashi Namgyal"
+quote_link = "https://en.wikipedia.org/wiki/Dagpo_Tashi_Namgyal"
+quote_domain = "en.wikipedia.org"
+quote_tags = ["Natural State", "Flame"]
+
+["clear-your-thoughtfree-wakefulness"]
+quote = "Clear your thoughtfree wakefulness and remain lucid like a crystal."
+quote_author = "Dakpo Tashi Namgyal"
+quote_link = "https://en.wikipedia.org/wiki/Dagpo_Tashi_Namgyal"
+quote_domain = "en.wikipedia.org"
+quote_tags = ["Natural State", "Crystal"]
+
+["happy-compassion"]
+quote = "If you want others to be happy, practice compassion. If you want to be happy, practice compassion."
+quote_author = "Dalai Lama"
+quote_link = "http://www.dalailama.com"
+quote_domain = "dalailama.com"
+quote_tags = ["Compassion", "Happiness"]
