@@ -1,0 +1,5 @@
+[build]
+destination = "quotes"
+template = "page.html"
+index = "index.html"
+json = "quotes/all.json"

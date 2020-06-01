@@ -1,13 +1,7 @@
-{{> components}}
-
 <ul>
-{{#children}}
-{{#unless self}}
+{{#each documents}}
 <li>
-<a href="{{href}}" title="{{title}}">{{title}}</a>
+  <a href="./{{id}}.html" title="{{id}}">{{id}}</a>
 </li>
-{{/unless}}
-{{/children}}
+{{/each}}
 </ul>
-
-{{> back}}
