@@ -1,0 +1,5 @@
+[generator]
+destination = "quotes"
+template = "quote.html"
+json = "quotes.json"
+index = "index.html"
