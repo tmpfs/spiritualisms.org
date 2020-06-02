@@ -6,4 +6,4 @@ index = "index.html"
 [json]
 copy = true
 index = true
-index_file = "quotes/index.json"
+index_file = "index.json"
