@@ -11,6 +11,9 @@ generator = {name = "quotes", index = "all", as = "documents"}
 ["quotes/"]
 generator = {name = "quotes", index = "all", as = "documents"}
 
+["authors/"]
+generator = {name = "quotes", index = "author", as = "documents", include_docs = true}
+
 ["404.html"]
 standalone = false
 clean = false
