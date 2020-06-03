@@ -1,9 +1,11 @@
 [build]
 destination = "quotes"
 template = "page.html"
-index = "index.html"
+index = [
+  {name = "author", key = "author"}
+]
 
 [json]
 copy = true
-index = true
+index_slim = true
 index_file = "index.json"

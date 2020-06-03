@@ -6,6 +6,10 @@ author_url = "https://tmpfs.org"
 
 ["/"]
 title = "Home"
+generator = {name = "quotes", index = "all", as = "documents"}
+
+["quotes/"]
+generator = {name = "quotes", index = "all", as = "documents"}
 
 ["404.html"]
 standalone = false

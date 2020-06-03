@@ -1,11 +1,10 @@
 <article>
+{{#random documents}}
+  {{#with entry}}
   <div>
-    <blockquote>
-      Happiness does not depend on what you have or who you are, it solely relies on what you think.
-    </blockquote>
-    <cite>Dalai Lama</cite>
+    <blockquote>{{document.quote}}</blockquote>
+    <cite>{{document.author}}</cite>
   </div>
-  <!--<nav>-->
-    <!--<a href="/happiness-etc-etc">Permalink</a>-->
-  <!--</nav>-->
+  {{/with}}
+{{/random}}
 </article>
