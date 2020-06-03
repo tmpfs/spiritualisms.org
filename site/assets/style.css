@@ -1,4 +1,5 @@
 :root {
+  --muted: #999999;
 }
 
 /* DARK */
@@ -48,7 +49,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 920px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -57,6 +58,33 @@ header, footer {
   flex: 0;
   text-align: center;
   padding: 1rem 0;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav > a {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
+}
+
+nav > a:not(:last-child):after {
+  content: '•';
+  margin: 0 10px;
+}
+
+nav.tags {
+  align-self: flex-start;
 }
 
 article {
@@ -90,3 +118,48 @@ main > nav:first-child > *::after {
   margin: 0 .5rem;
 }
 
+ul.cards {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+ul.cards > li {
+  width: 280px;
+  margin: 10px;
+  padding: 1rem;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .2);
+}
+
+ul.cards > li > blockquote {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+ul.cards > li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul.tags {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+  color: var(--muted);
+  font-size: 1.4rem;
+  justify-content: center;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  padding: 1rem;
+}
+
+ul.tags > li:not(:last-child) {
+  margin-right: 10px;
+}

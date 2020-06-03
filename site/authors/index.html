@@ -1,10 +1,9 @@
-<ul>
 {{#each documents}}
   <h3>{{key}}</h3>
+  <ul class="cards">
   {{#each value}}
-  <p>{{id}}</p>
-
-  {{json document}}
+  <!--<p>{{id}}</p>-->
+  {{>card with_author=false}}
   {{/each}}
+  </ul>
 {{/each}}
-</ul>

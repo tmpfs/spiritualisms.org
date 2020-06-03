@@ -1,10 +1,7 @@
 <article>
 {{#random documents}}
   {{#with entry}}
-  <div>
-    <blockquote>{{document.quote}}</blockquote>
-    <cite>{{document.author}}</cite>
-  </div>
+    {{>quote}}
   {{/with}}
 {{/random}}
 </article>

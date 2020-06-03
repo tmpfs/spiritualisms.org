@@ -1,7 +1,5 @@
-<ul>
+<ul class="cards">
 {{#each documents}}
-<li>
-  <a href="./{{id}}/" title="{{id}}">{{id}}</a>
-</li>
+{{>card with_author=true}}
 {{/each}}
 </ul>

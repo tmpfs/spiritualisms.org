@@ -1,6 +1,14 @@
 <footer>
   <nav>
-    <a href="{{ link "/quotes/" }}" title="All">All</a>
     <a href="{{ link "/authors/" }}" title="Authors">Authors</a>
+    <a href="{{ link "/quotes/" }}" title="Quotes">Quotes</a>
+    <a href="" title="Tags">Tags</a>
+
+    {{#if document.tags}}
+    {{#each document.tags}}
+    <a href="#">{{this}}</a>
+    {{/each}}
+    {{/if}}
+
   </nav>
 </footer>
