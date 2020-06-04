@@ -6,13 +6,17 @@ author_url = "https://tmpfs.org"
 
 ["/"]
 title = "Home"
-generator = {name = "quotes", index = "all", as = "documents"}
+generator = {name = "quotes", index = "all", parameter = "documents"}
 
 ["quotes/"]
-generator = {name = "quotes", index = "all", as = "documents"}
+generator = {name = "quotes", index = "all", parameter = "documents"}
+
+["quotes/item"]
+title = "Quote"
+generator = {name = "quotes", index = "all", parameter = "document", each = true}
 
 ["authors/"]
-generator = {name = "quotes", index = "author", as = "documents", include_docs = true}
+generator = {name = "quotes", index = "author", parameter = "documents", include_docs = true}
 
 ["404.html"]
 standalone = false
