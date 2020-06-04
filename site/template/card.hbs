@@ -3,6 +3,6 @@
     <a href="/quotes/{{id}}/">{{document.quote}}</a>
   </blockquote>
   {{#if with_author}}
-  <cite>{{document.author}}</cite>
+  <cite>&mdash; <a href="/authors/{{slug document.author}}/">{{document.author}}</a></cite>
   {{/if}}
 </li>

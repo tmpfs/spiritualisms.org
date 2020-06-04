@@ -13,10 +13,14 @@ generator = {name = "quotes", index = "all", parameter = "documents"}
 
 ["quotes/item"]
 title = "Quote"
-generator = {name = "quotes", index = "all", parameter = "document", each = true}
+generator = {name = "quotes", index = "all", each = true}
 
 ["authors/"]
 generator = {name = "quotes", index = "author", parameter = "documents", include_docs = true}
+
+["authors/item"]
+title = "Author"
+generator = {name = "quotes", index = "author", each = true, include_docs = true}
 
 ["404.html"]
 standalone = false
