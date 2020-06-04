@@ -1,7 +1,8 @@
 [build]
 destination = "quotes"
 index = [
-  {name = "author", key = "author"}
+  {name = "author", key = "author"},
+  {name = "tag", key = "tags"}
 ]
 
 [json]

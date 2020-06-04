@@ -1,0 +1,9 @@
+<article>
+  <h3>{{key}}</h3>
+  <ul class="cards">
+  {{#each value}}
+  <!--<p>{{id}}</p>-->
+  {{>card with_author=true}}
+  {{/each}}
+  </ul>
+</article>

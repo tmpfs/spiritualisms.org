@@ -1,0 +1,9 @@
+{{#each documents}}
+  <h3>¶ <a href="./{{ slug key }}/">{{key}}</a></h3>
+  <ul class="cards">
+  {{#each value}}
+  <!--<p>{{id}}</p>-->
+  {{>card with_author=true}}
+  {{/each}}
+  </ul>
+{{/each}}
