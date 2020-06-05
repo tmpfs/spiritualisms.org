@@ -1,0 +1,11 @@
+[build]
+source = "site"
+target = "build"
+strict = true
+html_extension = false
+extensions = {md = "html", html = "html"}
+follow_links = false
+
+[serve]
+host = "localhost"
+port = 3000
