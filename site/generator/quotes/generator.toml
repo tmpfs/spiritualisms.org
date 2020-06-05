@@ -4,8 +4,3 @@ index = [
   {name = "author", key = "author"},
   {name = "tag", key = "tags"}
 ]
-
-[json]
-copy = true
-index_slim = true
-index_file = "index.json"

@@ -15,6 +15,11 @@ generator = {name = "quotes", index = "all", parameter = "documents"}
 title = "Quote"
 generator = {name = "quotes", index = "all", each = true}
 
+["quotes/item.json"]
+clean = false
+standalone = true
+generator = {name = "quotes", index = "all", each = true}
+
 ["authors/"]
 generator = {name = "quotes", index = "author", parameter = "documents", include_docs = true}
 
