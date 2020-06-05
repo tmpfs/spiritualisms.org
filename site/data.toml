@@ -20,6 +20,11 @@ clean = false
 standalone = true
 generator = {name = "quotes", index = "all", each = true}
 
+["quotes/index.json"]
+clean = false
+standalone = true
+generator = {name = "quotes", index = "id", parameter = "ids"}
+
 ["authors/"]
 generator = {name = "quotes", index = "author", parameter = "documents", include_docs = true}
 

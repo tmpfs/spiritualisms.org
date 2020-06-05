@@ -1,6 +1,13 @@
 [build]
 destination = "quotes"
-index = [
-  {name = "author", key = "author"},
-  {name = "tag", key = "tags"}
-]
+
+[index.id]
+key = ":id"
+map = true
+
+[index.author]
+key = "author"
+
+[index.tag]
+key = "tags"
+
