@@ -1,7 +1,7 @@
 <article>
 {{#random documents}}
-  {{#with entry.value.[0].document}}
-    {{>quote document=this}}
+  {{#with entry.value}}
+    {{>quote}}
   {{/with}}
 {{/random}}
 </article>

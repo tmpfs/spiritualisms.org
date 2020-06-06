@@ -76,6 +76,10 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 nav > a {
   font-size: 1.2rem;
   text-transform: uppercase;
@@ -95,10 +99,15 @@ article {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 article > div:first-child {
   margin-bottom: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 blockquote {
@@ -143,11 +152,6 @@ ul.cards > li > blockquote {
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
-}
-
-ul.cards > li a {
-  text-decoration: none;
-  color: inherit;
 }
 
 ul.tags {

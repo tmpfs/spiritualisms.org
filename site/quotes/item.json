@@ -1,1 +1,1 @@
-{{#with value.[0]}}{{json document true}}{{/with}}
+{{#with value}}{{json document true}}{{/with}}
