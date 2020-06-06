@@ -6,24 +6,24 @@ author_url = "https://tmpfs.org"
 
 ["/"]
 title = "Home"
-generator = {name = "quotes", index = "all", parameter = "documents"}
+generator = {name = "quotes", index = "all", parameter = "documents", include_docs = true}
 
 ["quotes/"]
-generator = {name = "quotes", index = "all", parameter = "documents"}
+generator = {name = "quotes", index = "all", parameter = "documents", include_docs = true}
 
 ["quotes/item"]
 title = "Quote"
-generator = {name = "quotes", index = "all", each = true}
+generator = {name = "quotes", index = "all", each = true, include_docs = true}
 
 ["quotes/item.json"]
 clean = false
 standalone = true
-generator = {name = "quotes", index = "all", each = true}
+generator = {name = "quotes", index = "all", each = true, include_docs = true}
 
 ["quotes/index.json"]
 clean = false
 standalone = true
-generator = {name = "quotes", index = "id", parameter = "ids", keys = true}
+generator = {name = "quotes", index = "all", parameter = "ids", keys = true, include_docs = false}
 
 ["authors/"]
 generator = {name = "quotes", index = "author", parameter = "documents", include_docs = true}

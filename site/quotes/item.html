@@ -1,3 +1,15 @@
 <article>
+  {{#with value.[0]}}
   {{>quote}}
+
+  {{#if document.tags}}
+  <nav>
+  {{#each document.tags}}
+  <a href="/tags/{{slug this}}/">{{this}}</a>
+  {{/each}}
+  </nav>
+  {{/if}}
+
+  {{/with}}
+
 </article>

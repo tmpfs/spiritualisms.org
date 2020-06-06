@@ -1,9 +1,6 @@
 [build]
 destination = "quotes"
 
-[index.id]
-key = "@id"
-
 [index.author]
 key = "author"
 
