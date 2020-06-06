@@ -23,7 +23,7 @@ generator = {name = "quotes", index = "all", each = true}
 ["quotes/index.json"]
 clean = false
 standalone = true
-generator = {name = "quotes", index = "id", parameter = "ids"}
+generator = {name = "quotes", index = "id", parameter = "ids", keys = true}
 
 ["authors/"]
 generator = {name = "quotes", index = "author", parameter = "documents", include_docs = true}

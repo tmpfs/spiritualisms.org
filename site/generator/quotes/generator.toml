@@ -2,8 +2,7 @@
 destination = "quotes"
 
 [index.id]
-key = ":id"
-map = true
+key = "@id"
 
 [index.author]
 key = "author"
