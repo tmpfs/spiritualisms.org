@@ -6,7 +6,7 @@ html_extension = false
 follow_links = false
 
 [extensions]
-parse = ["md", "html", "json"]
+render = ["md", "html", "json"]
 map = {md = "html"}
 markdown = ["md"]
 
