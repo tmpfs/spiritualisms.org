@@ -5,7 +5,7 @@ strict = true
 html_extension = false
 follow_links = false
 
-[extensions]
+[extension]
 render = ["md", "html", "json"]
 map = {md = "html"}
 markdown = ["md"]
