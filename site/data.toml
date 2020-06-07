@@ -23,7 +23,7 @@ generator = {name = "quotes", index = "all", each = true, include_docs = true}
 ["quotes/index.json"]
 clean = false
 standalone = true
-generator = {name = "quotes", index = "all", parameter = "ids", keys = true, include_docs = false}
+generator = {name = "quotes", index = "all", parameter = "ids", keys = true}
 
 ["authors/"]
 generator = {name = "quotes", index = "author", parameter = "documents", include_docs = true}
@@ -33,11 +33,11 @@ title = "Author"
 generator = {name = "quotes", index = "author", each = true, include_docs = true}
 
 ["tags/"]
-generator = {name = "quotes", index = "tag", parameter = "documents", include_docs = true}
+generator = {name = "quotes", index = "tags", parameter = "documents", include_docs = true}
 
 ["tags/item"]
 title = "Tag"
-generator = {name = "quotes", index = "tag", each = true, include_docs = true}
+generator = {name = "quotes", index = "tags", each = true, include_docs = true}
 
 ["404.html"]
 standalone = false

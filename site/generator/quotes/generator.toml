@@ -1,9 +1,3 @@
-[build]
-destination = "quotes"
-
 [index.author]
-key = "author"
-
-[index.tag]
-key = "tags"
+[index.tags]
 
