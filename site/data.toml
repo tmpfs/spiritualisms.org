@@ -6,10 +6,10 @@ author_url = "https://tmpfs.org"
 
 ["/"]
 title = "Home"
-query = {name = "quotes", index = "all", parameter = "documents", include_docs = true}
+query = {name = "quotes", index = "all", include_docs = true}
 
 ["quotes/"]
-query = {name = "quotes", index = "all", parameter = "documents", include_docs = true}
+query = {name = "quotes", index = "all", include_docs = true}
 
 ["quotes/item"]
 title = "Quote"
@@ -23,17 +23,17 @@ query = {name = "quotes", index = "all", each = true, include_docs = true}
 ["quotes/index.json"]
 clean = false
 standalone = true
-query = {name = "quotes", index = "all", parameter = "ids", keys = true}
+query = {name = "quotes", index = "all", keys = true}
 
 ["authors/"]
-query = {name = "quotes", index = "author", parameter = "documents", include_docs = true}
+query = {name = "quotes", index = "author", include_docs = true}
 
 ["authors/item"]
 title = "Author"
 query = {name = "quotes", index = "author", each = true, include_docs = true}
 
 ["tags/"]
-query = {name = "quotes", index = "tags", parameter = "documents", include_docs = true}
+query = {name = "quotes", index = "tags", include_docs = true}
 
 ["tags/item"]
 title = "Tag"
