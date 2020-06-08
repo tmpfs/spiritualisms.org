@@ -2,8 +2,6 @@
 source = "site"
 target = "build"
 strict = true
-html_extension = false
-follow_links = false
 
 [extension]
 render = ["md", "html", "json"]
