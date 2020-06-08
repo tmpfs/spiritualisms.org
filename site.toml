@@ -1,13 +1,9 @@
 [build]
 source = "site"
 target = "build"
-strict = true
 
 [extension]
 render = ["md", "html", "json"]
 map = {md = "html"}
 markdown = ["md"]
 
-[serve]
-host = "localhost"
-port = 3000
