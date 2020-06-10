@@ -16,17 +16,6 @@
     {{> header}}
     <main>{{{template}}}</main>
     {{> footer}}
-    {{#if context.livereload}}
-      <script type="text/javascript">
-          var socket = new WebSocket("{{{context.livereload}}}");
-          socket.onmessage = (event) => {
-              if (event.data === "reload") {
-                  socket.close();
-                  location.reload();
-              }
-          };
-          window.onbeforeunload = () => socket.close();
-      </script>
-    {{/if}}
+    {{livereload}}
   </body>
 </html>
