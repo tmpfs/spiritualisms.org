@@ -9,3 +9,9 @@ render = ["md", "html", "json"]
 map = {md = "html"}
 markdown = ["md"]
 
+[page]
+description = ""
+keywords = ""
+author = "muji"
+author_url = "https://tmpfs.org"
+

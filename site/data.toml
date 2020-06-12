@@ -1,9 +1,3 @@
-[site]
-description = ""
-keywords = ""
-author = "muji"
-author_url = "https://tmpfs.org"
-
 ["/"]
 title = "Home"
 query = {name = "quotes", index = "all", include_docs = true}
