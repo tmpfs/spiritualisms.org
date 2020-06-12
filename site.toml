@@ -1,3 +1,5 @@
+host = "spiritualisms.org"
+
 [build]
 source = "site"
 target = "build"
