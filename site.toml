@@ -13,6 +13,5 @@ markdown = ["md"]
 [page]
 description = ""
 keywords = ""
-author = "muji"
-author_url = "https://tmpfs.org"
+author = { name = "muji", url = "https://tmpfs.org" }
 
