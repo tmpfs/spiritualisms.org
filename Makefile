@@ -5,10 +5,10 @@ release:
 	@rm -rf ./build/release
 	@ht --release
 
-stage: release
-	@aws s3 sync --profile=tmpfs build/release s3://spiritualisms.org/stage
+stage:
+	@ht publish stage
 
-production: release
-	@aws s3 sync --profile=tmpfs build/release s3://spiritualisms.org/production
+production:
+	@ht publish production
 
 .PHONY: clean release stage production
