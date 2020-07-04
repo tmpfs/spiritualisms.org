@@ -10,12 +10,12 @@ title = "Quote"
 query = {name = "quotes", index = "all", each = true, include_docs = true}
 
 ["quotes/item.json"]
-clean = false
+rewrite-index = false
 standalone = true
 query = {name = "quotes", index = "all", each = true, include_docs = true}
 
 ["quotes/index.json"]
-clean = false
+rewrite-index = false
 standalone = true
 query = {name = "quotes", index = "all", keys = true}
 
@@ -35,5 +35,5 @@ query = {name = "quotes", index = "tags", each = true, include_docs = true}
 
 ["404.html"]
 standalone = false
-clean = false
+rewrite-index = false
 
