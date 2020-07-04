@@ -4,6 +4,7 @@ host = "spiritualisms.org"
 [build]
 source = "site"
 target = "build"
+rewrite-index = true
 
 [extension]
 render = ["md", "html", "json"]
