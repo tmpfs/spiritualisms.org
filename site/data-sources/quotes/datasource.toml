@@ -1,3 +1,6 @@
+type = "json"
+provider = "documents"
+
 [index.author]
 [index.tags]
 
