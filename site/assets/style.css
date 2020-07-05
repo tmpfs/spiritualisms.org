@@ -86,8 +86,10 @@ nav > a {
 }
 
 nav > a:not(:last-child):after {
+  display: inline-block;
   content: '•';
   margin: 0 10px;
+  text-decoration: none !important;
 }
 
 nav.tags {
