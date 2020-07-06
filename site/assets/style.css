@@ -1,6 +1,7 @@
 :root {
   --muted: #999999;
   --link-color: #121266;
+  --card-width: 280px;
 }
 
 /* DARK */
@@ -50,9 +51,8 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 960px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
 }
 
 header, footer {
@@ -127,6 +127,7 @@ blockquote {
 
 cite {
   font-size: 1.4rem;
+  text-align: center;
 }
 
 main > nav:first-child > * {
@@ -142,15 +143,18 @@ main > nav:first-child > *::after {
 }
 
 ul.cards {
-  margin: 0;
   padding: 0;
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
 }
 
+ul.cards.center {
+  justify-content: center;
+}
+
 ul.cards > li {
-  width: 280px;
+  max-width: var(--card-width);
   margin: 10px;
   padding: 1rem;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .2);
@@ -184,4 +188,10 @@ ul.tags > li:not(:last-child) {
 
 .hidden {
   display: none !important;
+}
+
+@media (min-width: 340px) {
+  ul.cards > li {
+    width: var(--card-width);
+  }
 }
