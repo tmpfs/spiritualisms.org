@@ -11,11 +11,13 @@
     <link rel="canonical" href="https://{{context.config.host}}">
     <link rel="stylesheet" href="{{ link "/assets/style.css" }}">
     <link rel="icon" href="{{ link "/assets/favicon.png" }}">
+    {{#each styles}}<link rel="stylesheet" href="{{ link this }}">{{/each}}
   </head>
   <body>
     {{> header}}
     <main>{{{template}}}</main>
     {{> footer}}
+    {{#each scripts}}<script type"module" src="{{ link this }}"></script>{{/each}}
     {{livereload}}
   </body>
 </html>
