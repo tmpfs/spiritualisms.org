@@ -1,11 +1,11 @@
 <header>
-  <a href="{{ link "/" }}" title="Home">
+  <a class="home" href="{{ link "/" }}" title="Home">
     <img width="48" height="48" src="{{ link "/assets/hexagram.svg" }}" />
   </a>
 
   <nav>
-    <a href="{{ link "/authors/" }}" title="Authors">Authors</a>
-    <a href="{{ link "/quotes/" }}" title="Quotes">Quotes</a>
-    <a href="{{ link "/tags/" }}" title="Tags">Tags</a>
+    <span><a {{match "/authors/" "class='selected'"}} href="{{ link "/authors/" }}" title="Authors">Authors</a></span>
+    <span><a {{match "/quotes/" "class='selected'"}} href="{{ link "/quotes/" }}" title="Quotes">Quotes</a></span>
+    <span><a {{match "/tags/" "class='selected'"}} href="{{ link "/tags/" }}" title="Tags">Tags</a></span>
   </nav>
 </header>
