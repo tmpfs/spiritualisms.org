@@ -4,8 +4,15 @@ scripts = ["/assets/js/main.js"]
 <article>
 {{#random documents}}
   {{#with entry.value}}
-    {{>quote}}
+    {{>quote hidden=true}}
   {{/with}}
 {{/random}}
-<div><a href="#refresh">Refresh</a></div>
+<div><a class="hidden" href="#next">Next</a></div>
+<noscript>
+  <style>
+    article > div:first-child {
+      display: flex !important;
+    }
+  </style>
+</noscript>
 </article>

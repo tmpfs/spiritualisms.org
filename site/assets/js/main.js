@@ -5,10 +5,31 @@ const main = () => {
     console.error(e);
   }
 
-  const pick = () => {
-    if (quotes.length) {
-      let id = quotes[Math.floor(Math.random() * quotes.length)];
-      console.log(id)
+  const slug = (s) => {
+    return s.replace(/[. ]+/g, '-')
+      .replace(/ö/, 'o')
+      .replace(/ü/, 'u')
+      .replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
+  }
+
+  const render = (quote) => {
+    const qu = document.querySelector('article > div:first-child');
+    const el = qu.cloneNode(true);
+    const bl = el.querySelector('blockquote');
+    const au = el.querySelector('cite a');
+    const href = `/authors/${slug(quote.author)}/`;
+    au.setAttribute('href', href);
+    bl.innerText = quote.quote;
+    au.innerText  = quote.author;
+    el.classList.remove('hidden');
+    el.style.opacity = "0"
+    qu.parentNode.replaceChild(el, qu);
+    setTimeout(() => { el.style.opacity = "1" }, 50);
+  }
+
+  const pick = (list) => {
+    if (list && list.length) {
+      let id = list[Math.floor(Math.random() * list.length)];
       fetch(`/quotes/${id}.json`)
         .then((response) => {
           if (!response.ok) {
@@ -16,12 +37,18 @@ const main = () => {
           }
           return response.json();
         })
-        .then((quote) => {
-          console.log(quote);
-        })
+        .then(render)
         .catch(error);
     }
+    quotes = list;
   }
+
+  const el = document.querySelector('[href="#next"]');
+  el.classList.remove('hidden');
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    pick(quotes)
+  });
 
   fetch('/quotes/index.json')
     .then(function(response) {
@@ -30,14 +57,7 @@ const main = () => {
       }
       return response.json();
     })
-    .then((list) => {
-      quotes = list;
-      pick();
-      const el = document.querySelector('[href="#refresh"]');
-      el.addEventListener('click', () => {
-        console.log('pick another quote');
-      })
-    })
+    .then(pick)
     .catch(error);
 }
 

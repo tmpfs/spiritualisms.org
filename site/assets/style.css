@@ -75,13 +75,18 @@ nav {
 a:not(.home) {
   color: var(--link-color);
   text-decoration: none;
-  line-height: 1.6;
+  line-height: 1.4;
   transition: border-bottom 0.5s ease-out;
   border-bottom: 1px solid transparent;
 }
 
 a:not(.home):hover, a.selected {
   border-bottom: 1px solid currentColor;
+}
+
+a[href="#next"] {
+  font-size: 1.6rem;
+  opacity: 0.6;
 }
 
 nav {
@@ -113,6 +118,7 @@ article > div:first-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: opacity 0.5s ease-out;
 }
 
 blockquote {
@@ -174,4 +180,8 @@ ul.tags {
 
 ul.tags > li:not(:last-child) {
   margin-right: 10px;
+}
+
+.hidden {
+  display: none !important;
 }
