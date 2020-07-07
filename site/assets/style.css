@@ -1,7 +1,7 @@
 :root {
   --muted: #999999;
   --link-color: #121266;
-  --card-width: 280px;
+  --card-width: 260px;
 }
 
 /* DARK */
@@ -38,6 +38,7 @@ html, body {
   width: 100%;
   height: 100%;
   min-height: 100%;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -157,6 +158,7 @@ ul.cards > li {
   max-width: var(--card-width);
   margin: 10px;
   padding: 1rem;
+  border-bottom-right-radius: 6px;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .2);
 }
 
@@ -190,8 +192,21 @@ ul.tags > li:not(:last-child) {
   display: none !important;
 }
 
-@media (min-width: 340px) {
+@media (min-width: 320px) {
   ul.cards > li {
     width: var(--card-width);
+  }
+}
+
+@media (min-width: 480px) {
+  ul.cards > li {
+    width: 420px !important;
+  }
+}
+
+@media (min-width: 640px) {
+  ul.cards.expand > li {
+    max-width: none;
+    width: calc(var(--card-width) * 2);
   }
 }

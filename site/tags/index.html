@@ -1,6 +1,6 @@
 {{#each documents}}
   <h3>¶ <a href="./{{ slug key }}/">{{key}}</a></h3>
-  <ul class="cards">
+  <ul class="cards expand">
   {{#each value}}
   {{>card with_author=true}}
   {{/each}}
