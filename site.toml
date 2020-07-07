@@ -3,11 +3,7 @@ host = "spiritualisms.org"
 
 [build]
 rewrite-index = true
-
-[extension]
-render = ["md", "html", "json"]
-map = {md = "html"}
-markdown = ["md"]
+render = ["html", "json"]
 
 [page]
 description = ""
