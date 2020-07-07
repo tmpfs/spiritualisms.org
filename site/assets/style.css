@@ -48,12 +48,44 @@ body {
 }
 
 main {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+section.quote {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+section.quote > div:first-child {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease-out;
+}
+
+section > h3 {
+  text-align: center;
+}
+
 header, footer {
-  flex: 0;
+  flex: 0 0;
   text-align: center;
   padding: 1rem 0;
 }
@@ -99,23 +131,6 @@ nav > span:not(:last-child):after {
 
 nav.tags {
   align-self: flex-start;
-}
-
-article {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-article > div:first-child {
-  margin-bottom: 2rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: opacity 0.5s ease-out;
 }
 
 blockquote {

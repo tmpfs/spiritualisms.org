@@ -13,7 +13,7 @@ const main = () => {
   }
 
   const render = (quote) => {
-    const qu = document.querySelector('article > div:first-child');
+    const qu = document.querySelector('section.quote > div:first-child');
     const el = qu.cloneNode(true);
     const bl = el.querySelector('blockquote');
     const au = el.querySelector('cite a');

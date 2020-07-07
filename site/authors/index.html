@@ -1,8 +1,12 @@
+<section>
 {{#each documents}}
+  <div>
   <h3>¶ <a href="./{{ slug key }}/">{{key}}</a></h3>
   <ul class="cards expand">
   {{#each value}}
   {{>card with_author=false}}
   {{/each}}
   </ul>
+  </div>
 {{/each}}
+</section>
