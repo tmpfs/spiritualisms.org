@@ -8,7 +8,7 @@ render = ["html", "json"]
 [page]
 description = ""
 keywords = ""
-author = { name = "muji", url = "https://tmpfs.org" }
+authors = [ { name = "muji", url = "https://tmpfs.org" } ] 
 
 [publish.aws]
 region = "ap-southeast-1"
