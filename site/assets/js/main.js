@@ -29,7 +29,7 @@ const main = () => {
 
   const pick = (list) => {
     if (list && list.length) {
-      let id = list[Math.floor(Math.random() * list.length)].name;
+      let id = list[Math.floor(Math.random() * list.length)];
       fetch(`/quotes/${id}.json`)
         .then((response) => {
           if (!response.ok) {

@@ -17,7 +17,7 @@ query = {name = "quotes", index = "all", each = true, include_docs = true}
 ["quotes/index.json"]
 rewrite-index = false
 standalone = true
-query = {name = "quotes", index = "all", keys = true}
+query = {name = "quotes", index = "all", keys = "name"}
 
 ["authors/"]
 query = {name = "quotes", index = "author", include_docs = true}
