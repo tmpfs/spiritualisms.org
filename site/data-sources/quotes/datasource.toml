@@ -1,6 +1,12 @@
 type = "json"
 provider = "documents"
 
+[index.all]
+identity = true
+
 [index.author]
+group = true
+
 [index.tags]
+group = true
 
