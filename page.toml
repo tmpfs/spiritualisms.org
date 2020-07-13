@@ -2,10 +2,10 @@
 title = "Home"
 query = {name = "quotes", index = "all", include_docs = true}
 
-["quotes/"]
+["quotes/index.html"]
 query = {name = "quotes", index = "all", include_docs = true}
 
-["quotes/item"]
+["quotes/item.html"]
 title = "Quote"
 query = {name = "quotes", index = "all", each = true, include_docs = true}
 
