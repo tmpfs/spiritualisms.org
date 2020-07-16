@@ -15,7 +15,7 @@
   </head>
   <body>
     {{> header}}
-    <main>{{{template}}}</main>
+    <main>{{partial}}</main>
     {{> footer}}
     {{#each scripts}}<script type"module" src="{{ link this }}"></script>{{/each}}
     {{livereload}}
