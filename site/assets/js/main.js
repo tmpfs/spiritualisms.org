@@ -1,4 +1,5 @@
 const main = () => {
+  let all = [];
   let quotes = [];
 
   const error = (e) => {
@@ -29,7 +30,9 @@ const main = () => {
 
   const pick = (list) => {
     if (list && list.length) {
-      let id = list[Math.floor(Math.random() * list.length)];
+      const index = Math.floor(Math.random() * list.length);
+      const id = list[index];
+      list.splice(index, 1);
       fetch(`/quotes/${id}.json`)
         .then((response) => {
           if (!response.ok) {
@@ -47,6 +50,9 @@ const main = () => {
   el.classList.remove('hidden');
   el.addEventListener('click', (e) => {
     e.preventDefault();
+    if (quotes && quotes.length === 0 && all && all.length > 0) {
+      quotes = all.slice(0);
+    }
     pick(quotes)
   });
 
@@ -57,7 +63,10 @@ const main = () => {
       }
       return response.json();
     })
-    .then(pick)
+    .then((list) => {
+      all = list.slice(0);
+      pick(list);
+    })
     .catch(error);
 }
 
