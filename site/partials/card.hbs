@@ -1,8 +1,8 @@
 <li>
   <blockquote>
-    <a href="/quotes/{{id}}/">{{document.quote}}</a>
+    <a href="/quotes/{{id.name}}/">{{quote}}</a>
   </blockquote>
   {{#if with_author}}
-  <cite>&mdash; <a href="/authors/{{slug document.author}}/">{{document.author}}</a></cite>
+  <cite>&mdash; <a href="/authors/{{slug author}}/">{{author}}</a></cite>
   {{/if}}
 </li>

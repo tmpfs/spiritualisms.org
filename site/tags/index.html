@@ -1,10 +1,10 @@
 <section>
-{{#each documents}}
+{{#each result}}
   <div>
   <h3>¶ <a href="./{{ id }}/">{{key.name}}</a></h3>
   <ul class="cards expand">
   {{#each value}}
-  {{>card with_author=true}}
+    {{>card with_author=true}}
   {{/each}}
   </ul>
   </div>

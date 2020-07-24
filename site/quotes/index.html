@@ -1,7 +1,5 @@
 <ul class="cards center">
-{{#each documents}}
-  {{#with value}}
-  {{>card with_author=true}}
-  {{/with}}
+{{#each result}}
+  {{>card value with_author=true}}
 {{/each}}
 </ul>

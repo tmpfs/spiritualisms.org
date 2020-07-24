@@ -1,8 +1,8 @@
 <section>
-  <h3>{{key.name}}</h3>
+  <h3>{{document.key.name}}</h3>
   <ul class="cards">
-  {{#each value}}
-  {{>card with_author=true}}
+  {{#each document.value}}
+    {{>card with_author=true}}
   {{/each}}
   </ul>
 </section>
