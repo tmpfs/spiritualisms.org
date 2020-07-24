@@ -1,7 +1,7 @@
 <section>
-  <h3>{{document.key.name}}</h3>
+  <h3>{{result.key.name}}</h3>
   <ul class="cards">
-  {{#each document.value}}
+  {{#each result.value}}
     {{>card with_author=true}}
   {{/each}}
   </ul>
