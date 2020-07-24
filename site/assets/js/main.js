@@ -31,7 +31,7 @@ const main = () => {
   const pick = (list) => {
     if (list && list.length) {
       const index = Math.floor(Math.random() * list.length);
-      const id = list[index].key;
+      const id = list[index];
       list.splice(index, 1);
       fetch(`/quotes/${id}.json`)
         .then((response) => {
