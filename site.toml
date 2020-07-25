@@ -10,40 +10,67 @@ description = ""
 keywords = ""
 authors = [ { name = "muji", url = "https://tmpfs.org" } ]
 
-[pages."index.html"]
-title = "Home"
-query = {name = "quotes", index = "all", include-docs = true, unique = true}
+[pages."index.html".query]
+name = "quotes"
+index = "all"
+include-docs = true
 
-[pages."quotes/index.html"]
-query = {name = "quotes", index = "all", include-docs = true, unique = true}
+[pages."quotes/index.html".query]
+name = "quotes"
+index = "all"
+include-docs = true
 
-[pages."quotes/item.html"]
-title = "Quote"
-query = {name = "quotes", index = "all", each = true, include-docs = true, unique = true}
+[pages."quotes/item.html".query]
+name = "quotes"
+index = "all"
+each = true
+include-docs = true
 
 [pages."quotes/item.json"]
 rewrite-index = false
 standalone = true
-query = {name = "quotes", index = "all", each = true, include-docs = true, unique = true}
+
+[pages."quotes/item.json".query]
+name = "quotes"
+index = "all"
+each = true
+include-docs = true
 
 [pages."quotes/index.json"]
 rewrite-index = false
 standalone = true
-query = {name = "quotes", index = "all", keys = true, key-type = "name", unique = true}
 
-[pages."authors/index.html"]
-query = {name = "quotes", index = "author", include-docs = true}
+[pages."quotes/index.json".query]
+name = "quotes"
+index = "all"
+keys = true
+key-type = "id"
 
-[pages."authors/item.html"]
-title = "Author"
-query = {name = "quotes", index = "author", each = true, include-docs = true}
+[pages."authors/index.html".query]
+name = "quotes"
+index = "author"
+include-docs = true
+group = {path = "author"}
 
-[pages."tags/index.html"]
-query = {name = "quotes", index = "tags", include-docs = true}
+[pages."authors/item.html".query]
+name = "quotes"
+index = "author"
+each = true
+include-docs = true
+group = {path = "author"}
 
-[pages."tags/item.html"]
-title = "Tag"
-query = {name = "quotes", index = "tags", each = true, include-docs = true}
+[pages."tags/index.html".query]
+name = "quotes"
+index = "tags"
+include-docs = true
+group = {path = "tags", expand = true}
+
+[pages."tags/item.html".query]
+name = "quotes"
+index = "tags"
+each = true
+include-docs = true
+group = {path = "tags", expand = true}
 
 [pages."404.html"]
 standalone = true
