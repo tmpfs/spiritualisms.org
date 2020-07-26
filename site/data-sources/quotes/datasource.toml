@@ -2,8 +2,11 @@ type = "json"
 provider = "documents"
 
 [index.all]
-key = "id"
+key = "*"
 
 [index.author]
+key = "author"
+
 [index.tags]
+key = "tags"
 
