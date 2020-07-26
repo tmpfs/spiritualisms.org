@@ -5,6 +5,20 @@ host = "spiritualisms.org"
 rewrite-index = true
 extend = ["html", "json"]
 
+[db.load.quotes]
+type = "json"
+provider = "files"
+from = "data/quotes"
+
+[db.load.quotes.on.all]
+key = "*"
+
+[db.load.quotes.on.author]
+key = "author"
+
+[db.load.quotes.on.tags]
+key = "tags"
+
 [page]
 description = ""
 keywords = ""
