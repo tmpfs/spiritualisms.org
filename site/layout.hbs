@@ -9,15 +9,15 @@
     <meta name="description" content="{{description}}">
     <meta name="keywords" content="{{keywords}}">
     <link rel="canonical" href="{{canonical}}">
+    {{favicon}}
     <link rel="stylesheet" href="{{ link "/assets/style.css" }}">
-    <link rel="icon" href="{{ link "/assets/favicon.png" }}">
     {{#each styles}}<link rel="stylesheet" href="{{ link this }}">{{/each}}
   </head>
   <body>
     {{> header}}
     <main>{{partial}}</main>
     {{> footer}}
-    {{#each scripts}}<script type"module" src="{{ link this }}"></script>{{/each}}
+    {{#each scripts}}<script type="module" src="{{ link this }}"></script>{{/each}}
     {{livereload}}
   </body>
 </html>
