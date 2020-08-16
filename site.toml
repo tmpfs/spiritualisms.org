@@ -22,7 +22,7 @@ key = "tags"
 [page]
 description = ""
 keywords = ""
-authors = [ { name = "muji", link = "https://tmpfs.org" } ]
+authors = [ { name = "Muji", link = "https://tmpfs.org" } ]
 
 [pages."index.html".query]
 name = "quotes"
