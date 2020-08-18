@@ -10,7 +10,7 @@
     {{> header}}
     <main>{{partial}}</main>
     {{> footer}}
-    {{#each scripts}}<script type="module" src="{{ link this }}"></script>{{/each}}
+    {{scripts}}
     {{livereload}}
   </body>
 </html>
