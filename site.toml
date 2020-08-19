@@ -1,6 +1,9 @@
 lang = "en"
 host = "spiritualisms.org"
 
+[styles]
+main = ["/assets/css/style.css"]
+
 [build]
 rewrite-index = true
 extend = ["html", "json"]
