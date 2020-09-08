@@ -2,3 +2,4 @@ build
 v1
 *.bak
 *.log
+*.lock
