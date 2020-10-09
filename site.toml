@@ -2,7 +2,7 @@ lang = "en"
 host = "spiritualisms.org"
 
 [dependencies]
-"std::core" = { path = "/home/muji/git/hypertext/plugins/std/core", version = "~1" }
+"std::core" = { version = "~1" }
 
 [styles]
 main = ["/assets/css/style.css"]
