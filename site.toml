@@ -92,10 +92,6 @@ each = true
 include-docs = true
 group = {path = "tags", expand = true}
 
-[pages."404.html"]
-standalone = true
-rewrite-index = false
-
 [publish.aws]
 region = "ap-southeast-1"
 credentials = "tmpfs"

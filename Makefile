@@ -1,10 +1,10 @@
 release:
-	@ht --release
+	@uwe --release
 
 stage:
-	@ht publish stage
+	@uwe publish stage
 
 production:
-	@ht publish production
+	@uwe publish production
 
 .PHONY: release stage production
