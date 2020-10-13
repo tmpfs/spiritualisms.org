@@ -14,7 +14,7 @@ extend = ["html", "json"]
 [db.load.quotes]
 type = "json"
 provider = "files"
-from = "data/quotes"
+from = "collections/quotes"
 
 [db.load.quotes.on.all]
 key = "*"
