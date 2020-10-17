@@ -25,10 +25,14 @@ key = "author"
 [db.load.quotes.on.tags]
 key = "tags"
 
+[authors.tmpfs]
+name = "Muji"
+url = "https://tmpfs.org"
+
 [page]
 description = ""
 keywords = ""
-authors = [ { name = "Muji", link = "https://tmpfs.org" } ]
+authors = ["tmpfs"]
 
 [pages."index.html".query]
 name = "quotes"
