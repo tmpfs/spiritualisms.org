@@ -2,7 +2,7 @@ lang = "en"
 host = "spiritualisms.org"
 
 [dependencies]
-"std::core" = { version = "~2" }
+"std::core" = { version = "~3" }
 
 [build]
 rewrite-index = true
