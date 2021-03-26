@@ -7,27 +7,16 @@
 /* DARK */
 
 @media (prefers-color-scheme: dark) {
-  :root {
-  }
+  :root {}
 }
 
 @font-face {
     font-family: noto-serif;
-    src: url('../font/NotoSerif-Regular-webfont.eot');
-    src: url('../font/NotoSerif-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+    src: 
          url('../font/NotoSerif-Regular-webfont.woff') format('woff'),
-         url('../font/NotoSerif-Regular-webfont.ttf') format('truetype'),
-         url('../font/NotoSerif-Regular-webfont.svg#noto_serifregular') format('svg');
+         url('../font/NotoSerif-Regular-webfont.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
-}
-
-html {
-  box-sizing: border-box;
-}
-
-*, *:after, *:before {
-  box-sizing: inherit;
 }
 
 html, body {
@@ -47,6 +36,8 @@ body {
 
 main {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 main > article {
